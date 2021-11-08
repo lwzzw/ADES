@@ -15,6 +15,7 @@ app.use((req, res, next) => {
     next();
 })
 
+app.use(express.static(path.join(__dirname, 'public/html')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(ApiRouter);
@@ -35,5 +36,5 @@ app.use((error, req, res, next) => {
 });
 
 app.listen(port, ()=>{
-    console.log(`App listen on port ${port}`);
+    console.log(`App listen on port http://localhost:${port}`);
 });
