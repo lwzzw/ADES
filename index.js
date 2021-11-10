@@ -6,7 +6,7 @@ const ApiRouter = require('./router/api');
 const db = require("./database/database");
 const port = 3001;
 
-db.connect();
+//db.connect();
 
 app.use(express.json());
 
@@ -15,8 +15,38 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use(express.static(path.join(__dirname, 'public/html')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public/html')));
+
+app.post('/connect', function (req, res, next) {
+    // query parameters are all strings
+    const reset = req.query.reset === 'true';
+    const connectionString = req.body.connectionString;
+    db.connect(connectionString).then(function () {
+      return db
+        .query(
+          `
+          ${reset ? 'DROP TABLE IF EXISTS modules_tab;' : ''}
+          CREATE TABLE IF NOT EXISTS modules_tab (
+            id SERIAL primary key,
+            module_code VARCHAR unique not null,
+            module_credit INT not null,
+            grade VARCHAR
+          );
+        `,
+          [],
+        )
+        .then(() => {
+          return res.sendStatus(200);
+        })
+        .catch((error) => {
+          return next(error);
+        });
+    })
+    .catch(err=>{
+        return next(err);
+    });
+  });
 
 app.use(ApiRouter);
 
