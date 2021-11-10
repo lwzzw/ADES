@@ -4,7 +4,8 @@ const path = require('path');
 const createHttpErrors = require('http-errors');
 const ApiRouter = require('./router/api');
 const db = require("./database/database");
-const port = 3001;
+// const port = 3001;
+const port = process.env.PORT || 5000;
 
 //db.connect();
 
