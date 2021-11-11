@@ -1,14 +1,14 @@
 const pg = require('pg');
-require('dotenv').config()
+const url = require("../config").DATABASEURL;
 
 let connection;
 exports.connect = function () {
-     var connectionString = process.env.DATABASE_URL;
-    // // if (connection) {
-    // //     const oldConnection = connection;
-    // //     connection = null;
-    // //     return oldConnection.end().then(() => exports.connect(connectionString));
-    // // }
+    var connectionString = url;
+    // if (connection) {
+    //     const oldConnection = connection;
+    //     connection = null;
+    //     return oldConnection.end().then(() => exports.connect(connectionString));
+    // }
     connection = new pg.Pool({
         connectionString,
         max:5
