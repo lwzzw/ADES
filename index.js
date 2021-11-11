@@ -7,7 +7,7 @@ const db = require("./database/database");
 // const port = 3001;
 const port = process.env.PORT || 5000;
 
-//db.connect();
+db.connect();
 
 app.use(express.json());
 
@@ -68,4 +68,6 @@ app.use((error, req, res, next) => {
 
 app.listen(port, ()=>{
     console.log(`App listen on port http://localhost:${port}`);
+
+
 });
