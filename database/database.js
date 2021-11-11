@@ -1,9 +1,9 @@
 const pg = require('pg');
-const url = require("../config").DATABASEURL;
+const DATABASE_URL = require("../config").DATABASEURL;
 
 let connection;
 exports.connect = function () {
-    var connectionString = url;
+    var connectionString = DATABASE_URL;
     // if (connection) {
     //     const oldConnection = connection;
     //     connection = null;
