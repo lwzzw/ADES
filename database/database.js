@@ -1,15 +1,16 @@
 const pg = require('pg');
+require('dotenv').config()
 
 let connection;
 exports.connect = function () {
-    var connectionString = "postgres://zrcnnsvm:GEMYjPJjfjyfCYH0dM9cP8X862GjymfI@fanny.db.elephantsql.com/zrcnnsvm";
-    // if (connection) {
-    //     const oldConnection = connection;
-    //     connection = null;
-    //     return oldConnection.end().then(() => exports.connect(connectionString));
-    // }
+    // var connectionString = "postgres://zrcnnsvm:GEMYjPJjfjyfCYH0dM9cP8X862GjymfI@fanny.db.elephantsql.com/zrcnnsvm";
+    // // if (connection) {
+    // //     const oldConnection = connection;
+    // //     connection = null;
+    // //     return oldConnection.end().then(() => exports.connect(connectionString));
+    // // }
     connection = new pg.Pool({
-        connectionString,
+        host: process.env.DATABASE_URL,
         max:5
     });
     return connection.connect().catch(function (error) {
