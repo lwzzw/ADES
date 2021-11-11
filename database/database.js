@@ -3,7 +3,7 @@ require('dotenv').config()
 
 let connection;
 exports.connect = function () {
-     var connectionString = DATABASE_URL;
+     var connectionString = {DATABASE_URL};
     // // if (connection) {
     // //     const oldConnection = connection;
     // //     connection = null;
