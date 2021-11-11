@@ -1,6 +1,6 @@
 const pg = require('pg');
 const DATABASE_URL = require("../config").DATABASEURL;
-let abc
+
 let connection;
 exports.connect = function () {
     var connectionString = DATABASE_URL;
