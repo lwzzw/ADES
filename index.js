@@ -7,7 +7,7 @@ const db = require("./database/database");
 const port = require("./config").PORT;
 // const port = 3001;
 
-db.connect().catch(err=>{console.log(err)});
+db.connect()
 
 app.use(express.json());
 
