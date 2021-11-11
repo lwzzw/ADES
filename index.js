@@ -8,7 +8,7 @@ const port = require("./config").PORT;
 // const port = 3001;
 
 db.connect().catch(err=>{console.log(err)});
-db.query(`select * from information_schema.tables`)
+db.query(`select * from information_schema.tables`).catch(err=>{console.log(err)})
 
 app.use(express.json());
 
