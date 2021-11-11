@@ -36,8 +36,8 @@ app.use((error, req, res, next) => {
     });
 });
 
-app.listen(process.env.PORT || 5000, ()=>{
-    console.log(`App listen on port http://localhost:${process.env.PORT || 5000}`);
+app.listen(port, ()=>{
+    console.log(`App listen on port http://localhost:${port}`);
 
 
 });
