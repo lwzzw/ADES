@@ -3,14 +3,14 @@ require('dotenv').config()
 
 let connection;
 exports.connect = function () {
-    // var connectionString = "postgres://zrcnnsvm:GEMYjPJjfjyfCYH0dM9cP8X862GjymfI@fanny.db.elephantsql.com/zrcnnsvm";
+     var connectionString = DATABASE_URL;
     // // if (connection) {
     // //     const oldConnection = connection;
     // //     connection = null;
     // //     return oldConnection.end().then(() => exports.connect(connectionString));
     // // }
     connection = new pg.Pool({
-        host: process.env.DATABASE_URL,
+        connectionString,
         max:5
     });
     return connection.connect().catch(function (error) {
