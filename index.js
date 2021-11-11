@@ -11,6 +11,8 @@ db.connect().then(function (){
   db.query(`SELECT * FROM information_schema.tables`).then(response => {
     console.log(response)
   })
+}).catch(err => {
+  console.log(err)
 })
 
 app.use(express.json());
