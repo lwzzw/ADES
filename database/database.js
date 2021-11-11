@@ -13,6 +13,7 @@ exports.connect = function () {
         connectionString,
         max:5
     });
+    console.log("Database connected")
     return connection.connect().catch(function (error) {
         connection = null;
         throw error;
