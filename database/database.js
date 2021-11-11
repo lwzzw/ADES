@@ -1,10 +1,9 @@
 const pg = require('pg');
-const dotenv = require('dotenv');
-dotenv.config();
+const url = require("../config").DATABASEURL;
 
 let connection;
 exports.connect = function () {
-    var connectionString = process.env.DATABASEURL;
+    var connectionString = url;
     // if (connection) {
     //     const oldConnection = connection;
     //     connection = null;
