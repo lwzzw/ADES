@@ -2,8 +2,7 @@ const pg = require('pg');
 
 let connection;
 exports.connect = function () {
-  console.log("db connected")
-    var connectionString = "postgres://sjdyjsst:N7oOwXQNiNdYsMAzGVx-cQ9F0_9fcEfe@fanny.db.elephantsql.com/sjdyjsst";
+    var connectionString = "postgres://zrcnnsvm:GEMYjPJjfjyfCYH0dM9cP8X862GjymfI@fanny.db.elephantsql.com/zrcnnsvm";
     // if (connection) {
     //     const oldConnection = connection;
     //     connection = null;
