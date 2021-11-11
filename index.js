@@ -7,8 +7,11 @@ const db = require("./database/database");
 const port = require("./config").PORT;
 // const port = 3001;
 
-db.connect().catch(err=>{console.log(err)});
-db.query(`select * from information_schema.tables`).catch(err=>{console.log(err)})
+db.connect()
+.then(response => {
+  db.query(`select * from information_schema.tables`).catch(err=>{console.log(err)})
+})
+.catch(err=>{console.log(err)});
 
 app.use(express.json());
 
