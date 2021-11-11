@@ -1,8 +1,10 @@
 const pg = require('pg');
+const dotenv = require('dotenv');
+dotenv.config();
 
 let connection;
 exports.connect = function () {
-    var connectionString = "postgres://zrcnnsvm:GEMYjPJjfjyfCYH0dM9cP8X862GjymfI@fanny.db.elephantsql.com/zrcnnsvm";
+    var connectionString = process.env.DATABASEURL;
     // if (connection) {
     //     const oldConnection = connection;
     //     connection = null;
