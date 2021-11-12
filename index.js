@@ -8,7 +8,7 @@ const port = require("./config").PORT;
 // const port = 3001;
 
 db.connect().catch(err => {
-  console.log(err)
+    console.log(err)
 })
 
 app.use(express.json());
@@ -38,6 +38,6 @@ app.use((error, req, res, next) => {
     });
 });
 
-app.listen(port, ()=>{
+app.listen(port, () => {
     console.log(`App listen on port http://localhost:${port}`);
 });
