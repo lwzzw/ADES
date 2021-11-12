@@ -7,9 +7,55 @@ const db = require("./database/database");
 const port = require("./config").PORT;
 // const port = 3001;
 
-db.connect().catch(err => {
+db.connect()
+//   .then(response => {
+//     if (response) {
+//       return db.query(
+//         `
+//         CREATE TABLE IF NOT EXISTS G2A_gameDatabase (
+//           game_id SERIAL primary key,
+//           game_name VARCHAR (50) not null,
+//           game_platform VARCHAR (50) not null,
+//           game_price NUMERIC(12,2) not null,
+//           game_description VARCHAR(255) not null,
+//           game_image VARCHAR (255) not null
+//         );
+
+//         CREATE TABLE IF NOT EXISTS G2A_category (
+//           category_name VARCHAR (50) not null,
+//           fk_game_id INT not null
+//         );
+
+        
+//         `
+//       )
+//       .then(response => {
+//           return db.query(`
+//           INSERT INTO g2a_category (category_name, fk_game_id) VALUES ('MOBA', 1), ('MMO', 1);
+//           INSERT INTO g2a_gamedatabase (game_name, game_platform, game_price,game_description, game_image) 
+//            VALUES ('DOTA 2', 'PC', 99.9, 'EZ GAME', 'image');
+//           `)
+//       })
+//       .then(response => {
+//       return db.query(`SELECT g2a_category.fk_game_id, g2a_gamedatabase.game_name, string_agg(g2a_category.category_name, ',') FROM g2a_category INNER JOIN g2a_gamedatabase ON g2a_category.fk_game_id = g2a_gamedatabase.game_id GROUP BY g2a_category.fk_game_id,g2a_gamedatabase.game_name`)
+//       })
+//       .then(response => {
+//         console.log(response.rows)
+          
+//           console.log('GameName : ' + response.rows[0].game_name + ' GameCategory : ' + response.rows[0].string_agg)
+//           // can be used to split categories
+//           // let categories = response.rows[0].string_agg
+//           // for (let i = 0; i < categories.split(',').length; i++) {
+//           //   console.log(categories.split(',')[i])
+//           // }
+
+
+//       })
+//     }
+//   })
+  .catch(err => {
     console.log(err)
-})
+  })
 
 app.use(express.json());
 
