@@ -1,6 +1,6 @@
 .header {
     background-color: black;
-    height: 120px;
+    height: auto;
 }
 
 .top-header {
@@ -22,6 +22,7 @@
 
 .search-bar {
     display: inline-flex;
+    align-self: center;
 }
 
 .search {
@@ -48,3 +49,9 @@ textarea:focus,
 select:focus {
     outline: none;
 }
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-left: 10px;
+ }

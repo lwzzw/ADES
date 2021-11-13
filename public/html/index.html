@@ -20,21 +20,14 @@
     <div class="header">
         <div class="top-header container row">
             <img class="logo col" src="/images/poop.png">
-            <div class="search-bar col">
+            <div class="search-bar col" style="height: 44px;">
                 <input class="search" placeholder="Search for products">
-                <div class="btn-group col">
-                    <button type="button" class="dropdown-btn btn dropdown-toggle" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        All category
-                    </button>
-                    <div class="dropdown-menu" id='dropDownCategory'>
-                        <!-- <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Separated link</a> -->
-                    </div>
-                </div>
+                <select class="w-25" searchable="Search here.." id="dropDownCategory" required style="height: 100%;">
+                    <option value='All categories'>All categories</option>
+                    <div class="dropdown-divider"></div>
+                    <option class="dropdown-item" href="#">Separated link</option>
+                  </div>
+                </select>
                 <div class="search-icon">
                     <span class="input-group-append">
                         <button class="btn" type="button">
