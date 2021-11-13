@@ -45,6 +45,40 @@
     align-self: center;
 }
 
+.header-categories {
+    display: flex;
+}
+
+.navbar-category {
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    display: flex;
+    --webkit-box-align: center;
+    justify-content: center;
+    height: auto;
+    width: 100%;
+    background-color: rgb(33, 33, 33);
+    margin: 0px 5px 0px 5px;
+    padding: 7px;
+}
+
+.navbar-category a {
+    display: block;
+    width: 100%;
+    color: white !important;
+    text-decoration: none;
+    font-size: 15px;
+    text-align-last: center;
+}
+
+ul {
+    list-style-type: none;
+}
+
+li:hover {
+    background-color: rgb(47, 130, 251);
+}
+
 input:focus,
 textarea:focus,
 select:focus {
@@ -55,4 +89,5 @@ select {
     -webkit-appearance: none;
     -moz-appearance: none;
     padding-left: 10px;
+    padding-right: 10px;
  }

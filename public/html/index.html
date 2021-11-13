@@ -29,7 +29,7 @@
         <div class="top-header container row ">
             <img class="logo col" src="/images/poop.png">
             <div class="search-bar col">
-                <input class="search" placeholder="Search for products">
+                <input class="search" placeholder="Search for products" id='searchProduct'>
                 <select class="dropdown-btn" id="dropDownCategory">
                     <option value='All categories'>All categories</option>
                     <div class="dropdown-divider"></div>
@@ -46,7 +46,11 @@
             <div class="login"></div>
             <div class="cart"></div>
         </div>
-        <div class="category-header"></div>
+        <div class="category-header">
+            <div class="">
+                <ul id="header-categories" class="header-categories"></ul>
+            </div>
+        </div>
     </div>
 </body>
 
