@@ -1,6 +1,6 @@
 .header {
     background-color: black;
-    height: auto;
+    height: 120px;
 }
 
 .top-header {
@@ -23,6 +23,7 @@
 .search-bar {
     display: inline-flex;
     align-self: center;
+    height: 44px;
 }
 
 .search {
