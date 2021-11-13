@@ -6,6 +6,7 @@
 .top-header {
     padding-top: 10px;
     height: 80px;
+    margin: auto;
 }
 
 .logo {
@@ -23,7 +24,6 @@
 .search-bar {
     display: inline-flex;
     align-self: center;
-    height: 44px;
 }
 
 .search {
