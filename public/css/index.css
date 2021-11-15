@@ -121,7 +121,7 @@ span>a>svg {
 }
 
 .category-list {
-    border: 2px solid red;
+    border: 1px solid rgb(224, 224, 224);
     /* width: 300px !important; */
 }
 
