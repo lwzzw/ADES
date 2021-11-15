@@ -46,6 +46,9 @@ Array.from(list).forEach(e => {
                 setTimeout(function(){
                     document.getElementById("bg").style.opacity = "0.8";
                 }, 0);
+                Array.from(document.getElementsByClassName("img-second")).forEach(e=>{
+                    e.style.display="block";
+                })
                 document.getElementById(`1-${e.id}`).style.display = "block";
                 Array.from(document.getElementsByClassName("img-second")).forEach(e=>{
                     e.style.display="none";
