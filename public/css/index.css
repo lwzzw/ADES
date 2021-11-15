@@ -150,7 +150,7 @@ span>a>svg {
     text-decoration: underline !important;
 }
 
-a{
+a {
     color: black !important;
     text-decoration: none !important;
 }
@@ -173,4 +173,53 @@ body>section {
 
 .row .col-image {
     width: 100px !important;
+}
+
+section header {
+    padding: 15px 0px;
+}
+
+.sidebar-Category {
+    align-items: center;
+    display: flex;
+}
+
+.categoryGameHeader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.categoryFilter {
+    align-items: center;
+    display: flex;
+}
+
+.categoryFilter>select {
+    margin-left: 10px;
+}
+
+.filterCategories ul li {
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+    
+}
+
+
+.categoryFilter ul li>a {
+    text-decoration: underline !important;
+}
+
+.game-section ul {
+    display: flex;
+    padding-left: 25px;
+}
+
+.game-section ul li{
+    border-style: solid;
+    width: 250px;
+}
+
+hr {
+    margin: 0px !important;
 }
