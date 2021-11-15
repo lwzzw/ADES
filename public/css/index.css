@@ -122,6 +122,7 @@ span>a>svg {
 
 .category-list {
     border: 2px solid red;
+    /* width: 300px !important; */
 }
 
 .cat-block {
@@ -149,4 +150,8 @@ span>a>svg {
 a{
     color: black !important;
     text-decoration: none !important;
+}
+
+.category>.col{
+    padding: 0px !important;
 }

@@ -47,6 +47,12 @@ Array.from(list).forEach(e => {
                     document.getElementById("bg").style.opacity = "0.8";
                 }, 0);
                 document.getElementById(`1-${e.id}`).style.display = "block";
+                Array.from(document.getElementsByClassName("img-second")).forEach(e=>{
+                    e.style.display="none";
+                })
+                Array.from(document.getElementsByClassName("img-third")).forEach(e=>{
+                    e.style.display="block";
+                })
             } catch (e) {}
         })
     }
@@ -59,13 +65,27 @@ Array.from(list).forEach(e => {
             });
             try {
                 document.getElementById(`2-${e.id}`).style.display = "block";
+                Array.from(document.getElementsByClassName("img-third")).forEach(e=>{
+                    e.style.display="none";
+                })
             } catch (e) {}
-            document.getElementById(`2-${e.id}`).style.display = "block";
         })
     }
 })
 document.getElementById("bg").addEventListener("mouseover",function(){
     document.getElementById("bg").style.opacity = "0";
     document.getElementById("bg").style.display = "none";
-
+    first_cat.forEach(id => {
+        try {
+            document.getElementById(`1-${id}`).style.display = "none";
+        } catch (e) {}
+    });
+    second_cat.forEach(id => {
+        try {
+            document.getElementById(`2-${id}`).style.display = "none";
+        } catch (e) {}
+    });
+    Array.from(document.getElementsByClassName("img-default")).forEach(e=>{
+        e.style.display="block";
+    })
 })
