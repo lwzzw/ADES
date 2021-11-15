@@ -223,3 +223,15 @@ section header {
 hr {
     margin: 0px !important;
 }
+
+.deals-container ul{
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
+    grid-gap: 30px;
+    justify-content: center;
+}
+
+.deals-container ul>li{
+    flex-direction: column !important;
+    border-style: solid;
+}
