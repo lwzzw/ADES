@@ -9,7 +9,8 @@ function getAllCategories() {
         .get(`/game/getAllCategories`, methods)
         .then(response => {
             return response.data.categories
-        }).catch(error => {
+        })
+        .catch(error => {
             console.log(error);
             if (error.response) {
                 throw new Error(JSON.stringify(error.response.data))
