@@ -8,6 +8,104 @@ const port = require("./config").PORT;
 // const port = 3001;
 
 db.connect()
+.then(()=>{
+    db.query(`
+DROP TABLE IF EXISTS order_history;
+CREATE TABLE IF NOT EXISTS order_history (
+	id SERIAL primary key,
+	user_id int not null,
+	detail_id int not null,
+	buydate DATE not null,
+	total NUMERIC(12,2) not null
+);
+DROP TABLE IF EXISTS order_detail;
+CREATE TABLE IF NOT EXISTS order_detail (
+	id SERIAL primary key,
+	order_id int not null,
+	g_id int not null,
+	amount int not null
+);
+DROP TABLE IF EXISTS G2A_gameDatabase;
+CREATE TABLE IF NOT EXISTS G2A_gameDatabase (
+	g_id SERIAL primary key,
+	g_name VARCHAR (50) not null,
+	g_platform VARCHAR (50) not null,
+	g_price NUMERIC(12,2) not null,
+	g_description VARCHAR null,
+	g_maincategory INT not null,
+	g_parentSubcategory INT null,
+	g_childSubcategory INT null,
+	g_image VARCHAR (255) null,
+	g_publishDate DATE not null,
+	g_region int null
+);
+DROP TABLE IF EXISTS region;
+CREATE TABLE IF NOT EXISTS region (
+	id SERIAL primary key,
+	region_name VARCHAR (50) not null
+);
+DROP TABLE IF EXISTS child_subcategory;
+CREATE TABLE IF NOT EXISTS child_subcategory (
+	id SERIAL primary key,
+	category_name VARCHAR (50) not null,
+	fk_parent INT not null
+);
+DROP TABLE IF EXISTS parent_subcategory;
+CREATE TABLE IF NOT EXISTS parent_subcategory (
+	id SERIAL primary key,
+	category_name VARCHAR (50) not null,
+	fk_main INT not null
+);
+DROP TABLE IF EXISTS main_category;
+CREATE TABLE IF NOT EXISTS main_category (
+	id SERIAL primary key,
+	category_name VARCHAR (50) not null
+);
+DROP TABLE IF EXISTS user_detail;
+CREATE TABLE IF NOT EXISTS user_detail (
+	id SERIAL primary key,
+	name varchar(50) not null,
+	email varchar(255) not null,
+	password varchar(255) not null,
+	gender int null,
+	c_card int null,
+	phone varchar(255) null
+);
+
+ALTER TABLE G2A_gameDatabase
+	ADD CONSTRAINT fk_main FOREIGN KEY(g_maincategory) REFERENCES main_category(id),
+	ADD CONSTRAINT fk_parent FOREIGN KEY(g_parentSubcategory) REFERENCES parent_subcategory(id),
+	ADD CONSTRAINT fk_child FOREIGN KEY(g_childSubcategory) REFERENCES child_subcategory(id),
+	ADD CONSTRAINT fk_region FOREIGN KEY(g_region) REFERENCES region(id);
+
+ALTER TABLE parent_subcategory
+	ADD CONSTRAINT fk_main_cat FOREIGN KEY(fk_main) REFERENCES main_category(id);
+
+ALTER TABLE child_subcategory
+	ADD CONSTRAINT fk_parent_cat FOREIGN KEY(fk_parent) REFERENCES parent_subcategory(id);
+
+ALTER TABLE order_history
+	ADD CONSTRAINT fk_history_user FOREIGN KEY(user_id) REFERENCES user_detail(id),
+	ADD CONSTRAINT fk_detail_history FOREIGN KEY(detail_id) REFERENCES order_detail(id);
+	
+ALTER TABLE order_detail
+	ADD CONSTRAINT fk_history_detail FOREIGN KEY(g_id) REFERENCES G2A_gameDatabase(g_id);
+
+INSERT INTO public.main_category VALUES (1, 'main-cat 1');
+INSERT INTO public.main_category VALUES (2, 'main-cat 2');
+INSERT INTO public.main_category VALUES (3, 'main-cat 3');
+INSERT INTO public.main_category VALUES (4, 'main-cat 4');
+
+INSERT INTO public.parent_subcategory VALUES (1, 'parent 1-1', 1);
+INSERT INTO public.parent_subcategory VALUES (2, 'parent 1-2', 2);
+INSERT INTO public.parent_subcategory VALUES (3, 'parent 1-3', 3);
+INSERT INTO public.parent_subcategory VALUES (4, 'parent 2-1', 1);
+
+INSERT INTO public.child_subcategory VALUES (1, 'subsub 1-1-1', 1);
+INSERT INTO public.child_subcategory VALUES (2, 'subsub 1-2-1', 4);
+INSERT INTO public.child_subcategory VALUES (3, 'subsub 2-1-2', 2);
+    `)
+})
     .catch(err => {
         console.log(err)
     })
