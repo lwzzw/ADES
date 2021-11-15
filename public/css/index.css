@@ -1,6 +1,9 @@
-.header {
+.bgc {
     background-color: black;
     height: 120px;
+    position: absolute;
+    width: 100%;
+    z-index: -1;
 }
 
 .top-header {
