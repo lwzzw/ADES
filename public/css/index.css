@@ -158,3 +158,19 @@ a{
 .category>.col{
     padding: 0px !important;
 }
+
+.productHeader>h2 {
+    font-weight: bold;
+}
+.headerParagraph {
+    font-size: 14px;
+    color: rgba(0,0,0,.60);
+}
+
+body>section {
+    padding-top: 50px;
+}
+
+.row .col-image {
+    width: 100px !important;
+}
