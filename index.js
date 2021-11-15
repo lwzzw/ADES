@@ -10,7 +10,7 @@ const port = require("./config").PORT;
 db.connect()
 .then(()=>{
     db.query(`
-    DROP TABLE IF EXISTS order_history;
+DROP TABLE IF EXISTS order_history;
 CREATE TABLE IF NOT EXISTS order_history (
 	id SERIAL primary key,
 	user_id int not null,
