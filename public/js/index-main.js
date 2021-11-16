@@ -23,6 +23,9 @@ window.addEventListener('DOMContentLoaded', function () {
             string += `</ul></div>`;
             document.getElementById("second_cat").insertAdjacentHTML("beforeend", string);
         }
+
+
+        
         addListener();
     })
 })

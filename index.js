@@ -91,19 +91,19 @@ ALTER TABLE order_history
 ALTER TABLE order_detail
 	ADD CONSTRAINT fk_history_detail FOREIGN KEY(g_id) REFERENCES G2A_gameDatabase(g_id);
 
-INSERT INTO public.main_category VALUES (1, 'main-cat 1');
-INSERT INTO public.main_category VALUES (2, 'main-cat 2');
-INSERT INTO public.main_category VALUES (3, 'main-cat 3');
-INSERT INTO public.main_category VALUES (4, 'main-cat 4');
+INSERT INTO public.main_category (category_name) VALUES ('Video games');
+INSERT INTO public.main_category (category_name) VALUES ('Software');
+INSERT INTO public.main_category (category_name) VALUES ('Gaming Hardware');
 
-INSERT INTO public.parent_subcategory VALUES (1, 'parent 1-1', 1);
-INSERT INTO public.parent_subcategory VALUES (2, 'parent 1-2', 2);
-INSERT INTO public.parent_subcategory VALUES (3, 'parent 1-3', 3);
-INSERT INTO public.parent_subcategory VALUES (4, 'parent 2-1', 1);
+INSERT INTO public.parent_subcategory (category_name, fk_main) VALUES ('Games by genre', 1);
+INSERT INTO public.parent_subcategory (category_name, fk_main) VALUES ('Operation System', 2);
+INSERT INTO public.parent_subcategory (category_name, fk_main) VALUES ('PC', 3);
 
-INSERT INTO public.child_subcategory VALUES (1, 'subsub 1-1-1', 1);
-INSERT INTO public.child_subcategory VALUES (2, 'subsub 1-2-1', 4);
-INSERT INTO public.child_subcategory VALUES (3, 'subsub 2-1-2', 2);
+
+INSERT INTO public.child_subcategory (category_name, fk_parent) VALUES ('Action Games', 1);
+INSERT INTO public.child_subcategory (category_name, fk_parent) VALUES ('Trending', 3);
+
+
     `)
 })
     .catch(err => {
