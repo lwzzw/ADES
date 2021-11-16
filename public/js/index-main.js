@@ -11,11 +11,11 @@ window.addEventListener('DOMContentLoaded', function () {
             string = `<div class="cat-block" id="1-${response[i].id}"><ul>`;
             for (let j = 0; j < response[i].parent.length; j++) {
                 console.log(response[i].parent[j].id)
-                string += `<li class="cat-content second-cat" id="1-${response[i].parent[j].fk_main}-${response[i].parent[j].id}"><a href="/filter?main_cat=${encodeURI(response[i].parent[j].category_name)}">${response[i].parent[j].category_name}</a></li>`;
+                string += `<li class="cat-content second-cat" id="1-${response[i].parent[j].fk_main}-${response[i].parent[j].id}"><a href="/filter?parent_cat=${encodeURI(response[i].parent[j].category_name)}">${response[i].parent[j].category_name}</a></li>`;
                 if (response[i].parent[j].child.length == 0) break;
                 let thirdstring = `<div class="cat-content third-cat cat-block" id="2-${response[i].parent[j].fk_main}-${response[i].parent[j].id}"><ul>`;
                 for (let k = 0; k < response[i].parent[j].child.length; k++) {
-                    thirdstring += `<li>${response[i].parent[j].child[k].category_name}</li>`;
+                    thirdstring += `<li><a href="/filter?child_cat=${encodeURI(response[i].parent[j].child[k].category_name)}">${response[i].parent[j].child[k].category_name}</a></li>`;
                 }
                 thirdstring += `</ul></div>`;
                 document.getElementById("third_cat").insertAdjacentHTML("beforeend", thirdstring);
