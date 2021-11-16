@@ -23,9 +23,6 @@ window.addEventListener('DOMContentLoaded', function () {
             string += `</ul></div>`;
             document.getElementById("second_cat").insertAdjacentHTML("beforeend", string);
         }
-
-
-        
         addListener();
     })
 })
@@ -55,7 +52,7 @@ function addListener() {
                 });
                 second_cat.forEach(id => {
                     try {
-                        document.getElementById(`2-${id}`).style.display = "none";
+                        document.getElementById(`2-${id.substr(2)}`).style.display = "none";
                     } catch (e) {}
                 });
                 try {
@@ -102,7 +99,7 @@ function addListener() {
         });
         second_cat.forEach(id => {
             try {
-                document.getElementById(`2-${id}`).style.display = "none";
+                document.getElementById(`2-${id.substr(2)}`).style.display = "none";
             } catch (e) {}
         });
         Array.from(document.getElementsByClassName("img-default")).forEach(e => {
