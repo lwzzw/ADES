@@ -199,6 +199,10 @@ section header {
     margin-left: 10px;
 }
 
+.filterCategories {
+    align-self: flex-start;
+}
+
 .filterCategories ul li {
     display: flex;
     justify-content: space-between;
@@ -212,17 +216,20 @@ section header {
 }
 
 .game-section ul {
-    display: flex;
-    padding-left: 25px;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-gap: 30px;
+    justify-content: center;
 }
 
 .game-section ul li{
     border-style: solid;
+    border-width: thin;
     width: 250px;
 }
 
 hr {
-    margin: 0px !important;
+    margin-top: 0px !important;
 }
 
 .deals-container ul{
@@ -235,4 +242,15 @@ hr {
 .deals-container ul>li{
     flex-direction: column !important;
     border-style: solid;
+}
+
+.game-container {
+    height: 170px;
+    border-bottom: thin;
+
+}
+
+.game-image {
+    width: 100%;
+    height: 100%;
 }
