@@ -5,9 +5,9 @@
     <meta charset="utf-8" />
     <title>shit</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <link href="/css/index.css" rel="stylesheet" />
-    <script defer src="/js/index-main.js"></script>
-    <script defer src="/js/index-api.js"></script>
+    <link href="/css/category.css" rel="stylesheet" />
+    <script defer src="/js/category-main.js"></script>
+    <script defer src="/js/category-api.js"></script>
 
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
@@ -50,7 +50,7 @@
             </div>
             <div class="category-header container">
                 <ul id="header-categories" class="header-categories">
-                    <span class='navbar-category'><a class="cat" href="#"><svg><svg xmlns="http://www.w3.org/2000/svg"
+                    <span id="catdrop" class='navbar-category'><a class="cat" href="#"><svg><svg xmlns="http://www.w3.org/2000/svg"
                                     xmlnsxlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24"
                                     fill="rgba(255,255,255,0.7)">
                                     <path
@@ -63,6 +63,52 @@
                     <li class='navbar-category'><a href="#">Open Cases/Win Games</a></li>
                     <li class='navbar-category'><a href="#">other</a></li>
                 </ul>
+                <div id="categ" class="category row">
+                    <div class="category-list col">
+                        <div>
+                            <ul id="first_cat">
+                                <!-- <li class="cat-content first-cat" id="1"><a href="#">1</a></li>
+                                <li class="cat-content first-cat" id="2"><a href="#">2</a></li>
+                                <li class="cat-content first-cat" id="3">3</li>
+                                <li class="cat-content first-cat" id="4">4</li> -->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="category-list col" id="second_cat">
+                        <img class="img-second img-default" src="https://images.g2a.com/newlayout/300x450/1x1x0/8a231f27a957/201d113c07814b7ca4eab259">
+                        <!-- <div class="cat-block" id="1-1">
+                            <ul>
+                                <li class="cat-content second-cat" id="1-1-1"><a href="#">1-1</a></li>
+                                <li class="cat-content second-cat" id="1-1-2"><a href="#">1-1</a></li>
+                            </ul>
+                        </div>
+                        <div class="cat-block" id="1-2">
+                            <ul>
+                                <li class="cat-content second-cat" id="1-2-1">1-2</li>
+                                <li class="cat-content second-cat" id="1-2-2">1-2</li>
+                            </ul>
+                        </div> -->
+                    </div>
+                    <div class="category-list col" id="third_cat">
+                        <img class="img-third img-default" src="https://images.g2a.com/newlayout/300x450/1x1x0/a0c6a285b1b9/17fb921e5e0c4e0aa5e8bf10">
+                        <!-- <div class="cat-content third-cat cat-block" id="2-1-1-1">
+                            <ul>
+                                <li>2-1-1-1</li>
+                                <li>2-1-1-1</li>
+                            </ul>
+                        </div>
+                        <div class="cat-content third-cat cat-block" id="2-1-1-2">
+                            <ul>
+                                <li>2-1-1-2</li>
+                                <li>2-1-1-2</li>
+                                <li>2-1-1-2</li>
+                            </ul>
+                        </div> -->
+                    </div>
+                    <div class="category-list col">
+                        <img class="img-fourth img-default" src="https://images.g2a.com/newlayout/300x450/1x1x0/2a0cce4474cb/a323287cc64e4dff88573b3a">
+                    </div>
+                </div>
             </div>
     </div>
 
