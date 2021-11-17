@@ -6,7 +6,7 @@ function getAllCategories() {
         }
     }
     return axios
-        .get(`/game/getAllCategories`, methods)
+        .get(`/category/getAllCategories`, methods)
         .then(response => {
             return response.data.categories
         })
