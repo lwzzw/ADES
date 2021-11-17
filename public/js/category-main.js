@@ -58,6 +58,7 @@ function addListener() {
                 });
                 try {
                     document.getElementById("bg").style.display = "block";
+                    document.body.style.overflow = "hidden";
                     setTimeout(function () {
                         document.getElementById("bg").style.opacity = "0.8";
                     }, 0);
@@ -93,6 +94,7 @@ function addListener() {
     document.getElementById("bg").addEventListener("mouseover", function () {
         document.getElementById("bg").style.opacity = "0";
         document.getElementById("bg").style.display = "none";
+        document.body.style.overflow = "auto";
         first_cat.forEach(id => {
             try {
                 document.getElementById(`1-${id}`).style.display = "none";
