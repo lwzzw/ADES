@@ -112,4 +112,3 @@ function addListener() {
     console.log(second_cat)
     console.log(third_cat)
 }
-11222
