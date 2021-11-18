@@ -22,16 +22,16 @@ router.get('/gameDetailById/:id', (req, res, next) => {
 })
 
 router.get('/gameDetailFilter', (req, res, next) => {
-    var i = 1;
-    var platform = req.query.platform;
-    var maincat = req.query.maincat;
-    var childcat = req.query.childcat;
-    var name = req.query.name;
-    var minprice = req.query.minprice;
-    var maxprice = req.query.maxprice;
+    var i = 1,
+        platform = req.query.platform,
+        maincat = req.query.maincat,
+        childcat = req.query.childcat,
+        name = req.query.name,
+        minprice = req.query.minprice,
+        maxprice = req.query.maxprice,
+        page = req.query.page,
+        offset = ((page - 1) || 0) * LIMIT;
     const LIMIT = 18;
-    var page = req.query.page;
-    var offset = ((page - 1)||0) * LIMIT;
     var array = [];
     if (name) array.push(name);
     if (minprice) array.push(minprice);
