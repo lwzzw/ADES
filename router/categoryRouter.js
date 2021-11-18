@@ -7,6 +7,9 @@ var cat;
 
 router.get('/getAllCategories', async function (req, res, next) {
     //to use only one database connection so we use await
+    if (cat) return res.status(200).json({
+        categories: cat
+    })
     try {
         let dbResult = await database.query("SELECT id, category_name FROM main_category").then(result => result).catch(err => {
             next(createHttpError(500, err))
@@ -28,8 +31,9 @@ router.get('/getAllCategories', async function (req, res, next) {
                 dbResult.rows[i].parent[j].child = childcat.rows;
             }
         }
+        cat = dbResult.rows
         return res.status(200).json({
-            categories: dbResult.rows
+            categories: cat
         })
     } catch (err) {
         next(createHttpError(500, err));
