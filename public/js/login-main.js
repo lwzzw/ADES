@@ -20,7 +20,12 @@ if ($loginFormContainer.length != 0) {
         rePassword = new RegExp(`^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$`);
     
         if (rePassword.test(password) && reEmail.test(email)) {
-            
+            if(password != "abc123" && email != "abc@gmail.com"){
+                alert("invalid email and password");
+            }
+            else{
+                window.location.assign('index.html');
+            }
         } else {
             alert("Invalid Email or Password. Try again");
             $('#emailInput').val() = '';
