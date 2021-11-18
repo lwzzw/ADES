@@ -37,7 +37,8 @@ CREATE TABLE IF NOT EXISTS G2A_gameDatabase (
 	g_childSubcategory INT null,
 	g_image VARCHAR (255) null,
 	g_publishDate DATE not null,
-	g_region int null
+	g_region int null,
+    g_discount int null
 );
 DROP TABLE IF EXISTS region;
 CREATE TABLE IF NOT EXISTS region (
