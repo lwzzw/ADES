@@ -243,26 +243,26 @@ INSERT INTO public.child_subcategory (category_name, fk_parent) VALUES ('Racing 
 INSERT INTO public.child_subcategory (category_name, fk_parent) VALUES ('Fighting Games', 9);
 INSERT INTO public.child_subcategory (category_name, fk_parent) VALUES ('Economy Games', 9);
 
-INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 1', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
-INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 2', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
+INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
+VALUES ('game name 1', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11', 20);
+INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
+VALUES ('game name 2', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11', 30);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
 VALUES ('game name 3', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
-INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 4', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
+INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
+VALUES ('game name 4', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11', 50);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
 VALUES ('game name 5', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
 VALUES ('game name 6', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
 VALUES ('game name 7', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
-INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 8', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
+INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
+VALUES ('game name 8', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11', 10);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
 VALUES ('game name 9', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
-INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 10', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
+INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
+VALUES ('game name 10', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11',5);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
 VALUES ('game name 11', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
@@ -273,8 +273,8 @@ INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincateg
 VALUES ('game name 14', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
 VALUES ('game name 15', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
-INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 16', 10, 'description', 1, 1, 2, '/images/poop.png', '2020/10/11');
+INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
+VALUES ('game name 16', 10, 'description', 1, 1, 2, '/images/poop.png', '2020/10/11', 99);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
 VALUES ('game name 17', 10, 'description', 1, 1, 2, '/images/poop.png', '2020/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
@@ -283,8 +283,8 @@ INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincateg
 VALUES ('game name 19', 10, 'description', 1, 1, 2, '/images/poop.png', '2020/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
 VALUES ('game name 20', 10, 'description', 1, 1, 2, '/images/poop.png', '2020/10/11');
-INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 21', 10, 'description', 1, 1, 2, '/images/poop.png', '2020/10/11');
+INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
+VALUES ('game name 21', 10, 'description', 1, 1, 2, '/images/poop.png', '2020/10/11',120);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
 VALUES ('game name 22', 10, 'description', 1, 1, 2, '/images/poop.png', '2020/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 

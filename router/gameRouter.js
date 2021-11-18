@@ -1,6 +1,5 @@
 const database = require('../database/database');
 const createHttpError = require('http-errors');
-
 const router = require('express').Router();
 
 
@@ -56,6 +55,18 @@ router.get('/gameDetailFilter', (req, res, next) => {
             return res.status(200).json({
                 games: result.rows
             });
+        })
+        .catch(err => {
+            next(createHttpError(500, err));
+        })
+})
+
+router.get('/getDeals', (req, res, next) => {
+    return database.query(`SELECT * FROM g2a_gamedatabase WHERE g_discount IS NOT NULL`)
+        .then(result => {
+                return res.status(200).json({
+                    deals: result.rows
+                })
         })
         .catch(err => {
             next(createHttpError(500, err));
