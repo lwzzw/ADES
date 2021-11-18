@@ -1,6 +1,5 @@
 const database = require('../database/database');
 const createHttpError = require('http-errors');
-
 const router = require('express').Router();
 
 
@@ -53,9 +52,16 @@ router.get('/gameDetailByMainCategory/:main', (req, res, next) => {
         })
 })
 
-router.get('/game',(req, res, next)=>{
-    // console.log(req.query)
-    
+router.get('/getDeals', (req, res, next) => {
+    return database.query(`SELECT * FROM g2a_gamedatabase WHERE g_discount IS NOT NULL`)
+        .then(result => {
+                return res.status(200).json({
+                    deals: result.rows
+                })
+        })
+        .catch(err => {
+            next(createHttpError(500, err));
+        })
 })
 
 module.exports = router;

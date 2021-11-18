@@ -25,6 +25,30 @@ window.addEventListener('DOMContentLoaded', function () {
         }
         addListener();
     })
+
+    getDeals().then(response => {
+        console.log(response)
+        
+        for (let i = 0; i < response.length; i++) {
+            let deals = response[i]
+            let deal = 
+            `
+            <li>
+            <div class='deals-image'>
+                <a><img src='${deals.g_image}' /></a>
+            </div>
+            <div>
+                <a>${deals.g_name}</a>
+            </div>
+            <div>
+                <span>${deals.g_discount}</span>
+            </div>
+            </li>
+            `
+            document.getElementById("deals").insertAdjacentHTML("beforeend", deal);
+        }
+    })
+
 })
 
 function addListener() {
