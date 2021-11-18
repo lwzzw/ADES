@@ -5,11 +5,12 @@ const createHttpErrors = require('http-errors');
 const ApiRouter = require('./router/api');
 const db = require("./database/database");
 const port = require("./config").PORT;
+const fs = require('fs');
 // const port = 3001;
 
 db.connect()
-.then(()=>{
-    db.query(`
+	.then(() => {
+		db.query(`
 DROP TABLE IF EXISTS order_history;
 CREATE TABLE IF NOT EXISTS order_history (
 	id SERIAL primary key,
@@ -292,16 +293,24 @@ INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincateg
 VALUES ('game name 24', 10, 'description', 1, 1, 2, '/images/poop.png', '2020/10/11');
 
     `)
-})
-    .catch(err => {
-        console.log(err)
-    })
+	})
+	.catch(err => {
+		console.log(err)
+	})
 
 app.use(express.json());
 
 app.use((req, res, next) => {
-    console.log(req.originalUrl);
-    next();
+	console.log(req.originalUrl);
+	next();
+})
+
+app.use((req, res, next) => {
+	if (req.path.includes("category.html")) {
+		res.sendFile(path.join(__dirname, '/public/html/category.html'));
+	} else {
+		next()
+	}
 })
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -311,19 +320,19 @@ app.use(ApiRouter);
 
 // 404 Handler
 app.use((req, res, next) => {
-    console.log('404');
-    next(createHttpErrors(404, `Unknown Resource ${req.method} ${req.originalUrl}`));
+	console.log('404');
+	next(createHttpErrors(404, `Unknown Resource ${req.method} ${req.originalUrl}`));
 });
 
 // Error Handler
 app.use((error, req, res, next) => {
-    console.error(error);
-    return res.status(error.status || 500).json({
-        error: error.message || `Unknown Error!`,
-        status: error.status
-    });
+	console.error(error);
+	return res.status(error.status || 500).json({
+		error: error.message || `Unknown Error!`,
+		status: error.status
+	});
 });
 
 app.listen(port, () => {
-    console.log(`App listen on port http://localhost:${port}`);
+	console.log(`App listen on port http://localhost:${port}`);
 });
