@@ -1,0 +1,10 @@
+.md-form {
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;  
+    border: 2px solid #000000;
+    padding: 5px 40px; 
+    background: #ffffff;
+}
+.md-form:hover{
+    border: rgba(0, 119, 255, 0.986);
+}
