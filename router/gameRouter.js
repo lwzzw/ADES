@@ -29,9 +29,9 @@ router.get('/gameDetailFilter', (req, res, next) => {
     var name = req.query.name;
     var minprice = req.query.minprice;
     var maxprice = req.query.maxprice;
-    var limit = 18;
+    const LIMIT = 18;
     var page = req.query.page;
-    var offset = ((page - 1)||0) * limit;
+    var offset = ((page - 1)||0) * LIMIT;
     var array = [];
     if (name) array.push(name);
     if (minprice) array.push(minprice);
@@ -39,7 +39,7 @@ router.get('/gameDetailFilter', (req, res, next) => {
     if (platform) array.push(platform);
     if (maincat) array.push(maincat);
     if (childcat) array.push(childcat);
-    array.push(limit);
+    array.push(LIMIT);
     array.push(offset);
     console.log(array)
     return database.query(`SELECT g_id, g_name, g_description, g_price, g_discount, g_image, g_publishdate, g_region 
