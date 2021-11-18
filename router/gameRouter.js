@@ -20,28 +20,37 @@ router.get('/gameDetailById/:id', (req, res, next) => {
         })
 })
 
-router.get('/gameDetailByPlatform/:platform', (req, res, next) => {
-    var platform = req.params.platform;
-    return database.query(`SELECT g_id, g_name, g_description, g_price, g_image, g_publishdate, g_region, category_name 
+router.get('/gameDetailFilter', (req, res, next) => {
+    var i = 1,
+        platform = req.query.platform,
+        maincat = req.query.maincat,
+        childcat = req.query.childcat,
+        name = req.query.name,
+        minprice = req.query.minprice,
+        maxprice = req.query.maxprice,
+        page = req.query.page,
+        offset = ((page - 1) || 0) * LIMIT;
+    const LIMIT = 18;
+    var array = [];
+    if (name) array.push(name);
+    if (minprice) array.push(minprice);
+    if (maxprice) array.push(maxprice);
+    if (platform) array.push(platform);
+    if (maincat) array.push(maincat);
+    if (childcat) array.push(childcat);
+    array.push(LIMIT);
+    array.push(offset);
+    console.log(array)
+    return database.query(`SELECT g_id, g_name, g_description, g_price, g_discount, g_image, g_publishdate, g_region 
                             from G2A_gameDatabase 
-                            join parent_subcategory on g_parentsubcategory = id 
-                            where category_name = $1`, [platform])
-        .then(result => {
-            return res.status(200).json({
-                games: result.rows
-            });
-        })
-        .catch(err => {
-            next(createHttpError(500, err));
-        })
-})
-
-router.get('/gameDetailByMainCategory/:main', (req, res, next) => {
-    var main = req.params.main;
-    return database.query(`SELECT g_id, g_name, g_description, g_price, g_image, g_publishdate, g_region, category_name 
-                            from G2A_gameDatabase 
-                            join main_category on g_maincategory = id 
-                            where category_name = $1`, [main])
+                            where 1=1 ${name?`AND g_name LIKE '%' || $${i++} || '%' `:''}
+                            ${minprice?`AND g_price >= $${i++} `:''}
+                            ${maxprice?`AND g_price <= $${i++} `:''}
+                            ${platform?`AND g_parentsubcategory = (select id from parent_subcategory where category_name = "$${i++}") `:''}
+                            ${maincat?`AND g_maing_maincategory = (select id from main_category where category_name = "$${i++}") `:''}
+                            ${childcat?`AND g_childsubcategory = (select id from child_subcategory where category_name = "$${i++}") `:''}
+                            LIMIT $${i++} OFFSET $${i++};
+                            `, array)
         .then(result => {
             return res.status(200).json({
                 games: result.rows
