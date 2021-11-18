@@ -1,3 +1,5 @@
+let dealsArray;
+let dealsArrayi = 0;
 window.addEventListener('DOMContentLoaded', function () {
     const dropDownButton = document.getElementById('dropDownCategory');
     // const headerCategory = document.getElementById('header-categories')
@@ -28,28 +30,41 @@ window.addEventListener('DOMContentLoaded', function () {
 
     getDeals().then(response => {
         console.log(response)
-        
-        for (let i = 0; i < response.length; i++) {
-            let deals = response[i]
-            let deal = 
-            `
-            <li>
-            <div class='deals-image'>
-                <a><img src='${deals.g_image}' /></a>
-            </div>
-            <div>
-                <a>${deals.g_name}</a>
-            </div>
-            <div>
-                <span>${deals.g_discount}</span>
-            </div>
-            </li>
-            `
-            document.getElementById("deals").insertAdjacentHTML("beforeend", deal);
-        }
+        dealsArray = response
+        showDeals();
+        let button = `<button class='btn' id='dealsButton'>Show more</button>`
+        document.getElementById("deals").insertAdjacentHTML("afterend", button);
+        document.getElementById('dealsButton').addEventListener('click', showDeals)
     })
 
 })
+
+function showDeals() {
+    for (let i = 0; i < 6; dealsArrayi++, i++) {
+        let deals = dealsArray[dealsArrayi]
+        if (!deals) return
+        let deal = 
+        `
+        <li>
+        <a href='/game.html?gameid=${deals.g_id}'>
+        <div class='deals-image'>
+            <img src='${deals.g_image}' />
+        </div>
+        <div>
+            <h3>${deals.g_name}</h3>
+        </div>
+        <div>
+        <span><span class='discount-price'>${deals.g_discount}</span> <sup class='sub-script'> SGD </sup></span>
+        </div>
+        <div>
+            <span><span class='slash-price'>${deals.g_price}</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${parseFloat(discount_percentage = 100 * (deals.g_price - deals.g_discount) / deals.g_price).toFixed(0)}%</span></span>
+        </div>
+        </a>
+        </li>
+        `
+        document.getElementById("deals").insertAdjacentHTML("beforeend", deal);
+    }
+}
 
 function addListener() {
     var list = document.getElementsByClassName("cat-content");
