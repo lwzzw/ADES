@@ -1,3 +1,5 @@
+let duration = 250;
+let toFirst, toSecond;
 window.addEventListener('DOMContentLoaded', function () {
     const dropDownButton = document.getElementById('dropDownCategory');
     // const headerCategory = document.getElementById('header-categories')
@@ -46,48 +48,64 @@ function addListener() {
     Array.from(list).forEach(e => {
         if (e.classList.contains("first-cat")) {
             e.addEventListener("mouseover", function () {
-                first_cat.forEach(id => {
+                //if mouse enter the div start the time out
+                //if the mouse did not leave within duration time then the category will show
+                toFirst = setTimeout(() => {
+                    first_cat.forEach(id => {
+                        try {
+                            document.getElementById(`1-${id}`).style.display = "none";
+                        } catch (e) {}
+                    });
+                    second_cat.forEach(id => {
+                        try {
+                            document.getElementById(`2-${id.substr(2)}`).style.display = "none";
+                        } catch (e) {}
+                    });
                     try {
-                        document.getElementById(`1-${id}`).style.display = "none";
+                        document.getElementById("bg").style.display = "block";
+                        document.body.style.overflow = "hidden";
+                        setTimeout(function () {
+                            document.getElementById("bg").style.opacity = "0.8";
+                        }, 0);
+                        Array.from(document.getElementsByClassName("img-second")).forEach(e => {
+                            e.style.display = "block";
+                        })
+                        document.getElementById(`1-${e.id}`).style.display = "block";
+                        Array.from(document.getElementsByClassName("img-second")).forEach(e => {
+                            e.style.display = "none";
+                        })
+                        Array.from(document.getElementsByClassName("img-third")).forEach(e => {
+                            e.style.display = "block";
+                        })
                     } catch (e) {}
-                });
-                second_cat.forEach(id => {
-                    try {
-                        document.getElementById(`2-${id.substr(2)}`).style.display = "none";
-                    } catch (e) {}
-                });
-                try {
-                    document.getElementById("bg").style.display = "block";
-                    document.body.style.overflow = "hidden";
-                    setTimeout(function () {
-                        document.getElementById("bg").style.opacity = "0.8";
-                    }, 0);
-                    Array.from(document.getElementsByClassName("img-second")).forEach(e => {
-                        e.style.display = "block";
-                    })
-                    document.getElementById(`1-${e.id}`).style.display = "block";
-                    Array.from(document.getElementsByClassName("img-second")).forEach(e => {
-                        e.style.display = "none";
-                    })
-                    Array.from(document.getElementsByClassName("img-third")).forEach(e => {
-                        e.style.display = "block";
-                    })
-                } catch (e) {}
+                }, duration)
+            })
+            e.addEventListener("mouseleave", function () {
+                //clear the time out when mouse leave the div
+                clearTimeout(toFirst);
             })
         }
         if (e.classList.contains("second-cat")) {
             e.addEventListener("mouseover", function () {
-                second_cat.forEach(id => {
+                //if mouse enter the div start the time out
+                //if the mouse did not leave within duration time then the category will show
+                toSecond = setTimeout(() => {
+                    second_cat.forEach(id => {
+                        try {
+                            document.getElementById(`2-${id.substr(2)}`).style.display = "none";
+                        } catch (e) {}
+                    });
                     try {
-                        document.getElementById(`2-${id.substr(2)}`).style.display = "none";
+                        document.getElementById(`2-${e.id.substr(2)}`).style.display = "block";
+                        Array.from(document.getElementsByClassName("img-third")).forEach(e => {
+                            e.style.display = "none";
+                        })
                     } catch (e) {}
-                });
-                try {
-                    document.getElementById(`2-${e.id.substr(2)}`).style.display = "block";
-                    Array.from(document.getElementsByClassName("img-third")).forEach(e => {
-                        e.style.display = "none";
-                    })
-                } catch (e) {}
+                }, duration)
+            })
+            e.addEventListener("mouseleave", function () {
+                //clear the time out when mouse leave the div
+                clearTimeout(toSecond);
             })
         }
     })

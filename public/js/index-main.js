@@ -2,7 +2,6 @@ let dealsArray;
 let dealsArrayi = 0;
 let duration = 250;
 let toFirst, toSecond;
-let keepCall = true;
 window.addEventListener('DOMContentLoaded', function () {
     const dropDownButton = document.getElementById('dropDownCategory');
     // const headerCategory = document.getElementById('header-categories')
