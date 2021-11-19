@@ -185,23 +185,28 @@ body>section {
     height: 100%;
 }
 
-.bs-product>div{
+.bs-product>div,.latest-release>div,.pre-product>div{
     margin-bottom: 10px;
 }
 
-.bestselling-product {
+
+.products {
     border-top: solid;
     border-width: thin;
     border-color: rgba(0,0,0,.2);
 }
 
-.bs-details {
+.product-details {
     position: relative;
     padding: 9px 15px 0px;
 }
 
+.preorder-product {
+    margin-bottom: 10px;
+}
 
-.bs-details div>span{
+
+.product-details div>span{
     letter-spacing: 0.6px;
     font-weight: 700;
 }

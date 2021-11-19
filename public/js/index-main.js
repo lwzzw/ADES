@@ -39,11 +39,11 @@ window.addEventListener('DOMContentLoaded', function () {
             for (let i = 0; i < response.length; i++) {
                 let bestsellers = response[i]
                 let bestseller = `                        
-                <div class="row bestselling-product">
+                <div class="row products">
                 <div class="col-4 col-image">
                     <img src='${bestsellers.g_image}'/>
                 </div>
-                <div class="col-8 bs-details">
+                <div class="col-8 product-details">
                     <h6>${bestsellers.g_name}</h6>
                     <div><span>PRICE</span></div>
                     <div>
@@ -65,11 +65,11 @@ window.addEventListener('DOMContentLoaded', function () {
             for (let i = 0; i < response.length; i++) {
                 let preorders = response[i];
                 let preorder = `
-                <div class="row bestselling-product">
+                <div class="row products">
                 <div class="col-4 col-image">
                     <img src='${preorders.g_image}'/>
                 </div>
-                <div class="col-8 bs-details">
+                <div class="col-8 product-details">
                     <h6>${preorders.g_name}</h6>
                     <div><span>PRICE</span></div>
                     <div>
@@ -93,11 +93,11 @@ window.addEventListener('DOMContentLoaded', function () {
                 let lreleases = response[i];
                 console.log(lreleases)
                 let lrelease = `
-                <div class="row bestselling-product">
+                <div class="row products">
                 <div class="col-4 col-image">
                     <img src='${lreleases.g_image}'/>
                 </div>
-                <div class="col-8 bs-details">
+                <div class="col-8 product-details">
                     <h6>${lreleases.g_name} ${lreleases.date}</h6>
                     <div><span>PRICE</span></div>
                     <div>
