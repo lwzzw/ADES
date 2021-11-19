@@ -232,7 +232,8 @@ hr {
 
 .deals-container ul>li{
     flex-direction: column !important;
-    border-style: solid;
+    height: 330px;
+    width: 170px;
 }
 
 .deals-container ul>li img{
@@ -240,7 +241,57 @@ hr {
     height: 100%;
 }
 
+.deals-container ul>li h3{
+    font-size: 12px;
+    font-weight: 500;
+    padding-top: 10px;
+    overflow: hidden;
+}
+
 .deals-image {
     width: 170;
     height: 220px;
+}
+
+.slash-price {
+    text-decoration: line-through;
+}
+
+.discount-price {
+    font-size: 17px;
+    line-height: 17px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+}
+
+.sub-script {
+    position: relative;
+    top: 1px;
+    font-size: 13px;
+    line-height: normal;
+    vertical-align: super;
+    font-weight: 500;
+}
+
+.sub-script-striked {
+    color: rgb(0, 0, 0, 0.7);
+    position: relative;
+    top: 1px;
+    font-size: 11px;
+    line-height: normal;
+    vertical-align: super;
+    font-weight: 400;
+}
+
+.discount-percentage {
+    display: inline-block;
+    padding: 3px 6px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0px;
+    line-height: 13px;
+    text-transform: uppercase;
+    color: white;
+    background-color: rgb(221, 48, 28);
+    justify-content: center;
 }

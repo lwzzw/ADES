@@ -27,7 +27,7 @@ function getDeals() {
         }
     }
     return axios
-        .get(`/game/getDeals`, methods)
+        .get(`/game/getDeals/`, methods)
         .then(response => {
             return response.data.deals
         })
