@@ -27,10 +27,10 @@ window.addEventListener('DOMContentLoaded', function () {
         }
         addListener();
 
-        getAllBestsellers();
+        getAllProducts();
     })
 
-    const getAllBestsellers = async () => {
+    const getAllProducts = async () => {
         const result = await getAllCategories()
 
         await getBestsellers().then(response => {
