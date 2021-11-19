@@ -87,6 +87,8 @@ function addListener() {
     Array.from(list).forEach(e => {
         if (e.classList.contains("first-cat")) {
             e.addEventListener("mouseover", function () {
+                //if mouse enter the div start the time out
+                //if the mouse did not leave within duration time then the category will show
                 toFirst = setTimeout(() => {
                     first_cat.forEach(id => {
                         try {
@@ -115,15 +117,17 @@ function addListener() {
                             e.style.display = "block";
                         })
                     } catch (e) {}
-                    ongoing = false;
                 }, duration)
             })
-            e.addEventListener("mouseleave", function(){
+            e.addEventListener("mouseleave", function () {
+                //clear the time out when mouse leave the div
                 clearTimeout(toFirst);
             })
         }
         if (e.classList.contains("second-cat")) {
             e.addEventListener("mouseover", function () {
+                //if mouse enter the div start the time out
+                //if the mouse did not leave within duration time then the category will show
                 toSecond = setTimeout(() => {
                     second_cat.forEach(id => {
                         try {
@@ -138,7 +142,8 @@ function addListener() {
                     } catch (e) {}
                 }, duration)
             })
-            e.addEventListener("mouseleave", function(){
+            e.addEventListener("mouseleave", function () {
+                //clear the time out when mouse leave the div
                 clearTimeout(toSecond);
             })
         }
