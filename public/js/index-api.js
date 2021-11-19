@@ -39,3 +39,66 @@ function getDeals() {
             return error.response.data
         })
 }
+
+function getBestsellers() {
+    const methods = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    return axios
+        .get(`/game/getBSellers/`, methods)
+        .then(response => {
+            return response.data.bsellers
+        })
+        .catch(error => {
+            console.log(error)
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+}
+
+function getPreOrders() {
+    const methods = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    return axios
+        .get(`/game/getPreorders`, methods)
+        .then(response => {
+            return response.data.preorders
+        })
+        .catch(error => {
+            console.log(error)
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+}
+
+function getLRelease() {
+    const methods = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    return axios
+        .get(`/game/getLRelease`, methods)
+        .then(response => {
+            return response.data.lrelease
+        })
+        .catch(error => {
+            console.log(error)
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+}

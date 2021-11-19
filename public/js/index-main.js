@@ -7,14 +7,12 @@ window.addEventListener('DOMContentLoaded', function () {
     // const headerCategory = document.getElementById('header-categories')
 
     getAllCategories().then(response => {
-        console.log(response)
         for (let i = 0; i < response.length; i++) {
             let string = `<li class="cat-content first-cat" id="${response[i].id}"><a href="/category.html?maincat=${encodeURI(response[i].category_name)}">${response[i].category_name}</a></li>`;
             document.getElementById("first_cat").insertAdjacentHTML("beforeend", string);
             if (response[i].parent.length == 0) break;
             string = `<div class="cat-block" id="1-${response[i].id}"><ul>`;
             for (let j = 0; j < response[i].parent.length; j++) {
-                console.log(response[i].parent[j].id)
                 string += `<li class="cat-content second-cat" id="1-${response[i].parent[j].fk_main}-${response[i].parent[j].id}"><a href="/category.html?platform=${encodeURI(response[i].parent[j].category_name)}">${response[i].parent[j].category_name}</a></li>`;
                 if (response[i].parent[j].child.length == 0) break;
                 let thirdstring = `<div class="cat-content third-cat cat-block" id="2-${response[i].parent[j].fk_main}-${response[i].parent[j].id}"><ul>`;
@@ -28,23 +26,126 @@ window.addEventListener('DOMContentLoaded', function () {
             document.getElementById("second_cat").insertAdjacentHTML("beforeend", string);
         }
         addListener();
+
+        getAllBestsellers();
     })
 
-    getDeals().then(response => {
-        console.log(response)
-        dealsArray = response
-        showDeals();
-        let button = `<button class='btn' id='dealsButton'>Show more</button>`
-        document.getElementById("deals").insertAdjacentHTML("afterend", button);
-        document.getElementById('dealsButton').addEventListener('click', showDeals)
-    })
+    const getAllBestsellers = async () => {
+        const result = await getAllCategories()
+
+        await getBestsellers().then(response => {
+            console.log(response)
+
+            for (let i = 0; i < response.length; i++) {
+                let bestsellers = response[i]
+                let bestseller = `                        
+                <div class="row bestselling-product">
+                <div class="col-4 col-image">
+                    <img src='${bestsellers.g_image}'/>
+                </div>
+                <div class="col-8 bs-details">
+                    <h6>${bestsellers.g_name}</h6>
+                    <div><span>PRICE</span></div>
+                    <div>
+                    <span><span>${bestsellers.bs_price}</span> <sup class='sub-script'> SGD </sup></span>
+                    </div>
+                    <div>
+                        <span><span class='slash-price'>${bestsellers.g_price}</span><sup class='sub-script-striked'> SGD </sup></span>
+                    </div>
+                </div>
+            </div>`
+
+                document.getElementById("bs-product").insertAdjacentHTML("beforeend", bestseller);
+            }
+        })
+
+
+        await getPreOrders().then(response => {
+            console.log(response)
+            for (let i = 0; i < response.length; i++) {
+                let preorders = response[i];
+                let preorder = `
+                <div class="row bestselling-product">
+                <div class="col-4 col-image">
+                    <img src='${preorders.g_image}'/>
+                </div>
+                <div class="col-8 bs-details">
+                    <h6>${preorders.g_name}</h6>
+                    <div><span>PRICE</span></div>
+                    <div>
+                    <span><span>${preorders.preorder_price}</span> <sup class='sub-script'> SGD </sup></span>
+                    </div>
+                    <div id='game-${preorders.g_id}'>
+                        <span><span class='slash-price'>${preorders.g_price}</span><sup class='sub-script-striked'> SGD </sup></span>
+                    </div>
+                </div>
+            </div>
+                `
+                document.getElementById("pre-product").insertAdjacentHTML("beforeend", preorder)
+                if(preorders.nullif==null) {
+                    document.getElementById(`game-${preorders.g_id}`).remove();
+                }
+            }
+        })
+
+        await getLRelease().then(response => {
+            for (let i = 0; i < response.length; i++) {
+                let lreleases = response[i];
+                console.log(lreleases)
+                let lrelease = `
+                <div class="row bestselling-product">
+                <div class="col-4 col-image">
+                    <img src='${lreleases.g_image}'/>
+                </div>
+                <div class="col-8 bs-details">
+                    <h6>${lreleases.g_name} ${lreleases.date}</h6>
+                    <div><span>PRICE</span></div>
+                    <div>
+                    <span><span>${lreleases.g_discount}</span> <sup class='sub-script'> SGD </sup></span>
+                    </div>
+                    <div id='lr-${lreleases.g_id}'>
+                        <span><span class='slash-price'>${lreleases.g_price}</span><sup class='sub-script-striked'> SGD </sup></span>
+                    </div>
+                </div>
+                </div>
+                `
+                document.getElementById("latest-release").insertAdjacentHTML("beforeend", lrelease)
+                if(lreleases.nullif==null) {
+                    document.getElementById(`lr-${lreleases.g_id}`).remove();
+                }
+            }
+        })
+        getAllDeals();
+    }
+
+    const getAllDeals = async () => {
+        const result = await getAllCategories()
+        getDeals()
+            .then(response => {
+                dealsArray = response
+                showDeals();
+                let button = `<button class='btn btn-primary' id='dealsButton'>Show more</button>`
+                document.getElementById("deals").insertAdjacentHTML("afterend", button);
+                document.getElementById('dealsButton').addEventListener('click', showDeals)
+            })
+
+    }
+
+
+
+
 
 })
 
 function showDeals() {
     for (let i = 0; i < 6; dealsArrayi++, i++) {
         let deals = dealsArray[dealsArrayi]
-        if (!deals) return
+        // if there are no longer deals in the array, dealsButton will be removed.
+        if (!deals) {
+            document.getElementById('dealsButton').remove()
+            return
+        }
+
         let deal =
             `
         <li>
@@ -92,12 +193,12 @@ function addListener() {
                     first_cat.forEach(id => {
                         try {
                             document.getElementById(`1-${id}`).style.display = "none";
-                        } catch (e) {}
+                        } catch (e) { }
                     });
                     second_cat.forEach(id => {
                         try {
                             document.getElementById(`2-${id.substr(2)}`).style.display = "none";
-                        } catch (e) {}
+                        } catch (e) { }
                     });
                     try {
                         document.getElementById("bg").style.display = "block";
@@ -115,7 +216,7 @@ function addListener() {
                         Array.from(document.getElementsByClassName("img-third")).forEach(e => {
                             e.style.display = "block";
                         })
-                    } catch (e) {}
+                    } catch (e) { }
                 }, duration)
             })
             e.addEventListener("mouseleave", function () {
@@ -131,14 +232,14 @@ function addListener() {
                     second_cat.forEach(id => {
                         try {
                             document.getElementById(`2-${id.substr(2)}`).style.display = "none";
-                        } catch (e) {}
+                        } catch (e) { }
                     });
                     try {
                         document.getElementById(`2-${e.id.substr(2)}`).style.display = "block";
                         Array.from(document.getElementsByClassName("img-third")).forEach(e => {
                             e.style.display = "none";
                         })
-                    } catch (e) {}
+                    } catch (e) { }
                 }, duration)
             })
             e.addEventListener("mouseleave", function () {
@@ -154,12 +255,12 @@ function addListener() {
         first_cat.forEach(id => {
             try {
                 document.getElementById(`1-${id}`).style.display = "none";
-            } catch (e) {}
+            } catch (e) { }
         });
         second_cat.forEach(id => {
             try {
                 document.getElementById(`2-${id.substr(2)}`).style.display = "none";
-            } catch (e) {}
+            } catch (e) { }
         });
         Array.from(document.getElementsByClassName("img-default")).forEach(e => {
             e.style.display = "block";
