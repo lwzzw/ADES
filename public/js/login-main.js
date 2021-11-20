@@ -1,5 +1,3 @@
-const validator = require('validator');
-
 let $loginFormContainer = $('#loginFormContainer');
 if ($loginFormContainer.length != 0) {
     console.log('Login form detected. Binding event handling logic to form elements.');
