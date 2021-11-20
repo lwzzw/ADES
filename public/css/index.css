@@ -7,15 +7,22 @@
 }
 
 .top-header {
+    display: flex;
     padding-top: 10px;
     height: 80px;
     margin: auto;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.top-header>a {
+    width: 200px;
+    align-self: center;
 }
 
 .logo {
     height: 40px;
-    max-width: 115px !important;
-    align-self: center;
+    width: 105px;
 }
 
 .dropdown-btn {
@@ -27,7 +34,9 @@
 .search-bar {
     display: inline-flex;
     align-self: center;
+    width: 600px;
 }
+
 
 .search {
     width: 100%;
