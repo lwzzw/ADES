@@ -92,14 +92,17 @@
                 <div class="categoryGameHeader">
                     <div>
                         <h1>Games</h1>
-                        <p>no. products</p>
+                        <!-- <p>no. products</p> -->
                     </div>
 
                     <div class="categoryFilter">
                         Sort by
-                        <select>
-                            <option>1</option>
-                            <option>2</option>
+                        <select id="sort">
+                            <option value="default">Default</option>
+                            <option value="priceasc">Price - lowest first</option>
+                            <option value="pricedesc">Price - highest first</option>
+                            <option value="dateasc">Release Date - earliest</option>
+                            <option value="datedesc">Release Date - oldest</option>
                         </select>
                     </div>
                 </div>
@@ -112,169 +115,37 @@
             <div class="filterCategories">
                 <div id="category">
                     <h4>Categories</h4>
-                <ul id="category_list">
-                </ul>
-                <a id="showmore" onclick="showlm()">Show Less</a>
+                    <ul id="category_list">
+                    </ul>
+                    <a id="showmore">Show Less</a>
+                </div>
+                <div id="price">
+                    <h4>Price</h4>
+                    <div class="price row">
+                        <div class="col-5 pinput">
+                            <input id="pinput_min" type="number" name="min" placeholder="From" min="0" value="">
+                        </div>
+                        <div class="col-2 span">
+                            <span>-</span>
+                        </div>
+                        <div class="col-5 pinput">
+                            <input id="pinput_max" type="number" name="max" placeholder="To" min="NaN" value="">
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="game-section">
-                <ul class="game-content">
-                    <li>
-                        <div class="game-container">
-                            <img class="game-image"
-                                src="https://thumbnails.pcgamingwiki.com/d/db/Dota_2_cover.jpg/300px-Dota_2_cover.jpg">
-                        </div>
-
-                        <div>
-                            <h5>Dota 2 - PLATFORM - REGION</h5>
-                        </div>
-                        <div>
-                            <p>price</p>
-                        </div>
-
-                    </li>
-                    <li>
-                        <div class="game-container">
-                            <img class="game-image"
-                                src="https://thumbnails.pcgamingwiki.com/d/db/Dota_2_cover.jpg/300px-Dota_2_cover.jpg">
-                        </div>
-
-                        <div>
-                            <h5>Dota 2 - PLATFORM - REGION</h5>
-                        </div>
-                        <div>
-                            <p>price</p>
-                        </div>
-
-                    </li>
-                    <li>
-                        <div class="game-container">
-                            <img class="game-image"
-                                src="https://thumbnails.pcgamingwiki.com/d/db/Dota_2_cover.jpg/300px-Dota_2_cover.jpg">
-                        </div>
-
-                        <div>
-                            <h5>Dota 2 - PLATFORM - REGION</h5>
-                        </div>
-                        <div>
-                            <p>price</p>
-                        </div>
-
-                    </li>
-                    <li>
-                        <div class="game-container">
-                            <img class="game-image"
-                                src="https://thumbnails.pcgamingwiki.com/d/db/Dota_2_cover.jpg/300px-Dota_2_cover.jpg">
-                        </div>
-
-                        <div>
-                            <h5>Dota 2 - PLATFORM - REGION</h5>
-                        </div>
-                        <div>
-                            <p>price</p>
-                        </div>
-
-                    </li>
-                    <li>
-                        <div class="game-container">
-                            <img class="game-image"
-                                src="https://thumbnails.pcgamingwiki.com/d/db/Dota_2_cover.jpg/300px-Dota_2_cover.jpg">
-                        </div>
-
-                        <div>
-                            <h5>Dota 2 - PLATFORM - REGION</h5>
-                        </div>
-                        <div>
-                            <p>price</p>
-                        </div>
-
-                    </li>
-                    <li>
-                        <div class="game-container">
-                            <img class="game-image"
-                                src="https://thumbnails.pcgamingwiki.com/d/db/Dota_2_cover.jpg/300px-Dota_2_cover.jpg">
-                        </div>
-
-                        <div>
-                            <h5>Dota 2 - PLATFORM - REGION</h5>
-                        </div>
-                        <div>
-                            <p>price</p>
-                        </div>
-
-                    </li>
-                    <li>
-                        <div class="game-container">
-                            <img class="game-image"
-                                src="https://thumbnails.pcgamingwiki.com/d/db/Dota_2_cover.jpg/300px-Dota_2_cover.jpg">
-                        </div>
-
-                        <div>
-                            <h5>Dota 2 - PLATFORM - REGION</h5>
-                        </div>
-                        <div>
-                            <p>price</p>
-                        </div>
-
-                    </li>
-                    <li>
-                        <div class="game-container">
-                            <img class="game-image"
-                                src="https://thumbnails.pcgamingwiki.com/d/db/Dota_2_cover.jpg/300px-Dota_2_cover.jpg">
-                        </div>
-
-                        <div>
-                            <h5>Dota 2 - PLATFORM - REGION</h5>
-                        </div>
-                        <div>
-                            <p>price</p>
-                        </div>
-
-                    </li>
-                    <li>
-                        <div class="game-container">
-                            <img class="game-image"
-                                src="https://thumbnails.pcgamingwiki.com/d/db/Dota_2_cover.jpg/300px-Dota_2_cover.jpg">
-                        </div>
-
-                        <div>
-                            <h5>Dota 2 - PLATFORM - REGION</h5>
-                        </div>
-                        <div>
-                            <p>price</p>
-                        </div>
-
-                    </li>
-                    <li>
-                        <div class="game-container">
-                            <img class="game-image"
-                                src="https://thumbnails.pcgamingwiki.com/d/db/Dota_2_cover.jpg/300px-Dota_2_cover.jpg">
-                        </div>
-
-                        <div>
-                            <h5>Dota 2 - PLATFORM - REGION</h5>
-                        </div>
-                        <div>
-                            <p>price</p>
-                        </div>
-
-                    </li>
-                    <li>
-                        <div class="game-container">
-                            <img class="game-image"
-                                src="https://thumbnails.pcgamingwiki.com/d/db/Dota_2_cover.jpg/300px-Dota_2_cover.jpg">
-                        </div>
-
-                        <div>
-                            <h5>Dota 2 - PLATFORM - REGION</h5>
-                        </div>
-                        <div>
-                            <p>price</p>
-                        </div>
-
-                    </li>
+                <ul id="game_content" class="game-content">
                 </ul>
+                <div id="page">
+                    <button id="ppage">
+                        Previous Page
+                    </button>
+                    <button id="npage">
+                        Next Page
+                    </button>
+                </div>
             </div>
         </section>
     </div>

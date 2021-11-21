@@ -266,3 +266,21 @@ hr {
 #category_list a {
     cursor: pointer;
 }
+
+#page {
+    text-align: end;
+}
+
+.pinput input {
+    width: 100%;
+}
+
+.price .span {
+    padding: 0;
+    text-align: center;
+    width: 10%;
+}
+
+.price div {
+    padding: 0;
+}
