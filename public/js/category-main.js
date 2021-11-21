@@ -68,11 +68,27 @@ window.addEventListener('DOMContentLoaded', function () {
         max < min ? min = max : null;
         priceChange();
     })
+
+    document.getElementById("ppage").addEventListener("click", () => {
+        document.getElementById("ppage").disabled = true;
+        page--;
+        page < 1 ? page = 1 : page
+        params.set("page", page);
+        showGame();
+    })
+
+    document.getElementById("npage").addEventListener("click", () => {
+        document.getElementById("npage").disabled = true;
+        page++;
+        page < 1 ? page = 1 : page;
+        params.set("page", page);
+        showGame();
+    })
     showGame();
 })
 
 const params = new URLSearchParams(window.location.search);
-var min, max;
+var min, max, page = params.get("page") * 1 || 1;
 
 function priceChange() {
     if (min) params.set("minprice", min);
@@ -81,6 +97,9 @@ function priceChange() {
 }
 
 function showGame() {
+    $("#pinput_max").val(params.get("maxprice"));
+    $("#pinput_min").val(params.get("minprice"));
+    $("#sort").val(params.get("sort"));
     window.history.pushState({
         page: "same"
     }, "same page", "category.html?" + params.toString());
@@ -107,6 +126,8 @@ function showGame() {
                                 `
                 document.getElementById("game_content").insertAdjacentHTML("beforeend", string);
             })
+            document.getElementById("npage").disabled = false;
+            document.getElementById("ppage").disabled = false;
         }).catch(err => {
             alert(err);
         })
