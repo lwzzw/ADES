@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <script src="https://use.fontawesome.com/c560c025cf.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+        </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    </script>
+    <link href="/css/index.css" rel="stylesheet" />
+    <link href="/css/cart.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div id="bg"></div>
+    <div class="header">
+        <div class="bgc"></div>
+        <div class="top-header container row ">
+            <img class="logo col" src="/images/poop.png">
+            <div class="col offset-md-9">
+                <a href="/html/login.html">
+              <img class="login" src="/images/login.jpg">
+            </a>
+            </div>
+            
+
+        </div>
+    </div>
+
+
+    <div class="card shopping-cart">
+        <div class="card-header bg-light text-dark">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+            Shopping cart
+            <a href="/html/index.html" class="btn btn-outline-info btn-sm pull-right">Continue shopping</a>
+            <div class="clearfix"></div>
+        </div>
+        <div class="card-body">
+            <div id="" class="product">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-2 text-center">
+                        <img class="img-responsive" src="/images/poop.png" alt="preview" width="120" height="80">
+                    </div>
+                    <div class="col-12 text-sm-left col-sm-12  col-md-6">
+                        <h4 class="product-name"><strong>Poop 200g</strong></h4>
+                        <h6>
+                            Elephant poop with coffee beans and fed the most nutritious
+                        </h6>
+                    </div>
+                    <div class="col-12 col-sm-12 text-sm-center col-md-4 text-md-right row">
+                        <div class="col-3 col-sm-3 col-md-6 text-md-right price" style="padding-top: 5px">
+                            <h6><strong><span class="text-muted">30SGD</span></strong></h6>
+                        </div>
+                        <div class="col-4 col-sm-4 col-md-4">
+                            <div class="quantity">
+                                <input onclick="this.parentNode.querySelector('input[type=number]').stepUp();count()"
+                                    type="button" value="+" class="plus">
+                                <input id="amount" onkeyup="count()" type="number" step="1" max="99" min="1" value="3"
+                                    title="Qty" class="qty" size="4">
+                                <input onclick="this.parentNode.querySelector('input[type=number]').stepDown();count()"
+                                    type="button" value="-" class="minus">
+                            </div>
+                        </div>
+                        <div class="col-2 col-sm-2 col-md-2 text-right">
+                            <button onclick="" type="button" class="btn btn-outline-danger btn-xs">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <br>
+            <!-- END PRODUCT -->
+            <div class="pull-right">
+                <button id="update" class="btn btn-outline-secondary pull-right">
+                    Update shopping cart
+                </button>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="coupon col-md-5 col-sm-5 no-padding-left pull-left">
+                <div class="row">
+                    <div class="col-6">
+                        
+                    </div>
+                    <div class="col-6">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="pull-right" style="margin: 10px">
+                <button id="checkout" class="btn btn-success pull-right">Checkout</button>
+                <div class="pull-right" style="margin: 5px" id="p">
+                    Total price: <b>00.00</b>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+</body>
+
+</html>
