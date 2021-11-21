@@ -7,15 +7,22 @@
 }
 
 .top-header {
+    display: flex;
     padding-top: 10px;
     height: 80px;
     margin: auto;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.top-header>a {
+    width: 200px;
+    align-self: center;
 }
 
 .logo {
     height: 40px;
-    max-width: 115px !important;
-    align-self: center;
+    width: 105px;
 }
 
 .dropdown-btn {
@@ -27,7 +34,9 @@
 .search-bar {
     display: inline-flex;
     align-self: center;
+    width: 600px;
 }
+
 
 .search {
     width: 100%;
@@ -158,6 +167,10 @@ a {
     padding: 0px !important;
 }
 
+.productHeader {
+    margin-right: 10px;
+}
+
 .productHeader>h2 {
     font-weight: bold;
 }
@@ -171,7 +184,40 @@ body>section {
 }
 
 .row .col-image {
-    width: 100px !important;
+    padding: 0px;
+    width: 75px !important;
+    height: 100px;
+}
+
+.row .col-image img {
+    width: 100%;
+    height: 100%;
+}
+
+.bs-product>div,.latest-release>div,.pre-product>div{
+    margin-bottom: 10px;
+}
+
+
+.products {
+    border-top: solid;
+    border-width: thin;
+    border-color: rgba(0,0,0,.2);
+}
+
+.product-details {
+    position: relative;
+    padding: 9px 15px 0px;
+}
+
+.preorder-product {
+    margin-bottom: 10px;
+}
+
+
+.product-details div>span{
+    letter-spacing: 0.6px;
+    font-weight: 700;
 }
 
 section header {
@@ -255,6 +301,7 @@ hr {
 
 .slash-price {
     text-decoration: line-through;
+    font-size: 12px;
 }
 
 .discount-price {
@@ -277,7 +324,7 @@ hr {
     color: rgb(0, 0, 0, 0.7);
     position: relative;
     top: 1px;
-    font-size: 11px;
+    font-size: 9px;
     line-height: normal;
     vertical-align: super;
     font-weight: 400;

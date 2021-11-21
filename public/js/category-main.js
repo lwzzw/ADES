@@ -6,17 +6,18 @@ window.addEventListener('DOMContentLoaded', function () {
     $("#categ")[0].style.display = "none";
 
     getAllCategories().then(response => {
-        console.log(response)
+        //add first category list
         for (let i = 0; i < response.length; i++) {
             let string = `<li class="cat-content first-cat" id="${response[i].id}"><a href="/category.html?maincat=${encodeURI(response[i].category_name)}">${response[i].category_name}</a></li>`;
             document.getElementById("first_cat").insertAdjacentHTML("beforeend", string);
             if (response[i].parent.length == 0) break;
             string = `<div class="cat-block" id="1-${response[i].id}"><ul>`;
+            //add second category list
             for (let j = 0; j < response[i].parent.length; j++) {
-                console.log(response[i].parent[j].id)
                 string += `<li class="cat-content second-cat" id="1-${response[i].parent[j].fk_main}-${response[i].parent[j].id}"><a href="/category.html?platform=${encodeURI(response[i].parent[j].category_name)}">${response[i].parent[j].category_name}</a></li>`;
                 if (response[i].parent[j].child.length == 0) break;
                 let thirdstring = `<div class="cat-content third-cat cat-block" id="2-${response[i].parent[j].fk_main}-${response[i].parent[j].id}"><ul>`;
+                //add third category list
                 for (let k = 0; k < response[i].parent[j].child.length; k++) {
                     thirdstring += `<li><a href="/category.html?childcat=${encodeURI(response[i].parent[j].child[k].category_name)}">${response[i].parent[j].child[k].category_name}</a></li>`;
                 }
@@ -27,8 +28,110 @@ window.addEventListener('DOMContentLoaded', function () {
             document.getElementById("second_cat").insertAdjacentHTML("beforeend", string);
         }
         addListener();
+    }).catch(err => {
+        alert(err)
     })
+
+    getCategoryCount(params.get("maincat")).then(response => {
+        for (let i = 0; i < response.length; i++) {
+            let string = `<li class="child"><a>${response[i].category_name}</a><span>${response[i].count}</span></li>`
+            document.getElementById("category_list").insertAdjacentHTML("beforeend", string);
+        }
+        showlm();
+        document.getElementById("showmore").addEventListener("click", () => {
+            showlm();
+        })
+        Array.from(document.getElementsByClassName("child")).forEach(e => {
+            e.addEventListener("click", () => {
+                params.set("childcat", e.firstChild.textContent);
+                showGame();
+            })
+        })
+    }).catch(err => {
+        alert(err);
+    })
+    //get the data again when user change the sort select
+    document.getElementById("sort").addEventListener("change", () => {
+        let sort = document.getElementById("sort").value;
+        params.set("sort", sort);
+        showGame();
+    })
+
+    document.getElementById("pinput_min").addEventListener("change", () => {
+        min = $("#pinput_min").val();
+        min > max ? max = min : null;
+        priceChange();
+    })
+
+    document.getElementById("pinput_max").addEventListener("change", () => {
+        max = $("#pinput_max").val();
+        max < min ? min = max : null;
+        priceChange();
+    })
+
+    document.getElementById("ppage").addEventListener("click", () => {
+        document.getElementById("ppage").disabled = true;
+        page--;
+        page < 1 ? page = 1 : page
+        params.set("page", page);
+        showGame();
+    })
+
+    document.getElementById("npage").addEventListener("click", () => {
+        document.getElementById("npage").disabled = true;
+        page++;
+        page < 1 ? page = 1 : page;
+        params.set("page", page);
+        showGame();
+    })
+    showGame();
 })
+
+const params = new URLSearchParams(window.location.search);
+var min, max, page = params.get("page") * 1 || 1;
+
+function priceChange() {
+    if (min) params.set("minprice", min);
+    if (max) params.set("maxprice", max);
+    showGame();
+}
+
+function showGame() {
+    $("#pinput_max").val(params.get("maxprice"));
+    $("#pinput_min").val(params.get("minprice"));
+    $("#sort").val(params.get("sort"));
+    window.history.pushState({
+        page: "same"
+    }, "same page", "category.html?" + params.toString());
+    getGame(params.toString())
+        .then(response => {
+            document.getElementById("game_content").innerHTML = "";
+            response.forEach(data => {
+                let string = `
+                        <li>
+                            <a href="/game.html/${data.g_id}">
+                                <div class="game-container">
+                                    <img class="game-image"
+                                        src="${data.g_image}">
+                                </div>
+
+                                <div>
+                                    <h5>${data.g_name}</h5>
+                                </div>
+                                <div>
+                                    <p>${data.g_price}</p>
+                                </div>
+                            </a>
+                        </li>
+                                `
+                document.getElementById("game_content").insertAdjacentHTML("beforeend", string);
+            })
+            document.getElementById("npage").disabled = false;
+            document.getElementById("ppage").disabled = false;
+        }).catch(err => {
+            alert(err);
+        })
+}
 
 function addListener() {
     var list = document.getElementsByClassName("cat-content");
@@ -129,9 +232,25 @@ function addListener() {
     })
 }
 
+function showlm() {
+    let cat = document.getElementById("category");
+    let cat_list = cat.querySelectorAll(".child")
+    let num = cat_list.length;
+    for (let i = 0; i < num; i++) {
+        if (i < 5) {
+            cat_list[i].style.display = "flex";
+        } else {
+            cat_list[i].style.display != "none" ? cat_list[i].style.display = "none" : cat_list[i].style.display = "flex";
+        }
+    }
+    document.getElementById("showmore").textContent == "Show More" ? document.getElementById("showmore").textContent = "Show Less" : document.getElementById("showmore").textContent = "Show More";
+    if (num < 5) {
+        document.getElementById("showmore").textContent = "";
+    }
+}
+
 $("#catdrop").on("click", function () {
     let drop = $("#categ");
-    console.log(drop.is(":visible"));
     if (drop.is(":visible")) {
         drop[0].style.display = "none";
         $("#bg")[0].style.display = "none";

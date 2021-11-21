@@ -29,7 +29,7 @@
     <div class="header">
         <div class="bgc"></div>
         <div class="top-header container row ">
-            <img class="logo col" src="/images/poop.png">
+            <a class="logo col" href="index.html"><img class="logo col" src="/images/poop.png"></a>
             <div class="search-bar col">
                 <input class="search" placeholder="Search for products" id='searchProduct'>
                 <select class="dropdown-btn" id="dropDownCategory">
@@ -67,45 +67,16 @@
                 <div class="category-list col">
                     <div>
                         <ul id="first_cat">
-                            <!-- <li class="cat-content first-cat" id="1"><a href="#">1</a></li>
-                                <li class="cat-content first-cat" id="2"><a href="#">2</a></li>
-                                <li class="cat-content first-cat" id="3">3</li>
-                                <li class="cat-content first-cat" id="4">4</li> -->
                         </ul>
                     </div>
                 </div>
                 <div class="category-list col" id="second_cat">
                     <img class="img-second img-default"
                         src="https://images.g2a.com/newlayout/300x450/1x1x0/8a231f27a957/201d113c07814b7ca4eab259">
-                    <!-- <div class="cat-block" id="1-1">
-                            <ul>
-                                <li class="cat-content second-cat" id="1-1-1"><a href="#">1-1</a></li>
-                                <li class="cat-content second-cat" id="1-1-2"><a href="#">1-1</a></li>
-                            </ul>
-                        </div>
-                        <div class="cat-block" id="1-2">
-                            <ul>
-                                <li class="cat-content second-cat" id="1-2-1">1-2</li>
-                                <li class="cat-content second-cat" id="1-2-2">1-2</li>
-                            </ul>
-                        </div> -->
                 </div>
                 <div class="category-list col" id="third_cat">
                     <img class="img-third img-default"
                         src="https://images.g2a.com/newlayout/300x450/1x1x0/a0c6a285b1b9/17fb921e5e0c4e0aa5e8bf10">
-                    <!-- <div class="cat-content third-cat cat-block" id="2-1-1-1">
-                            <ul>
-                                <li>2-1-1-1</li>
-                                <li>2-1-1-1</li>
-                            </ul>
-                        </div>
-                        <div class="cat-content third-cat cat-block" id="2-1-1-2">
-                            <ul>
-                                <li>2-1-1-2</li>
-                                <li>2-1-1-2</li>
-                                <li>2-1-1-2</li>
-                            </ul>
-                        </div> -->
                 </div>
                 <div class="category-list col">
                     <img class="img-fourth img-default"
@@ -121,14 +92,17 @@
                 <div class="categoryGameHeader">
                     <div>
                         <h1>Games</h1>
-                        <p>no. products</p>
+                        <!-- <p>no. products</p> -->
                     </div>
 
                     <div class="categoryFilter">
                         Sort by
-                        <select>
-                            <option>1</option>
-                            <option>2</option>
+                        <select id="sort">
+                            <option value="default">Default</option>
+                            <option value="priceasc">Price - lowest first</option>
+                            <option value="pricedesc">Price - highest first</option>
+                            <option value="dateasc">Release Date - earliest</option>
+                            <option value="datedesc">Release Date - oldest</option>
                         </select>
                     </div>
                 </div>
@@ -139,52 +113,39 @@
 
         <section class="sidebar-Category">
             <div class="filterCategories">
-                <h4>Categories</h4>
-
-
-                <ul>
-                    <li><a href="#">Games</a><span>155</span></li>
-                    <li><a href="#">DLC'S</a><span>222</span></li>
-                </ul>
+                <div id="category">
+                    <h4>Categories</h4>
+                    <ul id="category_list">
+                    </ul>
+                    <a id="showmore">Show Less</a>
+                </div>
+                <div id="price">
+                    <h4>Price</h4>
+                    <div class="price row">
+                        <div class="col-5 pinput">
+                            <input id="pinput_min" type="number" name="min" placeholder="From" min="0" value="">
+                        </div>
+                        <div class="col-2 span">
+                            <span>-</span>
+                        </div>
+                        <div class="col-5 pinput">
+                            <input id="pinput_max" type="number" name="max" placeholder="To" min="NaN" value="">
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="game-section">
-                <ul class="game-content">
-                    <li>
-                        <div class="game-container">
-                            <img class="game-image"
-                                src="https://thumbnails.pcgamingwiki.com/d/db/Dota_2_cover.jpg/300px-Dota_2_cover.jpg">
-                        </div>
-
-                        <div>
-                            <h5>Dota 2 - PLATFORM - REGION</h5>
-                        </div>
-                        <div>
-                            <p>price</p>
-                        </div>
-
-                    </li>
-                    <li>
-                        <p>image</p>
-                        <p>name</p>
-                    </li>
-                    <li>
-                        <p>image</p>
-                        <p>name</p>
-                    </li>
-                    <li>
-                        <p>image</p>
-                        <p>name</p>
-                    </li>
-                    <li>
-                        <p>image</p>
-                        <p>name</p>
-                    </li>
-                    <li>
-                        <p>image</p>
-                        <p>name</p>
-                    </li>
+                <ul id="game_content" class="game-content">
                 </ul>
+                <div id="page">
+                    <button id="ppage">
+                        Previous Page
+                    </button>
+                    <button id="npage">
+                        Next Page
+                    </button>
+                </div>
             </div>
         </section>
     </div>

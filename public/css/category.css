@@ -121,7 +121,7 @@ span>a>svg {
     position: relative;
     width: 100%;
     margin: 0 !important;
-    display: none ;
+    display: none;
 }
 
 .category-list {
@@ -146,7 +146,7 @@ span>a>svg {
     height: 1000%;
 }
 
-.category-list li:hover{
+.category-list li:hover {
     text-decoration: underline !important;
 }
 
@@ -155,16 +155,17 @@ a {
     text-decoration: none !important;
 }
 
-.category>.col{
+.category>.col {
     padding: 0px !important;
 }
 
 .productHeader>h2 {
     font-weight: bold;
 }
+
 .headerParagraph {
     font-size: 14px;
-    color: rgba(0,0,0,.60);
+    color: rgba(0, 0, 0, .60);
 }
 
 body>section {
@@ -206,7 +207,7 @@ section header {
     display: flex;
     justify-content: space-between;
     width: 200px;
-    
+
 }
 
 
@@ -216,12 +217,12 @@ section header {
 
 .game-section ul {
     display: grid;
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-gap: 30px;
     justify-content: center;
 }
 
-.game-section ul li{
+.game-section ul li {
     border-style: solid;
     border-width: thin;
     width: 250px;
@@ -231,14 +232,14 @@ hr {
     margin-top: 0px !important;
 }
 
-.deals-container ul{
+.deals-container ul {
     display: grid;
-    grid-template-columns: repeat(6,1fr);
+    grid-template-columns: repeat(6, 1fr);
     grid-gap: 30px;
     justify-content: center;
 }
 
-.deals-container ul>li{
+.deals-container ul>li {
     flex-direction: column !important;
     border-style: solid;
 }
@@ -252,4 +253,34 @@ hr {
 .game-image {
     width: 100%;
     height: 100%;
+}
+
+#showmore {
+    cursor: pointer;
+}
+
+#showmore:hover {
+    text-decoration: underline !important;
+}
+
+#category_list a {
+    cursor: pointer;
+}
+
+#page {
+    text-align: end;
+}
+
+.pinput input {
+    width: 100%;
+}
+
+.price .span {
+    padding: 0;
+    text-align: center;
+    width: 10%;
+}
+
+.price div {
+    padding: 0;
 }
