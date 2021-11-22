@@ -33,6 +33,7 @@ window.addEventListener('DOMContentLoaded', function () {
     })
 
     getCategoryCount(params.get("maincat")).then(response => {
+        if (!response) return;
         for (let i = 0; i < response.length; i++) {
             let string = `<li class="child"><a>${response[i].category_name}</a><span>${response[i].count}</span></li>`
             document.getElementById("category_list").insertAdjacentHTML("beforeend", string);
