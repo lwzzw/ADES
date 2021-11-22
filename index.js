@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS user_detail (
 	name varchar(50) not null,
 	email varchar(255) not null,
 	password varchar(255) not null,
-	gender int null,
+	gender varchar(2) null,
 	c_card numeric(12) null,
 	phone varchar(255) null
 );
@@ -306,7 +306,9 @@ VALUES ('game name 29', 82.50, 'description', 1, 1, 2, '/images/poop.png', '2020
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
 VALUES ('game name 30', 69.90, 'description', 1, 1, 2, '/images/poop.png', '2020/10/11', 41.94);
 
-INSERT INTO public.user_detail (name, email, password, c_card, phone) VALUES ('Junheng', 'junheng.tan@hotmail.com', '123password', 1, 85529404);
+INSERT INTO public.user_detail (name, email, password, gender, c_card, phone) VALUES ('Junheng', 'junheng.tan@hotmail.com', '123password', 'M', 1, 85529404);
+INSERT INTO public.user_detail (name, email, password, gender, c_card, phone) VALUES ('Adam', 'adam@gmail.com', '123password', 'M', 3, 97653242);
+INSERT INTO public.user_detail (name, email, password, gender, c_card, phone) VALUES ('Lily', 'lily@gmail.com', '123password', 'F', 2, 81136175);
 
 INSERT INTO public.order_detail (id, order_id, g_id, amount) VALUES (1, 3762, 1, 10);
 INSERT INTO public.order_detail (id, order_id, g_id, amount) VALUES (2, 3762, 1, 9);
@@ -347,6 +349,7 @@ app.use((req, res, next) => {
 		next()
 	}
 })
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public/html')));

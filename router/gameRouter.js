@@ -6,7 +6,7 @@ const router = require('express').Router();
 router.get('/gameDetailById/:id', (req, res, next) => {
     var id = req.params.id;
     //parent_subcategory is platform
-    return database.query(`SELECT g_id, g_name, g_description, g_price, g_image, g_publishdate, g_region, category_name 
+    return database.query(`SELECT g_id, g_name, g_description, g_price, g_image, g_publishdate, g_region, g_discount, category_name 
                             from G2A_gameDatabase 
                             join parent_subcategory on g_parentsubcategory = id 
                             where g_id = $1`, [id])
