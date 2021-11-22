@@ -3,6 +3,8 @@
 
 <head>
     <title>Login Page</title>
+     <!-- Web App JS-->
+     <script defer src="/js/login-main.js"></script>
     <!-- Font Awesome-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <!-- Google Fonts-->
@@ -16,9 +18,7 @@
     <!-- Noty CSS Map-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css.map" rel="stylesheet">
     <!-- App Site CSS-->
-    <link href="css/login.css" rel="stylesheet">
-    <script defer src="js/login-api.js"></script>
-    <script defer src="js/login-main.js"></script>
+    <link href="/css/login.css" rel="stylesheet">
 </head>
 
 <body>
@@ -26,7 +26,7 @@
         <!-- Navbar-->
      
         <nav class="mb-5 navbar navbar-expand-lg justify-content-center">
-            <a class="navbar-brand " href="index.html">
+            <a class="navbar-brand " href="/html/index.html">
                 <img src="/images/poop.png" alt="Logo" style="width:40px;">
             </a>
         </nav>
@@ -38,13 +38,11 @@
                     <div class="card">
                         <div class="card-body">
                             <!--Form register-->
-                            <form id="loginFormContainer" class="">
                                 <h2 class="text-left font-bold black-text py-4">Welcome Back!</h2>
                                 <div class="md-form"><input class="form-control" type="text" id="emailInput" placeholder="Email"></div>
-                                <div class="md-form"><input class="form-control" type="password" id="passwordInput" placeholder=""></div>
+                                <div class="md-form"><input class="form-control" type="password" id="passwordInput" placeholder="Password"><input type="checkbox" id="showPass">Show Password</div>
                                 <div class="text-right"><a href="#" id="forgetpassword blue-text">Forget Password?</li></div>
                                 <div class="text-center"><button class="btn btn-primary" id="submitButton"> Sign in</button></div>
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -62,6 +60,10 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
     <!-- Noty JS-->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
+<<<<<<< HEAD
+   
+=======
+>>>>>>> 85aedd2b4d2b1488275b81bc3f72406eb1a99eea
 </body>
 
 </html>

@@ -1,34 +1,41 @@
-let $loginFormContainer = $('#loginFormContainer');
-if ($loginFormContainer.length != 0) {
-    console.log('Login form detected. Binding event handling logic to form elements.');
-    //If the jQuery object which represents the form element exists,
-    //the following code will create a method to submit registration details
-    //to server-side api when the #submitButton element fires the click event.
-    $('#submitButton').on('click', function(event) {
-        event.preventDefault();
+window.addEventListener('DOMContentLoaded', function () {
+    // Get reference to relevant elements
+    const checkLogin= document.getElementById('submitButton');
+    const email = document.getElementById('emailInput');
+    const password = document.getElementById('passwordInput');
+    const showPassword = document.getElementById('showPass');
 
-        // const baseUrl = 'https://localhost:5000';
-        const baseUrl = '';
-        let email = $('#emailInput').val();
-        let password = $('#passwordInput').val();
-        let webFormData = new FormData();
-        webFormData.append('email', email);
-        webFormData.append('password', password);
-        reEmail = new RegExp(`^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$`);
-        rePassword = new RegExp(`^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$`);
-    
-        if (rePassword.test(password) && reEmail.test(email)) {
-            if(password != "abc123" && email != "abc@gmail.com"){
-                alert("invalid email and password");
-            }
-            else{
-                window.location.assign('index.html');
-            }
+    if(showPassword.checked) {
+        if (password.type === "password") {
+          password.type = "text";
         } else {
-            alert("Invalid Email or Password. Try again");
-            $('#emailInput').val() = '';
-            $('#passwordInput').val() = '';
+          password.type = "password";
         }
-    });
+    }
 
-} //End of checking for $loginFormContainer jQuery object
+    checkLogin.onclick = function () {
+      // To ensure login input is correct in the input is valid
+
+      reEmail = new RegExp(`^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$`);
+      rePassword = new RegExp(`^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$`);
+
+      
+        
+      if (rePassword.test(password) && reEmail.test(email)) {
+          if(email == "abc123@gmail.com" && password == "AbcedefG12"){
+              alert("yay!");
+          }
+          else{
+              alert("invalid email or password!");
+          }
+      }
+      else{
+          alert("invalid email or password!"+ email + password);
+      }
+
+
+    
+    };
+});
+
+
