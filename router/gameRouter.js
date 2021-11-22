@@ -30,7 +30,7 @@ router.get('/gameDetailFilter', (req, res, next) => {
         minprice = req.query.minprice,
         maxprice = req.query.maxprice,
         page = req.query.page,
-        offset = ((page - 1) < 0 ? 0 : page - 1) * LIMIT,
+        offset = ((page - 1) < 0 ? 0 : page - 1) * LIMIT || 0,
         order = req.query.sort;
     var array = [];
     if (name) array.push(name);

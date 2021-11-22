@@ -20,6 +20,7 @@ function getAllCategories() {
 }
 
 function getCategoryCount(maincat) {
+    if(!maincat)return;
     const methods = {
         method: 'GET',
         headers: {
@@ -27,7 +28,7 @@ function getCategoryCount(maincat) {
         }
     }
     return axios
-        .get(`/category/countOfGame/${maincat||""}`, methods)
+        .get(`/category/countOfGame/${maincat}`, methods)
         .then(response => {
             return response.data.count
         })
