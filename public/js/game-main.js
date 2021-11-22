@@ -56,7 +56,7 @@ function showGame(game) {
                 <h1>${game.g_name}</h1>
             </div>
             <div class="individual-game-details">
-                <div>${game.parents}</div>
+                <div>${game.category_name}</div>
                 <div>${game.g_region}</div>
                 <div>${game.g_publishdate}</div>
             </div>
