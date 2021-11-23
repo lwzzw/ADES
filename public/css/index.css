@@ -154,7 +154,7 @@ span>a>svg {
     height: 1000%;
 }
 
-.category-list li:hover{
+.category-list li:hover {
     text-decoration: underline !important;
 }
 
@@ -163,7 +163,7 @@ a {
     text-decoration: none !important;
 }
 
-.category>.col{
+.category>.col {
     padding: 0px !important;
 }
 
@@ -174,9 +174,10 @@ a {
 .productHeader>h2 {
     font-weight: bold;
 }
+
 .headerParagraph {
     font-size: 14px;
-    color: rgba(0,0,0,.60);
+    color: rgba(0, 0, 0, .60);
 }
 
 body>section {
@@ -194,7 +195,9 @@ body>section {
     height: 100%;
 }
 
-.bs-product>div,.latest-release>div,.pre-product>div{
+.bs-product>div,
+.latest-release>div,
+.pre-product>div {
     margin-bottom: 10px;
 }
 
@@ -202,7 +205,7 @@ body>section {
 .products {
     border-top: solid;
     border-width: thin;
-    border-color: rgba(0,0,0,.2);
+    border-color: rgba(0, 0, 0, .2);
 }
 
 .product-details {
@@ -215,7 +218,7 @@ body>section {
 }
 
 
-.product-details div>span{
+.product-details div>span {
     letter-spacing: 0.6px;
     font-weight: 700;
 }
@@ -247,7 +250,7 @@ section header {
     display: flex;
     justify-content: space-between;
     width: 200px;
-    
+
 }
 
 
@@ -260,7 +263,7 @@ section header {
     padding-left: 25px;
 }
 
-.game-section ul li{
+.game-section ul li {
     border-style: solid;
     width: 250px;
 }
@@ -269,25 +272,25 @@ hr {
     margin: 0px !important;
 }
 
-.deals-container ul{
+.deals-container ul {
     display: grid;
-    grid-template-columns: repeat(6,1fr);
+    grid-template-columns: repeat(6, 1fr);
     grid-gap: 30px;
     justify-content: center;
 }
 
-.deals-container ul>li{
+.deals-container ul>li {
     flex-direction: column !important;
     height: 330px;
     width: 170px;
 }
 
-.deals-container ul>li img{
+.deals-container ul>li img {
     width: 100%;
     height: 100%;
 }
 
-.deals-container ul>li h3{
+.deals-container ul>li h3 {
     font-size: 12px;
     font-weight: 500;
     padding-top: 10px;
@@ -341,4 +344,12 @@ hr {
     color: white;
     background-color: rgb(221, 48, 28);
     justify-content: center;
+}
+
+.disabled,
+.disabled a {
+    color: currentColor;
+    cursor: not-allowed;
+    opacity: 0.5;
+    text-decoration: none;
 }

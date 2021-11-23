@@ -37,7 +37,7 @@ router.get('/gameDetailFilter', (req, res, next) => {
     if (minprice) array.push(minprice);
     if (maxprice) array.push(maxprice);
     if (platform) array.push(platform);
-    if (maincat) array.push(maincat);
+    if (maincat&&maincat!="All categories") array.push(maincat);
     if (childcat) array.push(childcat);
     if (order) {
         if (order == "default") order = "";
@@ -56,7 +56,7 @@ router.get('/gameDetailFilter', (req, res, next) => {
                             ${minprice?`AND g_price >= $${i++} `:''}
                             ${maxprice?`AND g_price <= $${i++} `:''}
                             ${platform?`AND g_parentsubcategory = (select id from parent_subcategory where category_name = $${i++}) `:''}
-                            ${maincat?`AND g_maincategory = (select id from main_category where category_name = $${i++}) `:''}
+                            ${maincat&&maincat!="All categories"?`AND g_maincategory = (select id from main_category where category_name = $${i++}) `:''}
                             ${childcat?`AND g_childsubcategory in (select id from child_subcategory where category_name = $${i++}) `:''}
                             ${order?"order by "+order:""}
                             LIMIT $${i++} OFFSET $${i++};
