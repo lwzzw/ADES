@@ -129,6 +129,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 }
             }
         })
+        showCheapProducts();
         getAllDeals();
     }
 
@@ -145,7 +146,27 @@ window.addEventListener('DOMContentLoaded', function () {
 
     }
     document.getElementById('searchBtn').addEventListener('click', search)
+
+    
 })
+
+function showCheapProducts() {
+    let minPrice, maxPrice
+    for (let i = 1, j = 0, f = 0; i < 6; i++, f++) {
+        if (j == 1) {
+            minPrice = `&minprice=${(50*f) + j}`
+        } else {
+            minPrice = ""
+        }
+        let string = `
+        <div class="cheap-product">
+            <div><a href="category.html?&maxprice=${maxPrice=50 * i}${minPrice}"><h6>${maxPrice}</h6></a></div>
+        </div>
+        `
+        document.getElementById("cheap-products").insertAdjacentHTML("beforeend", string)
+        j = 1
+    }
+}
 
 function showDeals() {
     for (let i = 0; i < 6; dealsArrayi++, i++) {
