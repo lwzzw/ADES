@@ -10,6 +10,8 @@ window.addEventListener('DOMContentLoaded', function () {
         for (let i = 0; i < response.length; i++) {
             let string = `<li class="cat-content first-cat" id="${response[i].id}"><a href="/category.html?maincat=${encodeURI(response[i].category_name)}">${response[i].category_name}</a></li>`;
             document.getElementById("first_cat").insertAdjacentHTML("beforeend", string);
+            let category = `<option value='${response[i].category_name}'>${response[i].category_name}</option>`
+            document.getElementById("dropDownCategory").insertAdjacentHTML('beforeend', category)
             if (response[i].parent.length == 0) break;
             string = `<div class="cat-block" id="1-${response[i].id}"><ul>`;
             //add second category list
@@ -86,6 +88,7 @@ window.addEventListener('DOMContentLoaded', function () {
         showGame();
     })
     showGame();
+    document.getElementById('searchBtn').addEventListener('click', search)
 })
 
 const params = new URLSearchParams(window.location.search);
@@ -100,7 +103,9 @@ function priceChange() {
 function showGame() {
     $("#pinput_max").val(params.get("maxprice"));
     $("#pinput_min").val(params.get("minprice"));
-    $("#sort").val(params.get("sort"));
+    $("#sort").val(params.get("sort")||"default");
+    $("#searchProduct").val(params.get("name"));
+    $("#dropDownCategory").val(params.get("maincat"));
     window.history.pushState({
         page: "same"
     }, "same page", "category.html?" + params.toString());
@@ -110,7 +115,7 @@ function showGame() {
             response.forEach(data => {
                 let string = `
                         <li>
-                            <a href="/game.html/${data.g_id}">
+                            <a href="/game.html?id=${data.g_id}">
                                 <div class="game-container">
                                     <img class="game-image"
                                         src="${data.g_image}">
@@ -258,3 +263,11 @@ $("#catdrop").on("click", function () {
     } else
         drop[0].style.display = "flex";
 })
+
+function search() {
+    var searchQuery = document.getElementById("searchProduct").value;
+    var categoryMain = document.getElementById("dropDownCategory").value;
+    params.set("name", searchQuery);
+    if(categoryMain)params.set("maincat", categoryMain);
+    showGame();
+}

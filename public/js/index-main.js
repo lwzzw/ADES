@@ -133,10 +133,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
     }
     document.getElementById('searchBtn').addEventListener('click', search)
-
-
-
-
 })
 
 function showDeals() {
@@ -151,7 +147,7 @@ function showDeals() {
         let deal =
             `
         <li>
-        <a href='/game.html?gameid=${deals.g_id}'>
+        <a href='/game.html?id=${deals.g_id}'>
         <div class='deals-image'>
             <img src='${deals.g_image}' />
         </div>
