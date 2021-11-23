@@ -20,7 +20,7 @@ function getAllCategories() {
 }
 
 function getCategoryCount(maincat) {
-    if(!maincat)return;
+    // if(!maincat)rejects;
     const methods = {
         method: 'GET',
         headers: {

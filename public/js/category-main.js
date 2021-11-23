@@ -34,25 +34,28 @@ window.addEventListener('DOMContentLoaded', function () {
         alert(err)
     })
 
-    getCategoryCount(params.get("maincat")).then(response => {
-        if (!response) return;
-        for (let i = 0; i < response.length; i++) {
-            let string = `<li class="child"><a>${response[i].category_name}</a><span>${response[i].count}</span></li>`
-            document.getElementById("category_list").insertAdjacentHTML("beforeend", string);
-        }
-        showlm();
-        document.getElementById("showmore").addEventListener("click", () => {
+    if (params.get("maincat")) {
+        getCategoryCount(params.get("maincat")||null).then(response => {
+            if (!response) return;
+            for (let i = 0; i < response.length; i++) {
+                let string = `<li class="child"><a>${response[i].category_name}</a><span>${response[i].count}</span></li>`
+                document.getElementById("category_list").insertAdjacentHTML("beforeend", string);
+            }
             showlm();
-        })
-        Array.from(document.getElementsByClassName("child")).forEach(e => {
-            e.addEventListener("click", () => {
-                params.set("childcat", e.firstChild.textContent);
-                showGame();
+            document.getElementById("showmore").addEventListener("click", () => {
+                showlm();
             })
+            Array.from(document.getElementsByClassName("child")).forEach(e => {
+                e.addEventListener("click", () => {
+                    params.set("childcat", e.firstChild.textContent);
+                    showGame();
+                })
+            })
+        }).catch(err => {
+            alert(err);
         })
-    }).catch(err => {
-        alert(err);
-    })
+    }
+
     //get the data again when user change the sort select
     document.getElementById("sort").addEventListener("change", () => {
         let sort = document.getElementById("sort").value;

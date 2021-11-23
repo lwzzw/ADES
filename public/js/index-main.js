@@ -36,26 +36,30 @@ window.addEventListener('DOMContentLoaded', function () {
         const result = await getAllCategories()
 
         await getBestsellers().then(response => {
-            console.log(response)
 
             for (let i = 0; i < response.length; i++) {
                 let bestsellers = response[i]
                 let bestseller = `                        
-                <div class="row products">
-                <div class="col-4 col-image">
-                    <img src='${bestsellers.g_image}'/>
-                </div>
-                <div class="col-8 product-details">
-                    <h6>${bestsellers.g_name}</h6>
-                    <div><span>PRICE</span></div>
-                    <div>
-                    <span><span>${bestsellers.bs_price}</span> <sup class='sub-script'> SGD </sup></span>
+                <a href='game.html?id=${bestsellers.g_id}'>
+                    <div class="row products">
+                        <div class="col-4 col-image">
+                            <img src='${bestsellers.g_image}' />
+                        </div>
+                        <div class="col-8 product-details">
+                            <h6>${bestsellers.g_name}</h6>
+                            <div><span>PRICE</span></div>
+                            <div>
+                                <span><span>${bestsellers.bs_price}</span> <sup class='sub-script'> SGD </sup></span>
+                            </div>
+                            <div>
+                                <span><span class='slash-price'>${bestsellers.g_price}</span><sup class='sub-script-striked'> SGD
+                                    </sup></span>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <span><span class='slash-price'>${bestsellers.g_price}</span><sup class='sub-script-striked'> SGD </sup></span>
-                    </div>
-                </div>
-            </div>`
+                </a>
+                `
+
 
                 document.getElementById("bs-product").insertAdjacentHTML("beforeend", bestseller);
             }
@@ -63,29 +67,33 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
         await getPreOrders().then(response => {
-            console.log(response)
             for (let i = 0; i < response.length; i++) {
                 let preorders = response[i];
                 let preorder = `
-                <div class="row products">
-                <div class="col-4 col-image">
-                    <img src='${preorders.g_image}'/>
-                </div>
-                <div class="col-8 product-details">
-                    <h6>${preorders.g_name}</h6>
-                    <div><span>PRICE</span></div>
-                    <div>
-                    <span><span>${preorders.preorder_price}</span> <sup class='sub-script'> SGD </sup></span>
+                <a href='game.html?id=${preorders.g_id}'>
+                    <div class="row products">
+                        <div class="col-4 col-image">
+                            <img src='${preorders.g_image}' />
+                        </div>
+                        <div class="col-8 product-details">
+                            <h6>${preorders.g_name}</h6>
+                            <div><span>PRICE</span></div>
+                            <div>
+                                <span><span>${preorders.preorder_price}</span> <sup class='sub-script'> SGD </sup></span>
+                            </div>
+                            <div id='game-${preorders.g_id}'>
+
+                            </div>
+                        </div>
                     </div>
-                    <div id='game-${preorders.g_id}'>
-                        <span><span class='slash-price'>${preorders.g_price}</span><sup class='sub-script-striked'> SGD </sup></span>
-                    </div>
-                </div>
-            </div>
+                </a>
                 `
                 document.getElementById("pre-product").insertAdjacentHTML("beforeend", preorder)
-                if(preorders.nullif==null) {
+                if (preorders.nullif == null) {
                     document.getElementById(`game-${preorders.g_id}`).remove();
+                }  else {
+                    let string = `<span><span class='slash-price'>${preorders.g_price}</span><sup class='sub-script-striked'> SGD </sup></span>`
+                    document.getElementById(`game-${preorders.g_id}`).insertAdjacentHTML("beforeend", string)
                 }
             }
         })
@@ -93,26 +101,27 @@ window.addEventListener('DOMContentLoaded', function () {
         await getLRelease().then(response => {
             for (let i = 0; i < response.length; i++) {
                 let lreleases = response[i];
-                console.log(lreleases)
                 let lrelease = `
-                <div class="row products">
-                <div class="col-4 col-image">
-                    <img src='${lreleases.g_image}'/>
-                </div>
-                <div class="col-8 product-details">
-                    <h6>${lreleases.g_name} ${lreleases.date}</h6>
-                    <div><span>PRICE</span></div>
-                    <div>
-                    <span><span>${lreleases.g_discount}</span> <sup class='sub-script'> SGD </sup></span>
+                <a href='game.html?id=${lreleases.g_id}'>
+                    <div class="row products">
+                        <div class="col-4 col-image">
+                            <img src='${lreleases.g_image}' />
+                        </div>
+                        <div class="col-8 product-details">
+                            <h6>${lreleases.g_name} ${lreleases.date}</h6>
+                            <div><span>PRICE</span></div>
+                            <div>
+                                <span><span>${lreleases.g_discount}</span> <sup class='sub-script'> SGD </sup></span>
+                            </div>
+                            <div id='lr-${lreleases.g_id}'>
+            
+                            </div>
+                        </div>
                     </div>
-                    <div id='lr-${lreleases.g_id}'>
-        
-                    </div>
-                </div>
-                </div>
+                </a>
                 `
                 document.getElementById("latest-release").insertAdjacentHTML("beforeend", lrelease)
-                if(lreleases.nullif==null) {
+                if (lreleases.nullif == null) {
                     document.getElementById(`lr-${lreleases.g_id}`).remove();
                 } else {
                     let string = `<span><span class='slash-price'>${lreleases.g_price}</span><sup class='sub-script-striked'> SGD </sup></span>`
@@ -267,18 +276,15 @@ function addListener() {
             e.style.display = "block";
         })
     })
-    console.log(first_cat)
-    console.log(second_cat)
-    console.log(third_cat)
 }
 function search() {
     var searchQuery = document.getElementById("searchProduct").value;
     var categoryMain = document.getElementById("dropDownCategory").value;
-    var string="?";
+    var string = "?";
     if (searchQuery) {
-        string += "&name=" +searchQuery;
+        string += "&name=" + searchQuery;
     }
 
     string += "&maincat=" + categoryMain;
-    location.href='/category.html' + string
+    location.href = '/category.html' + string
 }
