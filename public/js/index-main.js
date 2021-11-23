@@ -106,7 +106,7 @@ window.addEventListener('DOMContentLoaded', function () {
                     <span><span>${lreleases.g_discount}</span> <sup class='sub-script'> SGD </sup></span>
                     </div>
                     <div id='lr-${lreleases.g_id}'>
-                        <span><span class='slash-price'>${lreleases.g_price}</span><sup class='sub-script-striked'> SGD </sup></span>
+        
                     </div>
                 </div>
                 </div>
@@ -114,6 +114,9 @@ window.addEventListener('DOMContentLoaded', function () {
                 document.getElementById("latest-release").insertAdjacentHTML("beforeend", lrelease)
                 if(lreleases.nullif==null) {
                     document.getElementById(`lr-${lreleases.g_id}`).remove();
+                } else {
+                    let string = `<span><span class='slash-price'>${lreleases.g_price}</span><sup class='sub-script-striked'> SGD </sup></span>`
+                    document.getElementById(`lr-${lreleases.g_id}`).insertAdjacentHTML("beforeend", string)
                 }
             }
         })
