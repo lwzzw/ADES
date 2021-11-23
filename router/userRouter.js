@@ -26,7 +26,7 @@ router.post('/login', (req, res, next) => {
 
                 let data = {
                     user_id: results.rows[0].id,
-                    token: jwt.sign({ id: results.rows[0].id }, config.JWTKey, {
+                    token: jwt.sign({ id: results.rows[0].id }, config.JWTKEY, {
                         expiresIn: 86400 //Expires in 24 hrs
                     })
                 }; //End of data variable setup
