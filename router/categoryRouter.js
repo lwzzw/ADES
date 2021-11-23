@@ -8,6 +8,7 @@ var catcache = setInterval(() => {
     if (getCat()) clearInterval(catcache);
 }, 5000);
 
+//to use only one database connection so we use await
 async function getCat() {
     try {
         let dbResult = await database.query("SELECT id, category_name FROM main_category").then(result => result).catch(err => {
@@ -38,16 +39,15 @@ async function getCat() {
         }
     } catch (err) {
         console.log(err);
-        return;
+        getCat();
     }
 }
 
 router.get('/getAllCategories', async function (req, res, next) {
-    //to use only one database connection so we use await
     if (cat) return res.status(200).json({
         categories: cat
     })
-    let result = getCat();
+    let result = await getCat();
     if (result) return res.status(200).json(result);
     else next(createHttpError(500, "Get category error"));
 })
