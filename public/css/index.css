@@ -353,3 +353,23 @@ hr {
     opacity: 0.5;
     text-decoration: none;
 }
+
+.cheap-products {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 30px;
+    justify-content: center;
+}
+
+.cheap-product {
+    display: block;
+    border-style: dashed;
+    width: 170px;
+    height: 90px;
+    padding: 35px;
+    text-align: -webkit-center;
+}
+
+.cheap-product h6 {
+    margin: 0px;
+}
