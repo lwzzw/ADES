@@ -3,9 +3,16 @@ let dealsArrayi = 0;
 let duration = 250;
 let toFirst, toSecond;
 window.addEventListener('DOMContentLoaded', function () {
-    const dropDownButton = document.getElementById('dropDownCategory');
-    // const headerCategory = document.getElementById('header-categories')
-
+    checkLogin().then(response => {
+            document.getElementById("login").innerHTML = "log out";
+            document.getElementById("login").addEventListener("click", () => {
+                localStorage.removeItem("token");
+            })
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    uidGenerate();
     getAllCategories().then(response => {
         for (let i = 0; i < response.length; i++) {
             let string = `<li class="cat-content first-cat" id="${response[i].id}"><a href="/category.html?maincat=${encodeURI(response[i].category_name)}">${response[i].category_name}</a></li>`;
@@ -91,7 +98,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 document.getElementById("pre-product").insertAdjacentHTML("beforeend", preorder)
                 if (preorders.nullif == null) {
                     document.getElementById(`game-${preorders.g_id}`).remove();
-                }  else {
+                } else {
                     let string = `<span><span class='slash-price'>${preorders.g_price}</span><sup class='sub-script-striked'> SGD </sup></span>`
                     document.getElementById(`game-${preorders.g_id}`).insertAdjacentHTML("beforeend", string)
                 }
@@ -147,11 +154,18 @@ window.addEventListener('DOMContentLoaded', function () {
     }
     document.getElementById('searchBtn').addEventListener('click', search)
 
-    
+
 })
 
+async function uidGenerate() {
+    if (!localStorage.getItem("uid")) {
+        const uid = await biri();
+        localStorage.setItem("uid", uid);
+    }
+}
+
 function showCheapProducts() {
-    let minPrice, maxPrice
+    let minPrice, maxPrice;
     for (let i = 1, j = 0, f = 0; i < 6; i++, f++) {
         if (j == 1) {
             minPrice = `&minprice=${(50*f) + j}`
@@ -224,12 +238,12 @@ function addListener() {
                     first_cat.forEach(id => {
                         try {
                             document.getElementById(`1-${id}`).style.display = "none";
-                        } catch (e) { }
+                        } catch (e) {}
                     });
                     second_cat.forEach(id => {
                         try {
                             document.getElementById(`2-${id.substr(2)}`).style.display = "none";
-                        } catch (e) { }
+                        } catch (e) {}
                     });
                     try {
                         document.getElementById("bg").style.display = "block";
@@ -247,7 +261,7 @@ function addListener() {
                         Array.from(document.getElementsByClassName("img-third")).forEach(e => {
                             e.style.display = "block";
                         })
-                    } catch (e) { }
+                    } catch (e) {}
                 }, duration)
             })
             e.addEventListener("mouseleave", function () {
@@ -263,14 +277,14 @@ function addListener() {
                     second_cat.forEach(id => {
                         try {
                             document.getElementById(`2-${id.substr(2)}`).style.display = "none";
-                        } catch (e) { }
+                        } catch (e) {}
                     });
                     try {
                         document.getElementById(`2-${e.id.substr(2)}`).style.display = "block";
                         Array.from(document.getElementsByClassName("img-third")).forEach(e => {
                             e.style.display = "none";
                         })
-                    } catch (e) { }
+                    } catch (e) {}
                 }, duration)
             })
             e.addEventListener("mouseleave", function () {
@@ -286,18 +300,19 @@ function addListener() {
         first_cat.forEach(id => {
             try {
                 document.getElementById(`1-${id}`).style.display = "none";
-            } catch (e) { }
+            } catch (e) {}
         });
         second_cat.forEach(id => {
             try {
                 document.getElementById(`2-${id.substr(2)}`).style.display = "none";
-            } catch (e) { }
+            } catch (e) {}
         });
         Array.from(document.getElementsByClassName("img-default")).forEach(e => {
             e.style.display = "block";
         })
     })
 }
+
 function search() {
     var searchQuery = document.getElementById("searchProduct").value;
     var categoryMain = document.getElementById("dropDownCategory").value;

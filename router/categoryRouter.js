@@ -3,23 +3,21 @@ const createHttpError = require('http-errors');
 
 const router = require('express').Router();
 var cat;
+getCat();
 
-var catcache = setInterval(() => {
-    if (getCat()) clearInterval(catcache);
-}, 5000);
 
 //to use only one database connection so we use await
 async function getCat() {
     try {
         let dbResult = await database.query("SELECT id, category_name FROM main_category").then(result => result).catch(err => {
-            console.log(err);
+            // console.log(err);
         });
         dbResult.rows.main = dbResult.rows;
         for (let i = 0; i < dbResult.rows.length; i++) {
             let parentcat = await database.query(`SELECT id, category_name, fk_main FROM parent_subcategory where fk_main=$1;`, [dbResult.rows[i].id])
                 .then(result => result)
                 .catch(err => {
-                    console.log(err);
+                    // console.log(err);
                     return
                 });
             dbResult.rows[i].parent = parentcat.rows;
@@ -27,7 +25,7 @@ async function getCat() {
                 let childcat = await database.query(`SELECT id, category_name, fk_parent FROM child_subcategory where fk_parent=$1;`, [parentcat.rows[j].id])
                     .then(result => result)
                     .catch(err => {
-                        console.log(err);
+                        // console.log(err);
                         return
                     });
                 dbResult.rows[i].parent[j].child = childcat.rows;
@@ -38,7 +36,7 @@ async function getCat() {
             categories: cat
         }
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         getCat();
     }
 }

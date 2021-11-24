@@ -4,10 +4,17 @@ const params = new URLSearchParams(window.location.search);
 const id = params.get('id');
 
 window.addEventListener('DOMContentLoaded', function () {
-    const dropDownButton = document.getElementById('dropDownCategory');
-    // const headerCategory = document.getElementById('header-categories')
+    checkLogin().then(response => {
+        document.getElementById("login").innerHTML = "log out";
+        document.getElementById("login").addEventListener("click", () => {
+            localStorage.removeItem("token");
+        })
+    })
+    .catch(err => {
+        console.log(err);
+    })
     $("#categ")[0].style.display = "none";
-
+    uidGenerate();
     getAllCategories().then(response => {
         //add first category list
         for (let i = 0; i < response.length; i++) {
@@ -43,9 +50,15 @@ window.addEventListener('DOMContentLoaded', function () {
 
 })
 
+async function uidGenerate() {
+    if (!localStorage.getItem("uid")) {
+        const uid = await biri();
+        localStorage.setItem("uid", uid);
+    }
+}
 
 function showGame(game) {
- console.log(game);
+    console.log(game);
     let gameString = `
         <div class="individual-game">
         <div class="individual-game-image">
@@ -100,12 +113,12 @@ function addListener() {
                     first_cat.forEach(id => {
                         try {
                             document.getElementById(`1-${id}`).style.display = "none";
-                        } catch (e) { }
+                        } catch (e) {}
                     });
                     second_cat.forEach(id => {
                         try {
                             document.getElementById(`2-${id.substr(2)}`).style.display = "none";
-                        } catch (e) { }
+                        } catch (e) {}
                     });
                     try {
                         document.getElementById("bg").style.display = "block";
@@ -123,7 +136,7 @@ function addListener() {
                         Array.from(document.getElementsByClassName("img-third")).forEach(e => {
                             e.style.display = "block";
                         })
-                    } catch (e) { }
+                    } catch (e) {}
                 }, duration)
             })
             e.addEventListener("mouseleave", function () {
@@ -139,14 +152,14 @@ function addListener() {
                     second_cat.forEach(id => {
                         try {
                             document.getElementById(`2-${id.substr(2)}`).style.display = "none";
-                        } catch (e) { }
+                        } catch (e) {}
                     });
                     try {
                         document.getElementById(`2-${e.id.substr(2)}`).style.display = "block";
                         Array.from(document.getElementsByClassName("img-third")).forEach(e => {
                             e.style.display = "none";
                         })
-                    } catch (e) { }
+                    } catch (e) {}
                 }, duration)
             })
             e.addEventListener("mouseleave", function () {
@@ -162,12 +175,12 @@ function addListener() {
         first_cat.forEach(id => {
             try {
                 document.getElementById(`1-${id}`).style.display = "none";
-            } catch (e) { }
+            } catch (e) {}
         });
         second_cat.forEach(id => {
             try {
                 document.getElementById(`2-${id.substr(2)}`).style.display = "none";
-            } catch (e) { }
+            } catch (e) {}
         });
         Array.from(document.getElementsByClassName("img-default")).forEach(e => {
             e.style.display = "block";

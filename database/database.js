@@ -25,8 +25,8 @@ exports.connect = function () {
 exports.query = function (text, params) {
   return new Promise((resolve, reject) => {
     if (!connection) {
-      reject(new Error('Not connected to database'));
-      return;
+      // reject(new Error('Not connected to database'));
+      return query(text, params);
     }
     const start = Date.now();
     connection.query(text, params, function (error, result) {

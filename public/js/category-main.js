@@ -1,10 +1,17 @@
 let duration = 250;
 let toFirst, toSecond;
 window.addEventListener('DOMContentLoaded', function () {
-    const dropDownButton = document.getElementById('dropDownCategory');
-    // const headerCategory = document.getElementById('header-categories')
+    checkLogin().then(response => {
+        document.getElementById("login").innerHTML = "log out";
+        document.getElementById("login").addEventListener("click", () => {
+            localStorage.removeItem("token");
+        })
+    })
+    .catch(err => {
+        console.log(err);
+    })
     $("#categ")[0].style.display = "none";
-
+    uidGenerate();
     getAllCategories().then(response => {
         //add first category list
         for (let i = 0; i < response.length; i++) {
@@ -35,7 +42,7 @@ window.addEventListener('DOMContentLoaded', function () {
     })
 
     if (params.get("maincat")) {
-        getCategoryCount(params.get("maincat")||null).then(response => {
+        getCategoryCount(params.get("maincat") || null).then(response => {
             if (!response) return;
             for (let i = 0; i < response.length; i++) {
                 let string = `<li class="child"><a>${response[i].category_name}</a><span>${response[i].count}</span></li>`
@@ -97,6 +104,13 @@ window.addEventListener('DOMContentLoaded', function () {
 const params = new URLSearchParams(window.location.search);
 var min, max, page = params.get("page") * 1 || 1;
 
+async function uidGenerate() {
+    if (!localStorage.getItem("uid")) {
+        const uid = await biri();
+        localStorage.setItem("uid", uid);
+    }
+}
+
 function priceChange() {
     if (min) params.set("minprice", min);
     if (max) params.set("maxprice", max);
@@ -106,13 +120,13 @@ function priceChange() {
 function showGame() {
     $("#pinput_max").val(params.get("maxprice"));
     $("#pinput_min").val(params.get("minprice"));
-    $("#sort").val(params.get("sort")||"default");
+    $("#sort").val(params.get("sort") || "default");
     $("#searchProduct").val(params.get("name"));
     $("#dropDownCategory").val(params.get("maincat"));
     window.history.pushState({
         page: "same"
     }, "same page", "category.html?" + params.toString());
-    getGame(params.toString())
+    getGames(params.toString())
         .then(response => {
             document.getElementById("game_content").innerHTML = "";
             response.forEach(data => {
@@ -271,6 +285,6 @@ function search() {
     var searchQuery = document.getElementById("searchProduct").value;
     var categoryMain = document.getElementById("dropDownCategory").value;
     params.set("name", searchQuery);
-    if(categoryMain)params.set("maincat", categoryMain);
+    if (categoryMain) params.set("maincat", categoryMain);
     showGame();
 }
