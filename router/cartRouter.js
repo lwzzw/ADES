@@ -50,6 +50,7 @@ router.post("/editShoppingCart", async function (req, res, next) {
         var cart = req.body.cart;
         for (let i = 0; i < cart.length; i++) {
             let c = cart[i];
+            console.log(id + " " + c)
             await database.query(`select insert_cart($1, $2, $3, $4)`, [id, c.id, c.amount, req.body.edit])
                 .catch(err => {
                     throw err;
