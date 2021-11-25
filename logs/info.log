@@ -1,0 +1,8 @@
+info: Nov-25-2021 09:34:40: 	200 OK ||  undefined - /user/login - POST - ::1
+info: Nov-25-2021 09:34:40: 	200 Verify success||  undefined - /user/checkLogin - GET - ::1
+info: Nov-25-2021 09:34:40: 	200 Login Success ||  OK - /user/checkLogin - GET - ::1
+info: Nov-25-2021 09:34:41: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 09:34:41: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 09:34:41: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 09:34:42: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+error: Nov-25-2021 09:45:52: 	401 Login Failed ||  undefined - /user/login - POST - ::1

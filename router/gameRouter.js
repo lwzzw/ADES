@@ -1,7 +1,7 @@
 const database = require('../database/database');
 const createHttpError = require('http-errors');
 const router = require('express').Router();
-
+const logger = require('../logger');
 
 router.get('/gameDetailById/:id', (req, res, next) => {
     var id = req.params.id;
@@ -11,12 +11,14 @@ router.get('/gameDetailById/:id', (req, res, next) => {
                             join parent_subcategory on g_parentsubcategory = id 
                             where g_id = $1`, [id])
         .then(result => {
+            logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
             return res.status(200).json({
                 game: result.rows
             });
         })
         .catch(err => {
             next(createHttpError(500, err))
+            logger.error(`${err || '500 Error'}  ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
         })
 })
 
@@ -61,12 +63,14 @@ router.get('/gameDetailFilter', (req, res, next) => {
                             LIMIT $${i++} OFFSET $${i++};
                             `, array)
         .then(result => {
+            logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
             return res.status(200).json({
                 games: result.rows
             });
         })
         .catch(err => {
             next(createHttpError(500, err));
+            logger.error(`${err || '500 Error'}  ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
         })
 })
 
@@ -74,12 +78,15 @@ router.get('/getDeals', (req, res, next) => {
 
     return database.query(`SELECT * FROM g2a_gamedatabase WHERE g_discount IS NOT NULL`)
         .then(result => {
+            logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
             return res.status(200).json({
                 deals: result.rows
             })
+            
         })
         .catch(err => {
             next(createHttpError(500, err));
+            logger.error(`${err || '500 Error'}  ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
         })
 })
 
@@ -87,12 +94,14 @@ router.get('/getBSellers', (req, res, next) => {
 
     return database.query(`SELECT order_detail.g_id, SUM(amount) bestseller, g2a_gamedatabase.g_name, g2a_gamedatabase.g_image, COALESCE(g_discount, g_price) bs_price, g2a_gamedatabase.g_price FROM order_detail INNER JOIN g2a_gamedatabase ON order_detail.g_id = g2a_gamedatabase.g_id GROUP BY order_detail.g_id, g2a_gamedatabase.g_name, g2a_gamedatabase.g_image, g2a_gamedatabase.g_price, g2a_gamedatabase.g_discount  ORDER BY bestseller DESC LIMIT 6;`)
         .then(result => {
+            logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
             return res.status(200).json({
                 bsellers: result.rows
             })
         })
         .catch(err => {
             next(createHttpError(500, err));
+            logger.error(`${err || '500 Error'} ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
         })
 })
 
@@ -100,12 +109,14 @@ router.get('/getPreorders', (req, res, next) => {
 
     return database.query(`SELECT g_id, g_name, g_price, g_image, COALESCE(g_discount, g_price) preorder_price, NULLIF(g2a_gamedatabase.g_discount, g2a_gamedatabase.g_price), g_publishdate FROM g2a_gamedatabase WHERE g_publishDate > current_timestamp LIMIT 6;`)
         .then(result => {
+            logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
             return res.status(200).json({
                 preorders: result.rows
             })
         })
         .catch(err => {
             next(createHttpError(500, err));
+            logger.error(`${err || '500 Error'} ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
         })
 })
 
@@ -113,12 +124,14 @@ router.get('/getLRelease', (req, res, next) => {
 
     return database.query(`SELECT g_id, g_name, g_image,COALESCE(g_discount, g_price) g_discount, g_price, NULLIF(g2a_gamedatabase.g_discount, g2a_gamedatabase.g_price), to_char(g_publishdate::timestamp,'dd/mm/YYYY') as date FROM g2a_gamedatabase WHERE g_publishdate <= current_timestamp ORDER BY g_publishdate DESC LIMIT 6;`)
         .then(result => {
+            logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
             return res.status(200).json({
                 lrelease: result.rows
             })
         })
         .catch(err => {
             next(createHttpError(500, err));
+            logger.error(`${err || '500 Error'}  ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
         })
 })
 
