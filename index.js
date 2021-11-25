@@ -11,11 +11,18 @@ const fs = require('fs');
 db.connect()
 	.then(() => {
 		db.query(`
+DROP TABLE IF EXISTS cart;
+CREATE TABLE IF NOT EXISTS cart (
+	id SERIAL primary key,
+	user_id int not null,
+	game_id int not null,
+	amount int not null
+);
+
 DROP TABLE IF EXISTS order_history;
 CREATE TABLE IF NOT EXISTS order_history (
 	id SERIAL primary key,
 	user_id int not null,
-	detail_id int not null,
 	total NUMERIC(12,2) not null,
     buydate DATE not null
 );
@@ -89,11 +96,44 @@ ALTER TABLE parent_subcategory
 ALTER TABLE child_subcategory
 	ADD CONSTRAINT fk_parent_cat FOREIGN KEY(fk_parent) REFERENCES parent_subcategory(id);
 
-    ALTER TABLE order_history
+ALTER TABLE order_history
 	ADD CONSTRAINT fk_history_user FOREIGN KEY(user_id) REFERENCES user_detail(id);
+
+ALTER TABLE cart
+	ADD CONSTRAINT fk_cart_game FOREIGN KEY(game_id) REFERENCES G2A_gameDatabase(g_id);
 	
 ALTER TABLE order_detail
 	ADD CONSTRAINT fk_history_detail FOREIGN KEY(g_id) REFERENCES G2A_gameDatabase(g_id);
+
+DROP FUNCTION IF EXISTS insert_cart;
+CREATE FUNCTION insert_cart (uid int, gid int, quantity int, edit varchar(20))
+	returns int
+	language plpgsql
+as
+$$
+declare q int;
+BEGIN
+	IF NOT EXISTS (SELECT 1 FROM cart where user_id = uid and game_id = gid) and quantity > 0
+	then
+		INSERT INTO cart (user_id, game_id, amount) VALUES (uid, gid, 1);
+	else
+		IF quantity = 1 and edit !='true'
+		then
+			q = (select amount from cart where user_id = uid and game_id = gid);
+			update cart set amount = q + quantity where user_id = uid and game_id = gid;
+		elseif quantity > 99
+		then
+			update cart set amount = 99 where user_id = uid and game_id = gid;
+		elseif quantity < 1
+		then
+			delete from cart where user_id = uid and game_id = gid;
+		else
+			update cart set amount = quantity where user_id = uid and game_id = gid;
+		end if;
+	end if;
+	RETURN 1;
+END ;
+$$;
 
 INSERT INTO public.main_category (category_name) VALUES ('Video games');
 INSERT INTO public.main_category (category_name) VALUES ('Software');
@@ -326,8 +366,8 @@ INSERT INTO public.order_detail (id, order_id, g_id, amount) VALUES (13, 3762, 2
 INSERT INTO public.order_detail (id, order_id, g_id, amount) VALUES (14, 3762, 30, 12);
 INSERT INTO public.order_detail (id, order_id, g_id, amount) VALUES (15, 3762, 29, 17);
 
-INSERT INTO public.order_history (user_id, detail_id, buydate, total)
-SELECT 1,(order_detail.order_id), current_timestamp,(order_detail.amount * COALESCE(g_discount, g_price)) FROM public.order_detail INNER JOIN g2a_gamedatabase ON order_detail.g_id = g2a_gamedatabase.g_id;
+INSERT INTO public.order_history (user_id, buydate, total)
+SELECT 1, current_timestamp,(order_detail.amount * COALESCE(g_discount, g_price)) FROM public.order_detail INNER JOIN g2a_gamedatabase ON order_detail.g_id = g2a_gamedatabase.g_id;
 
      `)
 	})

@@ -5,14 +5,14 @@ const id = params.get('id');
 
 window.addEventListener('DOMContentLoaded', function () {
     checkLogin().then(response => {
-        document.getElementById("login").innerHTML = "log out";
-        document.getElementById("login").addEventListener("click", () => {
-            localStorage.removeItem("token");
+            document.getElementById("login").innerHTML = "log out";
+            document.getElementById("login").addEventListener("click", () => {
+                localStorage.removeItem("token");
+            })
         })
-    })
-    .catch(err => {
-        console.log(err);
-    })
+        .catch(err => {
+            console.log(err);
+        })
     $("#categ")[0].style.display = "none";
     uidGenerate();
     getAllCategories().then(response => {
@@ -58,7 +58,6 @@ async function uidGenerate() {
 }
 
 function showGame(game) {
-    console.log(game);
     let gameString = `
         <div class="individual-game">
         <div class="individual-game-image">
@@ -81,7 +80,7 @@ function showGame(game) {
 
         <div class="individual-game-price-section">
             <div>${game.g_price}</div>
-            <button>Add to cart</button>
+            <button onclick="addCart(${game.g_id})">Add to cart</button>
         </div>
         </div>
     `
@@ -196,3 +195,15 @@ $("#catdrop").on("click", function () {
     } else
         drop[0].style.display = "flex";
 })
+
+function addCart(id) {
+    addShoppingCart([{
+            id,
+            amount: 1
+        }], 'false')
+        .then(result => {
+            alert("Add success");
+        }).catch(err => {
+            alert(err);
+        })
+}

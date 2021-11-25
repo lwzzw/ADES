@@ -49,7 +49,6 @@ router.get('/gameDetailFilter', (req, res, next) => {
     }
     array.push(LIMIT);
     array.push(offset);
-    console.log(array)
     return database.query(`SELECT g_id, g_name, g_description, g_price, g_discount, g_image, g_publishdate, g_region 
                             from G2A_gameDatabase 
                             where 1=1 ${name?`AND g_name LIKE '%' || $${i++} || '%' `:''}
@@ -114,7 +113,6 @@ router.get('/getLRelease', (req, res, next) => {
 
     return database.query(`SELECT g_id, g_name, g_image,COALESCE(g_discount, g_price) g_discount, g_price, NULLIF(g2a_gamedatabase.g_discount, g2a_gamedatabase.g_price), to_char(g_publishdate::timestamp,'dd/mm/YYYY') as date FROM g2a_gamedatabase WHERE g_publishdate <= current_timestamp ORDER BY g_publishdate DESC LIMIT 6;`)
         .then(result => {
-            console.log(result.rows)
             return res.status(200).json({
                 lrelease: result.rows
             })

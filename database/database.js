@@ -26,7 +26,10 @@ exports.query = function (text, params) {
   return new Promise((resolve, reject) => {
     if (!connection) {
       // reject(new Error('Not connected to database'));
-      return query(text, params);
+       setTimeout(() => {
+        exports.query(text, params);
+      }, 1000);
+      // return connection.query(text, params);
     }
     const start = Date.now();
     connection.query(text, params, function (error, result) {
@@ -37,10 +40,17 @@ exports.query = function (text, params) {
       });
       if (error) {
         reject(error);
+        // console.log(error)
+        //  setTimeout(() => {
+        //   exports.query(text, params);
+        // }, 1000);
       } else {
         resolve(result);
       }
     });
+  })
+  .catch(err=>{
+    // console.log(err);
   });
 };
 
