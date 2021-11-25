@@ -301,3 +301,45 @@ function deleteCart(id) {
             return error.response.data
         })
 }
+
+function getOrderID() {
+    const methods = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    return axios
+        .get(``, methods)
+        .then(response => {
+            return response.data.orderhistory
+        })
+        .catch(error => {
+            console.log(error);
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+}
+
+function getOrderDetailsByID() {
+    const methods = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    return axios
+        .get(``, methods)
+        .then(response => {
+            return response.data.orderdetails
+        })
+        .catch(error => {
+            console.log(error);
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+}
