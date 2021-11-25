@@ -115,7 +115,8 @@ window.addEventListener('DOMContentLoaded', function () {
                             <img src='${lreleases.g_image}' />
                         </div>
                         <div class="col-8 product-details">
-                            <h6>${lreleases.g_name} ${lreleases.date}</h6>
+                            <h6>${lreleases.g_name}</h6>
+                            <h6>Release Date: ${lreleases.date}</h6>
                             <div><span>PRICE</span></div>
                             <div>
                                 <span><span>${lreleases.g_discount}</span> <sup class='sub-script'> SGD </sup></span>
