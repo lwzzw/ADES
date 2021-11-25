@@ -251,8 +251,9 @@ hr {
 }
 
 .game-image {
-    width: 100%;
+    width: 80%;
     height: 100%;
+    margin-left: 25px;
 }
 
 #showmore {

@@ -285,65 +285,65 @@ INSERT INTO public.child_subcategory (category_name, fk_parent) VALUES ('Fightin
 INSERT INTO public.child_subcategory (category_name, fk_parent) VALUES ('Economy Games', 9);
 
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
-VALUES ('game name 1', 40, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11', 20);
+VALUES ('Battlefield 2042 (PC) - Origin Key - GLOBAL', 40, 'description', 1, 1, 1, '/images/noimage.png', '2020/10/11', 20);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
-VALUES ('game name 2', 50, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11', 30);
+VALUES ('Jurassic World Evolution 2 | Deluxe Edition (PC) - Steam Key - GLOBAL', 50, 'description', 1, 1, 1, '/images/noimage.png', '2020/10/11', 30);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 3', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
+VALUES ('Marvel's Guardians of the Galaxy (PC) - Steam Key - GLOBAL', 10, 'description', 1, 1, 1, '/images/noimage.png', '2020/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
-VALUES ('game name 4', 60, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11', 50);
+VALUES ('Age of Empires IV (PC) - Steam Key - GLOBAL', 60, 'description', 1, 1, 1, '/images/noimage.png', '2020/10/11', 50);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 5', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
+VALUES ('Football Manager 2022 (PC) - Steam Key - EUROPE', 10, 'description', 1, 1, 1, '/images/noimage.png', '2020/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 6', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
+VALUES ('Grand Theft Auto V: Premium Online Edition (PC) - Rockstar Key - GLOBAL', 10, 'description', 1, 1, 1, '/images/noimage.png', '2020/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 7', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
+VALUES ('Minecraft Java Edition Minecraft Key GLOBAL', 10, 'description', 1, 1, 1, '/images/noimage.png', '2020/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
-VALUES ('game name 8', 15, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11', 10);
+VALUES ('Going Medieval (PC) - Steam Key - GLOBAL', 15, 'description', 1, 1, 1, '/images/noimage.png', '2020/10/11', 10);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 9', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
+VALUES ('Gloomhaven (PC) - Steam Key - GLOBAL', 10, 'description', 1, 1, 1, '/images/noimage.png', '2020/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
-VALUES ('game name 10', 9, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11',5);
+VALUES ('The Dark Pictures Anthology: House of Ashes (PC) - Steam Key - GLOBAL', 9, 'description', 1, 1, 1, '/images/noimage.png', '2020/10/11',5);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 11', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
+VALUES ('The Jackbox Party Pack 8 (PC) - Steam Key - GLOBAL', 10, 'description', 1, 1, 1, '/images/noimage.png', '2020/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 12', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
+VALUES ('The Sims 4 (PC) - Origin Key - GLOBAL', 10, 'description', 1, 1, 1, '/images/noimage.png', '2020/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 13', 10, 'description', 1, 1, 1, '/images/poop.png', '2020/10/11');
+VALUES ('NBA 2K22 | 75th Anniversary Edition (PC) - Steam Key - GLOBAL', 10, 'description', 1, 1, 1, '/images/noimage.png', '2020/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 14', 10, 'description', 1, 1, 1, '/images/poop.png', '2022/10/11');
+VALUES ('Resident Evil 8: Village (PC) - Steam Key - GLOBAL', 10, 'description', 1, 1, 1, '/images/nomimage.png', '2022/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 15', 10, 'description', 1, 1, 1, '/images/poop.png', '2022/10/11');
+VALUES ('Red Dead Redemption 2 (Ultimate Edition) - Rockstar Key - GLOBAL', 10, 'description', 1, 1, 1, '/images/noimage.png', '2022/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
-VALUES ('game name 16', 120, 'description', 1, 1, 2, '/images/poop.png', '2022/10/11', 99);
+VALUES ('Dark Souls III Deluxe Edition (PC) - Steam Key - GLOBAL', 120, 'description', 1, 1, 2, '/images/noimage.png', '2022/10/11', 99);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 17', 10, 'description', 1, 1, 2, '/images/poop.png', '2021/9/11');
+VALUES ('Snowrunner | Premium Edition (PC) - Steam Key - GLOBAL - 1', 10, 'description', 1, 1, 2, '/images/noimage.png', '2021/9/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
-VALUES ('game name 18', 85.90, 'description', 1, 1, 2, '/images/poop.png', '2021/11/11', 42.95);
+VALUES ('Battlefield 1 Revolution Origin Key GLOBAL', 85.90, 'description', 1, 1, 2, '/images/noimage.png', '2021/11/11', 42.95);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 19', 10, 'description', 1, 1, 2, '/images/poop.png', '2020/10/22');
+VALUES ('Need for Speed Heat (PC) - Origin Key - GLOBAL - 1', 10, 'description', 1, 1, 2, '/images/noimage.png', '2020/10/22');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 20', 10, 'description', 1, 1, 2, '/images/poop.png', '2021/11/10');
+VALUES ('Tabletop Simulator Steam Gift GLOBAL', 10, 'description', 1, 1, 2, '/images/noimage.png', '2021/11/10');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
-VALUES ('game name 21', 200, 'description', 1, 1, 2, '/images/poop.png', '2020/10/11',120.55);
+VALUES ('Cities: Skylines (PC) - Steam Key - GLOBAL', 200, 'description', 1, 1, 2, '/images/noimage.png', '2020/10/11',120.55);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 22', 10, 'description', 1, 1, 2, '/images/poop.png', '2020/10/11');
+VALUES ('Stellaris Steam Key GLOBAL', 10, 'description', 1, 1, 2, '/images/noimage.png', '2020/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 23', 10, 'description', 1, 1, 2, '/images/poop.png', '2020/10/11');
+VALUES ('Don't Starve Together Steam Gift GLOBAL', 10, 'description', 1, 1, 2, '/images/noimage.png', '2020/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
-VALUES ('game name 24', 10, 'description', 1, 1, 2, '/images/poop.png', '2020/10/11');
+VALUES ('Kerbal Space Program Steam Key GLOBAL', 10, 'description', 1, 1, 2, '/images/noimage.png', '2020/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
-VALUES ('game name 25', 200, 'description', 1, 1, 2, '/images/poop.png', '2020/10/11',79.99);
+VALUES ('Mount & Blade: Warband Steam Key GLOBAL', 200, 'description', 1, 1, 2, '/images/noimage.png', '2020/10/11',79.99);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
-VALUES ('game name 26', 108, 'description', 1, 1, 2, '/images/poop.png', '2020/10/11',100.50);
+VALUES ('Life is Strange: True Colors (PC) - Steam Key - GLOBAL', 108, 'description', 1, 1, 2, '/images/noimage.png', '2020/10/11',100.50);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
-VALUES ('game name 27', 17, 'description', 1, 1, 2, '/images/poop.png', '2020/10/11', 5);
+VALUES ('No Man's Sky (PC) - Steam Key - GLOBAL', 17, 'description', 1, 1, 2, '/images/noimage.png', '2020/10/11', 5);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
-VALUES ('game name 28', 79.90, 'description', 1, 1, 2, '/images/poop.png', '2020/10/11', 23.97);
+VALUES ('Tales of Arise | Ultimate Edition (PC) - Steam Key - GLOBAL', 79.90, 'description', 1, 1, 2, '/images/noimage.png', '2020/10/11', 23.97);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
-VALUES ('game name 29', 82.50, 'description', 1, 1, 2, '/images/poop.png', '2020/10/11', 27.22);
+VALUES ('7 Days to Die Steam Key GLOBAL', 82.50, 'description', 1, 1, 2, '/images/noimage.png', '2020/10/11', 27.22);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
-VALUES ('game name 30', 69.90, 'description', 1, 1, 2, '/images/poop.png', '2020/10/11', 41.94);
+VALUES ('Overwatch Battle.net Key GLOBAL', 69.90, 'description', 1, 1, 2, '/images/noimage.png', '2020/10/11', 41.94);
 
 INSERT INTO public.user_detail (name, email, password, gender, c_card, phone) VALUES ('Junheng', 'junheng.tan@hotmail.com', '123password', 'M', 1, 85529404);
 INSERT INTO public.user_detail (name, email, password, gender, c_card, phone) VALUES ('Adam', 'adam@gmail.com', '123password', 'M', 3, 97653242);
