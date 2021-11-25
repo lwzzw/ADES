@@ -287,7 +287,7 @@ INSERT INTO public.child_subcategory (category_name, fk_parent) VALUES ('Economy
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
 VALUES ('Battlefield 2042 (PC) - Origin Key - GLOBAL', 40, 'description', 1, 1, 1, '/images/noimage.png', '2020/10/11', 20);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
-VALUES ('Jurassic World Evolution 2 | Deluxe Edition (PC) - Steam Key - GLOBAL', 50, 'description', 1, 1, 1, '/images/noimage.png', '2020/10/11', 30);
+VALUES ('Jurassic World Evolution 2  Deluxe Edition (PC) - Steam Key - GLOBAL', 50, 'description', 1, 1, 1, '/images/noimage.png', '2020/10/11', 30);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate) 
 VALUES ('Marvel's Guardians of the Galaxy (PC) - Steam Key - GLOBAL', 10, 'description', 1, 1, 1, '/images/noimage.png', '2020/10/11');
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount) 
