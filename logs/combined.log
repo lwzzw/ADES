@@ -6,3 +6,77 @@ error: Nov-25-2021 10:23:13: 	401 Login Failed ||  undefined - /user/login - POS
 error: Nov-25-2021 10:24:05: 	401 Login Failed ||  undefined - /user/login - POST - ::1
 error: Nov-25-2021 10:24:18: 	401 Login Failed ||  undefined - /user/login - POST - ::1
 error: Nov-25-2021 10:26:03: 	401 Login Failed ||  undefined - /user/login - POST - ::1
+info: Nov-25-2021 10:33:25: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 10:33:25: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 10:33:25: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 10:33:26: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 10:34:09: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 10:34:09: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 10:34:09: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 10:34:10: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 10:34:47: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 10:34:47: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 10:34:47: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 10:34:47: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 10:34:57: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 10:34:57: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 10:34:58: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 10:34:58: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 10:36:56: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 10:36:56: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 10:36:56: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 10:36:56: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 10:37:12: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 10:37:13: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 10:37:13: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 10:37:13: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 10:37:19: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 10:37:19: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 10:37:19: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 10:37:19: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 10:37:31: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 10:37:31: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 10:37:32: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 10:37:32: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 10:38:54: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 10:38:55: 	200 OK ||  undefined - /game/getPreorders - GET - undefined
+info: Nov-25-2021 10:38:55: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 10:38:56: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 10:38:56: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 10:38:56: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 10:39:21: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 10:39:21: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 10:39:21: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 10:39:21: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 10:39:55: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 10:39:56: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 10:39:56: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 10:39:56: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 15:39:44: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 15:39:45: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 15:39:45: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 15:39:46: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+error: Nov-25-2021 15:39:59: 	401 Login Failed ||  undefined - /user/login - POST - ::1
+error: Nov-25-2021 15:49:45: 	401 Login Failed ||  undefined - /user/login - POST - ::1
+error: Nov-25-2021 15:50:14: 	401 Login Failed ||  undefined - /user/login - POST - ::1
+error: Nov-25-2021 15:50:15: 	403 No token ||  undefined - /user/checkLogin - GET - ::1
+error: Nov-25-2021 15:50:18: 	403 No token ||  undefined - /user/checkLogin - GET - ::1
+error: Nov-25-2021 15:51:34: 	403 No token ||  undefined - /user/checkLogin - GET - ::1
+info: Nov-25-2021 15:51:35: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 15:51:35: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 15:51:36: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 15:51:36: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+error: Nov-25-2021 15:53:38: 	403 No token ||  undefined - /user/checkLogin - GET - ::1
+info: Nov-25-2021 15:53:39: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 15:53:40: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 15:53:40: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 15:53:40: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+error: Nov-25-2021 15:53:41: 	403 No token ||  undefined - /user/checkLogin - GET - ::1
+info: Nov-25-2021 15:53:41: 	200 OK ||  undefined - /game/gameDetailFilter?platform=Operation+System - GET - ::1
+error: Nov-25-2021 15:53:45: 	403 No token ||  undefined - /user/checkLogin - GET - ::1
+info: Nov-25-2021 15:53:45: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 15:53:46: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 15:53:46: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 15:53:46: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+error: Nov-25-2021 15:53:54: 	403 No token ||  undefined - /user/checkLogin - GET - ::1
+info: Nov-25-2021 15:53:55: 	200 OK ||  undefined - /game/gameDetailById/10 - GET - ::1

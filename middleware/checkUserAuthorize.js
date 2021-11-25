@@ -15,6 +15,7 @@ function verifyToken(req, res, next) {
             if (err) {
                 console.log('verify error');
                 next(createHttpError(403, "Not authorize"));
+                logger.error(`403 No token ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
             } else {
                 console.log('verify success');
                 req.id = decoded.id;

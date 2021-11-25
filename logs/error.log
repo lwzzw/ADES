@@ -12,3 +12,13 @@ error: Nov-25-2021 10:23:13: 	401 Login Failed ||  undefined - /user/login - POS
 error: Nov-25-2021 10:24:05: 	401 Login Failed ||  undefined - /user/login - POST - ::1
 error: Nov-25-2021 10:24:18: 	401 Login Failed ||  undefined - /user/login - POST - ::1
 error: Nov-25-2021 10:26:03: 	401 Login Failed ||  undefined - /user/login - POST - ::1
+error: Nov-25-2021 15:39:59: 	401 Login Failed ||  undefined - /user/login - POST - ::1
+error: Nov-25-2021 15:49:45: 	401 Login Failed ||  undefined - /user/login - POST - ::1
+error: Nov-25-2021 15:50:14: 	401 Login Failed ||  undefined - /user/login - POST - ::1
+error: Nov-25-2021 15:50:15: 	403 No token ||  undefined - /user/checkLogin - GET - ::1
+error: Nov-25-2021 15:50:18: 	403 No token ||  undefined - /user/checkLogin - GET - ::1
+error: Nov-25-2021 15:51:34: 	403 No token ||  undefined - /user/checkLogin - GET - ::1
+error: Nov-25-2021 15:53:38: 	403 No token ||  undefined - /user/checkLogin - GET - ::1
+error: Nov-25-2021 15:53:41: 	403 No token ||  undefined - /user/checkLogin - GET - ::1
+error: Nov-25-2021 15:53:45: 	403 No token ||  undefined - /user/checkLogin - GET - ::1
+error: Nov-25-2021 15:53:54: 	403 No token ||  undefined - /user/checkLogin - GET - ::1

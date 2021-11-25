@@ -13,6 +13,21 @@ window.addEventListener('DOMContentLoaded', function () {
       password.type = "password";
     }
   }
+  checkLogin().then(response => {
+    new Noty({
+      type: 'success',
+      layout: 'topCenter',
+      theme: 'sunset',
+      timeout: '3000',
+      text: 'You have been login as ' + response.name,
+    }).show();
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 3000);
+  })
+  .catch(err => {
+    console.log(err);
+  })
 
   checkLoginBtn.onclick = function () {
     // To ensure login input is correct in the input is valid
