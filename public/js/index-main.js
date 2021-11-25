@@ -35,7 +35,6 @@ window.addEventListener('DOMContentLoaded', function () {
             document.getElementById("second_cat").insertAdjacentHTML("beforeend", string);
         }
         addListener();
-
         getAllProducts();
     })
 
