@@ -4,9 +4,12 @@ let duration = 250;
 let toFirst, toSecond;
 window.addEventListener('DOMContentLoaded', function () {
     checkLogin().then(response => {
+            let myAccountBtn = `<li class='navbar-category' id="orderHistory" ><a href="orderhistory.html">Order History</a></li>`
+            document.getElementById("header-categories").insertAdjacentHTML('beforeend', myAccountBtn)
             document.getElementById("login").innerHTML = "log out";
             document.getElementById("login").addEventListener("click", () => {
-                localStorage.removeItem("token");
+                localStorage.removeItem("token");   
+                document.getElementById("orderHistory").remove()
             })
         })
         .catch(err => {

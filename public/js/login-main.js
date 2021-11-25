@@ -1,19 +1,4 @@
 window.addEventListener('DOMContentLoaded', function () {
-  checkLogin().then(response => {
-      new Noty({
-        type: 'success',
-        layout: 'topCenter',
-        theme: 'sunset',
-        timeout: '3000',
-        text: 'You have been login as ' + response.name,
-      }).show();
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 3000);
-    })
-    .catch(err => {
-      console.log(err);
-    })
   // Get reference to relevant elements
   const checkLoginBtn = document.getElementById('submitButton');
   const email = document.getElementById('emailInput');
@@ -70,6 +55,7 @@ window.addEventListener('DOMContentLoaded', function () {
     }
   };
 });
+
 
 async function uidGenerate() {
   if (!localStorage.getItem("uid")) {

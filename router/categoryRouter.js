@@ -1,6 +1,6 @@
 const database = require('../database/database');
 const createHttpError = require('http-errors');
-
+const logger = require('../logger');
 const router = require('express').Router();
 var cat;
 getCat();
@@ -11,6 +11,7 @@ async function getCat() {
     try {
         let dbResult = await database.query("SELECT id, category_name FROM main_category").then(result => result).catch(err => {
             // console.log(err);
+            logger.error(`${err} - ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
         });
         dbResult.rows.main = dbResult.rows;
         for (let i = 0; i < dbResult.rows.length; i++) {
@@ -46,8 +47,14 @@ router.get('/getAllCategories', async function (req, res, next) {
         categories: cat
     })
     let result = await getCat();
-    if (result) return res.status(200).json(result);
-    else next(createHttpError(500, "Get category error"));
+    if (result) { 
+        logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+        return res.status(200).json(result);
+    }
+    else {
+        next(createHttpError(500, "Get category error"));
+        logger.error(`500 Error ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+    }
 })
 
 router.get('/countOfGame/:mainCategory', (req, res, next) => {
@@ -58,12 +65,14 @@ router.get('/countOfGame/:mainCategory', (req, res, next) => {
                             WHERE g_maincategory = (select id from main_category where category_name = $1)
                             group by category_name`, [decodeURI(mainCat)])
         .then(result => {
+            logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
             return res.status(200).json({
                 count: result.rows
             });
         })
         .catch(err => {
             next(createHttpError(500, err));
+            logger.error(`${err || '500 Error'} ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
         })
 })
 
