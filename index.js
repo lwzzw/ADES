@@ -15,7 +15,7 @@ db.connect()
 DROP TABLE IF EXISTS cart;
 CREATE TABLE IF NOT EXISTS cart (
 	id SERIAL primary key,
-	user_id int not null,
+	user_id bigint not null,
 	game_id int not null,
 	amount int not null
 );
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS cart (
 DROP TABLE IF EXISTS order_history;
 CREATE TABLE IF NOT EXISTS order_history (
 	id SERIAL primary key,
-	user_id int not null,
+	user_id bigint not null,
 	total NUMERIC(12,2) not null,
     buydate DATE not null
 );
