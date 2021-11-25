@@ -142,7 +142,8 @@ function showGame() {
                                     <h5>${data.g_name}</h5>
                                 </div>
                                 <div>
-                                    <p>${data.g_discount ? data.g_discount: data.g_price}</p>
+                                    ${data.g_discount ? '<p>discount ' + data.g_discount + '</p>':''}
+                                    <p>${data.g_price}</p>
                                 </div>
                             </a>
                         </li>

@@ -52,8 +52,8 @@ router.get('/gameDetailFilter', (req, res, next) => {
     return database.query(`SELECT g_id, g_name, g_description, g_price, g_discount, g_image, g_publishdate, g_region 
                             from G2A_gameDatabase 
                             where 1=1 ${name?`AND g_name LIKE '%' || $${i++} || '%' `:''}
-                            ${minprice?`AND g_price >= $${i++} `:''}
-                            ${maxprice?`AND g_price <= $${i++} `:''}
+                            ${minprice?`AND COALESCE(g_discount, g_price) >= $${i++} `:''}
+                            ${maxprice?`AND COALESCE(g_discount, g_price) <= $${i++} `:''}
                             ${platform?`AND g_parentsubcategory = (select id from parent_subcategory where category_name = $${i++}) `:''}
                             ${maincat&&maincat!="All categories"?`AND g_maincategory = (select id from main_category where category_name = $${i++}) `:''}
                             ${childcat?`AND g_childsubcategory in (select id from child_subcategory where category_name = $${i++}) `:''}
