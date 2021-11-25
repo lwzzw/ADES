@@ -6,6 +6,7 @@ const ApiRouter = require('./router/api');
 const db = require("./database/database");
 const port = require("./config").PORT;
 const fs = require('fs');
+app.set("view engine", "ejs")
 // const port = 3001;
 
 db.connect()
@@ -26,6 +27,7 @@ CREATE TABLE IF NOT EXISTS order_history (
 	total NUMERIC(12,2) not null,
     buydate DATE not null
 );
+
 DROP TABLE IF EXISTS order_detail;
 CREATE TABLE IF NOT EXISTS order_detail (
 	id SERIAL primary key,
@@ -95,9 +97,6 @@ ALTER TABLE parent_subcategory
 
 ALTER TABLE child_subcategory
 	ADD CONSTRAINT fk_parent_cat FOREIGN KEY(fk_parent) REFERENCES parent_subcategory(id);
-
-ALTER TABLE order_history
-	ADD CONSTRAINT fk_history_user FOREIGN KEY(user_id) REFERENCES user_detail(id);
 
 ALTER TABLE cart
 	ADD CONSTRAINT fk_cart_game FOREIGN KEY(game_id) REFERENCES G2A_gameDatabase(g_id);
@@ -350,21 +349,21 @@ INSERT INTO public.user_detail (name, email, password, gender, c_card, phone) VA
 INSERT INTO public.user_detail (name, email, password, gender, c_card, phone) VALUES ('Adam', 'adam@gmail.com', '123password', 'M', 3, 97653242);
 INSERT INTO public.user_detail (name, email, password, gender, c_card, phone) VALUES ('Lily', 'lily@gmail.com', '123password', 'F', 2, 81136175);
 
-INSERT INTO public.order_detail (id, order_id, g_id, amount) VALUES (1, 3762, 1, 10);
-INSERT INTO public.order_detail (id, order_id, g_id, amount) VALUES (2, 3762, 1, 9);
-INSERT INTO public.order_detail (id, order_id, g_id, amount) VALUES (3, 3762, 2, 8);
-INSERT INTO public.order_detail (id, order_id, g_id, amount) VALUES (4, 3762, 4, 7);
-INSERT INTO public.order_detail (id, order_id, g_id, amount) VALUES (5, 3762, 1, 6);
-INSERT INTO public.order_detail (id, order_id, g_id, amount) VALUES (6, 3762, 1, 5);
-INSERT INTO public.order_detail (id, order_id, g_id, amount) VALUES (7, 3762, 8, 4);
-INSERT INTO public.order_detail (id, order_id, g_id, amount) VALUES (8, 3762, 2, 3);
-INSERT INTO public.order_detail (id, order_id, g_id, amount) VALUES (9, 3762, 4, 2);
-INSERT INTO public.order_detail (id, order_id, g_id, amount) VALUES (10, 3762, 1, 1);
-INSERT INTO public.order_detail (id, order_id, g_id, amount) VALUES (11, 3762, 10, 20);
-INSERT INTO public.order_detail (id, order_id, g_id, amount) VALUES (12, 3762, 16, 25);
-INSERT INTO public.order_detail (id, order_id, g_id, amount) VALUES (13, 3762, 21, 30);
-INSERT INTO public.order_detail (id, order_id, g_id, amount) VALUES (14, 3762, 30, 12);
-INSERT INTO public.order_detail (id, order_id, g_id, amount) VALUES (15, 3762, 29, 17);
+INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 1, 10);
+INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 1, 9);
+INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 2, 8);
+INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 4, 7);
+INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 1, 6);
+INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 1, 5);
+INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 8, 4);
+INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 2, 3);
+INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 4, 2);
+INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 1, 1);
+INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 10, 20);
+INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 16, 25);
+INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 21, 30);
+INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 30, 12);
+INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 29, 17);
 
 INSERT INTO public.order_history (user_id, buydate, total)
 SELECT 1, current_timestamp,(order_detail.amount * COALESCE(g_discount, g_price)) FROM public.order_detail INNER JOIN g2a_gamedatabase ON order_detail.g_id = g2a_gamedatabase.g_id;

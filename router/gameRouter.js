@@ -37,7 +37,7 @@ router.get('/gameDetailFilter', (req, res, next) => {
     if (minprice) array.push(minprice);
     if (maxprice) array.push(maxprice);
     if (platform) array.push(platform);
-    if (maincat&&maincat!="All categories") array.push(maincat);
+    if (maincat && maincat != "All categories") array.push(maincat);
     if (childcat) array.push(childcat);
     if (order) {
         if (order == "default") order = "";
@@ -87,6 +87,9 @@ router.get('/getBSellers', (req, res, next) => {
 
     return database.query(`SELECT order_detail.g_id, SUM(amount) bestseller, g2a_gamedatabase.g_name, g2a_gamedatabase.g_image, COALESCE(g_discount, g_price) bs_price, g2a_gamedatabase.g_price FROM order_detail INNER JOIN g2a_gamedatabase ON order_detail.g_id = g2a_gamedatabase.g_id GROUP BY order_detail.g_id, g2a_gamedatabase.g_name, g2a_gamedatabase.g_image, g2a_gamedatabase.g_price, g2a_gamedatabase.g_discount  ORDER BY bestseller DESC LIMIT 6;`)
         .then(result => {
+            if (!result.rows) return res.status(200).json({
+                bsellers: []
+            })
             return res.status(200).json({
                 bsellers: result.rows
             })
