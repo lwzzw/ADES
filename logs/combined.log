@@ -6,3 +6,12 @@ error: Nov-25-2021 10:23:13: 	401 Login Failed ||  undefined - /user/login - POS
 error: Nov-25-2021 10:24:05: 	401 Login Failed ||  undefined - /user/login - POST - ::1
 error: Nov-25-2021 10:24:18: 	401 Login Failed ||  undefined - /user/login - POST - ::1
 error: Nov-25-2021 10:26:03: 	401 Login Failed ||  undefined - /user/login - POST - ::1
+info: Nov-25-2021 13:45:49: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 13:45:50: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 13:45:50: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 13:45:50: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 13:45:55: 	200 OK ||  undefined - /cart/getShoppingCart - POST - ::1
+info: Nov-25-2021 13:45:57: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 13:45:57: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 13:45:57: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 13:45:57: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
