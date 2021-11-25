@@ -79,7 +79,7 @@ function showGame(game) {
         </div>
 
         <div class="individual-game-price-section">
-            <div>${game.g_price}</div>
+            <div>${game.g_discount ? game.g_discount: game.g_price}</div>
             <button onclick="addCart(${game.g_id})">Add to cart</button>
         </div>
         </div>
