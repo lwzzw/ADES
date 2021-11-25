@@ -1,0 +1,8 @@
+info: Nov-25-2021 10:18:50: 	200 Verify success||  undefined - /user/checkLogin - GET - ::1
+info: Nov-25-2021 10:18:50: 	200 Login Success ||  Not Modified - /user/checkLogin - GET - ::1
+info: Nov-25-2021 10:18:50: 	200 OK ||  undefined - /game/gameDetailFilter?platform=Steam+Games - GET - ::1
+error: Nov-25-2021 10:19:15: 	401 Login Failed ||  undefined - /user/login - POST - ::1
+error: Nov-25-2021 10:23:13: 	401 Login Failed ||  undefined - /user/login - POST - ::1
+error: Nov-25-2021 10:24:05: 	401 Login Failed ||  undefined - /user/login - POST - ::1
+error: Nov-25-2021 10:24:18: 	401 Login Failed ||  undefined - /user/login - POST - ::1
+error: Nov-25-2021 10:26:03: 	401 Login Failed ||  undefined - /user/login - POST - ::1
