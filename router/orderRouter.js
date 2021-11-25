@@ -2,6 +2,7 @@ const database = require('../database/database');
 const createHttpError = require('http-errors');
 const paypal = require("@paypal/checkout-server-sdk")
 const router = require('express').Router();
+const logger = require('../logger');
 const Environment =
     process.env.ENV === "production" ?
     paypal.core.LiveEnvironment :
@@ -103,5 +104,49 @@ router.post("/save-order", async (req, res, next) => {
     } catch (err) {
         next(createHttpError(500, err))
     }
+})
+
+router.post('/orderHistory', (req, res, next) => {
+    var id;
+    if (req.headers.authorization) {
+        verifyToken(req, res, () => {
+            id = req.id;
+        })
+    } else {
+        id = req.body.uid;
+    }
+    return database.query(`SELECT id, user_id, total, to_char(buydate::timestamp,'dd/mm/YYYY') as buydate FROM order_history WHERE user_id = $1;`, [id] )
+        .then(result => {
+            if (!result.rows) return res.status(200).json({
+                orderhistory: []
+            })
+            logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+            return res.status(200).json({
+                orderhistory: result.rows
+            })
+        })
+        .catch(err => {
+            next(createHttpError(500, err));
+            logger.error(`${err || '500 Error'} ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+        })
+})
+
+router.post('/orderDetails', (req, res, next) => {
+    var oid = req.body.oid
+    return database.query(`SELECT id, order_id, g2a_gamedatabase.g_id, g2a_gamedatabase.g_name, amount FROM order_detail INNER JOIN g2a_gamedatabase ON order_detail.g_id = g2a_gamedatabase.g_id WHERE order_id = $1`, [oid] )
+        .then(result => {
+            console.log(result.rows)
+            if (!result.rows) return res.status(200).json({
+                orderdetails: []
+            })
+            logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+            return res.status(200).json({
+                orderdetails: result.rows
+            })
+        })
+        .catch(err => {
+            next(createHttpError(500, err));
+            logger.error(`${err || '500 Error'} ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+        })
 })
 module.exports = router;

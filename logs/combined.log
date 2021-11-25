@@ -15,3 +15,323 @@ info: Nov-25-2021 13:45:57: 	200 OK ||  undefined - /game/getBSellers/ - GET - :
 info: Nov-25-2021 13:45:57: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
 info: Nov-25-2021 13:45:57: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
 info: Nov-25-2021 13:45:57: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 14:03:11: 	200 OK ||  undefined - /cart/getShoppingCart - POST - ::1
+info: Nov-25-2021 14:03:17: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 14:03:17: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 14:03:17: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 14:03:18: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 14:03:18: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 14:03:18: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 14:03:18: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 14:03:19: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 14:03:21: 	200 OK ||  undefined - /game/gameDetailById/16 - GET - ::1
+info: Nov-25-2021 14:03:22: 	201 Insert ||  undefined - /cart/editShoppingCart - POST - ::1
+info: Nov-25-2021 14:03:23: 	200 OK ||  undefined - /cart/getShoppingCart - POST - ::1
+info: Nov-25-2021 14:05:34: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 14:05:35: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 14:05:35: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 14:05:35: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+error: Nov-25-2021 14:09:21: 	500 Error ||  Internal Server Error - /category/getAllCategories - GET - ::1
+error: Nov-25-2021 14:09:23: 	500 Error ||  Internal Server Error - /category/getAllCategories - GET - ::ffff:127.0.0.1
+error: Nov-25-2021 14:09:24: 	500 Error ||  Internal Server Error - /category/getAllCategories - GET - ::ffff:127.0.0.1
+error: Nov-25-2021 14:09:24: 	500 Error ||  Internal Server Error - /category/getAllCategories - GET - ::1
+error: Nov-25-2021 14:09:29: 	500 Error ||  Internal Server Error - /category/getAllCategories - GET - ::1
+error: Nov-25-2021 14:09:31: 	500 Error ||  Internal Server Error - /category/getAllCategories - GET - ::1
+info: Nov-25-2021 14:11:10: 	200 OK ||  undefined - /cart/getShoppingCart - POST - ::1
+info: Nov-25-2021 14:11:39: 	200 OK ||  undefined - /cart/getShoppingCart - POST - ::1
+info: Nov-25-2021 14:14:12: 	200 OK ||  undefined - /game/getBSellers/ - GET - undefined
+error: Nov-25-2021 14:14:12: 	TypeError: Cannot read property 'rows' of undefined ||  Internal Server Error - /game/getBSellers/ - GET - undefined
+info: Nov-25-2021 14:14:12: 	200 OK ||  undefined - /game/getBSellers/ - GET - undefined
+info: Nov-25-2021 14:29:18: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:29:19: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:29:20: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:29:26: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:29:27: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+error: Nov-25-2021 14:30:03: 	TypeError: Cannot read property 'rows' of undefined ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:30:05: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:30:07: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+error: Nov-25-2021 14:30:25: 	TypeError: Cannot read property 'rows' of undefined ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:30:25: 	200 OK ||  undefined - /order/orderHistory - GET - undefined
+info: Nov-25-2021 14:30:31: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:30:46: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:31:31: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:31:32: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:31:45: 	200 OK ||  undefined - /cart/getShoppingCart - POST - ::1
+info: Nov-25-2021 14:31:45: 	200 OK ||  undefined - /category/getAllCategories - GET - undefined
+info: Nov-25-2021 14:31:46: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 14:31:46: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 14:31:46: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 14:31:46: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 14:31:47: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 14:31:47: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 14:31:47: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 14:31:47: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 14:31:48: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 14:31:48: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 14:31:48: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 14:31:49: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 14:31:49: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 14:31:49: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 14:31:49: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 14:31:50: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 14:31:50: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 14:31:51: 	200 OK ||  undefined - /game/gameDetailById/16 - GET - ::1
+info: Nov-25-2021 14:31:52: 	201 Insert ||  undefined - /cart/editShoppingCart - POST - ::1
+info: Nov-25-2021 14:31:54: 	200 OK ||  undefined - /cart/getShoppingCart - POST - ::1
+info: Nov-25-2021 14:33:05: 	200 OK ||  undefined - /cart/getShoppingCart - POST - ::1
+info: Nov-25-2021 14:33:07: 	201 Insert ||  undefined - /cart/editShoppingCart - POST - ::1
+info: Nov-25-2021 14:33:08: 	200 OK ||  undefined - /cart/getShoppingCart - POST - ::1
+info: Nov-25-2021 14:33:09: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 14:33:09: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 14:33:10: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 14:33:10: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 14:33:11: 	200 OK ||  undefined - /cart/getShoppingCart - POST - undefined
+info: Nov-25-2021 14:33:11: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 14:33:11: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 14:33:12: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 14:33:12: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 14:33:12: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+error: Nov-25-2021 14:35:29: 	500 Error ||  Internal Server Error - /category/getAllCategories - GET - undefined
+error: Nov-25-2021 14:35:30: 	500 Error ||  Internal Server Error - /category/getAllCategories - GET - ::1
+error: Nov-25-2021 14:35:31: 	TypeError: Cannot read property 'rows' of undefined ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:35:39: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:36:03: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:36:09: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:36:14: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:40:41: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:40:42: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:43:56: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:43:58: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+error: Nov-25-2021 14:44:35: 	TypeError: Cannot read property 'rows' of undefined ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:44:37: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:44:58: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:44:59: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:45:28: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:46:38: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:46:58: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 14:46:58: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 14:46:58: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 14:46:59: 	200 OK ||  undefined - /cart/getShoppingCart - POST - ::1
+info: Nov-25-2021 14:47:23: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 14:47:23: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 14:47:23: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 14:47:24: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 14:47:25: 	200 OK ||  undefined - /game/gameDetailById/18 - GET - ::1
+info: Nov-25-2021 14:47:26: 	201 Insert ||  undefined - /cart/editShoppingCart - POST - ::1
+info: Nov-25-2021 14:47:28: 	200 OK ||  undefined - /cart/getShoppingCart - POST - ::1
+info: Nov-25-2021 14:49:19: 	200 OK ||  undefined - /cart/getShoppingCart - POST - ::1
+info: Nov-25-2021 14:49:22: 	200 OK ||  undefined - /game/getBSellers/ - GET - ::1
+info: Nov-25-2021 14:49:23: 	200 OK ||  undefined - /game/getPreorders - GET - ::1
+info: Nov-25-2021 14:49:23: 	200 OK ||  undefined - /game/getLRelease - GET - ::1
+info: Nov-25-2021 14:49:23: 	200 OK ||  undefined - /game/getDeals/ - GET - ::1
+info: Nov-25-2021 14:49:24: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:49:24: 	200 OK ||  undefined - /order/orderHistory - GET - undefined
+error: Nov-25-2021 14:50:44: 	TypeError: Cannot read property 'rows' of undefined ||  undefined - /order/orderHistory - GET - ::ffff:127.0.0.1
+info: Nov-25-2021 14:50:50: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+error: Nov-25-2021 14:53:17: 	TypeError: Cannot read property 'rows' of undefined ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:53:22: 	200 OK ||  undefined - /order/orderHistory - GET - ::1
+info: Nov-25-2021 14:55:05: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:02:30: 	200 OK ||  undefined - /order/orderHistory - POST - undefined
+error: Nov-25-2021 15:02:31: 	TypeError: Cannot read property 'rows' of undefined ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:02:32: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:02:33: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:02:46: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+error: Nov-25-2021 15:03:25: 	TypeError: Cannot read property 'rows' of undefined ||  undefined - /order/orderHistory - POST - ::1
+error: Nov-25-2021 15:03:27: 	TypeError: Cannot read property 'rows' of undefined ||  undefined - /order/orderHistory - POST - ::1
+error: Nov-25-2021 15:03:28: 	TypeError: Cannot read property 'rows' of undefined ||  undefined - /order/orderHistory - POST - ::1
+error: Nov-25-2021 15:03:29: 	TypeError: Cannot read property 'rows' of undefined ||  undefined - /order/orderHistory - POST - ::1
+error: Nov-25-2021 15:03:31: 	TypeError: Cannot read property 'rows' of undefined ||  undefined - /order/orderHistory - POST - ::1
+error: Nov-25-2021 15:03:32: 	TypeError: Cannot read property 'rows' of undefined ||  undefined - /order/orderHistory - POST - ::1
+error: Nov-25-2021 15:03:34: 	TypeError: Cannot read property 'rows' of undefined ||  undefined - /order/orderHistory - POST - ::1
+error: Nov-25-2021 15:03:52: 	TypeError: Cannot read property 'rows' of undefined ||  undefined - /order/orderHistory - POST - ::ffff:127.0.0.1
+error: Nov-25-2021 15:03:54: 	TypeError: Cannot read property 'rows' of undefined ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:04:05: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:12:28: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:12:28: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:12:29: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:12:29: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:12:30: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:12:30: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:12:32: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:12:32: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:12:33: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:12:34: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+error: Nov-25-2021 15:17:05: 	TypeError: Cannot read property 'rows' of undefined ||  Internal Server Error - /order/orderHistory - POST - ::1
+error: Nov-25-2021 15:17:07: 	TypeError: Cannot read property 'rows' of undefined ||  Internal Server Error - /order/orderHistory - POST - ::1
+error: Nov-25-2021 15:17:29: 	TypeError: Cannot read property 'rows' of undefined ||  Internal Server Error - /game/getBSellers/ - GET - undefined
+error: Nov-25-2021 15:17:30: 	TypeError: Cannot read property 'rows' of undefined ||  Internal Server Error - /game/getBSellers/ - GET - undefined
+error: Nov-25-2021 15:17:30: 	TypeError: Cannot read property 'rows' of undefined ||  Internal Server Error - /game/getBSellers/ - GET - undefined
+error: Nov-25-2021 15:17:32: 	TypeError: Cannot read property 'rows' of undefined ||  Internal Server Error - /game/getBSellers/ - GET - undefined
+error: Nov-25-2021 15:17:32: 	TypeError: Cannot read property 'rows' of undefined ||  Internal Server Error - /order/orderHistory - POST - ::1
+error: Nov-25-2021 15:17:34: 	TypeError: Cannot read property 'rows' of undefined ||  Internal Server Error - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:18:21: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:18:21: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:27:28: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:27:29: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:27:30: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:27:31: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:30:19: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:30:20: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:32:09: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:32:09: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:32:09: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:33:00: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:33:02: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:33:03: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:33:04: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:33:06: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:33:13: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:33:15: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:33:16: 	200 OK ||  undefined - /order/orderHistory - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:33:18: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:36:00: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:36:00: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:36:27: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:36:28: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:36:30: 	200 OK ||  undefined - /order/orderHistory - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:36:37: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:36:39: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:43:59: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:44:17: 	200 OK ||  undefined - /order/orderHistory - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:44:18: 	200 OK ||  undefined - /order/orderHistory - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:44:20: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:45:04: 	200 OK ||  undefined - /order/orderHistory - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:45:04: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:45:06: 	200 OK ||  undefined - /order/orderHistory - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:45:07: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:45:07: 	200 OK ||  undefined - /order/orderHistory - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:45:08: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+error: Nov-25-2021 15:49:16: 	TypeError: Cannot read property 'rows' of undefined ||  Internal Server Error - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:49:19: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:49:22: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:50:59: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+error: Nov-25-2021 15:52:46: 	TypeError: Cannot read property 'rows' of undefined ||  Internal Server Error - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:52:47: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:52:48: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:52:49: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:52:49: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:52:50: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:52:51: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:52:51: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:52:52: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:52:53: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:52:57: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:52:58: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+error: Nov-25-2021 15:54:12: 	TypeError: Cannot read property 'rows' of undefined ||  Internal Server Error - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:54:13: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:54:14: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:54:14: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:54:44: 	200 OK ||  undefined - /order/orderHistory - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:54:44: 	200 OK ||  undefined - /order/orderDetails - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:54:44: 	200 OK ||  undefined - /order/orderDetails - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:54:49: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:54:49: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:54:49: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:55:08: 	200 OK ||  undefined - /order/orderHistory - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:55:08: 	200 OK ||  undefined - /order/orderDetails - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:55:08: 	200 OK ||  undefined - /order/orderDetails - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:55:09: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:55:09: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:55:10: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:55:11: 	200 OK ||  undefined - /order/orderHistory - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:55:11: 	200 OK ||  undefined - /order/orderDetails - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:55:12: 	200 OK ||  undefined - /order/orderDetails - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:56:01: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:56:01: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:56:01: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:56:22: 	200 OK ||  undefined - /order/orderHistory - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:56:22: 	200 OK ||  undefined - /order/orderDetails - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:56:22: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:56:23: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:56:23: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:56:27: 	200 OK ||  undefined - /order/orderHistory - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:56:27: 	200 OK ||  undefined - /order/orderDetails - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:56:27: 	200 OK ||  undefined - /order/orderDetails - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 15:56:57: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:56:57: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:56:58: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:57:02: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 15:57:02: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 15:57:02: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:13:16: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:13:16: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:13:16: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:15:22: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:15:23: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:15:23: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:15:54: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:15:55: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:15:55: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:16:50: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:16:50: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:16:50: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:19:17: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:19:17: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:19:17: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:19:25: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:19:26: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:19:26: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:19:41: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:19:41: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:19:41: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:19:43: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:19:44: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:19:44: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:19:46: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:19:46: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:19:46: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:20:01: 	200 OK ||  undefined - /order/orderHistory - POST - undefined
+info: Nov-25-2021 16:20:02: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:20:02: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:20:02: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:21:59: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:21:59: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:22:00: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:24:40: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:24:40: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:24:41: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:25:04: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:25:04: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:25:05: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:25:10: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:25:10: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:25:12: 	200 OK ||  undefined - /order/orderDetails - POST - undefined
+info: Nov-25-2021 16:25:13: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:25:13: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:25:13: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:29:00: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:29:01: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:29:01: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:29:30: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:29:32: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:29:32: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:29:34: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:29:35: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:29:35: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:29:36: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:29:36: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:29:36: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:29:37: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:29:38: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:29:38: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:30:43: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:30:43: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:30:43: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:32:39: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:32:39: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:32:40: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:32:41: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:32:41: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:32:41: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:33:25: 	200 OK ||  undefined - /order/orderHistory - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 16:33:25: 	200 OK ||  undefined - /order/orderDetails - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 16:33:25: 	200 OK ||  undefined - /order/orderDetails - POST - ::ffff:127.0.0.1
+info: Nov-25-2021 16:33:48: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:33:48: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:33:48: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:36:52: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:36:53: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:36:53: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:37:05: 	200 OK ||  undefined - /order/orderHistory - POST - ::1
+info: Nov-25-2021 16:37:05: 	200 OK ||  undefined - /order/orderDetails - POST - ::1
+info: Nov-25-2021 16:37:06: 	200 OK ||  undefined - /order/orderDetails - POST - ::1

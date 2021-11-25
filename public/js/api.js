@@ -302,15 +302,21 @@ function deleteCart(id) {
         })
 }
 
-function getOrderID() {
+async function getOrderID() {
     const methods = {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         }
     }
+    if (localStorage.getItem("token")) {
+        methods.headers.Authorization = "Bearer " + localStorage.getItem("token")
+    }
+    const body = {
+        uid: localStorage.getItem("uid")
+    }
     return axios
-        .get(``, methods)
+        .post(`/order/orderHistory`, body, methods)
         .then(response => {
             return response.data.orderhistory
         })
@@ -323,15 +329,19 @@ function getOrderID() {
         })
 }
 
-function getOrderDetailsByID() {
+function getOrderDetailsByID(oid) {
     const methods = {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         }
     }
+    const body = {
+        uid: localStorage.getItem("uid"),
+        oid: oid
+    }
     return axios
-        .get(``, methods)
+        .post(`/order/orderDetails`, body, methods)
         .then(response => {
             return response.data.orderdetails
         })

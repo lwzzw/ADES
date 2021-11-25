@@ -349,6 +349,15 @@ INSERT INTO public.user_detail (name, email, password, gender, c_card, phone) VA
 INSERT INTO public.user_detail (name, email, password, gender, c_card, phone) VALUES ('Adam', 'adam@gmail.com', '123password', 'M', 3, 97653242);
 INSERT INTO public.user_detail (name, email, password, gender, c_card, phone) VALUES ('Lily', 'lily@gmail.com', '123password', 'F', 2, 81136175);
 
+
+
+
+INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (1, 1, 1);
+INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (1, 2, 1);
+INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (2, 1, 1);
+INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (2, 2, 1);
+INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (2, 4, 1);
+
 INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 1, 10);
 INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 1, 9);
 INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 2, 8);
@@ -365,8 +374,10 @@ INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 21, 30);
 INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 30, 12);
 INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 29, 17);
 
-INSERT INTO public.order_history (user_id, buydate, total)
-SELECT 1, current_timestamp,(order_detail.amount * COALESCE(g_discount, g_price)) FROM public.order_detail INNER JOIN g2a_gamedatabase ON order_detail.g_id = g2a_gamedatabase.g_id;
+
+
+INSERT INTO order_history (user_id, buydate, total) VALUES (81624843,current_timestamp, 1);
+INSERT INTO order_history (user_id, buydate, total) VALUES (81624843,current_timestamp, 1);
 
      `)
 	})
