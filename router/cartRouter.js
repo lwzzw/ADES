@@ -20,6 +20,7 @@ router.post("/getShoppingCart", (req, res, next) => {
     }
     return database.query(`select game_id, amount, g_name, g_description, g_price, g_discount, g_image from cart inner join g2a_gamedatabase on game_id = g_id where user_id = $1`, [id]).then(result => {
         console.log(id)
+        if (result)
         return res.status(200).json({
             cart: result.rows
         });
