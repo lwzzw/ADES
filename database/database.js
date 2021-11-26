@@ -75,7 +75,7 @@ exports.query = function (text, params) {
 // };
 
 // exports.query = function (text, params) {
-//   return new Promise((resolve, reject) => {
+//   return new Promise((resolve, reject) => {rsr
 //     if (!connection) {
 //       reject(new Error('Not connected to database'));
 //       return
