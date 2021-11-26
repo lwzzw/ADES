@@ -1,0 +1,1391 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "ADES CA1",
+    "version": "1.0.0",
+    "title": "ADES",
+    "contact": {
+      "email": "zhengwei.20@ichat.sp.edu.sg"
+    },
+    "license": {
+      "name": "Website URL",
+      "url": "https://lzwades.herokuapp.com"
+    }
+  },
+  "host": "virtserver.swaggerhub.com",
+  "basePath": "/lzwades/ades/1.0.0",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/cart/getShoppingCart": {
+      "post": {
+        "summary": "get shopping cart",
+        "description": "By passing in the user id, you can get your shopping cart\n",
+        "operationId": "getShoppingCart",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "uid",
+            "description": "user unique id",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/UserVerify"
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "user login token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "shopping cart result",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ShoppingCart"
+              }
+            }
+          },
+          "401": {
+            "description": "verify user fail"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/cart/editShoppingCart": {
+      "post": {
+        "summary": "edit shopping cart",
+        "description": "By passing in the user id and cart detail, you can edit your shopping cart\n",
+        "operationId": "editShoppingCart",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "uid",
+            "description": "user unique id and cart",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/EditShoppingCart"
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "user login token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "shopping cart edit successful"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/category/getAllCategories": {
+      "get": {
+        "summary": "get all category to display",
+        "description": "By getting the category user can see the category\n",
+        "operationId": "getAllCategories",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "return all category",
+            "schema": {
+              "$ref": "#/definitions/Categories"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/category/countOfGame/{mainCategory}": {
+      "get": {
+        "summary": "get the total game of the category",
+        "description": "Send the count of each category\n",
+        "operationId": "countOfGame",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "mainCategory",
+            "in": "path",
+            "description": "main category",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "return count of game",
+            "schema": {
+              "$ref": "#/definitions/CountOfGame"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/game/gameDetailById/{id}": {
+      "get": {
+        "summary": "get the game detail by id",
+        "description": "Return game detail\n",
+        "operationId": "gameDetailId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "game id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "return game detail",
+            "schema": {
+              "$ref": "#/definitions/GameDetail"
+            }
+          },
+          "204": {
+            "description": "cant find game"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/game/gameDetailFilter": {
+      "get": {
+        "summary": "get the game detail by filtering",
+        "description": "Return game detail\n",
+        "operationId": "gameDetailFilter",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "platform",
+            "in": "query",
+            "description": "second category",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "search name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "maincat",
+            "in": "query",
+            "description": "the first category name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "childcat",
+            "in": "query",
+            "description": "the second category/platform name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "minprice",
+            "in": "query",
+            "description": "minimum price",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "maxprice",
+            "in": "query",
+            "description": "maximum price",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "show the page number",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "determine how the game sort",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "return game detail",
+            "schema": {
+              "$ref": "#/definitions/GameDetailFilter"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/game/getDeals": {
+      "get": {
+        "summary": "get the game which have discount",
+        "description": "get all game which have discount\n",
+        "operationId": "getDeals",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "return game",
+            "schema": {
+              "$ref": "#/definitions/GetDeals"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/game/getBSellers": {
+      "get": {
+        "summary": "get the game which are best selling",
+        "description": "get 6 game from our game\n",
+        "operationId": "getBSellers",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "return game",
+            "schema": {
+              "$ref": "#/definitions/GetBSellers"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/game/getPreorders": {
+      "get": {
+        "summary": "get the game which are pre order",
+        "description": "get 6 game from our game\n",
+        "operationId": "getPreorders",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "return game",
+            "schema": {
+              "$ref": "#/definitions/GetPreorders"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/game/getLRelease": {
+      "get": {
+        "summary": "get the game which are latest release",
+        "description": "get 6 game from our game\n",
+        "operationId": "getLRease",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "return game",
+            "schema": {
+              "$ref": "#/definitions/GetLRelease"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/order/create-order": {
+      "post": {
+        "summary": "check out",
+        "description": "check out the shopping cart\n",
+        "operationId": "create-order",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "uid",
+            "description": "user unique id",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Create-order"
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "user login token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "return order id",
+            "schema": {
+              "$ref": "#/definitions/CreateOrder"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/order/save-order": {
+      "post": {
+        "summary": "save the order detail",
+        "description": "save order detail\n",
+        "operationId": "save-order",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "detail",
+            "description": "user unique id and order status",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Save-order"
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "user login token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "return status",
+            "schema": {
+              "$ref": "#/definitions/SaveOrder"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/order/orderHistory": {
+      "post": {
+        "summary": "get the order history",
+        "description": "get order history\n",
+        "operationId": "orderHistory",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "detail",
+            "description": "user unique id",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/UserVerify"
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "user login token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "return order history",
+            "schema": {
+              "$ref": "#/definitions/OrderHistoryResult"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/order/orderDetails": {
+      "post": {
+        "summary": "get order detail",
+        "description": "get order details by user id\n",
+        "operationId": "orderDetails",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "detail",
+            "description": "user unique id",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/UserVerify"
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "user login token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "return order history",
+            "schema": {
+              "$ref": "#/definitions/OrderDetails"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "summary": "user login",
+        "description": "user login\n",
+        "operationId": "login",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "detail",
+            "description": "user detail",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/UserLogin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "return order history",
+            "schema": {
+              "$ref": "#/definitions/UserLoginResult"
+            }
+          },
+          "401": {
+            "description": "Verify user error"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/user/checkLogin": {
+      "post": {
+        "summary": "check user login",
+        "description": "check user login\n",
+        "operationId": "check login",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "detail",
+            "description": "user detail",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/UserVerify"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "return user name",
+            "schema": {
+              "$ref": "#/definitions/UserName"
+            }
+          },
+          "401": {
+            "description": "Verify user error"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "UserVerify": {
+      "type": "object",
+      "required": [
+        "uid"
+      ],
+      "properties": {
+        "uid": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1820797504
+        }
+      }
+    },
+    "ShoppingCart": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ShoppingCartItem"
+      }
+    },
+    "ShoppingCartItem": {
+      "type": "object",
+      "required": [
+        "amount",
+        "g_description",
+        "g_discount",
+        "g_image",
+        "g_name",
+        "g_price",
+        "game_id"
+      ],
+      "properties": {
+        "game_id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "amount": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "g_name": {
+          "type": "string",
+          "example": "game name"
+        },
+        "g_description": {
+          "type": "string",
+          "example": "description"
+        },
+        "g_price": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        },
+        "g_discount": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        },
+        "g_image": {
+          "type": "string",
+          "example": "/images/game1.png"
+        }
+      }
+    },
+    "EditShoppingCart": {
+      "type": "object",
+      "required": [
+        "cart",
+        "uid"
+      ],
+      "properties": {
+        "uid": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1820797504
+        },
+        "cart": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CartBody"
+          }
+        }
+      }
+    },
+    "CartBody": {
+      "type": "object",
+      "required": [
+        "amount",
+        "id"
+      ],
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        }
+      }
+    },
+    "Categories": {
+      "type": "object",
+      "required": [
+        "categories"
+      ],
+      "properties": {
+        "categories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FirstCategory"
+          }
+        }
+      }
+    },
+    "FirstCategory": {
+      "type": "object",
+      "required": [
+        "category_name",
+        "id",
+        "parent"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "category_name": {
+          "type": "string",
+          "example": "Video games"
+        },
+        "parent": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SecondCategory"
+          }
+        }
+      }
+    },
+    "SecondCategory": {
+      "type": "object",
+      "required": [
+        "category_name",
+        "child",
+        "fk_main",
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "category_name": {
+          "type": "string",
+          "example": "Steam Games"
+        },
+        "fk_main": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "child": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ThirdCategory"
+          }
+        }
+      }
+    },
+    "ThirdCategory": {
+      "type": "object",
+      "required": [
+        "category_name",
+        "fk_parent",
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "fk_parent": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "category_name": {
+          "type": "string",
+          "example": "Action Games"
+        }
+      }
+    },
+    "CountOfGame": {
+      "type": "object",
+      "required": [
+        "count"
+      ],
+      "properties": {
+        "count": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        }
+      }
+    },
+    "GameDetail": {
+      "type": "object",
+      "required": [
+        "game"
+      ],
+      "properties": {
+        "game": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GameDetailArray"
+          }
+        }
+      }
+    },
+    "GameDetailArray": {
+      "type": "object",
+      "required": [
+        "category_name",
+        "g_description",
+        "g_discount",
+        "g_id",
+        "g_image",
+        "g_name",
+        "g_price",
+        "g_publishdate",
+        "g_region",
+        "region_name"
+      ],
+      "properties": {
+        "g_id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "g_name": {
+          "type": "string",
+          "example": "Game name"
+        },
+        "g_description": {
+          "type": "string",
+          "example": "description"
+        },
+        "g_price": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        },
+        "g_image": {
+          "type": "string",
+          "example": "/images/game1.png"
+        },
+        "g_publishdate": {
+          "type": "string",
+          "example": "11/11/2021"
+        },
+        "g_region": {
+          "type": "integer",
+          "example": 1
+        },
+        "g_discount": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        },
+        "category_name": {
+          "type": "string",
+          "example": "Steam Games"
+        },
+        "region_name": {
+          "type": "string",
+          "example": "ASIA"
+        }
+      }
+    },
+    "GameDetailFilter": {
+      "type": "object",
+      "required": [
+        "games"
+      ],
+      "properties": {
+        "games": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GameDetailFilterArray"
+          }
+        }
+      }
+    },
+    "GameDetailFilterArray": {
+      "type": "object",
+      "required": [
+        "g_description",
+        "g_discount",
+        "g_id",
+        "g_image",
+        "g_name",
+        "g_price",
+        "g_publishdate",
+        "g_region"
+      ],
+      "properties": {
+        "g_id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "g_name": {
+          "type": "string",
+          "example": "Game name"
+        },
+        "g_description": {
+          "type": "string",
+          "example": "description"
+        },
+        "g_price": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        },
+        "g_image": {
+          "type": "string",
+          "example": "/images/game1.png"
+        },
+        "g_publishdate": {
+          "type": "string",
+          "example": "11/11/2021"
+        },
+        "g_region": {
+          "type": "integer",
+          "example": 1
+        },
+        "g_discount": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        }
+      }
+    },
+    "GetDeals": {
+      "type": "object",
+      "required": [
+        "deals"
+      ],
+      "properties": {
+        "deals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetDealsArray"
+          }
+        }
+      }
+    },
+    "GetDealsArray": {
+      "type": "object",
+      "required": [
+        "g_discount",
+        "g_id",
+        "g_image",
+        "g_name",
+        "g_price"
+      ],
+      "properties": {
+        "g_id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "g_name": {
+          "type": "string",
+          "example": "Game name"
+        },
+        "g_discount": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        },
+        "g_image": {
+          "type": "string",
+          "example": "/images/game1.png"
+        },
+        "g_price": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        }
+      }
+    },
+    "GetBSellers": {
+      "type": "object",
+      "required": [
+        "bsellers"
+      ],
+      "properties": {
+        "bsellers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetBSellersArray"
+          }
+        }
+      }
+    },
+    "GetBSellersArray": {
+      "type": "object",
+      "required": [
+        "bestseller",
+        "bs_price",
+        "g_id",
+        "g_image",
+        "g_name",
+        "g_price"
+      ],
+      "properties": {
+        "g_id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "g_name": {
+          "type": "string",
+          "example": "Game name"
+        },
+        "g_price": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        },
+        "g_image": {
+          "type": "string",
+          "example": "/images/game1.png"
+        },
+        "g_discount": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        },
+        "bestseller": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        },
+        "bs_price": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        }
+      }
+    },
+    "GetPreorders": {
+      "type": "object",
+      "required": [
+        "preorders"
+      ],
+      "properties": {
+        "preorders": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetPreordersArray"
+          }
+        }
+      }
+    },
+    "GetPreordersArray": {
+      "type": "object",
+      "required": [
+        "g_id",
+        "g_image",
+        "g_name",
+        "g_price",
+        "g_publishdate",
+        "nullif",
+        "preorder_price"
+      ],
+      "properties": {
+        "g_id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "g_name": {
+          "type": "string",
+          "example": "Game name"
+        },
+        "g_price": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        },
+        "g_image": {
+          "type": "string",
+          "example": "/images/game1.png"
+        },
+        "preorder_price": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        },
+        "nullif": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        },
+        "g_publishdate": {
+          "type": "string",
+          "example": "11/11/2021"
+        }
+      }
+    },
+    "GetLRelease": {
+      "type": "object",
+      "required": [
+        "lrease"
+      ],
+      "properties": {
+        "lrease": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetLReleaseArray"
+          }
+        }
+      }
+    },
+    "GetLReleaseArray": {
+      "type": "object",
+      "required": [
+        "date",
+        "g_discount",
+        "g_id",
+        "g_image",
+        "g_name",
+        "g_price",
+        "nullif"
+      ],
+      "properties": {
+        "g_id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "g_name": {
+          "type": "string",
+          "example": "Game name"
+        },
+        "g_price": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        },
+        "g_image": {
+          "type": "string",
+          "example": "/images/game1.png"
+        },
+        "preorder_price": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        },
+        "nullif": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        },
+        "date": {
+          "type": "string",
+          "example": "11/11/2021"
+        },
+        "g_discount": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        }
+      }
+    },
+    "Create-order": {
+      "type": "object",
+      "required": [
+        "uid"
+      ],
+      "properties": {
+        "uid": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1820797504
+        }
+      }
+    },
+    "CreateOrder": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "18D925798A0340749"
+        }
+      }
+    },
+    "Save-order": {
+      "type": "object",
+      "required": [
+        "detail",
+        "uid"
+      ],
+      "properties": {
+        "uid": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1820797504
+        },
+        "detail": {
+          "$ref": "#/definitions/Save-orderObject"
+        }
+      }
+    },
+    "Save-orderObject": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "COMPLETED"
+        }
+      }
+    },
+    "SaveOrder": {
+      "type": "object",
+      "required": [
+        "done"
+      ],
+      "properties": {
+        "done": {
+          "type": "string",
+          "example": "true"
+        }
+      }
+    },
+    "OrderHistoryResult": {
+      "type": "object",
+      "required": [
+        "orderhistory"
+      ],
+      "properties": {
+        "orderhistory": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderHistoryResultArray"
+          }
+        }
+      }
+    },
+    "OrderHistoryResultArray": {
+      "type": "object",
+      "required": [
+        "buydate",
+        "id",
+        "total",
+        "user_id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1820797504
+        },
+        "total": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        },
+        "buydate": {
+          "type": "string",
+          "example": "11/11/2021"
+        }
+      }
+    },
+    "OrderDetails": {
+      "type": "object",
+      "required": [
+        "orderdetails"
+      ],
+      "properties": {
+        "orderdetails": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderDetailsArray"
+          }
+        }
+      }
+    },
+    "OrderDetailsArray": {
+      "type": "object",
+      "required": [
+        "amount",
+        "g_id",
+        "g_name",
+        "id",
+        "order_id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "order_id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "g_id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "g_name": {
+          "type": "string",
+          "example": "game name"
+        },
+        "amount": {
+          "type": "number",
+          "format": "NUMERIC(12,2)",
+          "example": 10
+        }
+      }
+    },
+    "UserLogin": {
+      "type": "object",
+      "required": [
+        "email",
+        "password"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "example@gamil.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "example"
+        }
+      }
+    },
+    "UserLoginResult": {
+      "type": "object",
+      "required": [
+        "token"
+      ],
+      "properties": {
+        "token": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6IkxpbHkiLCJpYXQiOjE2Mzc5MDI3MjIsImV4cCI6MTYzNzk4OTEyMn0.sybmhllBjRafuPKMlyxnTmuCs2JToI0oF85sC9gmXIg"
+        }
+      }
+    },
+    "UserName": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "lily"
+        }
+      }
+    }
+  }
+}
