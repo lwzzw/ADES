@@ -366,8 +366,8 @@ hr {
     border-style: dashed;
     width: 170px;
     height: 90px;
-    padding: 35px;
     text-align: -webkit-center;
+    padding-top: 30px;
 }
 
 .cheap-product h6 {
