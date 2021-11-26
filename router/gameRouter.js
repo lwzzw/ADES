@@ -12,10 +12,15 @@ router.get('/gameDetailById/:id', (req, res, next) => {
                             join region on region.id = g_region
                             where g_id = $1`, [id])
         .then(result => {
-            logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-            return res.status(200).json({
-                game: result.rows
-            });
+            if (result.rows) {
+                logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+                return res.status(200).json({
+                    game: result.rows
+                });
+            } else {
+                logger.info(`204 NO CONTENT ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+                return res.status(204).end();
+            }
         })
         .catch(err => {
             next(createHttpError(500, err))
@@ -76,8 +81,7 @@ router.get('/gameDetailFilter', (req, res, next) => {
 })
 
 router.get('/getDeals', (req, res, next) => {
-
-    return database.query(`SELECT * FROM g2a_gamedatabase WHERE g_discount IS NOT NULL`)
+    return database.query(`SELECT g_id, g_name, g_discount, g_image, g_price FROM g2a_gamedatabase WHERE g_discount IS NOT NULL`)
         .then(result => {
             logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
             return res.status(200).json({
