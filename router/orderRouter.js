@@ -64,7 +64,7 @@ router.post("/create-order", async (req, res, next) => {
 
     try {
         const order = await paypalClient.execute(request)
-        res.json({
+        res.status(200).json({
             id: order.result.id
         })
     } catch (err) {

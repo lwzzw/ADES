@@ -81,8 +81,7 @@ router.get('/gameDetailFilter', (req, res, next) => {
 })
 
 router.get('/getDeals', (req, res, next) => {
-
-    return database.query(`SELECT * FROM g2a_gamedatabase WHERE g_discount IS NOT NULL`)
+    return database.query(`SELECT g_id, g_name, g_discount, g_image, g_price FROM g2a_gamedatabase WHERE g_discount IS NOT NULL`)
         .then(result => {
             logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
             return res.status(200).json({
