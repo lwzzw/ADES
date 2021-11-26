@@ -3,6 +3,7 @@ const createHttpError = require('http-errors');
 const paypal = require("@paypal/checkout-server-sdk")
 const router = require('express').Router();
 const logger = require('../logger');
+const verifyToken = require('../middleware/checkUserAuthorize');
 const Environment =
     process.env.ENV === "production" ?
     paypal.core.LiveEnvironment :
