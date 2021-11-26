@@ -102,8 +102,6 @@ ALTER TABLE cart
 ALTER TABLE order_detail
 	ADD CONSTRAINT fk_history_detail FOREIGN KEY(g_id) REFERENCES G2A_gameDatabase(g_id);
 
-ALTER TABLE IF EXISTS public.order_history ADD CONSTRAINT fk_orderid FOREIGN KEY (id) REFERENCES public.order_detail (order_id)
-
 DROP FUNCTION IF EXISTS insert_cart;
 CREATE FUNCTION insert_cart (uid bigint, gid int, quantity int, edit varchar(20))
 	returns int
