@@ -301,7 +301,7 @@ hr {
 .individual-game-image {
     width: 338px;
     height: 456px;
-    border-style: dashed;
+    border-style: solid;
 }
 
 .individual-game-container {
@@ -316,19 +316,16 @@ hr {
     grid-gap: 20px;
 }
 
-.individual-game-details> * {
-    border-style: dashed;
-}
 
 .individual-game-description {
     margin-top: 30px;
-    border-style: dashed;
+
 }
 
 .individual-game-price-section {
-    border-style: dashed;
     margin-left: 25px;
     align-self: center;
+    align-items: center;
     height: 362px;
     width: 300px;
     padding: 40px 20px;

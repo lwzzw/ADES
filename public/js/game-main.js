@@ -61,18 +61,20 @@ function showGame(game) {
                 <h1>${game.g_name}</h1>
             </div>
             <div class="individual-game-details">
-                <div>${game.category_name}</div>
-                <div>${game.g_region}</div>
-                <div>${game.g_publishdate}</div>
+                <div><h6>Category:</h6> ${game.category_name}</div>
+                <div><h6>Region:</h6> ${game.region_name}</div>
+                <div><h6>Published Date:</h6> ${game.g_publishdate}</div>
             </div>
 
             <div class="individual-game-description">
+            <h6>Description:</h6>
             ${game.g_description}
             </div>
         </div>
 
         <div class="individual-game-price-section">
-            <div>${game.g_discount ? game.g_discount: game.g_price}</div>
+            <h5>Price</h5>
+            <h4>$ ${game.g_discount ? game.g_discount: game.g_price}</h4>
             <button onclick="addCart(${game.g_id})">Add to cart</button>
         </div>
         </div>
