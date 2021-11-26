@@ -168,7 +168,7 @@ function showCheapProducts() {
         }
         let string = `
         <div class="cheap-product">
-            <div><a href="category.html?&maxprice=${maxPrice=50 * i}${minPrice}"><h6>${maxPrice}</h6></a></div>
+            <div><a href="category.html?&maxprice=${maxPrice=50 * i}${minPrice}"><h6>Up to ${maxPrice} SGD</h6></a></div>
         </div>
         `
         document.getElementById("cheap-products").insertAdjacentHTML("beforeend", string)
