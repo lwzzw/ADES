@@ -158,13 +158,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
 })
 
-async function uidGenerate() {
-    if (!localStorage.getItem("uid")) {
-        const uid = await biri();
-        localStorage.setItem("uid", uid);
-    }
-}
-
 function showCheapProducts() {
     let minPrice, maxPrice;
     for (let i = 1, j = 0, f = 0; i < 6; i++, f++) {

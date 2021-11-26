@@ -70,11 +70,3 @@ window.addEventListener('DOMContentLoaded', function () {
     }
   };
 });
-
-
-async function uidGenerate() {
-  if (!localStorage.getItem("uid")) {
-    const uid = await biri();
-    localStorage.setItem("uid", uid);
-  }
-}

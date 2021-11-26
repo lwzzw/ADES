@@ -104,13 +104,6 @@ window.addEventListener('DOMContentLoaded', function () {
 const params = new URLSearchParams(window.location.search);
 var min, max, page = params.get("page") * 1 || 1;
 
-async function uidGenerate() {
-    if (!localStorage.getItem("uid")) {
-        const uid = await biri();
-        localStorage.setItem("uid", uid);
-    }
-}
-
 function priceChange() {
     if (min) params.set("minprice", min);
     if (max) params.set("maxprice", max);

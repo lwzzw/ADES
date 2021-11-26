@@ -2,12 +2,7 @@ const database = require('../database/database');
 const createHttpError = require('http-errors');
 const verifyToken = require('../middleware/checkUserAuthorize');
 const logger = require('../logger');
-const {
-    throws
-} = require('assert');
-const {
-    error
-} = require('console');
+
 const router = require('express').Router();
 
 router.post("/getShoppingCart", (req, res, next) => {

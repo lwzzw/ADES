@@ -5,9 +5,7 @@ const createHttpErrors = require('http-errors');
 const ApiRouter = require('./router/api');
 const db = require("./database/database");
 const port = require("./config").PORT;
-const fs = require('fs');
 app.set("view engine", "ejs")
-// const port = 3001;
 
 db.connect()
 	.then(() => {

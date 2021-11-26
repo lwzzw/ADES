@@ -10,7 +10,6 @@ getCat();
 async function getCat() {
     try {
         let dbResult = await database.query("SELECT id, category_name FROM main_category").then(result => result).catch(err => {
-            // console.log(err);
             logger.error(`${err} - ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
         });
         dbResult.rows.main = dbResult.rows;
@@ -18,7 +17,6 @@ async function getCat() {
             let parentcat = await database.query(`SELECT id, category_name, fk_main FROM parent_subcategory where fk_main=$1;`, [dbResult.rows[i].id])
                 .then(result => result)
                 .catch(err => {
-                    // console.log(err);
                     return
                 });
             dbResult.rows[i].parent = parentcat.rows;
@@ -26,7 +24,6 @@ async function getCat() {
                 let childcat = await database.query(`SELECT id, category_name, fk_parent FROM child_subcategory where fk_parent=$1;`, [parentcat.rows[j].id])
                     .then(result => result)
                     .catch(err => {
-                        // console.log(err);
                         return
                     });
                 dbResult.rows[i].parent[j].child = childcat.rows;
@@ -37,7 +34,7 @@ async function getCat() {
             categories: cat
         }
     } catch (err) {
-        // console.log(err);
+        console.log(err);
         getCat();
     }
 }

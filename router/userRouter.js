@@ -23,19 +23,19 @@ router.post('/login', (req, res, next) => {
                                 id: results.rows[0].id,
                                 name: results.rows[0].name
                             }, config.JWTKEY, {
-                                expiresIn: 86400 //Expires in 24 hrs
+                                expiresIn: 86400
                             })
-                        }; //End of data variable setup
+                        };
                         logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
                         return res.status(200).json(data);
                         
-                    } //End of passowrd comparison.
+                    }
                     else {
                         logger.error(`401 Login Failed ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
                         return next(createHttpError(401, "login failed"));
                     }
                     
-                } //End of checking if there are returned SQL results
+                }
             )
             .catch(err => {
                 next(createHttpError(500, err));
@@ -46,7 +46,6 @@ router.post('/login', (req, res, next) => {
 
 router.get('/checkLogin', verifyToken, (req, res, next) => {
     res.status(200).json({name:req.name});
-    logger.info(`200 Login Success ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
 })
 
 module.exports = router;

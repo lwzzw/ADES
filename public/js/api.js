@@ -1,3 +1,4 @@
+//all function that will use in front end
 function login(email, password) {
     const methods = {
         method: 'POST',
@@ -352,4 +353,12 @@ function getOrderDetailsByID(oid) {
             }
             return error.response.data
         })
+}
+
+async function uidGenerate() {
+    //if unique id does not exists generate a new id
+    if (!localStorage.getItem("uid")) {
+        const uid = await biri();
+        localStorage.setItem("uid", uid);
+    }
 }

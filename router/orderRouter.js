@@ -14,12 +14,14 @@ const paypalClient = new paypal.core.PayPalHttpClient(
     )
 )
 
+//render the check out page
 router.get("/checkOut", (req, res, next) => {
     res.render("checkout", {
         paypalClientId: process.env.PAYPAL_CLIENT_ID,
     });
 })
 
+//create new order and count the total
 router.post("/create-order", async (req, res, next) => {
     var id, total = 0;
     if (req.headers.authorization) {
@@ -70,6 +72,7 @@ router.post("/create-order", async (req, res, next) => {
     }
 })
 
+//save the order to order history and check out the cart
 router.post("/save-order", async (req, res, next) => {
     if (req.body.detail.status !== "COMPLETED") {
         return next(createHttpError(400, "transaction not complete"))

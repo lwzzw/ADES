@@ -8,13 +8,6 @@ window.addEventListener('DOMContentLoaded', function () {
 var pricearr = [],
     id = [];
 
-async function uidGenerate() {
-    if (!localStorage.getItem("uid")) {
-        const uid = await biri();
-        localStorage.setItem("uid", uid);
-    }
-}
-
 function count() {
     var price = 0;
     $(".qty").each(function (index) {
