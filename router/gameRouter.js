@@ -11,10 +11,15 @@ router.get('/gameDetailById/:id', (req, res, next) => {
                             join parent_subcategory on g_parentsubcategory = id 
                             where g_id = $1`, [id])
         .then(result => {
-            logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-            return res.status(200).json({
-                game: result.rows
-            });
+            if (result.rows) {
+                logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+                return res.status(200).json({
+                    game: result.rows
+                });
+            } else {
+                logger.info(`204 NO CONTENT ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+                return res.status(204).end();
+            }
         })
         .catch(err => {
             next(createHttpError(500, err))
