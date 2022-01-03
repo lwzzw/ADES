@@ -284,7 +284,7 @@ VALUES ('Age of Empires IV (PC) - Steam Key - GLOBAL', 60, 'Age of Empires IV is
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region) 
 VALUES ('Football Manager 2022 (PC) - Steam Key - EUROPE', 10, 'a sports game with complex control and a third person game allowing players to create a team of players.', 1, 1, 1, '/images/noimage.png', '2020/10/11', 2);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region) 
-VALUES ('Grand Theft Auto V: Premium Online Edition (PC) - Rockstar Key - GLOBAL', 10, 'Experience Rockstar Games’ critically acclaimed open world game, Grand Theft Auto V.', 1, 1, 1, '/images/noimage.png', '2020/10/11', 1);
+VALUES ('Grand Theft Auto V: Premium Online Edition (PC) - Rockstar Key - GLOBAL', 10, 'Experience Rockstar Games critically acclaimed open world game, Grand Theft Auto V.', 1, 1, 1, '/images/noimage.png', '2020/10/11', 1);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region) 
 VALUES ('Minecraft Java Edition Minecraft Key GLOBAL', 10, 'a popular game that allows user to play in different mode such as creative mode and is suitable for all age', 1, 1, 1, '/images/noimage.png', '2020/10/11', 2);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount, g_region) 
@@ -367,4 +367,3 @@ INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 29, 17);
 
 INSERT INTO public.order_history (user_id, buydate, total) VALUES (81624843,current_timestamp, 1);
 INSERT INTO public.order_history (user_id, buydate, total) VALUES (81624843,current_timestamp, 1);
-
