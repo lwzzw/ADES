@@ -1,4 +1,4 @@
-const pg = require('pg');
+const pg = require("pg");
 const DATABASE_URL = require("../config").DATABASEURL;
 
 let connection;
@@ -6,10 +6,10 @@ exports.connect = function () {
   var connectionString = DATABASE_URL;
   connection = new pg.Pool({
     connectionString,
-    max: 5
+    max: 5,
   });
   if (connection) {
-    console.log("Database connected")
+    console.log("Database connected");
   }
   return connection.connect().catch(function (error) {
     connection = null;
@@ -19,9 +19,8 @@ exports.connect = function () {
 
 exports.query = function (text, params) {
   return new Promise((resolve, reject) => {
-    console.log(!connection)
     if (!connection) {
-      reject(new Error('Not connected to database'));
+      reject(new Error("Not connected to database"));
       //  setTimeout(() => {
       //   exports.query(text, params);
       // }, 1000);
@@ -30,9 +29,9 @@ exports.query = function (text, params) {
     const start = Date.now();
     connection.query(text, params, function (error, result) {
       const duration = Date.now() - start;
-      console.log('executed query', {
+      console.log("executed query", {
         text,
-        duration
+        duration,
       });
       if (error) {
         reject(error);
@@ -40,8 +39,29 @@ exports.query = function (text, params) {
         resolve(result);
       }
     });
-  })
-  .catch(err=>{
-     console.log(err);
+  }).catch((err) => {
+    console.log(err);
+  });
+};
+
+exports.transactionQuery = function (text, params) {
+  return new Promise(async (resolve, reject) => {
+    if (!connection) {
+      reject(new Error("Not connected to database"));
+    }
+    try {
+      console.log("start executed transaction query");
+      const start = Date.now();
+      await connection.query("BEGIN");
+      const res = await connection.query(text, params);
+      await connection.query("COMMIT");
+      const duration = Date.now() - start;
+      console.log("end executed transaction query", duration);
+      resolve(res);
+    } catch (e) {
+      console.log("Rollback", text, params);
+      await connection.query("ROLLBACK");
+      reject(e);
+    }
   });
 };

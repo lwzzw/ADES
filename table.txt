@@ -119,6 +119,22 @@ BEGIN
 	RETURN 1;
 END ;
 $$;
+
+DROP FUNCTION IF EXISTS confirm_order;
+CREATE FUNCTION confirm_order (uid bigint, total numeric)
+	returns int
+	language plpgsql
+as
+$$
+declare hid int;
+BEGIN
+	insert into order_history (user_id, total, buydate) VALUES (uid, total, current_timestamp) RETURNING id into hid;
+	insert into order_detail (order_id, g_id, amount) select hid, game_id, amount from cart where user_id = uid;
+	delete from cart where user_id = uid;
+	RETURN 1;
+END ;
+$$;
+
 INSERT INTO public.region (region_name) VALUES ('ASIA');
 INSERT INTO public.region (region_name) VALUES ('Middle-East');
 INSERT INTO public.region (region_name) VALUES ('EUROPE');
