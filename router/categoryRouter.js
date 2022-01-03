@@ -3,9 +3,9 @@ const createHttpError = require('http-errors');
 const logger = require('../logger');
 const router = require('express').Router();
 var cat;
-getCat();
+// getCat();
 
-
+module.exports.getCat = getCat;
 //to use only one database connection so we use await
 async function getCat() {
     try {
@@ -73,4 +73,4 @@ router.get('/countOfGame/:mainCategory', (req, res, next) => {
         })
 })
 
-module.exports = router;
+module.exports.default = router;

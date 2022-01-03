@@ -24,6 +24,8 @@
     <script src="https://unpkg.com/biri@0.4.0/dist/biri.min.js"></script>
     <script src="/js/api.js"></script>
     <script src="/js/shoppingcart-main.js"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=<%= paypalClientId %>&currency=SGD"></script>
+    <script src="/js/checkout.js" defer></script>
     <link rel="icon" href="../images/favicon.ico">
 
 </head>
@@ -46,9 +48,9 @@
             <div class="clearfix"></div>
         </div>
         <div class="card-body">
-            <div  class="product">
+            <div class="product">
                 <div id="cart" class="row">
-                   
+
                 </div>
                 <hr>
             </div>
@@ -71,7 +73,9 @@
                 </div>
             </div>
             <div class="pull-right" style="margin: 10px">
-                <button onclick="location.href='/order/checkOut'" id="checkout" class="btn btn-success pull-right">Checkout</button>
+                <!-- <button onclick="location.href='/order/checkOut'" id="checkout"
+                    class="btn btn-success pull-right">Checkout</button> -->
+                    <div id='paypal'></div>
                 <div class="pull-right" style="margin: 5px" id="p">
                     Total price: <b>00.00</b>
                 </div>

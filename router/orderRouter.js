@@ -16,11 +16,11 @@ const paypalClient = new paypal.core.PayPalHttpClient(
 )
 
 //render the check out page
-router.get("/checkOut", (req, res, next) => {
-    res.render("checkout", {
-        paypalClientId: process.env.PAYPAL_CLIENT_ID,
-    });
-})
+// router.get("/checkOut", (req, res, next) => {
+//     res.render("checkout", {
+//         paypalClientId: process.env.PAYPAL_CLIENT_ID,
+//     });
+// })
 
 //create new order and count the total
 router.post("/create-order", async (req, res, next) => {

@@ -19,11 +19,12 @@ exports.connect = function () {
 
 exports.query = function (text, params) {
   return new Promise((resolve, reject) => {
+    console.log(!connection)
     if (!connection) {
-      // reject(new Error('Not connected to database'));
-       setTimeout(() => {
-        exports.query(text, params);
-      }, 1000);
+      reject(new Error('Not connected to database'));
+      //  setTimeout(() => {
+      //   exports.query(text, params);
+      // }, 1000);
       // return connection.query(text, params);
     }
     const start = Date.now();
