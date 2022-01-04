@@ -154,7 +154,9 @@ window.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('dealsButton').addEventListener('click', () => {
                     getDeals(++row)
                         .then(response => {
-                            dealsArray = response
+                            for (let i = 0; i < response.length; i++) {
+                                dealsArray.push(response[i])
+                            }
                             showDeals()
                         })
 
