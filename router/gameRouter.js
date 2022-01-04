@@ -2,8 +2,6 @@ const database = require("../database/database");
 const createHttpError = require("http-errors");
 const router = require("express").Router();
 const logger = require("../logger");
-const { rows } = require("pg/lib/defaults");
-const { off } = require("process");
 
 router.get("/gameDetailById/:id", (req, res, next) => {
   var id = req.params.id;
@@ -156,7 +154,7 @@ router.get("/gameDetailFilterPageCount", (req, res, next) => {
     .query(
       `SELECT count(g_id)
         from G2A_gameDatabase 
-        where 1=1 ${name ? `AND g_name LIKE '%' || $${i++} || '%' ` : ""}
+        where 1=1 ${name ? `AND g_name ILIKE '%' || $${i++} || '%' ` : ""}
         ${minprice ? `AND COALESCE(g_discount, g_price) >= $${i++} ` : ""}
         ${maxprice ? `AND COALESCE(g_discount, g_price) <= $${i++} ` : ""}
         ${
@@ -197,16 +195,14 @@ router.get("/gameDetailFilterPageCount", (req, res, next) => {
 });
 
 router.get("/getDeals/:row", (req, res, next) => {
-    var row = req.params.row
-    //const LIMIT = 6 * row || 6;
-    const LIMIT = 6
-    var offset = LIMIT * --row
-    console.log(row)
-    console.log(LIMIT)
-    console.log(offset)
+  var row = req.params.row;
+  if (isNaN(row) || --row < 0) row = 0;
+  const LIMIT = 6;
+  var offset = LIMIT * row;
   return database
     .query(
-      `SELECT g_id, g_name, g_discount, g_image, g_price FROM g2a_gamedatabase WHERE g_discount IS NOT NULL LIMIT $1 OFFSET $2`, [LIMIT, offset]
+      `SELECT g_id, g_name, g_discount, g_image, g_price FROM g2a_gamedatabase WHERE g_discount IS NOT NULL LIMIT $1 OFFSET $2`,
+      [LIMIT, offset]
     )
     .then((result) => {
       logger.info(
