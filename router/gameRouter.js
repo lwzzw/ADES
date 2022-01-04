@@ -77,7 +77,7 @@ router.get("/gameDetailFilter", (req, res, next) => {
                             from G2A_gameDatabase 
                             where 1=1 ${
                               name
-                                ? `AND g_name LIKE '%' || $${i++} || '%' `
+                                ? `AND g_name ILIKE '%' || $${i++} || '%' `
                                 : ""
                             }
                             ${
