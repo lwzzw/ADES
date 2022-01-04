@@ -2,6 +2,7 @@ const database = require("../database/database");
 const createHttpError = require("http-errors");
 const router = require("express").Router();
 const logger = require("../logger");
+const { rows } = require("pg/lib/defaults");
 
 router.get("/gameDetailById/:id", (req, res, next) => {
   var id = req.params.id;
@@ -194,10 +195,13 @@ router.get("/gameDetailFilterPageCount", (req, res, next) => {
     });
 });
 
-router.get("/getDeals", (req, res, next) => {
+router.get("/getDeals/:row", (req, res, next) => {
+    const row = req.params.row
+    const LIMIT = 6 * row || 6;
+    console.log(LIMIT)
   return database
     .query(
-      `SELECT g_id, g_name, g_discount, g_image, g_price FROM g2a_gamedatabase WHERE g_discount IS NOT NULL`
+      `SELECT g_id, g_name, g_discount, g_image, g_price FROM g2a_gamedatabase WHERE g_discount IS NOT NULL LIMIT $1`, [LIMIT]
     )
     .then((result) => {
       logger.info(

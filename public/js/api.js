@@ -44,7 +44,7 @@ function getAllCategories() {
         })
 }
 
-function getDeals() {
+function getDeals(params) {
     const methods = {
         method: 'GET',
         headers: {
@@ -52,7 +52,7 @@ function getDeals() {
         }
     }
     return axios
-        .get(`/game/getDeals/`, methods)
+        .get(`/game/getDeals/${params? params: ''}`, methods)
         .then(response => {
             return response.data.deals
         })

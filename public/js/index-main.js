@@ -2,6 +2,7 @@ let dealsArray;
 let dealsArrayi = 0;
 let duration = 250;
 let toFirst, toSecond;
+let row = 1;
 window.addEventListener('DOMContentLoaded', function () {
     checkLogin().then(response => {
             document.getElementById("login").innerHTML = "log out";
@@ -143,13 +144,21 @@ window.addEventListener('DOMContentLoaded', function () {
 
     const getAllDeals = async () => {
         const result = await getAllCategories()
-        getDeals()
+        
+        getDeals(row)
             .then(response => {
                 dealsArray = response
                 showDeals();
                 let button = `<button class='btn btn-primary' id='dealsButton'>Show more</button>`
                 document.getElementById("deals").insertAdjacentHTML("afterend", button);
-                document.getElementById('dealsButton').addEventListener('click', showDeals)
+                document.getElementById('dealsButton').addEventListener('click', () => {
+                    getDeals(++row)
+                        .then(response => {
+                            dealsArray = response
+                            showDeals()
+                        })
+
+                })
             })
 
     }
