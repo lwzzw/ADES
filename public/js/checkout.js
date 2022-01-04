@@ -48,7 +48,7 @@ paypal
                     .then(result => {
                         if (result.done) {
                             alert("Transaction done");
-                            window.location.href = "/index.html";
+                            window.location.href = "/orderhistory.html";
                         } else {
                             alert("Transaction cancel");
                             window.location.href = "/shoppingCart.html";

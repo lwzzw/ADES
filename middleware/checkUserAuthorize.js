@@ -8,9 +8,9 @@ function verifyToken(req, res, next) {
   var token = req.headers["authorization"];
   if (!token || !token.includes("Bearer")) {
     next(createHttpError(401, "No token"));
-    logger.error(
-      `401 No token ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
-    );
+    // logger.error(
+    //   `401 No token ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
+    // );
   } else {
     token = token.split("Bearer ")[1];
     jwt.verify(token, config.JWTKEY, function (err, decoded) {
