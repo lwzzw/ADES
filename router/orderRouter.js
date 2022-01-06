@@ -6,18 +6,16 @@ const logger = require("../logger");
 const verifyToken = require("../middleware/checkUserAuthorize");
 const axios = require("axios");
 const nodeCache = require("node-cache");
+const config = require("../config");
 const Environment =
-  process.env.ENV === "production"
+  config.ENV === "production"
     ? paypal.core.LiveEnvironment
     : paypal.core.SandboxEnvironment;
 const paypalClient = new paypal.core.PayPalHttpClient(
-  new Environment(
-    process.env.PAYPAL_CLIENT_ID,
-    process.env.PAYPAL_CLIENT_SECRET
-  )
+  new Environment(config.PAYPAL_CLIENT_ID, config.PAYPAL_CLIENT_SECRET)
 );
 const PaypalAccessToken = Buffer.from(
-  process.env.PAYPAL_CLIENT_ID + ":" + process.env.PAYPAL_CLIENT_SECRET
+  config.PAYPAL_CLIENT_ID + ":" + config.PAYPAL_CLIENT_SECRET
 ).toString("base64");
 const cache = new nodeCache({ stdTTL: 1800, checkperiod: 60 });
 

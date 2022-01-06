@@ -7,7 +7,7 @@ const db = require("./database/database");
 const port = require("./config").PORT;
 const CATEGORY = require("./router/categoryRouter").getCat;
 const readFile = require("fs").readFile;
-
+require("./discord/discordBot")
 app.set("view engine", "ejs");
 
 db.connect()

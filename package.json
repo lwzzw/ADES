@@ -4,13 +4,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index"
+    "start": "node index",
+    "bot": "nodemon discord/discordbot"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@paypal/checkout-server-sdk": "^1.0.2",
     "axios": "^0.24.0",
+    "discord.js": "^13.*",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
