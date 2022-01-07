@@ -45,7 +45,7 @@ router.post('/login', (req, res, next) => {
 })
 
 router.get('/checkLogin', verifyToken, (req, res, next) => {
-    res.status(200).json({name:req.name});
+    res.status(200).json({name:req.name, id:req.id});
 })
 
 module.exports = router;

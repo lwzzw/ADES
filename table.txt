@@ -22,6 +22,13 @@ CREATE TABLE IF NOT EXISTS order_detail (
 	amount int not null
 );
 
+DROP TABLE IF EXISTS twofactor_authenticator;
+CREATE TABLE IF NOT EXISTS twofactor_authenticator (
+	id SERIAL primary key,
+	belong_to INT unique,
+	secret_key VARCHAR (250) not null
+);
+
 DROP TABLE IF EXISTS user_detail;
 CREATE TABLE IF NOT EXISTS user_detail (
 	id SERIAL primary key,
@@ -71,6 +78,10 @@ CREATE TABLE IF NOT EXISTS main_category (
 	id SERIAL primary key,
 	category_name VARCHAR (50) not null
 );
+
+
+ALTER TABLE twofactor_authenticator
+	ADD CONSTRAINT fk_userid FOREIGN KEY(belong_to) REFERENCES user_detail(id);
 
 ALTER TABLE G2A_gameDatabase
 	ADD CONSTRAINT fk_main FOREIGN KEY(g_maincategory) REFERENCES main_category(id),

@@ -52,7 +52,7 @@ function getDeals(params) {
         }
     }
     return axios
-        .get(`/game/getDeals/${params? params: ''}`, methods)
+        .get(`/game/getDeals/${params ? params : ''}`, methods)
         .then(response => {
             return response.data.deals
         })
@@ -157,7 +157,7 @@ function getGames(params) {
         }
     }
     return axios
-        .get(`/game/gameDetailFilter?${params||""}`, methods)
+        .get(`/game/gameDetailFilter?${params || ""}`, methods)
         .then(response => {
             return response.data.games
         })
@@ -361,4 +361,128 @@ async function uidGenerate() {
         const uid = await biri();
         localStorage.setItem("uid", uid);
     }
+}
+
+//GET secret key for authentication
+function getSecret() {
+    return checkLogin().then(userDetails => {
+        if (userDetails) {
+            var options = {
+                method: 'GET',
+                url: 'https://google-authenticator.p.rapidapi.com/new_v2/',
+                headers: {
+                    'x-rapidapi-host': 'google-authenticator.p.rapidapi.com',
+                    'x-rapidapi-key': 'a7cc9771dbmshdb30f345bae847ep1fb8d8jsn5d90b789d2ea'
+                }
+            };
+            return axios
+                .request(options)
+                .then(function (secret) {
+                    return saveSecret(userDetails, secret.data).then(response => {
+                        return response
+                    });
+                })
+                .catch(function (error) {
+                    console.error(error);
+                });
+        }
+    }).catch(err => {
+        console.log(err)
+    })
+
+}
+
+//GET QR Code for user to scan
+function getQRCode(secretKey, userDetails) {
+    const userName = userDetails.name
+    var options = {
+        method: 'GET',
+        url: 'https://google-authenticator.p.rapidapi.com/enroll/',
+        params: { secret: secretKey, account: 'F2A', issuer: userName },
+        headers: {
+            'x-rapidapi-host': 'google-authenticator.p.rapidapi.com',
+            'x-rapidapi-key': 'a7cc9771dbmshdb30f345bae847ep1fb8d8jsn5d90b789d2ea'
+        }
+    };
+    return axios
+        .request(options)
+        .then(function (response) {
+            return response.data
+        }).catch(function (error) {
+            console.error(error);
+        });
+}
+
+//Upload user's secret key to database
+function saveSecret(userDetails, secretKey) {
+    const userID = userDetails.id
+    const methods = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    const body = {
+        uid: userID,
+        secretkey: secretKey
+    }
+    return axios
+        .post(`/twofa/secretDetail`, body, methods)
+        .then(response => {
+            if (response.status == 200) {
+                return getQRCode(secretKey, userDetails)
+            } else {
+                return response.data
+            }
+        })
+        .catch(error => {
+            console.log(error);
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+}
+
+//GET user's secret key if it exists
+function authenticateSecretKey(token) {
+    const methods = {
+        method: 'GET',
+        headers: {
+            'Authorization': "Bearer " + token,
+            'Content-Type': 'application/json'
+        }
+    }
+    return axios
+        .get(`/twofa/getSecret`, methods)
+        .then(response => {
+            console.log(response)
+                return response.data
+        }).catch(error => {
+            console.log(error);
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+}
+
+//validate user input secret code
+function validateSecretKey(secretCodeInput, secretKey) {
+    var options = {
+        method: 'GET',
+        url: 'https://google-authenticator.p.rapidapi.com/validate/',
+        params: { code: secretCodeInput, secret: secretKey },
+        headers: {
+            'x-rapidapi-host': 'google-authenticator.p.rapidapi.com',
+            'x-rapidapi-key': 'a7cc9771dbmshdb30f345bae847ep1fb8d8jsn5d90b789d2ea'
+        }
+    };
+    return axios.request(options).then(function (response) {
+        console.log(response.data);
+        return response.data
+    }).catch(function (error) {
+        console.error(error);
+        return error
+    });
 }

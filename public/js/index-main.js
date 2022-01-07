@@ -5,7 +5,9 @@ let toFirst, toSecond;
 let row = 1;
 window.addEventListener('DOMContentLoaded', function () {
     checkLogin().then(response => {
+            let myAccBtn = `<a href='dashboard.html' style="color: white!important;">My Account</a>`
             document.getElementById("login").innerHTML = "log out";
+            document.getElementById('myAccount').insertAdjacentHTML('beforeend', myAccBtn)
             document.getElementById("login").addEventListener("click", () => {
                 localStorage.removeItem("token");   
                 document.getElementById("orderHistory").remove()
@@ -162,7 +164,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
                 })
             })
-
     }
     document.getElementById('searchBtn').addEventListener('click', search)
 

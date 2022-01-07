@@ -21,9 +21,9 @@ window.addEventListener('DOMContentLoaded', function () {
       timeout: '3000',
       text: 'You have been login as ' + response.name,
     }).show();
-    setTimeout(() => {
-      window.location.href = "index.html";
-    }, 3000);
+    // setTimeout(() => {
+    //   window.location.href = "index.html";
+    // }, 3000);
   })
   .catch(err => {
     console.log(err);
@@ -43,10 +43,29 @@ window.addEventListener('DOMContentLoaded', function () {
       }).show();
     } else {
       login(email.value, password.value).then(response => {
-          console.log(response)
+        // if login details is correct
           if (response) {
-            localStorage.setItem('token', response);
-            window.location.href = "index.html";
+            //check if user has 2-FA enabled
+            authenticateSecretKey(response).then(enabledAuth => {
+              //if 2-FA not enabled, proceed as normal
+              if (enabledAuth.message == false) {
+                localStorage.setItem('token', response);
+                window.location.href = "index.html";
+              } else {
+                // if 2-FA is enabled, prompt user for secret key
+                let secretCode = prompt('Enter Secret Code');
+                // validate user's secret code
+                validateSecretKey(secretCode, enabledAuth).then(authenticatorResult => {
+                  //if secret code is correct, proceed
+                  if (authenticatorResult == 'True') {
+                    localStorage.setItem('token', response);
+                    window.location.href = "index.html";
+                  } else {
+                    console.log('wrong code, please retry')
+                  }
+                })
+              }
+            })
           } else {
             new Noty({
               type: 'error',
