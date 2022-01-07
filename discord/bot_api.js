@@ -1,5 +1,5 @@
 const database = require("../database/database");
-database.connect()
+database.connect();
 exports.getPrice = function (gameName) {
   return database
     .query(
@@ -10,7 +10,7 @@ exports.getPrice = function (gameName) {
       return { data: result.rows };
     })
     .catch((err) => {
-        console.log('enter');
+      console.log("enter");
       console.log(err);
       return { err };
     });

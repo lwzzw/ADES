@@ -1,5 +1,6 @@
 const config = require("../config");
 const { Client, Intents } = require("discord.js");
+const DiscorJS = require("discord.js");
 const API = require("./bot_api");
 const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
@@ -11,47 +12,78 @@ client.login(config.DISCORD_BOT_TOKEN).catch((err) => {
   console.log(err);
 });
 
-client.on("message", async (message) => {
-  try {
-    console.log(message.content);
-    const MESSAGE = message.content.trim();
-    if (message.author.bot || !MESSAGE.startsWith(PREFIX)) return;
-    if (message.channel.type === "dm" || true) {
-      const [CMD_NAME, ...args] = MESSAGE.substring(PREFIX.length).split(/\s+/);
-      console.log(CMD_NAME);
-      switch (CMD_NAME.toUpperCase()) {
-        case "PRICE":
-          const result = await API.getPrice(args.join(" "));
-          if (result.err) {
-            message.reply("Sorry, this feature is temporarily unavailable");
-            console.log(result.err);
-            client.channels.get(LOG_CHANNEL_ID).send(result.err);
-          } else {
-            if (result.data.length < 1) {
-              message.reply(
-                `Sorry, I can't find any game call ${args.join(" ")}`
-              );
-            } else {
-              result.data.forEach((item) => {
-                message.reply(`${item.g_name} - $${item.g_price}`);
-              });
-            }
-          }
-          break;
-
-        default:
-          break;
-      }
+function format_log(err, user, command, options, createdAt) {
+  return `error: ${err}\nuser: ${user}\ncreated at: ${createdAt}\ncommand: ${command}\noptions: [${options.map(
+    (options) => {
+      return `\nname: ${options.name} value: ${options.value}`;
     }
-  } catch (err) {
-    console.log(err);
-    message.reply("Sorry, this feature is temporarily unavailable");
-    client.channels.cache
-      .get(LOG_CHANNEL_ID)
-      .send(err.message + " " + message.content);
+  )}\n]`;
+}
+
+client.on("interactionCreate", async (interaction) => {
+  if (!interaction.isCommand()) return;
+
+  const { commandName, options } = interaction;
+
+  await interaction.deferReply();
+
+  switch (commandName) {
+    case "price":
+      const result = await API.getPrice(options.getString("game_name"));
+      if (result.err) {
+        interaction.editReply({
+          content: "Sorry, this feature is temporarily unavailable",
+          ephemeral: true,
+        });
+        let err = format_log(
+          err,
+          interaction.user.tag,
+          commandName,
+          [{ name: "game_name", value: options.getString("game_name") }],
+          interaction.createdAt
+        );
+        console.log(err);
+        client.channels.get(LOG_CHANNEL_ID).send(err);
+      } else {
+        if (result.data.length < 1) {
+          interaction.editReply({
+            content: `Sorry, I can't find any game call ${options.getString(
+              "game_name"
+            )}`,
+            ephemeral: true,
+          });
+        } else {
+          let content = result.data.map((games) => {
+            return `\n${games.g_name} - $${games.g_price}`;
+          });
+          interaction.editReply({
+            content: `I found these${content}`,
+            ephemeral: true,
+          });
+        }
+      }
+      break;
+
+    default:
+      break;
   }
 });
 
 client.on("ready", () => {
   console.log("The bot is login");
+
+  let commands = client.application?.commands;
+
+  commands?.create({
+    name: "price",
+    description: "get price",
+    options: [
+      {
+        name: "game_name",
+        description: "The name of the game you want to search",
+        required: true,
+        type: DiscorJS.Constants.ApplicationCommandOptionTypes.STRING,
+      },
+    ],
+  });
 });
