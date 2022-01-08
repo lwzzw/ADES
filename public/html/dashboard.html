@@ -10,6 +10,14 @@
     <script defer src="/js/api.js"></script>
     <script defer src="/js/two-fa-main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+    <!-- Noty CSS-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css" rel="stylesheet">
+    <!-- Noty CSS Map-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css.map" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Noty JS-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
     <title>Dashboard</title>
 </head>
 
@@ -28,11 +36,13 @@
             <div class=''>
                 <h2>Two-Factor Authenticator</h2>
                 <div>
-                    Enable Google Authenticator
+                    <p id="authText">Enable Google Authenticator</p>
                     <button id="googleAuthenticatorBtn">Enable</button>
                     <div>
                         <img id="qr-code" style="height: 200px;" src="">
                     </div>
+                    <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2"><img alt="Google Play" src="../images/google_play.png"></a>
+                    <a href="https://itunes.apple.com/app/google-authenticator/id388497605?mt=8"><img alt="App Store" src="../images/app_store.png"></a>
                 </div>
             </div>
         </section>

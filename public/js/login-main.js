@@ -61,10 +61,20 @@ window.addEventListener('DOMContentLoaded', function () {
                     localStorage.setItem('token', response);
                     window.location.href = "index.html";
                   } else {
-                    console.log('wrong code, please retry')
+                    new Noty({
+                      type: 'error',
+                      layout: 'topCenter',
+                      theme: 'sunset',
+                      timeout: '6000',
+                      text: 'Wrong secret code, please try again.',
+                    }).show();
                   }
+                }).catch(error => {
+                  console.log(error)
                 })
               }
+            }).catch(error => {
+              console.log(error)
             })
           } else {
             new Noty({

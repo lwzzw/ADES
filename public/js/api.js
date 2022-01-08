@@ -365,6 +365,7 @@ async function uidGenerate() {
 
 //GET secret key for authentication
 function getSecret() {
+    //checks if user is logged in, then gets userDetails which contains name and id
     return checkLogin().then(userDetails => {
         if (userDetails) {
             var options = {
@@ -375,26 +376,35 @@ function getSecret() {
                     'x-rapidapi-key': 'a7cc9771dbmshdb30f345bae847ep1fb8d8jsn5d90b789d2ea'
                 }
             };
+            //sends GET request to google-authenticator API and gets secret key
             return axios
                 .request(options)
                 .then(function (secret) {
+                    //after getting the secret key, the secret key is saved into the database
                     return saveSecret(userDetails, secret.data).then(response => {
-                        return response
+                        return response;
                     });
                 })
                 .catch(function (error) {
-                    console.error(error);
+                    if (error.response) {
+                        throw new Error(JSON.stringify(error.response.data))
+                    }
+                    return error.response.data
                 });
         }
-    }).catch(err => {
-        console.log(err)
+    }).catch(error => {
+        console.log(error.message)
+        if (error) {
+            throw new Error(JSON.stringify(error.message))
+        }
+        return error.message
     })
 
 }
 
 //GET QR Code for user to scan
 function getQRCode(secretKey, userDetails) {
-    const userName = userDetails.name
+    const userName = userDetails.name;
     var options = {
         method: 'GET',
         url: 'https://google-authenticator.p.rapidapi.com/enroll/',
@@ -404,43 +414,47 @@ function getQRCode(secretKey, userDetails) {
             'x-rapidapi-key': 'a7cc9771dbmshdb30f345bae847ep1fb8d8jsn5d90b789d2ea'
         }
     };
+    //sends GET request to google-authenticatator api with the user's name and secretkey that is stored inside the database
     return axios
         .request(options)
         .then(function (response) {
-            return response.data
+            return response.data;
         }).catch(function (error) {
-            console.error(error);
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
         });
 }
 
 //Upload user's secret key to database
 function saveSecret(userDetails, secretKey) {
-    const userID = userDetails.id
+    const userID = userDetails.id;
     const methods = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         }
-    }
+    };
     const body = {
         uid: userID,
         secretkey: secretKey
-    }
+    };
     return axios
         .post(`/twofa/secretDetail`, body, methods)
         .then(response => {
+            //After saving user's secretkey into the database succesfully, getQRCode will be invoked
             if (response.status == 200) {
-                return getQRCode(secretKey, userDetails)
+                return getQRCode(secretKey, userDetails);
             } else {
-                return response.data
+                return response.data;
             }
         })
         .catch(error => {
-            console.log(error);
             if (error.response) {
-                throw new Error(JSON.stringify(error.response.data))
+                throw new Error(JSON.stringify(error.response.data));
             }
-            return error.response.data
+            return error.response.data;
         })
 }
 
@@ -456,14 +470,14 @@ function authenticateSecretKey(token) {
     return axios
         .get(`/twofa/getSecret`, methods)
         .then(response => {
-            console.log(response)
-                return response.data
+            console.log(response);
+            return response.data;
         }).catch(error => {
             console.log(error);
             if (error.response) {
-                throw new Error(JSON.stringify(error.response.data))
+                throw new Error(JSON.stringify(error.response.data));
             }
-            return error.response.data
+            return error.response.data;
         })
 }
 
@@ -480,9 +494,11 @@ function validateSecretKey(secretCodeInput, secretKey) {
     };
     return axios.request(options).then(function (response) {
         console.log(response.data);
-        return response.data
+        return response.data;
     }).catch(function (error) {
-        console.error(error);
-        return error
+        if (error.response) {
+            throw new Error(JSON.stringify(error.response.data))
+        }
+        return error.response.data
     });
 }
