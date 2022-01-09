@@ -1,4 +1,33 @@
+const { default: axios } = require("axios")
+const { response } = require("express")
+
 //all function that will use in front end
+function register(username, useremail, userpassword, usergender, userphone){
+    const methods = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    const body = {
+        username: username,
+        userpassword : userpassword,
+        usergender: usergender,
+        userphone : userphone
+    }
+    return axios
+    .post(`/user/register`, body, methods)
+    .then(response => {
+        return response.data.token;
+    })
+    .catch(error => {
+        if (error.response) {
+            throw new Error(JSON.stringify(error.response.data))
+        }
+        return error.response.data
+    })
+}
+
 function login(email, password) {
     const methods = {
         method: 'POST',
