@@ -62,25 +62,25 @@ router.post('/login', (req, res, next) => {
                     res.status(500).json({ statusMessage: 'Unable to complete registration' });
                     return logger.error(`500 unable to complete registration || ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
                 } else {
-                    return database.query(`INSERT INTO public.user_detail (name, email, password, gender, phone) VALUES ($1, $2, $3, $4, $5, $6)`, [username, useremail, hash, usergender, userphone])
+                    return database.query(`INSERT INTO public.user_detail (name, email, password, gender, phone) VALUES ($1, $2, $3, $4, $5)`, [username, useremail, hash, usergender, userphone])
                     .then(response => {
                         if (response) {
                             if (response.rowCount == 1) {
                                 let data = {
                                     token: jwt.sign({
-                                        id: results.rows[0].id,
-                                        name: results.rows[0].name
+                                        id: response.id,
+                                        name: response.name
                                     }, config.JWTKEY, {
                                         expiresIn: 86400
                                     })
-                                }
+                                };
                                 logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
                                 return res.status(200).json(data);
                             }  
                         }
                         else {
-                            logger.error(`401 Login Failed ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-                            return next(createHttpError(401, "login failed"));
+                            logger.error(`401 Register Failed ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+                            return next(createHttpError(401, "Register failed"));
                         }
 
 
