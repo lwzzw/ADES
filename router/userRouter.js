@@ -42,15 +42,15 @@ router.post('/login', (req, res, next) => {
                 next(createHttpError(500, err));
                 logger.error(`${err || '500 Error'} ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
             })
-    }
+        }
 }),
 
     router.post('/register', (req, res, next) => {
-        const username = req.bosy.username;
+        const username = req.body.username;
         const useremail = req.body.useremail;
-        const userpassword = req.body.password;
-        const userphone = req.body.phone;
-        const usergender = req.body.gender;
+        const userpassword = req.body.userpassword;
+        const userphone = req.body.userphone;
+        const usergender = req.body.usergender;
         if (username == null || useremail == null || userpassword == null || userphone == null || usergender == null) {
             logger.error(`401 Empty Credentials ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
             return next(createHttpError(401, "empty credentials"));
@@ -62,7 +62,7 @@ router.post('/login', (req, res, next) => {
                     res.status(500).json({ statusMessage: 'Unable to complete registration' });
                     return logger.error(`500 unable to complete registration || ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
                 } else {
-                    return database.query(`INSERT INTO public.user_detail (name, email, password, gender, c_card, phone) VALUES ($1, $2, $3, $4, $5, $6)`, [username, useremail, hash, usergender, , userphone])
+                    return database.query(`INSERT INTO public.user_detail (name, email, password, gender, phone) VALUES ($1, $2, $3, $4, $5, $6)`, [username, useremail, hash, usergender, userphone])
                     .then(response => {
                         if (response) {
                             if (response.rowCount == 1) {
@@ -74,10 +74,9 @@ router.post('/login', (req, res, next) => {
                                         expiresIn: 86400
                                     })
                                 }
-
-                            }
-                            logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-                            return res.status(200).json(data);
+                                logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+                                return res.status(200).json(data);
+                            }  
                         }
                         else {
                             logger.error(`401 Login Failed ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);

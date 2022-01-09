@@ -36,7 +36,6 @@ CREATE TABLE IF NOT EXISTS user_detail (
 	email varchar(255) not null,
 	password varchar(255) not null,
 	gender varchar(2) null,
-	c_card numeric(12) null,
 	phone varchar(255) null
 );
     
@@ -361,9 +360,9 @@ VALUES ('7 Days to Die Steam Key GLOBAL', 82.50, '7 Days to Die is a gripping po
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount, g_region) 
 VALUES ('Overwatch Battle.net Key GLOBAL', 69.90, 'Overwatch is a 2016 first-person shooter multiplayer video game for PC developed and published by Blizzard Entertainment.', 1, 1, 2, '/images/noimage.png', '2020/10/11', 41.94, 1);
 
-INSERT INTO public.user_detail (name, email, password, gender, c_card, phone) VALUES ('Junheng', 'junheng.tan@hotmail.com', '123password', 'M', 1, 85529404);
-INSERT INTO public.user_detail (name, email, password, gender, c_card, phone) VALUES ('Adam', 'adam@gmail.com', '123password', 'M', 3, 97653242);
-INSERT INTO public.user_detail (name, email, password, gender, c_card, phone) VALUES ('Lily', 'lily@gmail.com', '123password', 'F', 2, 81136175);
+INSERT INTO public.user_detail (name, email, password, gender, phone) VALUES ('Junheng', 'junheng.tan@hotmail.com', '123password', 'M', 85529404);
+INSERT INTO public.user_detail (name, email, password, gender, phone) VALUES ('Adam', 'adam@gmail.com', '123password', 'M', 97653242);
+INSERT INTO public.user_detail (name, email, password, gender, phone) VALUES ('Lily', 'lily@gmail.com', '123password', 'F', 81136175);
 
 
 

@@ -1,5 +1,3 @@
-const { response } = require("express");
-
 window.addEventListener('DOMContentLoaded', function () {
   // Get reference to relevant elements
   const checkRegisterBtn = document.getElementById('submitButton');
@@ -11,29 +9,41 @@ window.addEventListener('DOMContentLoaded', function () {
   const userphone = document.getElementById('phoneInput');
 
   showPassword.onclick = function () {
-    if (password.type === "password") {
-      password.type = "text";
+    if (userpassword.type === "password") {
+      userpassword.type = "text";
     } else {
-      password.type = "password";
+      userpassword.type = "password";
     }
   }
 
-  checkLoginBtn.onclick = function () {
+  checkRegisterBtn.onclick = function () {
     reEmail = new RegExp(`^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$`);
     rePassword = new RegExp(`^.{8,}$`);
-    if (!rePassword.test(password.value) || !reEmail.test(email.value)) {
+    if (!rePassword.test(userpassword.value) || !reEmail.test(useremail.value)) {
       new Noty({
         type: 'error',
         layout: 'topCenter',
         theme: 'sunset',
         timeout: '6000',
-        text: 'Check your email and password',
+        text: 'Check your inputs!',
       }).show();
     } else {
         register(username, useremail, userpassword, usergender, userphone).then(response => {
-
-            
-        })
+            if(response){
+                localStorage.setItem('token', response);
+                window.location.href = "index.html";
+            }else {
+                new Noty({
+                  type: 'error',
+                  layout: 'topCenter',
+                  theme: 'sunset',
+                  timeout: '6000',
+                  text: 'Unable To Register. Try again!',
+                }).show();
+              }
+            }).catch(error => {
+              console.log(error)
+            })
   }
 }
 

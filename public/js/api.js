@@ -1,5 +1,3 @@
-const { default: axios } = require("axios")
-const { response } = require("express")
 
 //all function that will use in front end
 function register(username, useremail, userpassword, usergender, userphone){
@@ -11,6 +9,7 @@ function register(username, useremail, userpassword, usergender, userphone){
     }
     const body = {
         username: username,
+        useremail: useremail,
         userpassword : userpassword,
         usergender: usergender,
         userphone : userphone
