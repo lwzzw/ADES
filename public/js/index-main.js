@@ -27,7 +27,7 @@ window.addEventListener('DOMContentLoaded', function () {
             string = `<div class="cat-block" id="1-${response[i].id}"><ul>`;
             for (let j = 0; j < response[i].parent.length; j++) {
                 string += `<li class="cat-content second-cat" id="1-${response[i].parent[j].fk_main}-${response[i].parent[j].id}"><a href="/category.html?platform=${encodeURI(response[i].parent[j].category_name)}">${response[i].parent[j].category_name}</a></li>`;
-                if (response[i].parent[j].child.length == 0) break;
+                if (!response[i].parent[j].child) break;
                 let thirdstring = `<div class="cat-content third-cat cat-block" id="2-${response[i].parent[j].fk_main}-${response[i].parent[j].id}"><ul>`;
                 for (let k = 0; k < response[i].parent[j].child.length; k++) {
                     thirdstring += `<li><a href="/category.html?childcat=${encodeURI(response[i].parent[j].child[k].category_name)}">${response[i].parent[j].child[k].category_name}</a></li>`;
