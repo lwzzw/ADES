@@ -23,7 +23,7 @@ window.addEventListener('DOMContentLoaded', function () {
             let category = `<option value='${response[i].category_name}'>${response[i].category_name}</option>`
             document.getElementById("dropDownCategory").insertAdjacentHTML('beforeend', category)
             document.getElementById("first_cat").insertAdjacentHTML("beforeend", string);
-            if (response[i].parent.length == 0) break;
+            if (!response[i].parent) break;
             string = `<div class="cat-block" id="1-${response[i].id}"><ul>`;
             for (let j = 0; j < response[i].parent.length; j++) {
                 string += `<li class="cat-content second-cat" id="1-${response[i].parent[j].fk_main}-${response[i].parent[j].id}"><a href="/category.html?platform=${encodeURI(response[i].parent[j].category_name)}">${response[i].parent[j].category_name}</a></li>`;
