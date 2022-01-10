@@ -7,3 +7,5 @@ exports.ENV = process.env.ENV||"sandbox";
 exports.PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
 exports.PAYPAL_CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET;
 exports.DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
+exports.EMAIL_USER = process.env.EMAIL_USER;
+exports.EMAIL_PASS = process.env.EMAIL_PASS;

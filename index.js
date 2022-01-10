@@ -12,6 +12,7 @@ app.set("view engine", "ejs");
 
 db.connect()
   .then(() => {
+    // return
     let tableStr;
     readFile("./table.txt", (err, data) => {
       if (err) throw err;
