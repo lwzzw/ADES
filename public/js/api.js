@@ -220,6 +220,29 @@ function getCategoryCount(maincat) {
         })
 }
 
+function getCategoryCountByPlatform(platform) {
+    // if(!maincat)rejects;
+    const methods = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    return axios
+        .get(`/category/countOfGameByPlatform/${platform}`, methods)
+        .then(response => {
+            console.log(response.data);
+            return response.data.count
+        })
+        .catch(error => {
+            console.log(error);
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+}
+
 function checkLogin() {
     const methods = {
         method: 'GET',

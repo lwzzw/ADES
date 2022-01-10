@@ -358,7 +358,7 @@ VALUES ('Tales of Arise | Ultimate Edition (PC) - Steam Key - GLOBAL', 79.90, 'i
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount, g_region) 
 VALUES ('7 Days to Die Steam Key GLOBAL', 82.50, '7 Days to Die is a gripping post-apocalyptic first-person survival game, pitting you against zombies, hunger, and human fallibility', 1, 1, 2, '/images/noimage.png', '2020/10/11', 27.22, 3);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount, g_region) 
-VALUES ('Overwatch Battle.net Key GLOBAL', 69.90, 'Overwatch is a 2016 first-person shooter multiplayer video game for PC developed and published by Blizzard Entertainment.', 1, 1, 2, '/images/noimage.png', '2020/10/11', 41.94, 1);
+VALUES ('Overwatch Battle.net Key GLOBAL', 69.90, 'Overwatch is a 2016 first-person shooter multiplayer video game for PC developed and published by Blizzard Entertainment.', 1, 2, 2, '/images/noimage.png', '2020/10/11', 41.94, 1);
 
 INSERT INTO public.user_detail (name, email, password, gender, phone) VALUES ('Junheng', 'junheng.tan@hotmail.com', '123password', 'M', 85529404);
 INSERT INTO public.user_detail (name, email, password, gender, phone) VALUES ('Adam', 'adam@gmail.com', '123password', 'M', 97653242);
