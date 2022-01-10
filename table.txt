@@ -1,3 +1,12 @@
+DROP TABLE IF EXISTS keys;
+CREATE TABLE IF NOT EXISTS keys (
+	id SERIAL primary key,
+	order_id int not  null,
+	g_id int not null,
+	key VARCHAR(255) not null
+);
+
+
 DROP TABLE IF EXISTS cart;
 CREATE TABLE IF NOT EXISTS cart (
 	id SERIAL primary key,
@@ -78,6 +87,9 @@ CREATE TABLE IF NOT EXISTS main_category (
 	category_name VARCHAR (50) not null
 );
 
+ALTER TABLE keys
+   ADD CONSTRAINT fk_historyOrderid FOREIGN KEY(order_id) REFERENCES order_detail(order_id);
+   ADD CONSTRAINT fk_historyGid FOREIGN KEY(g_id) REFERENCES order_detail(g_id);
 
 ALTER TABLE twofactor_authenticator
 	ADD CONSTRAINT fk_userid FOREIGN KEY(belong_to) REFERENCES user_detail(id);
@@ -373,23 +385,6 @@ INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (2, 1, 1);
 INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (2, 2, 1);
 INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (2, 4, 1);
 
-INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 1, 10);
-INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 1, 9);
-INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 2, 8);
-INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 4, 7);
-INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 1, 6);
-INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 1, 5);
-INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 8, 4);
-INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 2, 3);
-INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 4, 2);
-INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 1, 1);
-INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 10, 20);
-INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 16, 25);
-INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 21, 30);
-INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 30, 12);
-INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (3762, 29, 17);
 
-
-
-INSERT INTO public.order_history (user_id, buydate, total) VALUES (81624843,current_timestamp, 1);
-INSERT INTO public.order_history (user_id, buydate, total) VALUES (81624843,current_timestamp, 1);
+INSERT INTO public.order_history (user_id, buydate, total) VALUES (1,current_timestamp, 1);
+INSERT INTO public.order_history (user_id, buydate, total) VALUES (1,current_timestamp, 1);

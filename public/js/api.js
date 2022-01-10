@@ -1,4 +1,3 @@
-
 //all function that will use in front end
 function register(username, useremail, userpassword, usergender, userphone){
     const methods = {
@@ -564,6 +563,33 @@ function getPageCount(params){
         .get(`/game/gameDetailFilterPageCount?${params || ""}`, methods)
         .then(response => {
             return response.data.games
+        })
+        .catch(error => {
+            console.log(error);
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+    }
+
+function getKeys(){
+    const methods ={
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    if (localStorage.getItem("token")) {
+        methods.headers.Authorization = "Bearer " + localStorage.getItem("token")
+    }
+    const body = {
+        uid: localStorage.getItem("uid")
+    }
+    return axios
+        .post(`/keys/getkey`, body, methods)
+        .then(response => {
+            return response.data
         })
         .catch(error => {
             console.log(error);
