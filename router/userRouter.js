@@ -6,6 +6,7 @@ const config = require('../config');
 const verifyToken = require('../middleware/checkUserAuthorize')
 const router = require('express').Router();
 const logger = require('../logger');
+const nocache = require("nocache");
 
 router.post('/login', (req, res, next) => {
     const email = req.body.email;
@@ -93,7 +94,7 @@ router.post('/login', (req, res, next) => {
     }
 })
 
-router.get('/checkLogin', verifyToken, (req, res, next) => {
+router.get('/checkLogin', nocache(), verifyToken, (req, res, next) => {
     res.status(200).json({ name: req.name, id: req.id });
 })
 

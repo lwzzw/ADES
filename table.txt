@@ -87,9 +87,9 @@ CREATE TABLE IF NOT EXISTS main_category (
 	category_name VARCHAR (50) not null
 );
 
-ALTER TABLE keys
-   ADD CONSTRAINT fk_historyOrderid FOREIGN KEY(order_id) REFERENCES order_detail(order_id);
-   ADD CONSTRAINT fk_historyGid FOREIGN KEY(g_id) REFERENCES order_detail(g_id);
+--ALTER TABLE keys
+--   ADD CONSTRAINT fk_historyOrderid FOREIGN KEY(order_id) REFERENCES order_detail(order_id),
+--   ADD CONSTRAINT fk_historyGid FOREIGN KEY(g_id) REFERENCES order_detail(g_id);
 
 ALTER TABLE twofactor_authenticator
 	ADD CONSTRAINT fk_userid FOREIGN KEY(belong_to) REFERENCES user_detail(id);
