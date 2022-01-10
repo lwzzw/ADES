@@ -145,6 +145,13 @@ function showGame() {
             })
             document.getElementById("npage").disabled = false;
             document.getElementById("ppage").disabled = false;
+            getPageCount(params.toString()).then(result=>{
+                if(params.get("page")){
+                    if((params.get("page")*18)>result[0].count){
+                        document.getElementById("npage").disabled = true;
+                    }
+                }
+            })
         }).catch(err => {
             alert(err);
         })
