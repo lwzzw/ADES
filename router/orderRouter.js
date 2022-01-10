@@ -7,6 +7,7 @@ const verifyToken = require("../middleware/checkUserAuthorize");
 const axios = require("axios");
 const nodeCache = require("node-cache");
 const config = require("../config");
+const sendMail = require("../email/email").sendMail
 const Environment =
   config.ENV === "production"
     ? paypal.core.LiveEnvironment
@@ -106,7 +107,7 @@ router.post("/save-order", async (req, res, next) => {
         },
       })
       .then((res) => res.data);
-
+      console.log(paypalRes);
     if (paypalRes.status !== "COMPLETED" || paypalRes.id != cache.get(id)) {
       return next(createHttpError(400, "transaction not complete"));
     }
@@ -122,6 +123,8 @@ router.post("/save-order", async (req, res, next) => {
       id,
       total,
     ]);
+    let email = `You have been successful make a payment on ${paypalRes.create_time}`
+    sendMail(paypalRes.payer.email_address,"Thank you for purchase", email);
     cache.del(id);
     res.status(201).json({
       done: "true",

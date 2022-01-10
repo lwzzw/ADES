@@ -20,12 +20,12 @@ window.addEventListener('DOMContentLoaded', function () {
         for (let i = 0; i < response.length; i++) {
             let string = `<li class="cat-content first-cat" id="${response[i].id}"><a href="/category.html?maincat=${encodeURI(response[i].category_name)}">${response[i].category_name}</a></li>`;
             document.getElementById("first_cat").insertAdjacentHTML("beforeend", string);
-            if (response[i].parent.length == 0) break;
+            if (!response[i].parent.length) break;
             string = `<div class="cat-block" id="1-${response[i].id}"><ul>`;
             //add second category list
             for (let j = 0; j < response[i].parent.length; j++) {
                 string += `<li class="cat-content second-cat" id="1-${response[i].parent[j].fk_main}-${response[i].parent[j].id}"><a href="/category.html?platform=${encodeURI(response[i].parent[j].category_name)}">${response[i].parent[j].category_name}</a></li>`;
-                if (response[i].parent[j].child.length == 0) break;
+                if (!response[i].parent[j].child) break;
                 let thirdstring = `<div class="cat-content third-cat cat-block" id="2-${response[i].parent[j].fk_main}-${response[i].parent[j].id}"><ul>`;
                 //add third category list
                 for (let k = 0; k < response[i].parent[j].child.length; k++) {

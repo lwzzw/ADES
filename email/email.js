@@ -11,7 +11,7 @@ const tranporter = nodemailer.createTransport({
 
 exports.sendMail = function (user, subject, text, callback) {
   var mailOptions = {
-    from: "support@f2a.games",
+    from: "noreply@f2a.games",
     to: user,
     subject: subject,
     text: text,
