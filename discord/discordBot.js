@@ -68,7 +68,7 @@ client.on("interactionCreate", async (interaction) => {
       break;
   }
 });
-
+//https://discord.com/developers/docs/interactions/application-commands
 client.on("ready", () => {
   console.log("The bot is login");
 
