@@ -20,12 +20,11 @@ router.post("/login", (req, res, next) => {
   } else {
     return database
       .query(
-        `SELECT id, name, email FROM public.user_detail where email=$1 and password=$2`,
-        [email, password]
+        `SELECT id, name, email, password FROM public.user_detail where email=$1`,
+        [email]
       )
       .then((results) => {
-        console.log(results.rows.length);
-        if (results.rows.length == 1) {
+        if (bcrypt.compareSync(password, results.rows[0].password) == true) {
           let data = {
             token: jwt.sign(
               {
