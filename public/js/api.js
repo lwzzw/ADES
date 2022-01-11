@@ -587,9 +587,9 @@ function getKeys(){
         uid: localStorage.getItem("uid")
     }
     return axios
-        .post(`/keys/getkey`, body, methods)
+        .post(`/key/getkeys`, body, methods)
         .then(response => {
-            return response.data
+            return response.data.keys
         })
         .catch(error => {
             console.log(error);

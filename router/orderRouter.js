@@ -120,10 +120,21 @@ router.post("/save-order", async (req, res, next) => {
     cart.rows.forEach((c) => {
       total += c.price;
     });
-    await database.transactionQuery(`select confirm_order($1, $2)`, [
+    let hid = await database.transactionQuery(`select confirm_order($1, $2)`, [
       id,
       total,
     ]);
+
+    await database.transactionQuery(`select order_id, g_id, amount FROM order_detail WHERE order_id = $1`, [hid.rows[0].confirm_order]).then(result => {
+      let orderList = result.rows
+      orderList.forEach(orderDetail => {
+        let amount = orderDetail.amount
+        
+        for (let i = 0; i < amount; i++) {
+          database.query(`INSERT INTO keys (order_id, g_id, key) VALUES($1, $2, $3)`, [orderDetail.order_id, orderDetail.g_id, generateKey()])
+        }
+      })
+    })
     let text = `You have been successful make a payment on ${paypalRes.create_time}`
     sendMail(paypalRes.payer.email_address,"Thank you for purchase", {text});
     cache.del(id);
@@ -200,4 +211,15 @@ router.post("/orderDetails", (req, res, next) => {
       );
     });
 });
+
+function generateKey() {
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  var charactersLength = characters.length;
+  let string = '';
+  for ( var i = 0; i <= 16; i++ ) {
+    string += characters.charAt(Math.floor(Math.random() * 
+charactersLength));
+ }
+  return string;
+}
 module.exports = router;

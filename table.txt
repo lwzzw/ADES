@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS keys;
 CREATE TABLE IF NOT EXISTS keys (
 	id SERIAL primary key,
-	order_id int not  null,
+	order_id int not null,
 	g_id int not null,
 	key VARCHAR(255) not null
 );
@@ -87,10 +87,13 @@ CREATE TABLE IF NOT EXISTS main_category (
 	category_name VARCHAR (50) not null
 );
 
+<<<<<<< HEAD
+=======
 --ALTER TABLE keys
 --   ADD CONSTRAINT fk_historyOrderid FOREIGN KEY(order_id) REFERENCES order_detail(order_id),
 --   ADD CONSTRAINT fk_historyGid FOREIGN KEY(g_id) REFERENCES order_detail(g_id);
 
+>>>>>>> e5768d04172486154a2dba4fdf1e2a9b07d8d9c4
 ALTER TABLE twofactor_authenticator
 	ADD CONSTRAINT fk_userid FOREIGN KEY(belong_to) REFERENCES user_detail(id);
 
@@ -153,7 +156,7 @@ BEGIN
 	insert into order_history (user_id, total, buydate) VALUES (uid, total, current_timestamp) RETURNING id into hid;
 	insert into order_detail (order_id, g_id, amount) select hid, game_id, amount from cart where user_id = uid;
 	delete from cart where user_id = uid;
-	RETURN 1;
+	RETURN hid;
 END ;
 $$;
 
