@@ -118,7 +118,7 @@ router.post("/save-order", async (req, res, next) => {
       [id]
     );
     cart.rows.forEach((c) => {
-      total += c.price;
+      total += parseInt(c.price);
     });
     let hid = await database.transactionQuery(`select confirm_order($1, $2)`, [
       id,
