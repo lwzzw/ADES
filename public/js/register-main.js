@@ -19,8 +19,8 @@ window.addEventListener('DOMContentLoaded', function () {
   }
 
   checkRegisterBtn.onclick = function () {
-    reEmail = new RegExp(`^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$`);
-    rePassword = new RegExp(`^.{8,}$`);
+    let reEmail = new RegExp(`^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$`);
+    let rePassword = new RegExp(`^.{8,}$`);
 
     if(userfemale.checked){
         usergender = userfemale.value;

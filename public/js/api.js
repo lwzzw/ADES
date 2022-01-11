@@ -599,3 +599,53 @@ function getKeys(){
             return error.response.data
         })
 }
+
+function resetPass(email, code, password){
+    const methods = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    const body = {
+        email,
+        code,
+        password
+    }
+    return axios
+        .post(`/user/verifyResetPass`, body, methods)
+        .then(response => {
+            return response.data.status
+        })
+        .catch(error => {
+            console.log(error);
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+}
+
+function sendVerifyCode(email){
+    const methods = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    const body = {
+        email
+    }
+    return axios
+        .post(`/user/forgetPass`, body, methods)
+        .then(response => {
+            return response.data.status
+        })
+        .catch(error => {
+            console.log(error);
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+}
