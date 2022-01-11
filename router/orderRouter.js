@@ -40,8 +40,8 @@ router.post("/create-order", async (req, res, next) => {
       if (result) {
         return result.rows.forEach((cart) => {
           cart.g_discount
-            ? (total += cart.g_discount)
-            : (total += cart.g_price);
+            ? (total += parseInt(cart.g_discount))
+            : (total += parseInt(cart.g_price));
         });
       } else {
         return 0;
@@ -51,6 +51,7 @@ router.post("/create-order", async (req, res, next) => {
       next(createHttpError(500, err));
     });
   if (total <= 0) return next(createHttpError(400, "No cart"));
+  console.log(total);
   const request = new paypal.orders.OrdersCreateRequest();
 
   request.prefer("return=representation");
