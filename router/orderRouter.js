@@ -134,8 +134,8 @@ router.post("/save-order", async (req, res, next) => {
         }
       })
     })
-    let email = `You have been successful make a payment on ${paypalRes.create_time}`
-    sendMail(paypalRes.payer.email_address,"Thank you for purchase", email);
+    let text = `You have been successful make a payment on ${paypalRes.create_time}`
+    sendMail(paypalRes.payer.email_address,"Thank you for purchase", {text});
     cache.del(id);
     res.status(201).json({
       done: "true",

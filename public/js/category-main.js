@@ -54,6 +54,26 @@ window.addEventListener('DOMContentLoaded', function () {
             })
             Array.from(document.getElementsByClassName("child")).forEach(e => {
                 e.addEventListener("click", () => {
+                    params.set("platform", e.firstChild.textContent);
+                    showGame();
+                })
+            })
+        }).catch(err => {
+            alert(err);
+        })
+    }else if(params.get("platform")){
+        getCategoryCountByPlatform(params.get("platform") || null).then(response => {
+            if (!response) return;
+            for (let i = 0; i < response.length; i++) {
+                let string = `<li class="child"><a>${response[i].category_name}</a><span>${response[i].count}</span></li>`
+                document.getElementById("category_list").insertAdjacentHTML("beforeend", string);
+            }
+            showlm();
+            document.getElementById("showmore").addEventListener("click", () => {
+                showlm();
+            })
+            Array.from(document.getElementsByClassName("child")).forEach(e => {
+                e.addEventListener("click", () => {
                     params.set("childcat", e.firstChild.textContent);
                     showGame();
                 })

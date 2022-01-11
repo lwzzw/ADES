@@ -6,6 +6,7 @@ const logger = require("../logger");
 function verifyToken(req, res, next) {
   (req.id = ""), (req.name = ""), (req.email = "");
   var token = req.headers["authorization"];
+  console.log(token);
   if (!token || !token.includes("Bearer")) {
     next(createHttpError(401, "No token"));
     // logger.error(

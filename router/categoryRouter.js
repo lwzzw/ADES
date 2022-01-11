@@ -6,8 +6,8 @@ var cat;
 // getCat();
 
 module.exports.getCat = getCats;
-//to use only one database connection so we use await
 
+//cache the category
 async function getCats() {
   let main, sub, child;
   try {
@@ -70,17 +70,19 @@ router.get("/countOfGame/:mainCategory", (req, res, next) => {
   var mainCat = req.params.mainCategory;
   return database
     .query(
-      `SELECT COUNT(g_id),category_name 
-                            FROM G2A_gameDatabase 
-                            join child_subcategory on g_childSubcategory = id 
+      `SELECT COUNT(g_id),parent_subcategory.category_name 
+                            FROM main_category 
+                            join parent_subcategory on fk_main = main_category.id 
+                            join G2A_gameDatabase on g_parentSubcategory = parent_subcategory.id
                             WHERE g_maincategory = (select id from main_category where category_name = $1)
-                            group by category_name`,
+                            group by parent_subcategory.category_name`,
       [decodeURI(mainCat)]
     )
     .then((result) => {
       logger.info(
         `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
       );
+      console.log(result.rows);
       return res.status(200).json({
         count: result.rows,
       });
@@ -94,5 +96,35 @@ router.get("/countOfGame/:mainCategory", (req, res, next) => {
       );
     });
 });
+
+router.get("/countOfGameByPlatform/:subCategory", (req, res, next) => {
+    var subCat = req.params.subCategory;
+    console.log(subCat);
+    return database
+      .query(
+        `SELECT COUNT(g_id),category_name 
+        FROM G2A_gameDatabase 
+        join child_subcategory on g_childSubcategory = id 
+        WHERE g_parentSubcategory = (select id from parent_subcategory where category_name = $1)
+        group by category_name`,
+        [decodeURI(subCat)]
+      )
+      .then((result) => {
+        logger.info(
+          `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
+        );
+        return res.status(200).json({
+          count: result.rows,
+        });
+      })
+      .catch((err) => {
+        next(createHttpError(500, err));
+        logger.error(
+          `${err || "500 Error"} ||  ${res.statusMessage} - ${
+            req.originalUrl
+          } - ${req.method} - ${req.ip}`
+        );
+      });
+  });
 
 module.exports.default = router;

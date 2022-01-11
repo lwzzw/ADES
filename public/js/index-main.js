@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', function () {
             document.getElementById('myAccount').insertAdjacentHTML('beforeend', myAccBtn)
             document.getElementById("login").addEventListener("click", () => {
                 localStorage.removeItem("token");   
-                document.getElementById("orderHistory").remove()
+                // document.getElementById("orderHistory").remove()
             })
         })
         .catch(err => {
@@ -43,7 +43,7 @@ window.addEventListener('DOMContentLoaded', function () {
     })
 
     const getAllProducts = async () => {
-        const result = await getAllCategories()
+        // const result = await getAllCategories()
 
         await getBestsellers().then(response => {
 
@@ -145,7 +145,7 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     const getAllDeals = async () => {
-        const result = await getAllCategories()
+        // const result = await getAllCategories()
         
         getDeals(row)
             .then(response => {
