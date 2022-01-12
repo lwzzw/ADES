@@ -1,21 +1,18 @@
-const { response } = require("express");
-
 window.addEventListener('DOMContentLoaded', function () {
-    checkLogin().then(response => {
-        document.getElementById("login").innerHTML = "log out";
-        document.getElementById("login").addEventListener("click", () => {
-            localStorage.removeItem("token");
-        })
+    getKeys().then(keys => {
+        let string = '';
+        for(var i = 0; i< keys.length; i++){
+          string += `
+          <li>
+              <div class="individual-key">
+                  <div>Game Name:</h6> ${keys[i].g_name}</div>
+                  <div>Steam Key:</h6> ${keys[i].key}</div>
+              </div>
+              <br><br>
+              </li>`
+        }
+        document.getElementById("keys").insertAdjacentHTML("beforeend", string);
     })
-    .catch(err => {
-        console.log(err);
-    })
-    // const getAllkeys = async () => {
-    //     await getkeys().then(response => {
-    //         for(var i = 0; i< response.length; i++){
-    //             let string = `<li>${response[i].g_id}</li>`
-    //         }
-    //     })
-    //     }
 
+    
 })

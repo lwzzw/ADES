@@ -50,7 +50,7 @@ exports.transactionQuery = function (text, params) {
       reject(new Error("Not connected to database"));
     }
     try {
-      console.log("start executed transaction query");
+      console.log("start executed transaction query {", text, "}");
       const start = Date.now();
       await connection.query("BEGIN");
       const res = await connection.query(text, params);

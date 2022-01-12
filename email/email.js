@@ -2,19 +2,25 @@ require("dotenv").config();
 const config = require("../config.js");
 var nodemailer = require("nodemailer");
 const tranporter = nodemailer.createTransport({
-  service: "gmail",
+  service: "gmail.com",
   auth: {
     user: config.EMAIL_USER,
     pass: config.EMAIL_PASS,
+    dkim: {
+      domainName: "f2a.games",
+      keySelector: config.EMAIL_KEY_SELECTOR,
+      privateKey: config.EMAIL_PRIVATE_KEY
+    }
   },
 });
 
-exports.sendMail = function (user, subject, text, callback) {
+exports.sendMail = function (user, subject, body, callback) {
   var mailOptions = {
-    from: "noreply@f2a.games",
+    from: "config.EMAIL_USER",
     to: user,
     subject: subject,
-    text: text,
+    text: body.text,
+    html: body.html,
   };
   tranporter.sendMail(
     mailOptions,

@@ -6,8 +6,8 @@ var cat;
 // getCat();
 
 module.exports.getCat = getCats;
-//to use only one database connection so we use await
 
+//cache the category
 async function getCats() {
   let main, sub, child;
   try {
