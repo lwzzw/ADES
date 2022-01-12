@@ -1,3 +1,4 @@
+// const bot = require("./discord/discordBot")
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -7,7 +8,6 @@ const db = require("./database/database");
 const port = require("./config").PORT;
 const getCat = require("./router/categoryRouter").getCat;
 const readFile = require("fs").readFile;
-// require("./discord/discordBot")
 app.set("view engine", "ejs");
 
 db.connect()
@@ -19,6 +19,8 @@ db.connect()
       tableStr = data.toString();
       db.query(tableStr).then(() => {
         getCat();
+      }).catch((err)=>{
+        console.log(err);
       });
     });
   })

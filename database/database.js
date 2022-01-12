@@ -39,9 +39,7 @@ exports.query = function (text, params) {
         resolve(result);
       }
     });
-  }).catch((err) => {
-    console.log(err);
-  });
+  })
 };
 
 exports.transactionQuery = function (text, params) {
