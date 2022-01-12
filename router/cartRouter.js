@@ -5,6 +5,32 @@ const logger = require('../logger');
 
 const router = require('express').Router();
 
+router.post("/getShoppingBadge", (req, res, next) => {
+    if (req.headers.authorization) {
+        verifyToken(req, res, () => {
+            id = req.id;
+        })
+    } else {
+        id = req.body.uid;
+    }
+    return database.query(`select amount from cart where user_id = $1`, [id]).then(result => {
+        if (result) {
+            logger.info(`200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+            return res.status(200).json({
+                items : result.rows
+            });
+        } else {
+            return res.status(200).json({
+                items : []
+            });
+        }
+    }).catch(err => {
+        next(createHttpError(500, err))
+        logger.error(`${err || '500 Error'}  ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+    })
+})
+
+
 router.post("/getShoppingCart", (req, res, next) => {
     var id;
     if (req.headers.authorization) {

@@ -583,13 +583,39 @@ function getKeys(){
     if (localStorage.getItem("token")) {
         methods.headers.Authorization = "Bearer " + localStorage.getItem("token")
     }
+    return axios
+        .post(`/key/getkeys`, methods)
+        .then(response => {
+            return response.data.keys
+        })
+        .catch(error => {
+            console.log(error);
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+}
+
+
+function getShoppingBadge() {
+    const methods = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    if (localStorage.getItem("token")) {
+        methods.headers.Authorization = "Bearer " + localStorage.getItem("token")
+    }
     const body = {
         uid: localStorage.getItem("uid")
     }
     return axios
-        .post(`/key/getkeys`, body, methods)
+        .post(`/cart/getShoppingBadge`, body, methods)
         .then(response => {
-            return response.data.keys
+            console.log(response.data.items);
+            return response.data.items
         })
         .catch(error => {
             console.log(error);

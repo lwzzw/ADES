@@ -6,16 +6,9 @@ const createHttpError = require("http-errors");
 const { response } = require('express');
 const { data } = require('../logger');
 
-router.post('/getkeys', (req, res, next) =>{
-    var id = req.body.uid;
+router.post('/getkeys', verifyToken, (req, res, next) =>{
+    var id = req.id;
 
-    if (req.headers.authorization) {
-        verifyToken(req, res, () => {
-            id = req.id;
-        })
-    } else {
-        id = req.body.uid;
-    }
     return database.query(`SELECT g2a_gamedatabase.g_name, keys.order_id, keys.g_id, keys.key FROM keys
      INNER JOIN order_history ON order_history.id = keys.order_id 
      INNER JOIN g2a_gamedatabase ON g2a_gamedatabase.g_id = keys.g_id

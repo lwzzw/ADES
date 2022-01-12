@@ -17,6 +17,7 @@ window.addEventListener('DOMContentLoaded', function () {
             console.log(err);
         })
     uidGenerate();
+    showCartAmount();
     getAllCategories().then(response => {
         for (let i = 0; i < response.length; i++) {
             let string = `<li class="cat-content first-cat" id="${response[i].id}"><a href="/category.html?maincat=${encodeURI(response[i].category_name)}">${response[i].category_name}</a></li>`;
@@ -142,6 +143,7 @@ window.addEventListener('DOMContentLoaded', function () {
         })
         showCheapProducts();
         getAllDeals();
+
     }
 
     const getAllDeals = async () => {
@@ -329,4 +331,15 @@ function search() {
 
     string += "&maincat=" + categoryMain;
     location.href = '/category.html' + string
+}
+
+function showCartAmount(){
+    let string = 0;
+    getShoppingBadge().then(response => {
+        console.log(response.length);
+        for(var i = 0; i < response.length; i++){
+             string += response[i].amount;
+        }
+        document.getElementById("shoppingCart").insertAdjacentHTML("beforeend", string);
+    })
 }
