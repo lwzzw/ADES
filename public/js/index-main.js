@@ -77,6 +77,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
         await getPreOrders(true).then(response => {
+            console.log(response)
             for (let i = 0; i < response.length; i++) {
                 let preorders = response[i];
                 let preorder = `
@@ -89,7 +90,7 @@ window.addEventListener('DOMContentLoaded', function () {
                             <h6>${preorders.g_name}</h6>
                             <div><span>PRICE</span></div>
                             <div>
-                                <span><span>${preorders.g_price}</span> <sup class='sub-script'> SGD </sup></span>
+                                <span><span>${preorders.g_discount}</span> <sup class='sub-script'> SGD </sup></span>
                             </div>
                             <div id='game-${preorders.g_id}'>
 
