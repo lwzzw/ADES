@@ -1,5 +1,5 @@
 //all function that will use in front end
-function register(username, useremail, userpassword, usergender, userphone){
+function register(username, useremail, userpassword, usergender, userphone,code){
     const methods = {
         method: 'POST',
         headers: {
@@ -11,7 +11,8 @@ function register(username, useremail, userpassword, usergender, userphone){
         useremail: useremail,
         userpassword : userpassword,
         usergender: usergender,
-        userphone : userphone
+        userphone : userphone,
+        code: code
     }
     return axios
     .post(`/user/register`, body, methods)
@@ -92,7 +93,8 @@ function getDeals(params) {
         })
 }
 
-function getBestsellers() {
+//getBestsellers function gets fixed amount of products or unfixed amount depending on the params that is passed in.
+function getBestsellers(params) {
     const methods = {
         method: 'GET',
         headers: {
@@ -100,7 +102,7 @@ function getBestsellers() {
         }
     }
     return axios
-        .get(`/game/getBSellers/`, methods)
+        .get(`/game/getBSellers/${params}`, methods)
         .then(response => {
             return response.data.bsellers
         })
@@ -113,7 +115,8 @@ function getBestsellers() {
         })
 }
 
-function getPreOrders() {
+//getPreOrders function gets fixed amount of products or unfixed amount depending on the params that is passed in.
+function getPreOrders(params) {
     const methods = {
         method: 'GET',
         headers: {
@@ -121,7 +124,7 @@ function getPreOrders() {
         }
     }
     return axios
-        .get(`/game/getPreorders`, methods)
+        .get(`/game/getPreorders/${params}`, methods)
         .then(response => {
             return response.data.preorders
         })
@@ -520,10 +523,8 @@ function authenticateSecretKey(token) {
     return axios
         .get(`/twofa/getSecret`, methods)
         .then(response => {
-            console.log(response);
             return response.data;
         }).catch(error => {
-            console.log(error);
             if (error.response) {
                 throw new Error(JSON.stringify(error.response.data));
             }
@@ -553,6 +554,7 @@ function validateSecretKey(secretCodeInput, secretKey) {
     });
 }
 function getPageCount(params){
+
     const methods = {
         method: 'GET',
         headers: {
@@ -625,3 +627,79 @@ function getShoppingBadge() {
             return error.response.data
         })
 }
+
+function resetPass(email, code, password){
+    const methods = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    const body = {
+        email,
+        code,
+        password
+    }
+    return axios
+        .post(`/user/verifyResetPass`, body, methods)
+        .then(response => {
+            return response.data.status
+        })
+        .catch(error => {
+            console.log(error);
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+}
+
+function sendVerifyCode(email){
+    const methods = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    const body = {
+        email
+    }
+    return axios
+        .post(`/user/forgetPass`, body, methods)
+        .then(response => {
+            return response.data.status
+        })
+        .catch(error => {
+            console.log(error);
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+}
+
+function verifyEmail(email){
+    const methods = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    const body = {
+        email
+    }
+    return axios
+        .post(`/user/verifyEmail`, body, methods)
+        .then(response => {
+            return response.data.status
+        })
+        .catch(error => {
+            console.log(error);
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+
+}
+

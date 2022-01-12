@@ -1,0 +1,11 @@
+.product-container ul {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.product-container ul li{
+    border-style: solid;
+    margin-top: 10px;
+    margin-left: 10px;
+    list-style-type: none;
+}

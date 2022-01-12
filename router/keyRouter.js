@@ -3,8 +3,6 @@ const config = require('../config');
 const database = require('../database/database');
 const verifyToken = require('../middleware/checkUserAuthorize');
 const createHttpError = require("http-errors");
-const { response } = require('express');
-const { data } = require('../logger');
 
 router.post('/getkeys', verifyToken, (req, res, next) =>{
     var id = req.id;

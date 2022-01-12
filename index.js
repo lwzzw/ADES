@@ -1,3 +1,4 @@
+// const bot = require("./discord/discordBot")
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -7,7 +8,6 @@ const db = require("./database/database");
 const port = require("./config").PORT;
 const getCat = require("./router/categoryRouter").getCat;
 const readFile = require("fs").readFile;
-// require("./discord/discordBot")
 app.set("view engine", "ejs");
 
 db.connect()
@@ -19,6 +19,8 @@ db.connect()
       tableStr = data.toString();
       db.query(tableStr).then(() => {
         getCat();
+      }).catch((err)=>{
+        console.log(err);
       });
     });
   })
@@ -46,6 +48,15 @@ app.get("/shoppingCart.html", (req, res, next) => {
     paypalClientId: process.env.PAYPAL_CLIENT_ID,
   });
 });
+
+app.get('/bestseller', (req, res, next) => {
+  res.sendFile(path.join(__dirname, "/public/html/discover.html"));
+})
+
+app.get('/preorders', (req, res, next) => {
+  res.sendFile(path.join(__dirname, "/public/html/discover.html"));
+})
+
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "public/html")));
 

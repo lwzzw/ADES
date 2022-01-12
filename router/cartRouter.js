@@ -62,9 +62,13 @@ router.post("/editShoppingCart", async function (req, res, next) {
     var id;
     if (req.headers.authorization) {
         verifyToken(req, res, () => {
+            console.log("verify");
+            console.log(req.id);
             id = req.id;
         })
     } else {
+        console.log("id = body uid");
+        console.log(req.body);
         id = req.body.uid;
     }
     try {
@@ -76,12 +80,14 @@ router.post("/editShoppingCart", async function (req, res, next) {
             console.log(c.id)
             await database.query(`select insert_cart($1, $2, $3, $4)`, [id, c.id, c.amount, req.body.edit])
                 .catch(err => {
-                    throw err;
+                    throw err
                 })
         }
+        console.log("continue");
         logger.info(`201 Insert ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
         res.status(201).end();
     } catch (err) {
+        console.log("err");
         next(createHttpError(500, err))
         logger.error(`${err || '500 Error'}  ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
     }
