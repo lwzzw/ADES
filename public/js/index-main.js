@@ -45,7 +45,7 @@ window.addEventListener('DOMContentLoaded', function () {
     const getAllProducts = async () => {
         // const result = await getAllCategories()
 
-        await getBestsellers().then(response => {
+        await getBestsellers(true).then(response => {
 
             for (let i = 0; i < response.length; i++) {
                 let bestsellers = response[i]
@@ -59,7 +59,7 @@ window.addEventListener('DOMContentLoaded', function () {
                             <h6>${bestsellers.g_name}</h6>
                             <div><span>PRICE</span></div>
                             <div>
-                                <span><span>${bestsellers.bs_price}</span> <sup class='sub-script'> SGD </sup></span>
+                                <span><span>${bestsellers.g_discount}</span> <sup class='sub-script'> SGD </sup></span>
                             </div>
                             <div>
                                 <span><span class='slash-price'>${bestsellers.g_price}</span><sup class='sub-script-striked'> SGD
@@ -76,7 +76,7 @@ window.addEventListener('DOMContentLoaded', function () {
         })
 
 
-        await getPreOrders().then(response => {
+        await getPreOrders(true).then(response => {
             for (let i = 0; i < response.length; i++) {
                 let preorders = response[i];
                 let preorder = `
@@ -89,7 +89,7 @@ window.addEventListener('DOMContentLoaded', function () {
                             <h6>${preorders.g_name}</h6>
                             <div><span>PRICE</span></div>
                             <div>
-                                <span><span>${preorders.preorder_price}</span> <sup class='sub-script'> SGD </sup></span>
+                                <span><span>${preorders.g_price}</span> <sup class='sub-script'> SGD </sup></span>
                             </div>
                             <div id='game-${preorders.g_id}'>
 
@@ -143,7 +143,13 @@ window.addEventListener('DOMContentLoaded', function () {
         showCheapProducts();
         getAllDeals();
     }
+    document.getElementById('bsBtn').addEventListener('click', () => {
+        window.location.href = "/bestseller"; 
+    })
 
+    document.getElementById('poBtn').addEventListener('click', () => {
+        window.location.href = "/preorders"; 
+    })
     const getAllDeals = async () => {
         // const result = await getAllCategories()
         

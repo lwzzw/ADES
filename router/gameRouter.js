@@ -222,10 +222,13 @@ router.get("/getDeals/:row", (req, res, next) => {
     });
 });
 
-router.get("/getBSellers", (req, res, next) => {
+//This API querys the database for bestselling products depending on how many times a game has been purchased.
+router.get("/getBSellers/:limitProducts", (req, res, next) => {
+  const limitProducts = req.params.limitProducts
+    //limitProducts contains true or false, if it contains true, it will query the database and limit its search radius to 6 products only. if not, it will query the database for all of the products available.
   return database
     .query(
-      `SELECT order_detail.g_id, SUM(amount) bestseller, g2a_gamedatabase.g_name, g2a_gamedatabase.g_image, COALESCE(g_discount, g_price) bs_price, g2a_gamedatabase.g_price FROM order_detail INNER JOIN g2a_gamedatabase ON order_detail.g_id = g2a_gamedatabase.g_id GROUP BY order_detail.g_id, g2a_gamedatabase.g_name, g2a_gamedatabase.g_image, g2a_gamedatabase.g_price, g2a_gamedatabase.g_discount  ORDER BY bestseller DESC LIMIT 6;`
+      `SELECT order_detail.g_id, SUM(amount) bestseller, g2a_gamedatabase.g_name, g2a_gamedatabase.g_image, COALESCE(g_discount, g_price) g_discount, g2a_gamedatabase.g_price FROM order_detail INNER JOIN g2a_gamedatabase ON order_detail.g_id = g2a_gamedatabase.g_id GROUP BY order_detail.g_id, g2a_gamedatabase.g_name, g2a_gamedatabase.g_image, g2a_gamedatabase.g_price, g2a_gamedatabase.g_discount ORDER BY bestseller DESC ${limitProducts == 'true' ? 'LIMIT 6':'' };`
     )
     .then((result) => {
       if (!result.rows)
@@ -249,10 +252,13 @@ router.get("/getBSellers", (req, res, next) => {
     });
 });
 
-router.get("/getPreorders", (req, res, next) => {
+//This API querys the database for products under preorder.
+router.get(`/getPreorders/:limitProducts`, (req, res, next) => {
+  //limitProducts contains true or false, if it contains true, it will query the database and limit its search radius to 6 products only. if not, it will query the database for all of the products available.
+  const limitProducts = req.params.limitProducts
   return database
     .query(
-      `SELECT g_id, g_name, g_price, g_image, COALESCE(g_discount, g_price) preorder_price, NULLIF(g2a_gamedatabase.g_discount, g2a_gamedatabase.g_price), g_publishdate FROM g2a_gamedatabase WHERE g_publishDate > current_timestamp LIMIT 6;`
+      `SELECT g_id, g_name, g_price, g_image, COALESCE(g_discount, g_price) g_discount, NULLIF(g2a_gamedatabase.g_discount, g2a_gamedatabase.g_price), g_publishdate FROM g2a_gamedatabase WHERE g_publishDate > current_timestamp ${limitProducts == 'true' ? 'LIMIT 6':'' };`
     )
     .then((result) => {
       logger.info(
@@ -275,7 +281,7 @@ router.get("/getPreorders", (req, res, next) => {
 router.get("/getLRelease", (req, res, next) => {
   return database
     .query(
-      `SELECT g_id, g_name, g_image,COALESCE(g_discount, g_price) g_discount, g_price, NULLIF(g2a_gamedatabase.g_discount, g2a_gamedatabase.g_price), to_char(g_publishdate::timestamp,'dd/mm/YYYY') as date FROM g2a_gamedatabase WHERE g_publishdate <= current_timestamp ORDER BY g_publishdate DESC LIMIT 6;`
+      `SELECT g_id, g_name, g_image, COALESCE(g_discount, g_price) g_discount, g_price, NULLIF(g2a_gamedatabase.g_discount, g2a_gamedatabase.g_price), to_char(g_publishdate::timestamp,'dd/mm/YYYY') as date FROM g2a_gamedatabase WHERE g_publishdate <= current_timestamp ORDER BY g_publishdate DESC LIMIT 6;`
     )
     .then((result) => {
       logger.info(

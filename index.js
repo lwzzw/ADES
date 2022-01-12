@@ -46,6 +46,15 @@ app.get("/shoppingCart.html", (req, res, next) => {
     paypalClientId: process.env.PAYPAL_CLIENT_ID,
   });
 });
+
+app.get('/bestseller', (req, res, next) => {
+  res.sendFile(path.join(__dirname, "/public/html/discover.html"));
+})
+
+app.get('/preorders', (req, res, next) => {
+  res.sendFile(path.join(__dirname, "/public/html/discover.html"));
+})
+
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "public/html")));
 

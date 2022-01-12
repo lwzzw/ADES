@@ -92,7 +92,8 @@ function getDeals(params) {
         })
 }
 
-function getBestsellers() {
+//getBestsellers function gets fixed amount of products or unfixed amount depending on the params that is passed in.
+function getBestsellers(params) {
     const methods = {
         method: 'GET',
         headers: {
@@ -100,7 +101,7 @@ function getBestsellers() {
         }
     }
     return axios
-        .get(`/game/getBSellers/`, methods)
+        .get(`/game/getBSellers/${params}`, methods)
         .then(response => {
             return response.data.bsellers
         })
@@ -113,7 +114,8 @@ function getBestsellers() {
         })
 }
 
-function getPreOrders() {
+//getPreOrders function gets fixed amount of products or unfixed amount depending on the params that is passed in.
+function getPreOrders(params) {
     const methods = {
         method: 'GET',
         headers: {
@@ -121,7 +123,7 @@ function getPreOrders() {
         }
     }
     return axios
-        .get(`/game/getPreorders`, methods)
+        .get(`/game/getPreorders/${params}`, methods)
         .then(response => {
             return response.data.preorders
         })
@@ -520,10 +522,8 @@ function authenticateSecretKey(token) {
     return axios
         .get(`/twofa/getSecret`, methods)
         .then(response => {
-            console.log(response);
             return response.data;
         }).catch(error => {
-            console.log(error);
             if (error.response) {
                 throw new Error(JSON.stringify(error.response.data));
             }
@@ -553,6 +553,7 @@ function validateSecretKey(secretCodeInput, secretKey) {
     });
 }
 function getPageCount(params){
+
     const methods = {
         method: 'GET',
         headers: {
@@ -598,4 +599,6 @@ function getKeys(){
             }
             return error.response.data
         })
+
 }
+
