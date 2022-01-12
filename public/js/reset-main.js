@@ -16,7 +16,9 @@ window.addEventListener("DOMContentLoaded", function () {
   };
 
   checkReset.onclick = function () {
-    let reEmail = new RegExp(`^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$`);
+    let reEmail = new RegExp(
+      `^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$`
+    );
     let rePassword = new RegExp(`^.{8,}$`);
 
     if (
@@ -33,17 +35,18 @@ window.addEventListener("DOMContentLoaded", function () {
     } else {
       resetPass(useremail.value, code.value, userpassword.value)
         .then((response) => {
-          if (response=="done") {
+          if (response == "done") {
             new Noty({
-                type: "success",
-                layout: "topCenter",
-                theme: "sunset",
-                timeout: "6000",
-                text: "Your password have been reset",
-              }).show();
-            setTimeout(()=>{
-                window.location.href = "login.html"
-            },6000)
+              type: "success",
+              layout: "topCenter",
+              theme: "sunset",
+              timeout: "6000",
+              text: "Your password have been reset",
+            })
+              .on("onClose", () => {
+                window.location.href = "login.html";
+              })
+              .show();
           } else {
             new Noty({
               type: "error",

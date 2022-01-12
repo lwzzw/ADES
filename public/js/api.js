@@ -1,5 +1,5 @@
 //all function that will use in front end
-function register(username, useremail, userpassword, usergender, userphone){
+function register(username, useremail, userpassword, usergender, userphone,code){
     const methods = {
         method: 'POST',
         headers: {
@@ -11,7 +11,8 @@ function register(username, useremail, userpassword, usergender, userphone){
         useremail: useremail,
         userpassword : userpassword,
         usergender: usergender,
-        userphone : userphone
+        userphone : userphone,
+        code: code
     }
     return axios
     .post(`/user/register`, body, methods)
@@ -638,6 +639,30 @@ function sendVerifyCode(email){
     }
     return axios
         .post(`/user/forgetPass`, body, methods)
+        .then(response => {
+            return response.data.status
+        })
+        .catch(error => {
+            console.log(error);
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+}
+
+function verifyEmail(email){
+    const methods = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    const body = {
+        email
+    }
+    return axios
+        .post(`/user/verifyEmail`, body, methods)
         .then(response => {
             return response.data.status
         })

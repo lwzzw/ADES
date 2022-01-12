@@ -52,7 +52,6 @@ router.post("/create-order", async (req, res, next) => {
       next(createHttpError(500, err));
     });
   if (total <= 0) return next(createHttpError(400, "No cart"));
-  console.log(total);
   const request = new paypal.orders.OrdersCreateRequest();
 
   request.prefer("return=representation");
@@ -136,7 +135,6 @@ router.post("/save-order", async (req, res, next) => {
           .then((result) => result.rows.length == 1);
         let orderList = result.rows;
         orderList.forEach((orderDetail) => {
-          console.log(isUser);
           if (isUser) {
             insertKey(orderDetail.amount);
             function insertKey(amount) {
@@ -215,7 +213,6 @@ router.post("/orderDetails", (req, res, next) => {
       [oid]
     )
     .then((result) => {
-      console.log(result.rows);
       if (!result.rows)
         return res.status(200).json({
           orderdetails: [],
