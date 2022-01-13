@@ -11,20 +11,20 @@ module.exports.getCat = getCats;
 async function getCats() {
   try {
     let main, sub, child;
-    main = database
+    main = await database
       .query("SELECT id, category_name FROM main_category")
       .then((result) => {
-        main = result.rows;
+        return main = result.rows;
       });
-    sub = database
+    sub = await database
       .query("SELECT id, category_name, fk_main FROM parent_subcategory")
       .then((result) => {
-        sub = result.rows;
+        return sub = result.rows;
       });
-    child = database
+    child = await database
       .query("SELECT id, category_name, fk_parent FROM child_subcategory")
       .then((result) => {
-        child = result.rows;
+        return child = result.rows;
       });
     return Promise.all([main, sub, child]).then(() => {
       child.forEach((childCat) => {
