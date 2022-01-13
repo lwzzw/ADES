@@ -8,6 +8,10 @@ const client = new Client({
 const PREFIX = "/";
 const LOG_CHANNEL_ID = "928283533087240192";
 
+const express = require("express");
+const app = express();
+const port = require("./config").PORT;
+
 client.login(config.DISCORD_BOT_TOKEN).catch((err) => {
   console.log(err);
 });
@@ -163,4 +167,18 @@ client.on("ready", () => {
     name: "preorder",
     description: "get preorder game",
   });
+});
+app.all("/",(req,res,next)=>{
+  next()
+})
+app.use((error, req, res, next) => {
+  console.error(error);
+  return res.status(error.status || 500).json({
+    error: error.message || `Unknown Error!`,
+    status: error.status,
+  });
+});
+
+app.listen(port, () => {
+  console.log(`App listen on port http://localhost:${port}`);
 });
