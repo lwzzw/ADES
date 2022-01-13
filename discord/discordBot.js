@@ -10,7 +10,7 @@ const LOG_CHANNEL_ID = "928283533087240192";
 
 const express = require("express");
 const app = express();
-// const port = require("./config").PORT;
+const port = process.env.PORT||8080;
 
 client.login(config.DISCORD_BOT_TOKEN).catch((err) => {
   console.log(err);
@@ -179,6 +179,6 @@ app.use((error, req, res, next) => {
   });
 });
 
-app.listen(8080, () => {
-  console.log(`App listen on port http://localhost:${8080}`);
+app.listen(port, () => {
+  console.log(`App listen on port http://localhost:${port}`);
 });
