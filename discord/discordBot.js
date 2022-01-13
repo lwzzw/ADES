@@ -171,13 +171,13 @@ client.on("ready", () => {
 // app.all("/",(req,res,next)=>{
 //   next()
 // })
-app.use((error, req, res, next) => {
-  console.error(error);
-  return res.status(error.status || 500).json({
-    error: error.message || `Unknown Error!`,
-    status: error.status,
-  });
-});
+// app.use((error, req, res, next) => {
+//   console.error(error);
+//   return res.status(error.status || 500).json({
+//     error: error.message || `Unknown Error!`,
+//     status: error.status,
+//   });
+// });
 
 app.listen(8080, () => {
   console.log(`App listen on port http://localhost:${8080}`);
