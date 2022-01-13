@@ -55,6 +55,7 @@
 }
 
 .navbar-category {
+    color: white;
     border-radius: 3px 3px 0px 0px;
     display: flex;
     --webkit-box-align: center;
@@ -65,6 +66,7 @@
     margin: 0px 5px 0px 5px;
     padding: 7px;
 }
+
 
 .navbar-category:first-child {
     margin-left: 0;
