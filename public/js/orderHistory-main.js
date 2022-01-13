@@ -9,6 +9,7 @@ window.addEventListener('DOMContentLoaded', async function () {
                 let order = `
                 <div class="order-header">
                 <h3 id="order-id">Order ID - ${orders.id}</h3>
+                <h3>${orders.total}<sup class='sub-script'> SGD </sup></h3>
                 <div>
                     <h3 id="order-date">Date - ${orders.buydate}</h3>
                 </div>

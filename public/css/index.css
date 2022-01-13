@@ -219,7 +219,7 @@ body>section {
 }
 
 
-.product-details div>span {
+.product-details div>span:first-child {
     letter-spacing: 0.6px;
     font-weight: 700;
 }
