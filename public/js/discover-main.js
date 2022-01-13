@@ -1,6 +1,7 @@
 let duration = 250;
 let toFirst, toSecond;
 window.addEventListener('DOMContentLoaded', function () {
+    
     //Hides the category div
     $("#categ")[0].style.display = "none";
 
@@ -191,3 +192,13 @@ $("#catdrop").on("click", function () {
     } else
         drop[0].style.display = "flex";
 })
+
+function showCartAmount(){
+    let string = 0;
+    getShoppingBadge().then(response => {
+        for(var i = 0; i < response.length; i++){
+             string += response[i].amount;
+        }
+        document.getElementById("shoppingCart").insertAdjacentHTML("beforeend", string);
+    })
+}

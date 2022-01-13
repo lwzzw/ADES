@@ -15,6 +15,7 @@ window.addEventListener('DOMContentLoaded', function () {
         })
     $("#categ")[0].style.display = "none";
     uidGenerate();
+    showCartAmount();
     getAllCategories().then(response => {
         //add first category list
         for (let i = 0; i < response.length; i++) {
@@ -205,7 +206,19 @@ function addCart(id) {
         }], 'false')
         .then(result => {
             alert("Add success");
+            window.location.reload();
         }).catch(err => {
             alert(err);
         })
+        
+}
+
+function showCartAmount(){
+    let string = 0;
+    getShoppingBadge().then(response => {
+        for(var i = 0; i < response.length; i++){
+             string += response[i].amount;
+        }  
+        document.getElementById("shoppingCart").insertAdjacentHTML("beforeend", string);
+    })
 }

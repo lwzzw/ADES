@@ -63,6 +63,7 @@
 }
 
 .navbar-category {
+    color: white;
     border-radius: 3px 3px 0px 0px;
     display: flex;
     --webkit-box-align: center;

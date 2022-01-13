@@ -7,6 +7,7 @@ const db = require("./database/database");
 const port = require("./config").PORT;
 const getCat = require("./router/categoryRouter").getCat;
 const readFile = require("fs").readFile;
+const { addAbortSignal } = require("stream");
 app.set("view engine", "ejs");
 
 db.connect()

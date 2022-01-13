@@ -11,3 +11,5 @@ exports.EMAIL_USER = process.env.EMAIL_USER;
 exports.EMAIL_PASS = process.env.EMAIL_PASS;
 exports.EMAIL_KEY_SELECTOR = process.env.EMAIL_KEY_SELECTOR;
 exports.EMAIL_PRIVATE_KEY = process.env.EMAIL_PRIVATE_KEY;
+exports.GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+exports.GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
