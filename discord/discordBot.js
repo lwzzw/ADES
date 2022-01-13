@@ -168,9 +168,9 @@ client.on("ready", () => {
     description: "get preorder game",
   });
 });
-app.all("/",(req,res,next)=>{
-  next()
-})
+// app.all("/",(req,res,next)=>{
+//   next()
+// })
 app.use((error, req, res, next) => {
   console.error(error);
   return res.status(error.status || 500).json({
