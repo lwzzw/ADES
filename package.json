@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node discord/discordBot",
-    "bot": "nodemon discord/discordbot"
+    "start": "node index",
+    "bot": "nodemon discord/discordBot"
   },
   "author": "",
   "license": "ISC",
