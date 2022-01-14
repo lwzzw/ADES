@@ -44,6 +44,9 @@ window.addEventListener('DOMContentLoaded', function () {
     if (params.get("maincat")) {
         getCategoryCount(params.get("maincat") || null).then(response => {
             if (!response) return;
+            if(response.length<=0){
+                document.getElementById("category").style.display='none'
+            }
             for (let i = 0; i < response.length; i++) {
                 let string = `<li class="child"><a>${response[i].category_name}</a><span>${response[i].count}</span></li>`
                 document.getElementById("category_list").insertAdjacentHTML("beforeend", string);
@@ -64,6 +67,9 @@ window.addEventListener('DOMContentLoaded', function () {
     }else if(params.get("platform")){
         getCategoryCountByPlatform(params.get("platform") || null).then(response => {
             if (!response) return;
+            if(response.length<=0){
+                document.getElementById("category").style.display='none'
+            }
             for (let i = 0; i < response.length; i++) {
                 let string = `<li class="child"><a>${response[i].category_name}</a><span>${response[i].count}</span></li>`
                 document.getElementById("category_list").insertAdjacentHTML("beforeend", string);
@@ -163,15 +169,18 @@ function showGame() {
                                 `
                 document.getElementById("game_content").insertAdjacentHTML("beforeend", string);
             })
-            document.getElementById("npage").disabled = false;
-            document.getElementById("ppage").disabled = false;
+            document.getElementById("npage").disabled = true;
+            document.getElementById("ppage").disabled = true;
+            let pageNum = params.get("page")||0
             getPageCount(params.toString()).then(result=>{
-                if(params.get("page")){
-                    if((params.get("page")*18)>result[0].count){
-                        document.getElementById("npage").disabled = true;
+                    if((pageNum*18)<parseInt(result[0].count)){
+                        document.getElementById("npage").disabled = false;
                     }
-                }
+                
             })
+            if(pageNum>1){
+                document.getElementById("ppage").disabled = false;
+            }
         }).catch(err => {
             alert(err);
         })
