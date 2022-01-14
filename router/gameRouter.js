@@ -133,8 +133,7 @@ router.get("/gameDetailFilterPageCount", (req, res, next) => {
     childcat = req.query.childcat,
     name = req.query.name,
     minprice = req.query.minprice,
-    maxprice = req.query.maxprice,
-    order = req.query.sort;
+    maxprice = req.query.maxprice
   var array = [];
   if (name) array.push(name);
   if (minprice) array.push(minprice);
@@ -142,14 +141,6 @@ router.get("/gameDetailFilterPageCount", (req, res, next) => {
   if (platform) array.push(platform);
   if (maincat && maincat != "All categories") array.push(maincat);
   if (childcat) array.push(childcat);
-  if (order) {
-    if (order == "default") order = "";
-    else if (order == "pricedesc") order = "g_price desc";
-    else if (order == "priceasc") order = "g_price asc";
-    else if (order == "datedesc") order = "g_publishdate desc";
-    else if (order == "datedasc") order = "g_publishdate asc";
-    else order = "";
-  }
   return database
     .query(
       `SELECT count(g_id)
@@ -172,7 +163,6 @@ router.get("/gameDetailFilterPageCount", (req, res, next) => {
             ? `AND g_childsubcategory in (select id from child_subcategory where category_name = $${i++}) `
             : ""
         }
-        ${order ? "order by " + order : ""}
         `,
       array
     )

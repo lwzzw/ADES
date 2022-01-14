@@ -59,6 +59,7 @@ window.addEventListener('DOMContentLoaded', function () {
             Array.from(document.getElementsByClassName("child")).forEach(e => {
                 e.addEventListener("click", () => {
                     params.set("platform", e.firstChild.textContent);
+                    params.set("page", 1);
                     showGame();
                 })
             })
@@ -82,6 +83,7 @@ window.addEventListener('DOMContentLoaded', function () {
             Array.from(document.getElementsByClassName("child")).forEach(e => {
                 e.addEventListener("click", () => {
                     params.set("childcat", e.firstChild.textContent);
+                    params.set("page", 1);
                     showGame();
                 })
             })
@@ -94,6 +96,7 @@ window.addEventListener('DOMContentLoaded', function () {
     document.getElementById("sort").addEventListener("change", () => {
         let sort = document.getElementById("sort").value;
         params.set("sort", sort);
+        params.set("page", 1);
         showGame();
     })
 
@@ -111,6 +114,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById("ppage").addEventListener("click", () => {
         document.getElementById("ppage").disabled = true;
+        let page = params.get("page")||1;
         page--;
         page < 1 ? page = 1 : page
         params.set("page", page);
@@ -119,6 +123,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById("npage").addEventListener("click", () => {
         document.getElementById("npage").disabled = true;
+        let page = params.get("page")||1;
         page++;
         page < 1 ? page = 1 : page;
         params.set("page", page);
@@ -129,11 +134,13 @@ window.addEventListener('DOMContentLoaded', function () {
 })
 
 const params = new URLSearchParams(window.location.search);
-var min, max, page = params.get("page") * 1 || 1;
+var min, max;
 
 function priceChange() {
     if (min) params.set("minprice", min);
     if (max) params.set("maxprice", max);
+    params.set("page", 1);
+    
     showGame();
 }
 
@@ -324,6 +331,7 @@ function search() {
     var categoryMain = document.getElementById("dropDownCategory").value;
     params.set("name", searchQuery);
     if (categoryMain) params.set("maincat", categoryMain);
+    params.set("page", 1);
     showGame();
 }
 
