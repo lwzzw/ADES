@@ -1,5 +1,5 @@
-// const { queryString } = require("query-string");
-
+const e = require("express");
+const { response } = require("express");
 
 window.addEventListener('DOMContentLoaded', function () {
   // Get reference to relevant elements
@@ -9,21 +9,63 @@ window.addEventListener('DOMContentLoaded', function () {
   const showPassword = document.getElementById('showPass');
   const googlebutton = document.getElementById('googleButton');
   uidGenerate();
-
-  googlebutton.onclick() = function(){
-    getAccessTokenFromCode(code).then(response => {
-      getGoogleUserInfo(response).then(response => {
-        if (response.id != null) {
-          localStorage.setItem('uid', response.id);
-          window.location.href = "index.html";
-        }
-      }).catch(error => {
-        console.log(error)
-      })
-    }).catch(error => {
-      console.log(error)
-    })
+  if(window.location.href == "http://localhost:5000/authenticate/google"){
+    googleLogin(code).then(response => {
+      if(response){
+        localStorage.setItem('token', response);
+        window.location.href = "index.html";
+      }
+      else{
+        new Noty({
+          type: 'error',
+          layout: 'topCenter',
+     
+          theme: 'sunset',
+          timeout: '3000',
+          text: 'Google Login has failed! Try again' ,
+        }).show();
+      }
+    }).catch(err => {
+      console.log(err)
+      new Noty({
+        type: 'error',
+        layout: 'topCenter',
+        theme: 'sunset',
+        timeout: '6000',
+        text: 'Google Login has failed! Try again',
+      }).show();
+  
+})
   }
+  googlebutton.onclick = function(){
+    googleLogin(code).then(response => {
+      if(response){
+        localStorage.setItem('token', response);
+        window.location.href = "index.html";
+      }
+      else{
+        new Noty({
+          type: 'error',
+          layout: 'topCenter',
+     
+          theme: 'sunset',
+          timeout: '3000',
+          text: 'Google Login has failed! Try again' ,
+        }).show();
+      }
+    }).catch(err => {
+      console.log(err)
+      new Noty({
+        type: 'error',
+        layout: 'topCenter',
+        theme: 'sunset',
+        timeout: '6000',
+        text: 'Google Login has failed! Try again',
+      }).show();
+  
+})
+  }
+
 
   showPassword.onclick = function () {
     if (password.type === "password") {

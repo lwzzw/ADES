@@ -1,4 +1,30 @@
 //all function that will use in front end
+
+function googleLogin(code) {
+    const methods = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    const body = {
+        code: code
+    }
+    return axios
+        .post(`/user/googleLogin`, body, methods)
+        .then(response => {
+            return response.data.token;
+        })
+        .catch(error => {
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+}
+
+
+
 function register(username, useremail, userpassword, usergender, userphone,code){
     const methods = {
         method: 'POST',
@@ -702,14 +728,14 @@ function verifyEmail(email){
         })
 
 }
-
-function getAccessTokenFromCode(code) {
-    const { data } = axios({
+module.exports = getAccessTokenFromCode;
+async function getAccessTokenFromCode(code) {
+    const { data } = await axios({
       url: `https://oauth2.googleapis.com/token`,
-      method: 'POST',
+      method: 'post',
       data: {
-        client_id: process.env.GOOGLE_CLIENT_ID,
-        client_secret: process.env.GOOGLE_CLIENT_SECRET,
+        client_id: process.env.APP_ID_GOES_HERE,
+        client_secret: process.env.APP_SECRET_GOES_HERE,
         redirect_uri: 'https://www.example.com/authenticate/google',
         grant_type: 'authorization_code',
         code,
@@ -717,23 +743,8 @@ function getAccessTokenFromCode(code) {
     });
     console.log(data); // { access_token, expires_in, token_type, refresh_token }
     return data.access_token;
-  };
+  };  
 
-function getGoogleUserInfo(access_token) {
-    const { data } = axios({
-      url: 'https://www.googleapis.com/oauth2/v2/userinfo',
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    });
-    console.log(data); // { id, email, given_name, family_name }
-    return data;
-  };
-
-function getGoogleParams(){
-    
-}
 function getSearchAC(){
     const methods = {
         method: 'GET',
