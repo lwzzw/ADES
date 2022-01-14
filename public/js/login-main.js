@@ -1,5 +1,6 @@
 // const { queryString } = require("query-string");
 
+
 window.addEventListener('DOMContentLoaded', function () {
   // Get reference to relevant elements
   const checkLoginBtn = document.getElementById('submitButton');

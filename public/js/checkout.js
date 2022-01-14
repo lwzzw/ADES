@@ -47,19 +47,55 @@ paypal
                     .then(response => response.json())
                     .then(result => {
                         if (result.done) {
-                            alert("Transaction done");
-                            window.location.href = "/orderhistory.html";
+                            // alert("Transaction done");
+                            new Noty({
+                                type: "success",
+                                layout: "topCenter",
+                                theme: "sunset",
+                                timeout: "6000",
+                                text: "Transaction done",
+                              })
+                                .on("onClose", () => {
+                                  window.location.href = "/orderhistory.html";
+                                })
+                                .show();
                         } else {
-                            alert("Transaction cancel");
-                            window.location.href = "/shoppingCart.html";
+                            // alert("Transaction cancel");
+                            new Noty({
+                                type: "error",
+                                layout: "topCenter",
+                                theme: "sunset",
+                                timeout: "10000",
+                                text: "Transaction cancel",
+                              })
+                                .on("onClose", () => {
+                                  window.location.href = "/shoppingCart.html";
+                                })
+                                .show();
                         }
                     })
             }).catch(err => {
-                alert(err);
+                // alert(err);
+                new Noty({
+                    type: "error",
+                    layout: "topCenter",
+                    theme: "sunset",
+                    timeout: "6000",
+                    text: err,
+                  })
+                    .show();
             })
         },
         onError: function (err) {
-            alert(err);
+            // alert(err);
+            new Noty({
+                type: "error",
+                layout: "topCenter",
+                theme: "sunset",
+                timeout: "6000",
+                text: err
+              })
+                .show();
         }
     })
     .render("#paypal")

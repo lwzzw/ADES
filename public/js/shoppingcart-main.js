@@ -37,11 +37,11 @@ function displayCart() {
                                 </div>
                                 <div class="col-4 col-sm-4 col-md-4">
                                     <div class="quantity">
-                                        <input onclick="this.parentNode.querySelector('input[type=number]').stepUp();count()"
+                                        <input onclick="this.parentNode.querySelector('input[type=number]').stepUp();count();saveCart();"
                                             type="button" value="+" class="plus">
                                         <input id="amount-${cart.game_id}" onkeyup="count()" type="number" step="1" max="99" min="1" value="${cart.amount}"
                                             title="Qty" class="qty" size="4">
-                                        <input onclick="this.parentNode.querySelector('input[type=number]').stepDown();count()"
+                                        <input onclick="this.parentNode.querySelector('input[type=number]').stepDown();count();saveCart();"
                                             type="button" value="-" class="minus">
                                     </div>
                                 </div>
@@ -62,7 +62,7 @@ function displayCart() {
 }
 
 function saveCart() {
-    document.getElementById("update").disabled = true;
+    // document.getElementById("update").disabled = true;
     var cartArr = [];
     for (let i = 0; i < id.length; i++) {
         cartArr.push({
@@ -71,21 +71,37 @@ function saveCart() {
         });
     }
     addShoppingCart(cartArr, 'true').then(result => {
-        alert("Save cart");
-        document.getElementById("update").disabled = false;
+        // alert("Save cart");
+        // document.getElementById("update").disabled = false;
     }).catch(err => {
         console.log(err);
-        document.getElementById("update").disabled = false;
+        // document.getElementById("update").disabled = false;
     })
 }
 
 function delete_cart(id) {
     if (confirm("You are deleting cart ", id)) {
         deleteCart(id).then(result => {
-            alert("Delete success");
+            // alert(err)
+            new Noty({
+                type: "success",
+                layout: "topCenter",
+                theme: "sunset",
+                timeout: "6000",
+                text: "Delete success"
+            })
+                .show();
             displayCart();
         }).catch(err => {
-            alert(err);
-        })
+            // alert(err)
+            new Noty({
+                type: "error",
+                layout: "topCenter",
+                theme: "sunset",
+                timeout: "6000",
+                text: err
+            })
+                .show();
+                })
     }
 }

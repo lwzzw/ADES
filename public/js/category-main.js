@@ -39,7 +39,15 @@ window.addEventListener('DOMContentLoaded', function () {
         }
         addListener();
     }).catch(err => {
-        alert(err)
+        // alert(err)
+        new Noty({
+            type: "error",
+            layout: "topCenter",
+            theme: "sunset",
+            timeout: "6000",
+            text: err,
+          })
+            .show();
     })
 
     if (params.get("maincat")) {
@@ -64,7 +72,15 @@ window.addEventListener('DOMContentLoaded', function () {
                 })
             })
         }).catch(err => {
-            alert(err);
+            // alert(err);
+            new Noty({
+                type: "error",
+                layout: "topCenter",
+                theme: "sunset",
+                timeout: "6000",
+                text: err,
+              })
+                .show();
         })
     } else if (params.get("platform")) {
         getCategoryCountByPlatform(params.get("platform") || null).then(response => {
@@ -88,7 +104,15 @@ window.addEventListener('DOMContentLoaded', function () {
                 })
             })
         }).catch(err => {
-            alert(err);
+            // alert(err);
+            new Noty({
+                type: "error",
+                layout: "topCenter",
+                theme: "sunset",
+                timeout: "6000",
+                text: err,
+              })
+                .show();
         })
     }
 
@@ -131,6 +155,25 @@ window.addEventListener('DOMContentLoaded', function () {
     })
     showGame();
     document.getElementById('searchBtn').addEventListener('click', search)
+
+    getSearchAC().then(response=>{
+        console.log(response);
+        if(!response.length>0)return
+        
+        var input = document.getElementById("searchProduct");
+        
+        autocomplete({
+            input: input,
+            fetch: function(text, update) {
+                text = text.toLowerCase();
+                var suggestions = response.filter(n => n.label.toLowerCase().startsWith(text)||n.value.toLowerCase().startsWith(text))
+                update(suggestions);
+            },
+            onSelect: function(item) {
+                input.value = item.label;
+            }
+        });
+    })
 })
 
 const params = new URLSearchParams(window.location.search);
@@ -192,7 +235,15 @@ function showGame() {
                 document.getElementById("ppage").disabled = false;
             }
         }).catch(err => {
-            alert(err);
+            // alert(err);
+            new Noty({
+                type: "error",
+                layout: "topCenter",
+                theme: "sunset",
+                timeout: "6000",
+                text: err,
+              })
+                .show();
         })
 }
 
@@ -341,6 +392,6 @@ function showCartAmount(){
         for(var i = 0; i < response.length; i++){
              string += response[i].amount;
         }
-        document.getElementById("shoppingCart").insertAdjacentHTML("beforeend", string);
+        document.getElementById("shoppingCart").firstChild.textContent=`Shopping Cart - ${string}`;
     })
 }

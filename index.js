@@ -7,7 +7,11 @@ const db = require("./database/database");
 const port = require("./config").PORT;
 const config = require("./config");
 const getCat = require("./router/categoryRouter").getCat;
+<<<<<<< HEAD
 const queryString = require("query-string");
+=======
+const getGameAC = require("./router/gameRouter").getGameAC;
+>>>>>>> b38b00e4718ea529b743a2492a2b106fa00b70c8
 const readFile = require("fs").readFile;
 const { addAbortSignal } = require("stream");
 app.set("view engine", "ejs");
@@ -22,6 +26,7 @@ db.connect()
       tableStr = data.toString();
       db.query(tableStr).then(() => {
         getCat();
+        getGameAC();
       }).catch((err)=>{
         console.log(err);
       });
