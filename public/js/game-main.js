@@ -40,14 +40,30 @@ window.addEventListener('DOMContentLoaded', function () {
         }
         addListener();
     }).catch(err => {
-        alert(err)
-    })
+        // alert(err)
+        new Noty({
+            type: "error",
+            layout: "topCenter",
+            theme: "sunset",
+            timeout: "6000",
+            text: err
+        })
+            .show();
+        })
 
     getGame(id).then(response => {
         showGame(response[0]);
     }).catch(err => {
-        alert(err);
-    })
+        // alert(err)
+        new Noty({
+            type: "error",
+            layout: "topCenter",
+            theme: "sunset",
+            timeout: "6000",
+            text: err
+        })
+            .show();
+        })
 
 })
 
@@ -78,7 +94,7 @@ function showGame(game) {
             <h5>PRICE</h5>
             <h4>${game.g_discount ? `${game.g_discount}<sup class='sub-script'> SGD </sup><br><span class='slash-price'>${game.g_price}</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(game.g_price, game.g_discount)}%</span>`
             : `${game.g_price}<sup class='sub-script'> SGD </sup>`}</h4>
-            <button onclick="addCart(${game.g_id})">Add to cart</button>
+            <button onclick="addCart(${game.g_id})" id="addcartbtn">Add to cart</button>
         </div>
         </div>
     `
@@ -200,16 +216,37 @@ $("#catdrop").on("click", function () {
 })
 
 function addCart(id) {
+    document.getElementById("addcartbtn").disabled = true;
+    document.getElementById("addcartbtn").textContent="Adding"
     addShoppingCart([{
             id,
             amount: 1
         }], 'false')
         .then(result => {
-            alert("Add success");
-            window.location.reload();
+            // alert("Add success");
+            // window.location.reload();
+            showCartAmount();
+            new Noty({
+                type: "success",
+                layout: "topCenter",
+                theme: "sunset",
+                timeout: "6000",
+                text: "Add success",
+              })
+                .show();
+                document.getElementById("addcartbtn").disabled = false;
+                document.getElementById("addcartbtn").textContent="Add to cart"
         }).catch(err => {
-            alert(err);
-        })
+            // alert(err)
+            new Noty({
+                type: "error",
+                layout: "topCenter",
+                theme: "sunset",
+                timeout: "6000",
+                text: err
+            })
+                .show();
+                })
         
 }
 
@@ -219,6 +256,6 @@ function showCartAmount(){
         for(var i = 0; i < response.length; i++){
              string += response[i].amount;
         }  
-        document.getElementById("shoppingCart").insertAdjacentHTML("beforeend", string);
+        document.getElementById("shoppingCart").firstChild.textContent=`Shopping Cart - ${string}`;
     })
 }

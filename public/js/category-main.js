@@ -39,7 +39,15 @@ window.addEventListener('DOMContentLoaded', function () {
         }
         addListener();
     }).catch(err => {
-        alert(err)
+        // alert(err)
+        new Noty({
+            type: "error",
+            layout: "topCenter",
+            theme: "sunset",
+            timeout: "6000",
+            text: err,
+          })
+            .show();
     })
 
     if (params.get("maincat")) {
@@ -64,7 +72,15 @@ window.addEventListener('DOMContentLoaded', function () {
                 })
             })
         }).catch(err => {
-            alert(err);
+            // alert(err);
+            new Noty({
+                type: "error",
+                layout: "topCenter",
+                theme: "sunset",
+                timeout: "6000",
+                text: err,
+              })
+                .show();
         })
     } else if (params.get("platform")) {
         getCategoryCountByPlatform(params.get("platform") || null).then(response => {
@@ -88,7 +104,15 @@ window.addEventListener('DOMContentLoaded', function () {
                 })
             })
         }).catch(err => {
-            alert(err);
+            // alert(err);
+            new Noty({
+                type: "error",
+                layout: "topCenter",
+                theme: "sunset",
+                timeout: "6000",
+                text: err,
+              })
+                .show();
         })
     }
 
@@ -192,7 +216,15 @@ function showGame() {
                 document.getElementById("ppage").disabled = false;
             }
         }).catch(err => {
-            alert(err);
+            // alert(err);
+            new Noty({
+                type: "error",
+                layout: "topCenter",
+                theme: "sunset",
+                timeout: "6000",
+                text: err,
+              })
+                .show();
         })
 }
 
@@ -341,6 +373,6 @@ function showCartAmount(){
         for(var i = 0; i < response.length; i++){
              string += response[i].amount;
         }
-        document.getElementById("shoppingCart").insertAdjacentHTML("beforeend", string);
+        document.getElementById("shoppingCart").firstChild.textContent=`Shopping Cart - ${string}`;
     })
 }

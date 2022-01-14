@@ -352,6 +352,6 @@ function showCartAmount(){
         for(var i = 0; i < response.length; i++){
              string += response[i].amount;
         }
-        document.getElementById("shoppingCart").insertAdjacentHTML("beforeend", string);
+        document.getElementById("shoppingCart").firstChild.textContent=`Shopping Cart - ${string}`;
     })
 }

@@ -81,7 +81,15 @@ getAllCategories().then(response => {
     }
     addListener();
 }).catch(err => {
-    alert(err)
+    // alert(err)
+    new Noty({
+        type: "error",
+        layout: "topCenter",
+        theme: "sunset",
+        timeout: "6000",
+        text: err
+      })
+        .show();
 });
 
 function addListener() {
@@ -199,6 +207,6 @@ function showCartAmount(){
         for(var i = 0; i < response.length; i++){
              string += response[i].amount;
         }
-        document.getElementById("shoppingCart").insertAdjacentHTML("beforeend", string);
+        document.getElementById("shoppingCart").firstChild.textContent=`Shopping Cart - ${string}`;
     })
 }
