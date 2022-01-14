@@ -1,6 +1,8 @@
 let duration = 250;
 let toFirst, toSecond;
 window.addEventListener('DOMContentLoaded', function () {
+    
+    //Hides the category div
     $("#categ")[0].style.display = "none";
 
     if (window.location.pathname == '/bestseller') {
@@ -8,7 +10,7 @@ window.addEventListener('DOMContentLoaded', function () {
         getBestsellers(false).then(bsGames => {
             listGames(bsGames);
         });
-    } else if (window.location.pathname == '/preorders'){
+    } else if (window.location.pathname == '/preorders') {
         document.getElementById('productTitle').innerHTML = 'Discover Preorders';
         getPreOrders(false).then(poGames => {
             listGames(poGames);
@@ -19,20 +21,26 @@ window.addEventListener('DOMContentLoaded', function () {
 
 //This function populates the website with the products that are passed into this function.
 function listGames(games) {
-    console.log(games)
     for (let i = 0; i < games.length; i++) {
         let game = games[i];
         //if g_di
         let discoverProduct = `
         <li>
         <a href='game.html?id=${game.g_id}' style="text-decoration: none; color: black;">
-        <div style="width: 170px; height: 228px;">
+        <div style="width: 270px; height: 173px;">
             <img src="${game.g_image}" style="width: 100%; height: 100%;">
         </div>
-        <div style="width: 170px; height: 102px;">
+        <div style="width: 268px; height: 142px;">
             <div style="width: 100%; height: 100%;">
-                <h3 style="font-size: 11px; font-weight: 500; padding-top: 10px; overflow: hidden;">${game.g_name}</h3>
-                <p class='m-0' style='font-size: 14px'>${parseInt(game.g_discount) < parseInt(game.g_price) ? `Discounted Price $${game.g_discount}<br>` : ''} ORIGINAL PRICE $${game.g_price}</p>
+                    <h3 style="font-size: 11px; font-weight: 500; padding-top: 10px; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical;">${game.g_name}</h3>
+                    ${parseFloat(game.g_discount) < parseFloat(game.g_price) ? 
+                        `
+                        <span> ${game.g_discount} <sup class='sub-script-striked'> SGD </sup></span>
+                        <br>
+                        <div>
+                            <span class='slash-price'>${game.g_price}</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(game.g_price, game.g_discount)}%</span>
+                        </div>`  
+                        : `<span>${game.g_price}</span><sup class='sub-script-striked'> SGD </sup>`}
             </div> 
         </div>
         </a>
@@ -42,7 +50,11 @@ function listGames(games) {
 
     };
 };
-
+//
+//Calculates discount percentage
+function discountPercentage(originalPrice, discountedPrice) {
+    return parseFloat(100 * (originalPrice - discountedPrice) / originalPrice).toFixed(0)
+}
 getAllCategories().then(response => {
     //add first category list
     for (let i = 0; i < response.length; i++) {
@@ -96,12 +108,12 @@ function addListener() {
                     first_cat.forEach(id => {
                         try {
                             document.getElementById(`1-${id}`).style.display = "none";
-                        } catch (e) {}
+                        } catch (e) { }
                     });
                     second_cat.forEach(id => {
                         try {
                             document.getElementById(`2-${id.substr(2)}`).style.display = "none";
-                        } catch (e) {}
+                        } catch (e) { }
                     });
                     try {
                         document.getElementById("bg").style.display = "block";
@@ -119,7 +131,7 @@ function addListener() {
                         Array.from(document.getElementsByClassName("img-third")).forEach(e => {
                             e.style.display = "block";
                         })
-                    } catch (e) {}
+                    } catch (e) { }
                 }, duration)
             })
             e.addEventListener("mouseleave", function () {
@@ -135,14 +147,14 @@ function addListener() {
                     second_cat.forEach(id => {
                         try {
                             document.getElementById(`2-${id.substr(2)}`).style.display = "none";
-                        } catch (e) {}
+                        } catch (e) { }
                     });
                     try {
                         document.getElementById(`2-${e.id.substr(2)}`).style.display = "block";
                         Array.from(document.getElementsByClassName("img-third")).forEach(e => {
                             e.style.display = "none";
                         })
-                    } catch (e) {}
+                    } catch (e) { }
                 }, duration)
             })
             e.addEventListener("mouseleave", function () {
@@ -158,12 +170,12 @@ function addListener() {
         first_cat.forEach(id => {
             try {
                 document.getElementById(`1-${id}`).style.display = "none";
-            } catch (e) {}
+            } catch (e) { }
         });
         second_cat.forEach(id => {
             try {
                 document.getElementById(`2-${id.substr(2)}`).style.display = "none";
-            } catch (e) {}
+            } catch (e) { }
         });
         Array.from(document.getElementsByClassName("img-default")).forEach(e => {
             e.style.display = "block";
@@ -171,6 +183,7 @@ function addListener() {
     })
 }
 
+//When catdrop bar is clicked, displays the hidden div
 $("#catdrop").on("click", function () {
     let drop = $("#categ");
     if (drop.is(":visible")) {
@@ -179,3 +192,13 @@ $("#catdrop").on("click", function () {
     } else
         drop[0].style.display = "flex";
 })
+
+function showCartAmount(){
+    let string = 0;
+    getShoppingBadge().then(response => {
+        for(var i = 0; i < response.length; i++){
+             string += response[i].amount;
+        }
+        document.getElementById("shoppingCart").insertAdjacentHTML("beforeend", string);
+    })
+}

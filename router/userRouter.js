@@ -3,6 +3,7 @@ const createHttpError = require("http-errors");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const config = require("../config");
+const queryString = require("query-string");
 const verifyToken = require("../middleware/checkUserAuthorize");
 const router = require("express").Router();
 const logger = require("../logger");
@@ -239,5 +240,7 @@ router.post("/verifyEmail", async (req, res, next) => {
     return next(createHttpError(500, err));
   }
 });
+
+
 
 module.exports = router;

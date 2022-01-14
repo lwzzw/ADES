@@ -8,7 +8,7 @@ router.get("/gameDetailById/:id", (req, res, next) => {
   //parent_subcategory is platform
   return database
     .query(
-      `SELECT region_name ,g_id, g_name, g_description, g_price, g_image, g_publishdate, g_region, g_discount, category_name 
+      `SELECT region_name ,g_id, g_name, g_description, g_price, g_image, to_char(g_publishdate::timestamp,'dd/mm/YYYY') g_publishdate, g_region, g_discount, category_name 
                             from G2A_gameDatabase 
                             join parent_subcategory on g_parentsubcategory = id 
                             join region on region.id = g_region

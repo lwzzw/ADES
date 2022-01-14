@@ -15,6 +15,7 @@ window.addEventListener('DOMContentLoaded', function () {
         })
     $("#categ")[0].style.display = "none";
     uidGenerate();
+    showCartAmount();
     getAllCategories().then(response => {
         //add first category list
         for (let i = 0; i < response.length; i++) {
@@ -51,6 +52,7 @@ window.addEventListener('DOMContentLoaded', function () {
 })
 
 function showGame(game) {
+    document.getElementById('web-title').innerHTML = `${game.g_name}`
     let gameString = `
         <div class="individual-game">
         <div class="individual-game-image">
@@ -73,14 +75,20 @@ function showGame(game) {
         </div>
 
         <div class="individual-game-price-section">
-            <h5>Price</h5>
-            <h4>$ ${game.g_discount ? game.g_discount: game.g_price}</h4>
+            <h5>PRICE</h5>
+            <h4>${game.g_discount ? `${game.g_discount}<sup class='sub-script'> SGD </sup><br><span class='slash-price'>${game.g_price}</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(game.g_price, game.g_discount)}%</span>`
+            : `${game.g_price}<sup class='sub-script'> SGD </sup>`}</h4>
             <button onclick="addCart(${game.g_id})">Add to cart</button>
         </div>
         </div>
     `
     document.getElementById('game-container').insertAdjacentHTML('beforeend', gameString);
 
+}
+
+//Calculates discount percentage
+function discountPercentage(originalPrice, discountedPrice) {
+    return parseFloat(100 * (originalPrice - discountedPrice) / originalPrice).toFixed(0)
 }
 
 function addListener() {
@@ -198,7 +206,19 @@ function addCart(id) {
         }], 'false')
         .then(result => {
             alert("Add success");
+            window.location.reload();
         }).catch(err => {
             alert(err);
         })
+        
+}
+
+function showCartAmount(){
+    let string = 0;
+    getShoppingBadge().then(response => {
+        for(var i = 0; i < response.length; i++){
+             string += response[i].amount;
+        }  
+        document.getElementById("shoppingCart").insertAdjacentHTML("beforeend", string);
+    })
 }

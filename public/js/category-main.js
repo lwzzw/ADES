@@ -7,11 +7,12 @@ window.addEventListener('DOMContentLoaded', function () {
             localStorage.removeItem("token");
         })
     })
-    .catch(err => {
-        console.log(err);
-    })
+        .catch(err => {
+            console.log(err);
+        })
     $("#categ")[0].style.display = "none";
     uidGenerate();
+    showCartAmount();
     getAllCategories().then(response => {
         //add first category list
         for (let i = 0; i < response.length; i++) {
@@ -64,7 +65,7 @@ window.addEventListener('DOMContentLoaded', function () {
         }).catch(err => {
             alert(err);
         })
-    }else if(params.get("platform")){
+    } else if (params.get("platform")) {
         getCategoryCountByPlatform(params.get("platform") || null).then(response => {
             if (!response) return;
             if(response.length<=0){
@@ -157,12 +158,14 @@ function showGame() {
                                         src="${data.g_image}">
                                 </div>
 
-                                <div>
-                                    <h5>${data.g_name}</h5>
+                                <div style="display: -webkit-box; max-width: 400px; height: 50px; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
+                                  ${data.g_name}
                                 </div>
+
                                 <div>
-                                    ${data.g_discount ? '<p>discount ' + data.g_discount + '</p>':''}
-                                    <p>${data.g_price}</p>
+                                    ${data.g_discount ?
+                                    `${data.g_discount}<sup class='sub-script'> SGD </sup><br><span class='slash-price'>${data.g_price}</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(data.g_price, data.g_discount)}%</span>`
+                                    : `${data.g_price}<sup class='sub-script'> SGD </sup>`}
                                 </div>
                             </a>
                         </li>
@@ -184,6 +187,11 @@ function showGame() {
         }).catch(err => {
             alert(err);
         })
+}
+
+//Calculates discount percentage
+function discountPercentage(originalPrice, discountedPrice) {
+    return parseFloat(100 * (originalPrice - discountedPrice) / originalPrice).toFixed(0)
 }
 
 function addListener() {
@@ -210,12 +218,12 @@ function addListener() {
                     first_cat.forEach(id => {
                         try {
                             document.getElementById(`1-${id}`).style.display = "none";
-                        } catch (e) {}
+                        } catch (e) { }
                     });
                     second_cat.forEach(id => {
                         try {
                             document.getElementById(`2-${id.substr(2)}`).style.display = "none";
-                        } catch (e) {}
+                        } catch (e) { }
                     });
                     try {
                         document.getElementById("bg").style.display = "block";
@@ -233,7 +241,7 @@ function addListener() {
                         Array.from(document.getElementsByClassName("img-third")).forEach(e => {
                             e.style.display = "block";
                         })
-                    } catch (e) {}
+                    } catch (e) { }
                 }, duration)
             })
             e.addEventListener("mouseleave", function () {
@@ -249,14 +257,14 @@ function addListener() {
                     second_cat.forEach(id => {
                         try {
                             document.getElementById(`2-${id.substr(2)}`).style.display = "none";
-                        } catch (e) {}
+                        } catch (e) { }
                     });
                     try {
                         document.getElementById(`2-${e.id.substr(2)}`).style.display = "block";
                         Array.from(document.getElementsByClassName("img-third")).forEach(e => {
                             e.style.display = "none";
                         })
-                    } catch (e) {}
+                    } catch (e) { }
                 }, duration)
             })
             e.addEventListener("mouseleave", function () {
@@ -272,12 +280,12 @@ function addListener() {
         first_cat.forEach(id => {
             try {
                 document.getElementById(`1-${id}`).style.display = "none";
-            } catch (e) {}
+            } catch (e) { }
         });
         second_cat.forEach(id => {
             try {
                 document.getElementById(`2-${id.substr(2)}`).style.display = "none";
-            } catch (e) {}
+            } catch (e) { }
         });
         Array.from(document.getElementsByClassName("img-default")).forEach(e => {
             e.style.display = "block";
@@ -317,4 +325,14 @@ function search() {
     params.set("name", searchQuery);
     if (categoryMain) params.set("maincat", categoryMain);
     showGame();
+}
+
+function showCartAmount(){
+    let string = 0;
+    getShoppingBadge().then(response => {
+        for(var i = 0; i < response.length; i++){
+             string += response[i].amount;
+        }
+        document.getElementById("shoppingCart").insertAdjacentHTML("beforeend", string);
+    })
 }

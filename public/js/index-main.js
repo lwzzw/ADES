@@ -47,7 +47,6 @@ window.addEventListener('DOMContentLoaded', function () {
         // const result = await getAllCategories()
 
         await getBestsellers(true).then(response => {
-
             for (let i = 0; i < response.length; i++) {
                 let bestsellers = response[i]
                 let bestseller = `                        
@@ -60,12 +59,15 @@ window.addEventListener('DOMContentLoaded', function () {
                             <h6>${bestsellers.g_name}</h6>
                             <div><span>PRICE</span></div>
                             <div>
-                                <span><span>${bestsellers.g_discount}</span> <sup class='sub-script'> SGD </sup></span>
-                            </div>
-                            <div>
-                                <span><span class='slash-price'>${bestsellers.g_price}</span><sup class='sub-script-striked'> SGD
-                                    </sup></span>
-                            </div>
+                                ${parseFloat(bestsellers.g_discount) < parseFloat(bestsellers.g_price) ? 
+                                    `
+                                    <span> ${bestsellers.g_discount} <sup class='sub-script-striked'> SGD </sup></span>
+                                    <br>
+                                    <div>
+                                        <span class='slash-price'>${bestsellers.g_price}</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(bestsellers.g_price, bestsellers.g_discount)}%</span>
+                                    </div>`  
+                                    : `<span>${bestsellers.g_price}</span><sup class='sub-script-striked'> SGD </sup>`}
+                                </div>
                         </div>
                     </div>
                 </a>
@@ -78,7 +80,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
         await getPreOrders(true).then(response => {
-            console.log(response)
             for (let i = 0; i < response.length; i++) {
                 let preorders = response[i];
                 let preorder = `
@@ -104,7 +105,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 if (preorders.nullif == null) {
                     document.getElementById(`game-${preorders.g_id}`).remove();
                 } else {
-                    let string = `<span><span class='slash-price'>${preorders.g_price}</span><sup class='sub-script-striked'> SGD </sup></span>`
+                    let string = `<span><span class='slash-price'>${preorders.g_price}</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(preorders.g_price, preorders.g_discount)}%</span></span>`
                     document.getElementById(`game-${preorders.g_id}`).insertAdjacentHTML("beforeend", string)
                 }
             }
@@ -137,7 +138,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 if (lreleases.nullif == null) {
                     document.getElementById(`lr-${lreleases.g_id}`).remove();
                 } else {
-                    let string = `<span><span class='slash-price'>${lreleases.g_price}</span><sup class='sub-script-striked'> SGD </sup></span>`
+                    let string = `<span><span class='slash-price'>${lreleases.g_price}</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(lreleases.g_price, lreleases.g_discount)}%</span></span>`
                     document.getElementById(`lr-${lreleases.g_id}`).insertAdjacentHTML("beforeend", string)
                 }
             }
@@ -146,13 +147,14 @@ window.addEventListener('DOMContentLoaded', function () {
         getAllDeals();
 
     }
+
     document.getElementById('bsBtn').addEventListener('click', () => {
         window.location.href = "/bestseller"; 
     })
-
     document.getElementById('poBtn').addEventListener('click', () => {
         window.location.href = "/preorders"; 
     })
+
     const getAllDeals = async () => {
         // const result = await getAllCategories()
         
@@ -220,13 +222,17 @@ function showDeals() {
         <span><span class='discount-price'>${deals.g_discount}</span> <sup class='sub-script'> SGD </sup></span>
         </div>
         <div>
-            <span><span class='slash-price'>${deals.g_price}</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${parseFloat(discount_percentage = 100 * (deals.g_price - deals.g_discount) / deals.g_price).toFixed(0)}%</span></span>
+        <span><span class='slash-price'>${deals.g_price}</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(deals.g_price, deals.g_discount)}%</span></span>
         </div>
         </a>
         </li>
         `
         document.getElementById("deals").insertAdjacentHTML("beforeend", deal);
     }
+}
+//Calculates discount percentage
+function discountPercentage(originalPrice, discountedPrice) {
+    return parseFloat(100 * (originalPrice - discountedPrice) / originalPrice).toFixed(0)
 }
 
 function addListener() {
@@ -343,7 +349,6 @@ function search() {
 function showCartAmount(){
     let string = 0;
     getShoppingBadge().then(response => {
-        console.log(response.length);
         for(var i = 0; i < response.length; i++){
              string += response[i].amount;
         }
