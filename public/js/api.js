@@ -730,3 +730,7 @@ function getGoogleUserInfo(access_token) {
     console.log(data); // { id, email, given_name, family_name }
     return data;
   };
+
+function getGoogleParams(){
+    
+}
