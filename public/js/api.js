@@ -730,3 +730,24 @@ function getGoogleUserInfo(access_token) {
     console.log(data); // { id, email, given_name, family_name }
     return data;
   };
+
+function getSearchAC(){
+    const methods = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    return axios
+        .get(`/game/gameNameDes`, methods)
+        .then(response => {
+            return response.data
+        })
+        .catch(error => {
+            console.log(error);
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+}

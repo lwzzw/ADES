@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const gameRouter = require('./gameRouter');
+const gameRouter = require('./gameRouter').default;
 const cartRouter = require('./cartRouter');
 const categoryRouter = require('./categoryRouter').default;
 const orderRouter = require('./orderRouter');

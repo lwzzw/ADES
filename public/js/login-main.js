@@ -1,4 +1,4 @@
-const {queryString} = require("query-string");
+// const {queryString} = require("query-string");
 
 window.addEventListener('DOMContentLoaded', function () {
   // Get reference to relevant elements
@@ -10,43 +10,43 @@ window.addEventListener('DOMContentLoaded', function () {
   uidGenerate();
 
 
-const stringifiedParams = queryString.stringify({
-  client_id: process.env.GOOGLE_CLIENT_ID,
-  redirect_uri: 'https://www.example.com/authenticate/google',
-  scope: [
-    'https://www.googleapis.com/auth/userinfo.email',
-    'https://www.googleapis.com/auth/userinfo.profile',
-  ].join(' '), // space seperated string
-  response_type: 'code',
-  access_type: 'offline',
-  prompt: 'consent',
-});
-const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?${stringifiedParams}`;
+// const stringifiedParams = queryString.stringify({
+//   client_id: process.env.GOOGLE_CLIENT_ID,
+//   redirect_uri: 'https://www.example.com/authenticate/google',
+//   scope: [
+//     'https://www.googleapis.com/auth/userinfo.email',
+//     'https://www.googleapis.com/auth/userinfo.profile',
+//   ].join(' '), // space seperated string
+//   response_type: 'code',
+//   access_type: 'offline',
+//   prompt: 'consent',
+// });
+// const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?${stringifiedParams}`;
 
-googlebutton.onclick() = function(){
-  window.location.href = googleLoginUrl;
-}
+// googlebutton.onclick() = function(){
+//   window.location.href = googleLoginUrl;
+// }
 
-const urlParams = queryString.parse(window.location.search);
+// const urlParams = queryString.parse(window.location.search);
 
-if (urlParams.error) {
-  console.log(`An error occurred: ${urlParams.error}`);
+// if (urlParams.error) {
+//   console.log(`An error occurred: ${urlParams.error}`);
 
-} else {
-  console.log(`The code is: ${urlParams.code}`);
-  getAccessTokenFromCode(code).then( response => {
-    getGoogleUserInfo(response).then(response => {
-      if(response.id != null){
-        localStorage.setItem('uid', response.id);
-        window.location.href = "index.html";
-      }
-    }).catch(error => {
-      console.log(error)
-    })
-  }).catch(error => {
-                  console.log(error)
-                })
-}
+// } else {
+//   console.log(`The code is: ${urlParams.code}`);
+//   getAccessTokenFromCode(code).then( response => {
+//     getGoogleUserInfo(response).then(response => {
+//       if(response.id != null){
+//         localStorage.setItem('uid', response.id);
+//         window.location.href = "index.html";
+//       }
+//     }).catch(error => {
+//       console.log(error)
+//     })
+//   }).catch(error => {
+//                   console.log(error)
+//                 })
+// }
 
   showPassword.onclick = function () {
     if (password.type === "password") {

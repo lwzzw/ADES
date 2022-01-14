@@ -65,6 +65,25 @@ window.addEventListener('DOMContentLoaded', function () {
             .show();
         })
 
+    getSearchAC().then(response=>{
+        console.log(response.length);
+        if(!response.length>0)return
+        
+        var input = document.getElementById("searchProduct");
+
+        autocomplete({
+            input: input,
+            fetch: function(text, update) {
+                text = text.toLowerCase();
+                var suggestions = response.filter(n => n.label.toLowerCase().startsWith(text)||n.value.toLowerCase().startsWith(text))
+                update(suggestions);
+            },
+            onSelect: function(item) {
+                input.value = item.label;
+            }
+        });
+    })
+
 })
 
 function showGame(game) {

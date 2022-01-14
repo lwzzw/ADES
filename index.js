@@ -6,6 +6,7 @@ const ApiRouter = require("./router/api");
 const db = require("./database/database");
 const port = require("./config").PORT;
 const getCat = require("./router/categoryRouter").getCat;
+const getGameAC = require("./router/gameRouter").getGameAC;
 const readFile = require("fs").readFile;
 const { addAbortSignal } = require("stream");
 app.set("view engine", "ejs");
@@ -19,6 +20,7 @@ db.connect()
       tableStr = data.toString();
       db.query(tableStr).then(() => {
         getCat();
+        getGameAC();
       }).catch((err)=>{
         console.log(err);
       });

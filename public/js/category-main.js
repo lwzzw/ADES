@@ -155,6 +155,25 @@ window.addEventListener('DOMContentLoaded', function () {
     })
     showGame();
     document.getElementById('searchBtn').addEventListener('click', search)
+
+    getSearchAC().then(response=>{
+        console.log(response);
+        if(!response.length>0)return
+        
+        var input = document.getElementById("searchProduct");
+        
+        autocomplete({
+            input: input,
+            fetch: function(text, update) {
+                text = text.toLowerCase();
+                var suggestions = response.filter(n => n.label.toLowerCase().startsWith(text)||n.value.toLowerCase().startsWith(text))
+                update(suggestions);
+            },
+            onSelect: function(item) {
+                input.value = item.label;
+            }
+        });
+    })
 })
 
 const params = new URLSearchParams(window.location.search);

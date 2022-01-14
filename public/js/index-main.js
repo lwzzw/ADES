@@ -3,8 +3,8 @@ let dealsArrayi = 0;
 let duration = 250;
 let toFirst, toSecond;
 let row = 1;
-window.addEventListener('DOMContentLoaded', function () {
-    checkLogin().then(response => {
+window.addEventListener('DOMContentLoaded', async function () {
+    await checkLogin().then(response => {
             let myAccBtn = `<a href='dashboard.html' style="color: white!important;">My Account</a>`
             document.getElementById("login").innerHTML = "log out";
             document.getElementById('myAccount').insertAdjacentHTML('beforeend', myAccBtn)
@@ -18,7 +18,112 @@ window.addEventListener('DOMContentLoaded', function () {
         })
     uidGenerate();
     showCartAmount();
-    getAllCategories().then(response => {
+    
+    const getAllProducts = async () => {
+        // const result = await getAllCategories()
+        
+        await getBestsellers(true).then(response => {
+            for (let i = 0; i < response.length; i++) {
+                let bestsellers = response[i]
+                let bestseller = `                        
+                <a href='game.html?id=${bestsellers.g_id}'>
+                <div class="row products">
+                <div class="col-4 col-image">
+                <img src='${bestsellers.g_image}' />
+                </div>
+                <div class="col-8 product-details">
+                <h6>${bestsellers.g_name}</h6>
+                <div><span>PRICE</span></div>
+                <div>
+                ${parseFloat(bestsellers.g_discount) < parseFloat(bestsellers.g_price) ? 
+                    `
+                    <span> ${bestsellers.g_discount} <sup class='sub-script-striked'> SGD </sup></span>
+                    <br>
+                    <div>
+                    <span class='slash-price'>${bestsellers.g_price}</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(bestsellers.g_price, bestsellers.g_discount)}%</span>
+                    </div>`  
+                    : `<span>${bestsellers.g_price}</span><sup class='sub-script-striked'> SGD </sup>`}
+                    </div>
+                    </div>
+                    </div>
+                    </a>
+                    `
+                    
+                    
+                    document.getElementById("bs-product").insertAdjacentHTML("beforeend", bestseller);
+                }
+            })
+            
+            
+            await getPreOrders(true).then(response => {
+                for (let i = 0; i < response.length; i++) {
+                    let preorders = response[i];
+                    let preorder = `
+                    <a href='game.html?id=${preorders.g_id}'>
+                    <div class="row products">
+                    <div class="col-4 col-image">
+                    <img src='${preorders.g_image}' />
+                    </div>
+                    <div class="col-8 product-details">
+                    <h6>${preorders.g_name}</h6>
+                    <div><span>PRICE</span></div>
+                    <div>
+                    <span><span>${preorders.g_discount}</span> <sup class='sub-script'> SGD </sup></span>
+                    </div>
+                    <div id='game-${preorders.g_id}'>
+                    
+                            </div>
+                            </div>
+                    </div>
+                    </a>
+                    `
+                    document.getElementById("pre-product").insertAdjacentHTML("beforeend", preorder)
+                    if (preorders.nullif == null) {
+                    document.getElementById(`game-${preorders.g_id}`).remove();
+                } else {
+                    let string = `<span><span class='slash-price'>${preorders.g_price}</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(preorders.g_price, preorders.g_discount)}%</span></span>`
+                    document.getElementById(`game-${preorders.g_id}`).insertAdjacentHTML("beforeend", string)
+                }
+            }
+        })
+        
+        await getLRelease().then(response => {
+            for (let i = 0; i < response.length; i++) {
+                let lreleases = response[i];
+                let lrelease = `
+                <a href='game.html?id=${lreleases.g_id}'>
+                    <div class="row products">
+                    <div class="col-4 col-image">
+                    <img src='${lreleases.g_image}' />
+                    </div>
+                    <div class="col-8 product-details">
+                    <h6>${lreleases.g_name}</h6>
+                    <h6>Release Date: ${lreleases.date}</h6>
+                    <div><span>PRICE</span></div>
+                    <div>
+                    <span><span>${lreleases.g_discount}</span> <sup class='sub-script'> SGD </sup></span>
+                    </div>
+                    <div id='lr-${lreleases.g_id}'>
+                    
+                            </div>
+                            </div>
+                    </div>
+                    </a>
+                    `
+                    document.getElementById("latest-release").insertAdjacentHTML("beforeend", lrelease)
+                if (lreleases.nullif == null) {
+                    document.getElementById(`lr-${lreleases.g_id}`).remove();
+                } else {
+                    let string = `<span><span class='slash-price'>${lreleases.g_price}</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(lreleases.g_price, lreleases.g_discount)}%</span></span>`
+                    document.getElementById(`lr-${lreleases.g_id}`).insertAdjacentHTML("beforeend", string)
+                }
+            }
+        })
+        showCheapProducts();
+        await getAllDeals();
+        
+    }
+    await getAllCategories().then(response => {
         for (let i = 0; i < response.length; i++) {
             let string = `<li class="cat-content first-cat" id="${response[i].id}"><a href="/category.html?maincat=${encodeURI(response[i].category_name)}">${response[i].category_name}</a></li>`;
             let category = `<option value='${response[i].category_name}'>${response[i].category_name}</option>`
@@ -42,111 +147,6 @@ window.addEventListener('DOMContentLoaded', function () {
         addListener();
         getAllProducts();
     })
-
-    const getAllProducts = async () => {
-        // const result = await getAllCategories()
-
-        await getBestsellers(true).then(response => {
-            for (let i = 0; i < response.length; i++) {
-                let bestsellers = response[i]
-                let bestseller = `                        
-                <a href='game.html?id=${bestsellers.g_id}'>
-                    <div class="row products">
-                        <div class="col-4 col-image">
-                            <img src='${bestsellers.g_image}' />
-                        </div>
-                        <div class="col-8 product-details">
-                            <h6>${bestsellers.g_name}</h6>
-                            <div><span>PRICE</span></div>
-                            <div>
-                                ${parseFloat(bestsellers.g_discount) < parseFloat(bestsellers.g_price) ? 
-                                    `
-                                    <span> ${bestsellers.g_discount} <sup class='sub-script-striked'> SGD </sup></span>
-                                    <br>
-                                    <div>
-                                        <span class='slash-price'>${bestsellers.g_price}</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(bestsellers.g_price, bestsellers.g_discount)}%</span>
-                                    </div>`  
-                                    : `<span>${bestsellers.g_price}</span><sup class='sub-script-striked'> SGD </sup>`}
-                                </div>
-                        </div>
-                    </div>
-                </a>
-                `
-
-
-                document.getElementById("bs-product").insertAdjacentHTML("beforeend", bestseller);
-            }
-        })
-
-
-        await getPreOrders(true).then(response => {
-            for (let i = 0; i < response.length; i++) {
-                let preorders = response[i];
-                let preorder = `
-                <a href='game.html?id=${preorders.g_id}'>
-                    <div class="row products">
-                        <div class="col-4 col-image">
-                            <img src='${preorders.g_image}' />
-                        </div>
-                        <div class="col-8 product-details">
-                            <h6>${preorders.g_name}</h6>
-                            <div><span>PRICE</span></div>
-                            <div>
-                                <span><span>${preorders.g_discount}</span> <sup class='sub-script'> SGD </sup></span>
-                            </div>
-                            <div id='game-${preorders.g_id}'>
-
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                `
-                document.getElementById("pre-product").insertAdjacentHTML("beforeend", preorder)
-                if (preorders.nullif == null) {
-                    document.getElementById(`game-${preorders.g_id}`).remove();
-                } else {
-                    let string = `<span><span class='slash-price'>${preorders.g_price}</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(preorders.g_price, preorders.g_discount)}%</span></span>`
-                    document.getElementById(`game-${preorders.g_id}`).insertAdjacentHTML("beforeend", string)
-                }
-            }
-        })
-
-        await getLRelease().then(response => {
-            for (let i = 0; i < response.length; i++) {
-                let lreleases = response[i];
-                let lrelease = `
-                <a href='game.html?id=${lreleases.g_id}'>
-                    <div class="row products">
-                        <div class="col-4 col-image">
-                            <img src='${lreleases.g_image}' />
-                        </div>
-                        <div class="col-8 product-details">
-                            <h6>${lreleases.g_name}</h6>
-                            <h6>Release Date: ${lreleases.date}</h6>
-                            <div><span>PRICE</span></div>
-                            <div>
-                                <span><span>${lreleases.g_discount}</span> <sup class='sub-script'> SGD </sup></span>
-                            </div>
-                            <div id='lr-${lreleases.g_id}'>
-            
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                `
-                document.getElementById("latest-release").insertAdjacentHTML("beforeend", lrelease)
-                if (lreleases.nullif == null) {
-                    document.getElementById(`lr-${lreleases.g_id}`).remove();
-                } else {
-                    let string = `<span><span class='slash-price'>${lreleases.g_price}</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(lreleases.g_price, lreleases.g_discount)}%</span></span>`
-                    document.getElementById(`lr-${lreleases.g_id}`).insertAdjacentHTML("beforeend", string)
-                }
-            }
-        })
-        showCheapProducts();
-        getAllDeals();
-
-    }
 
     document.getElementById('bsBtn').addEventListener('click', () => {
         window.location.href = "/bestseller"; 
@@ -177,7 +177,24 @@ window.addEventListener('DOMContentLoaded', function () {
             })
     }
     document.getElementById('searchBtn').addEventListener('click', search)
-
+    getSearchAC().then(response=>{
+        console.log(response);
+        if(!response.length>0)return
+        
+        var input = document.getElementById("searchProduct");
+        
+        autocomplete({
+            input: input,
+            fetch: function(text, update) {
+                text = text.toLowerCase();
+                var suggestions = response.filter(n => n.label.toLowerCase().startsWith(text)||n.value.toLowerCase().startsWith(text))
+                update(suggestions);
+            },
+            onSelect: function(item) {
+                input.value = item.label;
+            }
+        });
+    })
 
 })
 
