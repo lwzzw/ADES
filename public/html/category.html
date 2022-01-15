@@ -25,8 +25,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
     </script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/@widgetbot/crate@3' async defer>
@@ -43,9 +43,9 @@
     <div id="bg"></div>
     <div class="header">
         <div class="bgc"></div>
-        <div class="top-header container row ">
-            <a class="logo col" href="index.html"><img class="logo col" src="/images/logo.png"></a>
-            <div class="search-bar col">
+        <div class="top-header container">
+            <a class="logo" href="index.html"><img class="logo" src="/images/logo.png"></a>
+            <div class="search-bar">
                 <input class="search" placeholder="Search for products" id='searchProduct'>
                 <select class="dropdown-btn" id="dropDownCategory">
                     <option value='All categories'>All categories</option>
@@ -53,14 +53,13 @@
                 </select>
                 <div class="search-icon">
                     <span class="input-group-append">
-                        <button id="searchBtn" class="btn" type="button">
+                        <button class="btn" type="button" id="searchBtn">
                             <i class="fa fa-search"></i>
                         </button>
                     </span>
                 </div>
             </div>
-
-            <div class="login"></div>
+            <div class="login" id="myAccount"></div>
             <div class="cart"></div>
         </div>
         <div class="category-header container">

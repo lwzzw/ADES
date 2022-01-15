@@ -1,7 +1,19 @@
 let duration = 250;
 let toFirst, toSecond;
 window.addEventListener('DOMContentLoaded', function () {
-    
+    checkLogin().then(response => {
+        let myAccBtn = `<a href='dashboard.html' style="color: white!important;">My Account</a>`
+        document.getElementById("login").innerHTML = "log out";
+        document.getElementById('myAccount').insertAdjacentHTML('beforeend', myAccBtn)
+        document.getElementById("login").addEventListener("click", () => {
+            localStorage.removeItem("token");   
+            // document.getElementById("orderHistory").remove()
+        })
+    })
+    .catch(err => {
+        console.log(err);
+    })
+    showCartAmount();
     //Hides the category div
     $("#categ")[0].style.display = "none";
 
