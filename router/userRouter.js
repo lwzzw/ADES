@@ -13,6 +13,9 @@ const generateKey = require("../key/generateKey");
 const nodeCache = require("node-cache");
 const e = require("express");
 const cache = new nodeCache({ stdTTL: 15 * 60, checkperiod: 60 });
+const validator = require("../middleware/validator");
+const { data } = require("../logger");
+
 
 router.post("/login", (req, res, next) => {
   const email = req.body.email;
@@ -25,7 +28,7 @@ router.post("/login", (req, res, next) => {
   } else {
     return database
       .query(
-        `SELECT id, name, email, password FROM public.user_detail where email=$1`,
+        `SELECT id, name, email, password, phone FROM public.user_detail where email=$1`,
         [email]
       )
       .then((results) => {
@@ -35,6 +38,8 @@ router.post("/login", (req, res, next) => {
               {
                 id: results.rows[0].id,
                 name: results.rows[0].name,
+                email: results.rows[0].email,
+                phone: results.rows[0].phone
               },
               config.JWTKEY,
               {
@@ -56,8 +61,7 @@ router.post("/login", (req, res, next) => {
       .catch((err) => {
         next(createHttpError(500, err));
         logger.error(
-          `${err || "500 Error"} ||  ${res.statusMessage} - ${
-            req.originalUrl
+          `${err || "500 Error"} ||  ${res.statusMessage} - ${req.originalUrl
           } - ${req.method} - ${req.ip}`
         );
       });
@@ -83,7 +87,7 @@ router.post("/register", (req, res, next) => {
     usergender == null ||
     !reEmail.test(useremail) ||
     !rePassword.test(userpassword) ||
-    (cache.get(useremail)!=code)
+    (cache.get(useremail) != code)
   ) {
     logger.error(
       `401 Empty Credentials ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
@@ -102,16 +106,19 @@ router.post("/register", (req, res, next) => {
       } else {
         return database
           .query(
-            `INSERT INTO public.user_detail (name, email, password, gender, phone) VALUES ($1, $2, $3, $4, $5)`,
+            `INSERT INTO public.user_detail (name, email, password, gender, phone) VALUES ($1, $2, $3, $4, $5) returning id, name, phone, email`,
             [username, useremail, hash, usergender, userphone]
           )
           .then((response) => {
+            console.log(response)
             if (response && response.rowCount == 1) {
               let data = {
                 token: jwt.sign(
                   {
-                    id: response.id,
-                    name: response.name,
+                    id: response.rows[0].id,
+                    name: response.rows[0].name,
+                    email: response.rows[0].email,
+                    phone: response.rows[0].phone
                   },
                   config.JWTKEY,
                   {
@@ -140,7 +147,7 @@ router.post("/register", (req, res, next) => {
 });
 
 router.get("/checkLogin", nocache(), verifyToken, (req, res, next) => {
-  res.status(200).json({ name: req.name, id: req.id });
+  res.status(200).json({ name: req.name, id: req.id, email: req.email, phone: req.phone });
 });
 
 router.post("/forgetPass", nocache(), async (req, res, next) => {
@@ -244,7 +251,7 @@ router.post("/verifyEmail", async (req, res, next) => {
 
 router.post("/googleLogin", async (req, res, next) => {
   const code = req.body.code;
-  
+
   const { data1 } = await axios({
     url: `https://oauth2.googleapis.com/token`,
     method: 'post',
@@ -256,35 +263,68 @@ router.post("/googleLogin", async (req, res, next) => {
       code,
     },
   }).then((res) => res.data)
-  .catch((error) => {
-    next(createHttpError(500, error));
-  });
-  if(data1 == null){return next(createHttpError(500, err));}
-  else{
-  const {data2} = await axios({
-    url: 'https://www.googleapis.com/oauth2/v2/userinfo',
-    method: 'get',
-    headers: {
-      Authorization: `Bearer ${data1.access_token}`,
-    },
-  }).then((res) => {
-    let data = {
-      token: jwt.sign(
-        {
-          id: res.id,
-          name: res.name,
-        },
-        config.JWTKEY,
-        {
-          expiresIn: 86400,
-        }
-      ),
-    };
-    return res.status(200).json(data);
-  });
-  if(data2 == null){return next(createHttpError(500, err));}
-}
+    .catch((error) => {
+      next(createHttpError(500, error));
+    });
+  if (data1 == null) { return next(createHttpError(500, err)); }
+  else {
+    const { data2 } = await axios({
+      url: 'https://www.googleapis.com/oauth2/v2/userinfo',
+      method: 'get',
+      headers: {
+        Authorization: `Bearer ${data1.access_token}`,
+      },
+    }).then((res) => {
+      let data = {
+        token: jwt.sign(
+          {
+            id: res.id,
+            name: res.name,
+          },
+          config.JWTKEY,
+          {
+            expiresIn: 86400,
+          }
+        ),
+      };
+      return res.status(200).json(data);
+    });
+    if (data2 == null) { return next(createHttpError(500, err)); }
+  }
 
-  
 })
+
+//When API is invoked, verifyToken and userInfoValidator middleware will be invoked before allowing user_detail to be updated.
+router.post("/saveUserInfo", verifyToken, validator.userInfoValidator,  async (req, res, next) => {
+  //Update user's detail and return id,name,email and phone
+  return database.query(`UPDATE user_detail SET name = $1, email = $2, phone = $3 WHERE id = $4 returning id, name, email, phone`, [req.body.username, req.body.email, req.body.phone, req.id])
+    .then(result => {
+      //if user_detail is successfully updated
+      if (result.rowCount == 1) {
+        //create a new token
+        let data = {
+          token: jwt.sign(
+            {
+              id: result.rows[0].id,
+              name: result.rows[0].name,
+              email: result.rows[0].email,
+              phone: result.rows[0].phone
+            },
+            config.JWTKEY,
+            {
+              expiresIn: 86400,
+            }
+          ),
+        };
+        //return the token
+        return res.status(200).json(data);
+      } else {
+        return res.status(204).end();
+      }
+  }).catch(err => {
+    next(createHttpError(500, err));
+  })
+})
+
+
 module.exports = router;

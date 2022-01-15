@@ -1,5 +1,3 @@
-const e = require("express");
-const { response } = require("express");
 
 window.addEventListener('DOMContentLoaded', function () {
   // Get reference to relevant elements
@@ -8,21 +6,23 @@ window.addEventListener('DOMContentLoaded', function () {
   const password = document.getElementById('passwordInput');
   const showPassword = document.getElementById('showPass');
   const googlebutton = document.getElementById('googleButton');
+  const secretValidator = new RegExp(/^[0-9]{6}$/);
+
   uidGenerate();
-  if(window.location.href == "http://localhost:5000/authenticate/google"){
+  if (window.location.href == "http://localhost:5000/authenticate/google") {
     googleLogin(code).then(response => {
-      if(response){
+      if (response) {
         localStorage.setItem('token', response);
         window.location.href = "index.html";
       }
-      else{
+      else {
         new Noty({
           type: 'error',
           layout: 'topCenter',
-     
+
           theme: 'sunset',
           timeout: '3000',
-          text: 'Google Login has failed! Try again' ,
+          text: 'Google Login has failed! Try again',
         }).show();
       }
     }).catch(err => {
@@ -34,23 +34,23 @@ window.addEventListener('DOMContentLoaded', function () {
         timeout: '6000',
         text: 'Google Login has failed! Try again',
       }).show();
-  
-})
+
+    })
   }
-  googlebutton.onclick = function(){
+  googlebutton.onclick = function () {
     googleLogin(code).then(response => {
-      if(response){
+      if (response) {
         localStorage.setItem('token', response);
         window.location.href = "index.html";
       }
-      else{
+      else {
         new Noty({
           type: 'error',
           layout: 'topCenter',
-     
+
           theme: 'sunset',
           timeout: '3000',
-          text: 'Google Login has failed! Try again' ,
+          text: 'Google Login has failed! Try again',
         }).show();
       }
     }).catch(err => {
@@ -62,8 +62,8 @@ window.addEventListener('DOMContentLoaded', function () {
         timeout: '6000',
         text: 'Google Login has failed! Try again',
       }).show();
-  
-})
+
+    })
   }
 
 
@@ -115,27 +115,33 @@ window.addEventListener('DOMContentLoaded', function () {
             } else {
               // if 2-FA is enabled, prompt user for secret key
               let secretCode = prompt('Enter Secret Code');
-              // validate user's secret code
-              validateSecretKey(secretCode, enabledAuth).then(authenticatorResult => {
-                //if secret code is correct, proceed
-                if (authenticatorResult == 'True') {
-                  localStorage.setItem('token', response);
-                  window.location.href = "index.html";
-                } else {
-                  new Noty({
-                    type: 'error',
-                    layout: 'topCenter',
-                    theme: 'sunset',
-                    timeout: '6000',
-                    text: 'Wrong secret code, please try again.',
-                  }).show();
-                }
-              }).catch(error => {
-                console.log(error)
-              })
+              //checks if userInput is 6 digits
+              if (secretValidator.test(secretCode)) {
+                // check if user's entered secret code is correct
+                validateSecretKey(secretCode, enabledAuth).then(authenticatorResult => {
+                  //if secret code is correct, proceed
+                  if (authenticatorResult == 'True') {
+                    localStorage.setItem('token', response);
+                    //window.location.href = "index.html";
+                  } else {
+                    throw new Error('Wrong Secret Code, Try again.');
+                  }
+                }).catch(error => {
+                  console.log(error);
+                  throw new Error(error);
+                })
+              } else {
+                throw new Error('Please enter 6-digits only');
+              }
             }
           }).catch(error => {
-            console.log(error)
+            new Noty({
+              type: 'error',
+              layout: 'topCenter',
+              theme: 'sunset',
+              timeout: '6000',
+              text: error.message,
+            }).show();
           })
         } else {
           new Noty({
@@ -146,8 +152,7 @@ window.addEventListener('DOMContentLoaded', function () {
             text: 'Unable to login. Check your email and password',
           }).show();
         }
-      })
-        .catch(err => {
+      }).catch(err => {
           console.log(err)
           new Noty({
             type: 'error',

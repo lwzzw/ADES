@@ -13,10 +13,12 @@ window.addEventListener('DOMContentLoaded', function () {
     .catch(err => {
         console.log(err);
     })
+    //shows total amount of items in shopping cart
     showCartAmount();
     //Hides the category div
     $("#categ")[0].style.display = "none";
 
+    //Execute corresponding APIs depending on the discover url
     if (window.location.pathname == '/bestseller') {
         document.getElementById('productTitle').innerHTML = 'Discover Bestsellers';
         getBestsellers(false).then(bsGames => {
@@ -35,15 +37,14 @@ window.addEventListener('DOMContentLoaded', function () {
 function listGames(games) {
     for (let i = 0; i < games.length; i++) {
         let game = games[i];
-        //if g_di
         let discoverProduct = `
         <li>
         <a href='game.html?id=${game.g_id}' style="text-decoration: none; color: black;">
         <div style="width: 270px; height: 173px;">
-            <img src="${game.g_image}" style="width: 100%; height: 100%;">
+            <img src="${game.g_image}" style="object-fit: cover; width: 265px; height: 100%;">
         </div>
         <div style="width: 268px; height: 142px;">
-            <div style="width: 100%; height: 100%;">
+            <div>
                     <h3 style="font-size: 11px; font-weight: 500; padding-top: 10px; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical;">${game.g_name}</h3>
                     ${parseFloat(game.g_discount) < parseFloat(game.g_price) ? 
                         `
@@ -56,13 +57,14 @@ function listGames(games) {
             </div> 
         </div>
         </a>
+
     </li>`
 
         document.getElementById('discoverListings').insertAdjacentHTML('beforeend', discoverProduct);
 
     };
 };
-//
+
 //Calculates discount percentage
 function discountPercentage(originalPrice, discountedPrice) {
     return parseFloat(100 * (originalPrice - discountedPrice) / originalPrice).toFixed(0)
@@ -93,15 +95,13 @@ getAllCategories().then(response => {
     }
     addListener();
 }).catch(err => {
-    // alert(err)
     new Noty({
         type: "error",
         layout: "topCenter",
         theme: "sunset",
         timeout: "6000",
         text: err
-      })
-        .show();
+      }).show();
 });
 
 function addListener() {
@@ -213,6 +213,7 @@ $("#catdrop").on("click", function () {
         drop[0].style.display = "flex";
 })
 
+//function to show total amount of items in shopping cart
 function showCartAmount(){
     let string = 0;
     getShoppingBadge().then(response => {
