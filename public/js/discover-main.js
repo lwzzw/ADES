@@ -58,6 +58,7 @@ window.addEventListener('DOMContentLoaded', function () {
         var input = document.getElementById("searchProduct");
         
         autocomplete({
+            minLength: 1,
             input: input,
             fetch: function(text, update) {
                 text = text.toLowerCase();
@@ -88,13 +89,13 @@ recognition.onresult = function(event) {
     if (typeof(event.results) == 'undefined') {
         recognition.onend = null;
         recognition.stop();
-        upgrade();
         return;
     }
     for (var i = event.resultIndex; i < event.results.length; ++i) {
         transcript += event.results[i][0].transcript;
     }
     input.value = transcript;
+    input.dispatchEvent(new KeyboardEvent('keyup'));
 };
 
 //This function populates the website with the products that are passed into this function.

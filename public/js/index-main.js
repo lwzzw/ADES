@@ -214,6 +214,7 @@ window.addEventListener('DOMContentLoaded', async function () {
         var input = document.getElementById("searchProduct");
         
         autocomplete({
+            minLength: 1,
             input: input,
             fetch: function(text, update) {
                 text = text.toLowerCase();
@@ -227,7 +228,6 @@ window.addEventListener('DOMContentLoaded', async function () {
     })
 
 })
-
 function voice(){
     if(!recording){
         recognition.start();
@@ -245,13 +245,13 @@ recognition.onresult = function(event) {
     if (typeof(event.results) == 'undefined') {
         recognition.onend = null;
         recognition.stop();
-        upgrade();
         return;
     }
     for (var i = event.resultIndex; i < event.results.length; ++i) {
         transcript += event.results[i][0].transcript;
     }
     input.value = transcript;
+    input.dispatchEvent(new KeyboardEvent('keyup'));
 };
 
 function showCheapProducts() {
