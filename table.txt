@@ -312,7 +312,7 @@ INSERT INTO public.child_subcategory (category_name, fk_parent) VALUES ('Fightin
 INSERT INTO public.child_subcategory (category_name, fk_parent) VALUES ('Economy Games', 9);
 
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount, g_region) 
-VALUES ('Battlefield 2042 (PC) - Origin Key - GLOBAL', 40, 'a first person game which requires strategies in order to defeat the enemies', 1, 1, 1, '/images/noimage.png', '2020/10/11', 20, 1);
+VALUES ('Battlefield 2042 (PC) - Origin Key - GLOBAL', 40, 'a first person game which requires strategies in order to defeat the enemies', 1, 1, 1, '/images/battlefield-2042-pc-game-steam-cover.jpg', '2020/10/11', 20, 1);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount, g_region) 
 VALUES ('Jurassic World Evolution 2  Deluxe Edition (PC) - Steam Key - GLOBAL', 50, 'a story based game which stimulates the players to solve mysteries surrounding the dinosaurs', 1, 1, 1, '/images/noimage.png', '2020/10/11', 30, 1);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region) 

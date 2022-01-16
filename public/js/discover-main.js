@@ -26,14 +26,14 @@ window.addEventListener('DOMContentLoaded', function () {
             document.getElementById("login").innerHTML = "log out";
             document.getElementById('myAccount').insertAdjacentHTML('beforeend', myAccBtn)
             document.getElementById("login").addEventListener("click", () => {
-                localStorage.removeItem("token");   
-                // document.getElementById("orderHistory").remove()
+            localStorage.removeItem("token");   
             })
         })
         .catch(err => {
-            console.log(err);
+            showNotification('error', err.message)
         })
     }
+
     //shows total amount of items in shopping cart
     showCartAmount();
     //Hides the category div
@@ -106,7 +106,7 @@ function listGames(games) {
         <li>
         <a href='game.html?id=${game.g_id}' style="text-decoration: none; color: black;">
         <div style="width: 270px; height: 173px;">
-            <img src="${game.g_image}" style="object-fit: cover; width: 265px; height: 100%;">
+            <img src="${game.g_image}" style="width: 100%; height: 100%;">
         </div>
         <div style="width: 268px; height: 142px;">
             <div>
@@ -160,13 +160,7 @@ getAllCategories().then(response => {
     }
     addListener();
 }).catch(err => {
-    new Noty({
-        type: "error",
-        layout: "topCenter",
-        theme: "sunset",
-        timeout: "6000",
-        text: err
-      }).show();
+    showNotification('error', err.message)
 });
 
 function addListener() {
@@ -287,4 +281,15 @@ function showCartAmount(){
         }
         document.getElementById("shoppingCart").firstChild.textContent=`Shopping Cart - ${string}`;
     })
+}
+
+//function to show notifications
+function showNotification(type, message) {
+    new Noty({
+        type: type,
+        layout: 'topCenter',
+        theme: 'sunset',
+        timeout: '3000',
+        text: message,
+    }).show();
 }

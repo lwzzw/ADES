@@ -1,8 +1,47 @@
 let username, email, phone;
 window.addEventListener('DOMContentLoaded', function () {
+    if(localStorage.getItem("token")){
     //Get user details
     getDetails();
+    } else {
+        showNotification('error', 'Your session has expired, please login again');
+        disableFeatures();
+    }
 
+})
+
+//function to get and display user details
+function getDetails() {
+    checkLogin().then(response => {
+        username = document.getElementById('user-name').value = response.name;
+        email = document.getElementById('email').value = response.email;
+        phone = document.getElementById('phone').value = response.phone;
+        //Save button listener
+        saveInfoListener();
+    }).catch(err => {
+        console.log(err);
+        disableFeatures();
+        showNotification('error', err.message);
+    })
+}
+
+//function to show notifications
+function showNotification(type, message) {
+    new Noty({
+        type: type,
+        layout: 'topCenter',
+        theme: 'sunset',
+        timeout: '3000',
+        text: message,
+    }).show();
+}
+
+//To be executed when unauthorized user tries to access the website.
+function disableFeatures() {
+    document.querySelector(".whole-layout").remove();
+}
+
+function saveInfoListener() {
     document.getElementById('saveInfo').addEventListener('click', () => {
         document.getElementById('saveInfo').disabled = true;
         //gets user input
@@ -21,27 +60,4 @@ window.addEventListener('DOMContentLoaded', function () {
             getDetails();
         })
     })
-})
-
-//function to get user details
-function getDetails() {
-    checkLogin().then(response => {
-        username = document.getElementById('user-name').value = response.name;
-        email = document.getElementById('email').value = response.email;
-        phone = document.getElementById('phone').value = response.phone;
-    }).catch(err => {
-        console.log(err);
-        showNotification('error', err.message);
-    })
-}
-
-//function to show notifications
-function showNotification(type, message) {
-    new Noty({
-        type: type,
-        layout: 'topCenter',
-        theme: 'sunset',
-        timeout: '3000',
-        text: message,
-    }).show();
 }

@@ -120,14 +120,11 @@ window.addEventListener('DOMContentLoaded', function () {
 function showGame(game) {
     document.getElementById('web-title').innerHTML = `${game.g_name}`
     let gameString = `
-        <div class="individual-game">
         <div class="individual-game-image">
            <img src='${game.g_image}' /> 
         </div>
         <div class="individual-game-container">
-            <div>
-                <h1>${game.g_name}</h1>
-            </div>
+                <h1 style="display: -webkit-box; max-width: 100%; height: 140px; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; font-size: 34px;">${game.g_name}</h1>
             <div class="individual-game-details">
                 <div><h6>Category:</h6> ${game.category_name}</div>
                 <div><h6>Region:</h6> ${game.region_name}</div>
@@ -151,7 +148,6 @@ function showGame(game) {
             <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
           </svg></button>
             <input style="display:none" type="text" value="${location.href}" id="copyValue">
-        </div>
         </div>
     `
     document.getElementById('game-container').insertAdjacentHTML('beforeend', gameString);
