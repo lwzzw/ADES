@@ -4,18 +4,27 @@ let duration = 250;
 let toFirst, toSecond;
 let row = 1;
 window.addEventListener('DOMContentLoaded', async function () {
-    await checkLogin().then(response => {
-            let myAccBtn = `<a href='dashboard.html' style="color: white!important;">My Account</a>`
+    if(localStorage.getItem("token")){
+        checkLogin().then(response => {
             document.getElementById("login").innerHTML = "log out";
-            document.getElementById('myAccount').insertAdjacentHTML('beforeend', myAccBtn)
             document.getElementById("login").addEventListener("click", () => {
-                localStorage.removeItem("token");   
-                // document.getElementById("orderHistory").remove()
+                localStorage.removeItem("token");
             })
         })
-        .catch(err => {
-            console.log(err);
-        })
+            .catch(err => {
+                new Noty({
+                    type: "error",
+                    layout: "topCenter",
+                    theme: "sunset",
+                    timeout: "6000",
+                    text: "Your session has expired, please login again",
+                })
+                    .show();
+                localStorage.removeItem("token");
+                document.getElementById("login").innerHTML = "Login";
+                // console.log(err);
+            })
+    }
     uidGenerate();
     showCartAmount();
     

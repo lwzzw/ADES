@@ -24,9 +24,10 @@ function verifyToken(req, res, next) {
         );
       } else {
         console.log("verify success");
+        console.log(decoded.id);
         req.id = decoded.id;
         req.name = decoded.name;
-        req.email = decoded.email;
+        // req.email = decoded.email;
         logger.info(
           `200 Verify success||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
         );

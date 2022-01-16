@@ -24,7 +24,8 @@ const cache = new nodeCache({ stdTTL: 1800, checkperiod: 60 });
 //create new order and count the total
 router.post("/create-order", async (req, res, next) => {
   var id,
-    total = 0;
+    total = 0.00;
+    console.log(typeof(total));
   if (req.headers.authorization) {
     verifyToken(req, res, () => {
       id = req.id;
@@ -41,8 +42,8 @@ router.post("/create-order", async (req, res, next) => {
       if (result) {
         return result.rows.forEach((cart) => {
           cart.g_discount
-            ? (total += parseInt(cart.g_discount))
-            : (total += parseInt(cart.g_price));
+            ? (total += parseFloat(cart.g_discount).toFixed(2)*parseInt(cart.amount))
+            : (total += parseFloat(cart.g_price).toFixed(2)*parseInt(cart.amount));
         });
       } else {
         return 0;
@@ -52,6 +53,7 @@ router.post("/create-order", async (req, res, next) => {
       next(createHttpError(500, err));
     });
   if (total <= 0) return next(createHttpError(400, "No cart"));
+  console.log(total);
   const request = new paypal.orders.OrdersCreateRequest();
 
   request.prefer("return=representation");
@@ -88,7 +90,7 @@ router.post("/create-order", async (req, res, next) => {
 router.post("/save-order", async (req, res, next) => {
   try {
     var id,
-      total = 0;
+      total = 0.00;
     if (req.headers.authorization) {
       verifyToken(req, res, () => {
         id = req.id;
@@ -117,7 +119,7 @@ router.post("/save-order", async (req, res, next) => {
       [id]
     );
     cart.rows.forEach((c) => {
-      total += parseInt(c.price);
+      total += parseFloat(c.price).toFixed(2)*parseInt(c.amount);
     });
     let hid = await database.transactionQuery(`select confirm_order($1, $2)`, [
       id,
@@ -134,6 +136,7 @@ router.post("/save-order", async (req, res, next) => {
           .query(`select 1 from user_detail where id = $1`, [id])
           .then((result) => result.rows.length == 1);
         let orderList = result.rows;
+        emailHtml = !isUser?"<p>Below is your game key</p><ul>":"";
         orderList.forEach((orderDetail) => {
           if (isUser) {
             insertKey(orderDetail.amount);
@@ -150,15 +153,17 @@ router.post("/save-order", async (req, res, next) => {
               });
             }
           } else {
-            emailHtml = "<p>Below is your game key</p><ul>";
             for (let i = 0; i < orderDetail.amount; i++) {
               emailHtml += `<li> ${orderDetail.g_name} - ${generateKey(16)} </li>`;
             }
-            emailHtml += "</ul>";
           }
         });
+        emailHtml += !isUser?"</ul>":"";
       });
-    let html = `<p>You have been successful make a payment total ${total} on ${paypalRes.create_time}</p>${emailHtml?emailHtml:""}`;
+    let html = `<p>You have been successful make a payment total ${parseFloat(total).toFixed(2)} SGD on ${paypalRes.create_time}</p><p>Your order id for this transaction is ${cache.get(id)}</p>${emailHtml?emailHtml:""}`;
+    logger.info(
+      `200 OK ||  ${cache.take(id)} - ${paypalRes.payer.email_address} - ${total} - ${req.ip}`
+    );
     sendMail(paypalRes.payer.email_address, "Thank you for purchase", { html });
     cache.del(id);
     res.status(201).json({

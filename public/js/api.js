@@ -246,6 +246,7 @@ function getCategoryCountByPlatform(platform) {
 }
 
 function checkLogin() {
+    if(!localStorage.getItem("token"))return;
     const methods = {
         method: 'GET',
         headers: {
@@ -259,7 +260,7 @@ function checkLogin() {
             return response.data
         })
         .catch(error => {
-            console.log(error);
+            // console.log(error);
             if (error.response) {
                 throw new Error(JSON.stringify(error.response.data))
             }

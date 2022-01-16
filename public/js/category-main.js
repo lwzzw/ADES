@@ -1,15 +1,27 @@
 let duration = 250;
 let toFirst, toSecond;
 window.addEventListener('DOMContentLoaded', function () {
-    checkLogin().then(response => {
-        document.getElementById("login").innerHTML = "log out";
-        document.getElementById("login").addEventListener("click", () => {
-            localStorage.removeItem("token");
+    if(localStorage.getItem("token")){
+        checkLogin().then(response => {
+            document.getElementById("login").innerHTML = "log out";
+            document.getElementById("login").addEventListener("click", () => {
+                localStorage.removeItem("token");
+            })
         })
-    })
-        .catch(err => {
-            console.log(err);
-        })
+            .catch(err => {
+                new Noty({
+                    type: "error",
+                    layout: "topCenter",
+                    theme: "sunset",
+                    timeout: "6000",
+                    text: "Your session has expired, please login again",
+                })
+                    .show();
+                localStorage.removeItem("token");
+                document.getElementById("login").innerHTML = "Login";
+                // console.log(err);
+            })
+    }
     $("#categ")[0].style.display = "none";
     uidGenerate();
     showCartAmount();
@@ -224,7 +236,7 @@ function showGame() {
             })
             document.getElementById("npage").disabled = true;
             document.getElementById("ppage").disabled = true;
-            let pageNum = params.get("page")||0
+            let pageNum = params.get("page")||1
             getPageCount(params.toString()).then(result=>{
                     if((pageNum*18)<parseInt(result[0].count)){
                         document.getElementById("npage").disabled = false;

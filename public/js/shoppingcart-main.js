@@ -1,9 +1,6 @@
 window.addEventListener('DOMContentLoaded', function () {
     uidGenerate();
     displayCart();
-    document.getElementById("update").addEventListener("click", () => {
-        saveCart();
-    })
 })
 var pricearr = [],
     id = [];
