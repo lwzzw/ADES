@@ -1,10 +1,13 @@
+body {
+    background-color: #fafafa !important;
+}
+
 .whole-layout {
     box-sizing: border-box;
     display: flex;
     flex: auto;
     flex-direction: column;
     min-height: 0;
-    background: #fafafa;
 }
 
 .sider {
@@ -13,4 +16,13 @@
 
 .layout {
     margin: 10px;
+}
+
+.header {
+    background-color: black;
+}
+
+.logo {
+    height: 70px;
+    width: 120px;
 }

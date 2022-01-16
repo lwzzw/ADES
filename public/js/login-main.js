@@ -1,4 +1,3 @@
-// const {queryString} = require("query-string");
 
 window.addEventListener('DOMContentLoaded', function () {
   // Get reference to relevant elements
@@ -7,46 +6,66 @@ window.addEventListener('DOMContentLoaded', function () {
   const password = document.getElementById('passwordInput');
   const showPassword = document.getElementById('showPass');
   const googlebutton = document.getElementById('googleButton');
+  const secretValidator = new RegExp(/^[0-9]{6}$/);
+
   uidGenerate();
+  if (window.location.href == "http://localhost:5000/authenticate/google") {
+    googleLogin(code).then(response => {
+      if (response) {
+        localStorage.setItem('token', response);
+        window.location.href = "index.html";
+      }
+      else {
+        new Noty({
+          type: 'error',
+          layout: 'topCenter',
 
+          theme: 'sunset',
+          timeout: '3000',
+          text: 'Google Login has failed! Try again',
+        }).show();
+      }
+    }).catch(err => {
+      console.log(err)
+      new Noty({
+        type: 'error',
+        layout: 'topCenter',
+        theme: 'sunset',
+        timeout: '6000',
+        text: 'Google Login has failed! Try again',
+      }).show();
 
-// const stringifiedParams = queryString.stringify({
-//   client_id: process.env.GOOGLE_CLIENT_ID,
-//   redirect_uri: 'https://www.example.com/authenticate/google',
-//   scope: [
-//     'https://www.googleapis.com/auth/userinfo.email',
-//     'https://www.googleapis.com/auth/userinfo.profile',
-//   ].join(' '), // space seperated string
-//   response_type: 'code',
-//   access_type: 'offline',
-//   prompt: 'consent',
-// });
-// const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?${stringifiedParams}`;
+    })
+  }
+  googlebutton.onclick = function () {
+    googleLogin(code).then(response => {
+      if (response) {
+        localStorage.setItem('token', response);
+        window.location.href = "index.html";
+      }
+      else {
+        new Noty({
+          type: 'error',
+          layout: 'topCenter',
 
-// googlebutton.onclick() = function(){
-//   window.location.href = googleLoginUrl;
-// }
+          theme: 'sunset',
+          timeout: '3000',
+          text: 'Google Login has failed! Try again',
+        }).show();
+      }
+    }).catch(err => {
+      console.log(err)
+      new Noty({
+        type: 'error',
+        layout: 'topCenter',
+        theme: 'sunset',
+        timeout: '6000',
+        text: 'Google Login has failed! Try again',
+      }).show();
 
-// const urlParams = queryString.parse(window.location.search);
+    })
+  }
 
-// if (urlParams.error) {
-//   console.log(`An error occurred: ${urlParams.error}`);
-
-// } else {
-//   console.log(`The code is: ${urlParams.code}`);
-//   getAccessTokenFromCode(code).then( response => {
-//     getGoogleUserInfo(response).then(response => {
-//       if(response.id != null){
-//         localStorage.setItem('uid', response.id);
-//         window.location.href = "index.html";
-//       }
-//     }).catch(error => {
-//       console.log(error)
-//     })
-//   }).catch(error => {
-//                   console.log(error)
-//                 })
-// }
 
   showPassword.onclick = function () {
     if (password.type === "password") {
@@ -90,49 +109,54 @@ window.addEventListener('DOMContentLoaded', function () {
     } else {
       login(email.value, password.value).then(response => {
         // if login details is correct
-          if (response) {
-            //check if user has 2-FA enabled
-            authenticateSecretKey(response).then(enabledAuth => {
-              //if 2-FA not enabled, proceed as normal
-              if (enabledAuth.message == false) {
-                localStorage.setItem('token', response);
-                window.location.href = "index.html";
-              } else {
-                // if 2-FA is enabled, prompt user for secret key
-                let secretCode = prompt('Enter Secret Code');
-                // validate user's secret code
+        if (response) {
+          //check if user has 2-FA enabled
+          authenticateSecretKey(response).then(enabledAuth => {
+            //if 2-FA not enabled, proceed as normal
+            if (enabledAuth.message == false) {
+              localStorage.setItem('token', response);
+              window.location.href = "index.html";
+            } else {
+              // if 2-FA is enabled, prompt user for secret key
+              let secretCode = prompt('Enter Secret Code');
+              //checks if userInput is 6 digits
+              if (secretValidator.test(secretCode)) {
+                // check if user's entered secret code is correct
                 validateSecretKey(secretCode, enabledAuth).then(authenticatorResult => {
                   //if secret code is correct, proceed
                   if (authenticatorResult == 'True') {
                     localStorage.setItem('token', response);
-                    window.location.href = "index.html";
+                    //window.location.href = "index.html";
                   } else {
-                    new Noty({
-                      type: 'error',
-                      layout: 'topCenter',
-                      theme: 'sunset',
-                      timeout: '6000',
-                      text: 'Wrong secret code, please try again.',
-                    }).show();
+                    throw new Error('Wrong Secret Code, Try again.');
                   }
                 }).catch(error => {
-                  console.log(error)
+                  console.log(error);
+                  throw new Error(error);
                 })
+              } else {
+                throw new Error('Please enter 6-digits only');
               }
-            }).catch(error => {
-              console.log(error)
-            })
-          } else {
+            }
+          }).catch(error => {
             new Noty({
               type: 'error',
               layout: 'topCenter',
               theme: 'sunset',
               timeout: '6000',
-              text: 'Unable to login. Check your email and password',
+              text: error.message,
             }).show();
-          }
-        })
-        .catch(err => {
+          })
+        } else {
+          new Noty({
+            type: 'error',
+            layout: 'topCenter',
+            theme: 'sunset',
+            timeout: '6000',
+            text: 'Unable to login. Check your email and password',
+          }).show();
+        }
+      }).catch(err => {
           console.log(err)
           new Noty({
             type: 'error',

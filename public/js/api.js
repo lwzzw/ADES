@@ -1,4 +1,30 @@
 //all function that will use in front end
+
+function googleLogin(code) {
+    const methods = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    const body = {
+        code: code
+    }
+    return axios
+        .post(`/user/googleLogin`, body, methods)
+        .then(response => {
+            return response.data.token;
+        })
+        .catch(error => {
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+}
+
+
+
 function register(username, useremail, userpassword, usergender, userphone,code){
     const methods = {
         method: 'POST',
@@ -704,34 +730,6 @@ function verifyEmail(email){
 
 }
 
-function getAccessTokenFromCode(code) {
-    const { data } = axios({
-      url: `https://oauth2.googleapis.com/token`,
-      method: 'POST',
-      data: {
-        client_id: process.env.GOOGLE_CLIENT_ID,
-        client_secret: process.env.GOOGLE_CLIENT_SECRET,
-        redirect_uri: 'https://www.example.com/authenticate/google',
-        grant_type: 'authorization_code',
-        code,
-      },
-    });
-    console.log(data); // { access_token, expires_in, token_type, refresh_token }
-    return data.access_token;
-  };
-
-function getGoogleUserInfo(access_token) {
-    const { data } = axios({
-      url: 'https://www.googleapis.com/oauth2/v2/userinfo',
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    });
-    console.log(data); // { id, email, given_name, family_name }
-    return data;
-  };
-
 function getSearchAC(){
     const methods = {
         method: 'GET',
@@ -748,6 +746,32 @@ function getSearchAC(){
             console.log(error);
             if (error.response) {
                 throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+}
+
+function saveUserDetails(username, email, phone) {
+    const methods = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + localStorage.getItem("token")
+        }
+    }
+    const body = {
+        username: username,
+        email: email,
+        phone: phone
+    }
+    return axios
+        .post(`/user/saveUserInfo`, body, methods)
+        .then(response => {
+            return response.data
+        })
+        .catch(error => {
+            if (error.response) {
+                throw new Error(error.response.data.error)
             }
             return error.response.data
         })

@@ -1,13 +1,18 @@
 window.addEventListener('DOMContentLoaded', function () {
+    //When page is loaded, runs checkAuth function
     checkAuth();
     document.getElementById('googleAuthenticatorBtn').addEventListener('click', () => {
+        document.getElementById('googleAuthenticatorBtn').disabled = true;
         getSecret().then(response => {
             document.getElementById(`authText`).innerHTML = 'Download Google Authenticator and scan the QR Code below. (QR Code will not be saved, please ensure that you have scanned it)' 
-            document.getElementById('qr-code').src = response
+            document.getElementById('qr-code').src = response;
+            document.getElementById('googleAuthenticatorBtn').disabled = false;
+            let message = '2-FA Enabled !'
+            showNotification('success', message);
             checkAuth();
         }).catch(error => {
-            showNotification(error);
-        })
+            showNotification('error', error.message);
+        });
     })
 })
 
@@ -18,17 +23,17 @@ function checkAuth() {
             document.getElementById(`googleAuthenticatorBtn`).innerHTML = 'Renew 2FA'
         }
     }).catch(error => {
-        showNotification(error);
+        showNotification('error', error.message);
     })
 }
 
 //Shows notification
-function showNotification(error) {
+function showNotification(type, message) {
     new Noty({
-        type: 'error',
+        type: type,
         layout: 'topCenter',
         theme: 'sunset',
         timeout: '6000',
-        text: error.message,
+        text: message,
       }).show();
 }
