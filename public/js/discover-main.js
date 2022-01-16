@@ -1,18 +1,39 @@
 let duration = 250;
 let toFirst, toSecond;
+var recognition = new webkitSpeechRecognition();
+var recording = false;
+recognition.continuous = true;
+recognition.interimResults = true;
+recognition.lang = 'EN';
+recognition.onerror = function(event) { 
+    console.log(event);
+    recording = false;
+    recognition.stop();
+    document.getElementById("start_img").src = "/images/mic.png";
+    new Noty({
+        type: "error",
+        layout: "topCenter",
+        theme: "sunset",
+        timeout: "6000",
+        text: event.error,
+    })
+        .show();
+}
 window.addEventListener('DOMContentLoaded', function () {
-    checkLogin().then(response => {
-        let myAccBtn = `<a href='dashboard.html' style="color: white!important;">My Account</a>`
-        document.getElementById("login").innerHTML = "log out";
-        document.getElementById('myAccount').insertAdjacentHTML('beforeend', myAccBtn)
-        document.getElementById("login").addEventListener("click", () => {
-            localStorage.removeItem("token");   
-            // document.getElementById("orderHistory").remove()
+    if(localStorage.getItem("token")){
+        checkLogin().then(response => {
+            let myAccBtn = `<a href='dashboard.html' style="color: white!important;">My Account</a>`
+            document.getElementById("login").innerHTML = "log out";
+            document.getElementById('myAccount').insertAdjacentHTML('beforeend', myAccBtn)
+            document.getElementById("login").addEventListener("click", () => {
+                localStorage.removeItem("token");   
+                // document.getElementById("orderHistory").remove()
+            })
         })
-    })
-    .catch(err => {
-        console.log(err);
-    })
+        .catch(err => {
+            console.log(err);
+        })
+    }
     //shows total amount of items in shopping cart
     showCartAmount();
     //Hides the category div
@@ -49,6 +70,32 @@ window.addEventListener('DOMContentLoaded', function () {
         });
     })
 });
+
+function voice(){
+    if(!recording){
+        recognition.start();
+    }else{
+        recognition.stop();
+    }
+    recording=!recording;
+    document.getElementById("start_img").src=recording?"/images/mic-animate.gif":"/images/mic.png";
+}
+
+recognition.onresult = function(event) {
+    var input = document.getElementById("searchProduct");
+    // console.log(event);
+    var transcript = "";
+    if (typeof(event.results) == 'undefined') {
+        recognition.onend = null;
+        recognition.stop();
+        upgrade();
+        return;
+    }
+    for (var i = event.resultIndex; i < event.results.length; ++i) {
+        transcript += event.results[i][0].transcript;
+    }
+    input.value = transcript;
+};
 
 //This function populates the website with the products that are passed into this function.
 function listGames(games) {

@@ -2,7 +2,25 @@ let duration = 250;
 let toFirst, toSecond;
 const params = new URLSearchParams(window.location.search);
 const id = params.get('id');
-
+var recognition = new webkitSpeechRecognition();
+var recording = false;
+recognition.continuous = true;
+recognition.interimResults = true;
+recognition.lang = 'EN';
+recognition.onerror = function(event) { 
+    console.log(event);
+    recording = false;
+    recognition.stop();
+    document.getElementById("start_img").src = "/images/mic.png";
+    new Noty({
+        type: "error",
+        layout: "topCenter",
+        theme: "sunset",
+        timeout: "6000",
+        text: event.error,
+    })
+        .show();
+}
 window.addEventListener('DOMContentLoaded', function () {
     if(localStorage.getItem("token")){
         checkLogin().then(response => {
@@ -138,6 +156,32 @@ function showGame(game) {
     document.getElementById('game-container').insertAdjacentHTML('beforeend', gameString);
 
 }
+
+function voice(){
+    if(!recording){
+        recognition.start();
+    }else{
+        recognition.stop();
+    }
+    recording=!recording;
+    document.getElementById("start_img").src=recording?"/images/mic-animate.gif":"/images/mic.png";
+}
+
+recognition.onresult = function(event) {
+    var input = document.getElementById("searchProduct");
+    // console.log(event);
+    var transcript = "";
+    if (typeof(event.results) == 'undefined') {
+        recognition.onend = null;
+        recognition.stop();
+        upgrade();
+        return;
+    }
+    for (var i = event.resultIndex; i < event.results.length; ++i) {
+        transcript += event.results[i][0].transcript;
+    }
+    input.value = transcript;
+};
 
 //Calculates discount percentage
 function discountPercentage(originalPrice, discountedPrice) {

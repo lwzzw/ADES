@@ -374,3 +374,12 @@ hr {
 .cheap-product h6 {
     margin: 0px;
 }
+
+#start_button {
+    border: 0;
+    background-color: transparent;
+    padding: 0;
+}
+#start_img {
+    height: 40px;
+}

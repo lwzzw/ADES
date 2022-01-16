@@ -376,3 +376,12 @@ hr {
     background-color: rgb(221, 48, 28);
     justify-content: center;
 }
+
+#start_button {
+    border: 0;
+    background-color: transparent;
+    padding: 0;
+}
+#start_img {
+    height: 40px;
+}

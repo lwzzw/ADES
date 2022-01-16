@@ -33,3 +33,12 @@
     vertical-align: super;
     font-weight: 400;
 }
+
+#start_button {
+    border: 0;
+    background-color: transparent;
+    padding: 0;
+}
+#start_img {
+    height: 40px;
+}
