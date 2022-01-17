@@ -6,12 +6,28 @@ const createHttpError = require("http-errors");
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const queryString = require('query-string');
-const { response } = require('express');
+
+router.get("/google/url", (req, res, next) => {
+  const stringifiedParams = queryString.stringify({
+    client_id: config.GOOGLE_CLIENT_ID,
+    redirect_uri: 'http://localhost:5000/authenticate/google', //change to https://f2a.games/authenticate/google when redeployed
+    scope: [
+      'https://www.googleapis.com/auth/userinfo.email',
+      'https://www.googleapis.com/auth/userinfo.profile',
+    ].join(' '), // space seperated string
+    response_type: 'code',
+    access_type: 'offline',
+    prompt: 'consent',
+  });
+  const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?${stringifiedParams}`;
+  return res.redirect(googleLoginUrl);
+})
 
 router.get("/google", async (req, res, next)=> { 
     const code = req.query.code;
     console.log(code);
 
+    //this gets the access code from the url that google sends after it redirects back to our website
     const  data1  = await axios({
       url: `https://oauth2.googleapis.com/token`,
       method: 'post',
@@ -22,13 +38,15 @@ router.get("/google", async (req, res, next)=> {
         grant_type: 'authorization_code',
         code,
       },
-    }).then((res) => res.data)
+    }).then((res) => res.data) //returns another url with access token
       .catch((error) => {
         next(createHttpError(500, error));
       });
       console.log(data1)
     if (data1 == null) { return next(createHttpError(500, 'no data')); }
     else {
+
+      //using the access token to authorize our website to get the userinfo of the google account
       const data2  = await axios({
         url: 'https://www.googleapis.com/oauth2/v2/userinfo',
         method: 'get',
@@ -37,9 +55,9 @@ router.get("/google", async (req, res, next)=> {
         },
       }).then((res) => {
         return database
-        .query(`SELECT name, email, password, phone FROM public.user_detail where email = $1`, [res.data.email])
+        .query(`SELECT name, email, phone FROM public.user_detail where email = $1`, [res.data.email])
         .then((response) => {
-            if (response && response.rowCount == 1) {
+            if (response && response.rowCount == 1) {  //checks if the google account is already registered
                 let data = {
                   token: jwt.sign(
                     {
@@ -56,11 +74,11 @@ router.get("/google", async (req, res, next)=> {
                 };
                 return data;
             }
-            else{
+            else{ //else they will be registerd
                 return database
                 .query(
-                  `INSERT INTO public.user_detail (name, email, password) VALUES ($1, $2, $3) returning id, name, phone, email`,
-                  [res.data.given_name, res.data.email, "hidden"]
+                  `INSERT INTO public.user_detail (name, email, auth_type) VALUES ($1, $2, $3) returning id, name, phone, email`,
+                  [res.data.given_name, res.data.email, 2]
                 )
                 .then((response) => {
                   console.log(response)
