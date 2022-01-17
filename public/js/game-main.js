@@ -106,7 +106,7 @@ window.addEventListener('DOMContentLoaded', function () {
             input: input,
             fetch: function(text, update) {
                 text = text.toLowerCase();
-                var suggestions = response.filter(n => n.label.toLowerCase().startsWith(text)||n.value.toLowerCase().startsWith(text))
+                var suggestions = response.filter(n => n.label.toLowerCase().startsWith(text)||n.des.toLowerCase().startsWith(text)||n.main_cat.toLowerCase().startsWith(text)||n.parent_cat.toLowerCase().startsWith(text)||n.child_cat.toLowerCase().startsWith(text))
                 update(suggestions);
             },
             onSelect: function(item) {

@@ -320,10 +320,10 @@ router.get("/gameNameDes", async (req, res, next) => {
 async function getGameAC() {
   try {
     await database
-      .query(`SELECT g_name, g_description FROM g2a_gamedatabase`)
+      .query(`SELECT g_name, g_description, child_subcategory.category_name child_subcategory, parent_subcategory.category_name parent_subcategory, main_category.category_name main_category FROM g2a_gamedatabase join child_subcategory on g_childSubcategory=child_subcategory.id join parent_subcategory on g_parentSubcategory=parent_subcategory.id join main_category on g_maincategory=main_category.id`)
       .then((result) => {
         result.rows.forEach((game) => {
-          gameAC.push({ label: game.g_name, value: game.g_description });
+          gameAC.push({ label: game.g_name, des: game.g_description, main_cat: game.main_category, parent_cat: game.parent_subcategory, child_cat: game.child_subcategory});
         });
       });
   } catch (err) {
