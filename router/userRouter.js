@@ -248,52 +248,6 @@ router.post("/verifyEmail", async (req, res, next) => {
     return next(createHttpError(500, err));
   }
 });
-
-router.post("/googleLogin", async (req, res, next) => {
-  const code = req.body.code;
-
-  const { data1 } = await axios({
-    url: `https://oauth2.googleapis.com/token`,
-    method: 'post',
-    data: {
-      client_id: config.GOOGLE_CLIENT_ID,
-      client_secret: config.GOOGLE_CLIENT_SECRET,
-      redirect_uri: 'http://localhost:5000/authenticate/google', //change to https://f2a.games/authenticate/google when redeployed;
-      grant_type: 'authorization_code',
-      code,
-    },
-  }).then((res) => res.data)
-    .catch((error) => {
-      next(createHttpError(500, error));
-    });
-  if (data1 == null) { return next(createHttpError(500, err)); }
-  else {
-    const { data2 } = await axios({
-      url: 'https://www.googleapis.com/oauth2/v2/userinfo',
-      method: 'get',
-      headers: {
-        Authorization: `Bearer ${data1.access_token}`,
-      },
-    }).then((res) => {
-      let data = {
-        token: jwt.sign(
-          {
-            id: res.id,
-            name: res.name,
-          },
-          config.JWTKEY,
-          {
-            expiresIn: 86400,
-          }
-        ),
-      };
-      return res.status(200).json(data);
-    });
-    if (data2 == null) { return next(createHttpError(500, err)); }
-  }
-
-})
-
 //When API is invoked, verifyToken and userInfoValidator middleware will be invoked before allowing user_detail to be updated.
 router.post("/saveUserInfo", verifyToken, validator.userInfoValidator,  async (req, res, next) => {
   //Update user's detail and return id,name,email and phone

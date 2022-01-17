@@ -37,8 +37,10 @@ window.addEventListener('DOMContentLoaded', function () {
 
     })
   }
+  
   googlebutton.onclick = function () {
-    googleLogin(code).then(response => {
+    window.location.href = '/auth/google/url';
+    googleLogin().then(response => {
       if (response) {
         localStorage.setItem('token', response);
         window.location.href = "index.html";

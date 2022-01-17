@@ -15,7 +15,7 @@ app.set("view engine", "ejs");
 
 db.connect()
   .then(() => {
-    // return
+     return
     let tableStr;
     readFile("./table.txt", (err, data) => {
       if (err) throw err;
@@ -82,10 +82,7 @@ app.get("/auth/google/url", (req, res) => {
 });
 
 
-app.get("/authenticate/google", (req, res)=> { 
- const code = req.query.code;
- return res.send(code);
-})
+
 
 
 

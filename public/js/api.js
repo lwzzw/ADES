@@ -1,17 +1,14 @@
 //all function that will use in front end
 
-function googleLogin(code) {
+function googleLogin() {
     const methods = {
-        method: 'POST',
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json'
         }
     }
-    const body = {
-        code: code
-    }
     return axios
-        .post(`/user/googleLogin`, body, methods)
+        .get(`/authenticate/google`, methods)
         .then(response => {
             return response.data.token;
         })

@@ -3,6 +3,7 @@ let dealsArrayi = 0;
 let duration = 250;
 let toFirst, toSecond;
 let row = 1;
+const params = new URLSearchParams(window.location.search);
 var recognition = new webkitSpeechRecognition();
 var recording = false;
 recognition.continuous = true;
@@ -23,6 +24,12 @@ recognition.onerror = function(event) {
         .show();
 }
 window.addEventListener('DOMContentLoaded', async function () {
+    if(params.get("token")){
+        localStorage.setItem("token",params.get("token"))
+        window.history.pushState({
+            page: "same"
+        }, "same page", "/index.html");
+    }
     if(localStorage.getItem("token")){
         checkLogin().then(response => {
             let myAccBtn = `<a href='dashboard.html' style="color: white!important;">My Account</a>`

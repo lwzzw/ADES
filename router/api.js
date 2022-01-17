@@ -6,6 +6,7 @@ const orderRouter = require('./orderRouter');
 const userRouter = require('./userRouter');
 const twofaRouter = require('./twofaRouter');
 const keyRouter = require('./keyRouter');
+const authenticate = require('./authenticate');
 
 router.use('/game', gameRouter);
 router.use('/cart', cartRouter);
@@ -14,5 +15,6 @@ router.use('/order', orderRouter);
 router.use('/user', userRouter);
 router.use('/twofa', twofaRouter);
 router.use('/key', keyRouter);
+router.use('/authenticate', authenticate);
 
 module.exports = router;
