@@ -11,14 +11,15 @@ const sendMail = require("../email/email").sendMail;
 const receiveMail = require("../email/email").receiveMail;
 const generateKey = require("../key/generateKey");
 const nodeCache = require("node-cache");
-const e = require("express");
 const cache = new nodeCache({ stdTTL: 15 * 60, checkperiod: 60 });
 const validator = require("../middleware/validator");
+const axios = require('axios');
 
 
-router.post("/login", (req, res, next) => {
+router.post("/login", async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
+  const secretCode = req.body.secretCode;
   if (email == null || password == null) {
     logger.error(
       `401 Empty Credentials ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
@@ -27,12 +28,21 @@ router.post("/login", (req, res, next) => {
   } else {
     return database
       .query(
-        `SELECT user_detail.id, user_detail.name, user_detail.email, user_detail.phone, user_detail.auth_type, user_auth.password
+        `SELECT user_detail.id, user_detail.name, user_detail.email, user_detail.phone, user_detail.auth_type, user_auth.password, user_detail.gender
          FROM public.user_detail INNER JOIN user_auth ON user_detail.id = user_auth.userid
          where email=$1`,
         [email]
       )
-      .then((results) => {
+      .then(async (results) => {
+          await database.query(`SELECT secret_key FROM twofactor_authenticator WHERE belong_to = $1`, [results.rows[0].id])    
+          .then(async auth => {
+            if (auth.rows.length == 1) {
+              let authResult = await validateSecretKey(secretCode, auth.rows[0].secret_key)
+              if (authResult.toLowerCase() == 'false') {
+                return next(createHttpError(401, 'Wrong Secret Code'))
+              }
+            }
+          })
         if(results.rows[0].auth_type == "1"){
         if (bcrypt.compareSync(password, results.rows[0].password) == true) {
           let data = {
@@ -152,7 +162,7 @@ router.post("/register", (req, res, next) => {
 });
 
 router.get("/checkLogin", nocache(), verifyToken, (req, res, next) => {
-  res.status(200).json({ name: req.name, id: req.id, email: req.email, phone: req.phone });
+  res.status(200).json({ name: req.name, id: req.id, email: req.email, phone: req.phone, gender: req.gender });
 });
 
 router.post("/forgetPass", nocache(), async (req, res, next) => {
@@ -268,7 +278,8 @@ router.post("/saveUserInfo", verifyToken, validator.userInfoValidator,  async (r
               id: result.rows[0].id,
               name: result.rows[0].name,
               email: result.rows[0].email,
-              phone: result.rows[0].phone
+              phone: result.rows[0].phone,
+              gender: result.rows[0].gender
             },
             config.JWTKEY,
             {
@@ -302,5 +313,25 @@ router.post('/supportRequest', nocache(), async (req, res, next) => {
     });
 })
 
+function validateSecretKey(secretCodeInput, secretKey) {
+  var options = {
+      method: 'GET',
+      url: 'https://google-authenticator.p.rapidapi.com/validate/',
+      params: { code: secretCodeInput, secret: secretKey },
+      headers: {
+          'x-rapidapi-host': 'google-authenticator.p.rapidapi.com',
+          'x-rapidapi-key': 'a7cc9771dbmshdb30f345bae847ep1fb8d8jsn5d90b789d2ea'
+      }
+  };
+  return axios.request(options).then(function (response) {
+      console.log(response.data);
+      return response.data;
+  }).catch(function (error) {
+      if (error.response) {
+          throw new Error(JSON.stringify(error.response.data))
+      }
+      return error.response.data
+  });
+}
 
 module.exports = router;

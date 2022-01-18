@@ -50,7 +50,7 @@ function register(username, useremail, userpassword, usergender, userphone,code)
     })
 }
 
-function login(email, password) {
+function login(email, password, secretCode) {
     const methods = {
         method: 'POST',
         headers: {
@@ -58,8 +58,9 @@ function login(email, password) {
         }
     }
     const body = {
-        email: email,
-        password: password
+        email,
+        password,
+        secretCode
     }
     return axios
         .post(`/user/login`, body, methods)
@@ -556,27 +557,6 @@ function authenticateSecretKey(token) {
         })
 }
 
-//validate user input secret code
-function validateSecretKey(secretCodeInput, secretKey) {
-    var options = {
-        method: 'GET',
-        url: 'https://google-authenticator.p.rapidapi.com/validate/',
-        params: { code: secretCodeInput, secret: secretKey },
-        headers: {
-            'x-rapidapi-host': 'google-authenticator.p.rapidapi.com',
-            'x-rapidapi-key': 'a7cc9771dbmshdb30f345bae847ep1fb8d8jsn5d90b789d2ea'
-        }
-    };
-    return axios.request(options).then(function (response) {
-        console.log(response.data);
-        return response.data;
-    }).catch(function (error) {
-        if (error.response) {
-            throw new Error(JSON.stringify(error.response.data))
-        }
-        return error.response.data
-    });
-}
 function getPageCount(params){
 
     const methods = {

@@ -6,9 +6,8 @@ window.addEventListener('DOMContentLoaded', function () {
   const password = document.getElementById('passwordInput');
   const showPassword = document.getElementById('showPass');
   const googlebutton = document.getElementById('googleButton');
-  const secretValidator = new RegExp(/^[0-9]{6}$/);
-  const secretCode = document.getElementById('secretInput');
-  $("#secretDiv")[0].style.display = "none";
+  const secretCodeInput = document.getElementById('secretInput')
+
   uidGenerate();
   if (window.location.href == "http://localhost:5000/authenticate/google") {
     googleLogin(code).then(response => {
@@ -110,46 +109,22 @@ window.addEventListener('DOMContentLoaded', function () {
         text: 'Check your email and password',
       }).show();
     } else {
-      login(email.value, password.value).then(response => {
+      login(email.value, password.value, secretCodeInput.value).then(response => {
         // if login details is correct
         if (response) {
+          localStorage.setItem('token', response);
+                    
           //check if user has 2-FA enabled
-          authenticateSecretKey(response).then(enabledAuth => {
-            //if 2-FA not enabled, proceed as normal
-            if (enabledAuth.message == false) {
-              localStorage.setItem('token', response);
-              window.location.href = "index.html";
-            } else {
-              // if 2-FA is enabled, prompt user for secret key
-              
-              //checks if userInput is 6 digits
-              if (secretValidator.test(secretCode.value)) {
-                // check if user's entered secret code is correct
-                validateSecretKey(secretCode.value, enabledAuth).then(authenticatorResult => {
-                  //if secret code is correct, proceed
-                  if (authenticatorResult == 'True') {
-                    localStorage.setItem('token', response);
-                    //window.location.href = "index.html";
-                  } else {
-                    throw new Error('Wrong Secret Code, Try again.');
-                  }
-                }).catch(error => {
-                  console.log(error);
-                  throw new Error(error);
-                })
-              } else {
-                throw new Error('Please enter 6-digits only');
-              }
-            }
-          }).catch(error => {
-            new Noty({
-              type: 'error',
-              layout: 'topCenter',
-              theme: 'sunset',
-              timeout: '6000',
-              text: error.message,
-            }).show();
-          })
+          new Noty({
+            type: 'success',
+            layout: 'topCenter',
+            theme: 'sunset',
+            timeout: '1000',
+            text: 'You have succesfully logged in',
+          }).on('onClose' ,() => {
+            window.location.href = "index.html";
+          }).show();
+          console.log(response);
         } else {
           new Noty({
             type: 'error',
