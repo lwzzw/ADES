@@ -130,7 +130,7 @@ window.addEventListener('DOMContentLoaded', async function () {
                 let lrelease = `
                 <a href='game.html?id=${lreleases.g_id}'>
                     <div class="row products">
-                    <div class="col-4 col-image">
+                    <div class="col-4 col-image" style="height: auto">
                     <img src='${lreleases.g_image}' />
                     </div>
                     <div class="col-8 product-details">

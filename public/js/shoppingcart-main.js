@@ -19,8 +19,8 @@ function displayCart() {
         result.cart.forEach(cart => {
             id.push(cart.game_id);
             let string = `
-                <div class="col-12 col-sm-12 col-md-2 text-center shoppingCart">
-                                <img class="img-responsive" src="${cart.g_image}" alt="preview" width="120" height="80">
+                <div class="col-12 col-sm-12 col-md-2 text-center pb-5 shoppingCart">
+                                <img class="img-responsive" src="${cart.g_image}" alt="preview" width="120" height="155px">
                             </div>
                             <div class="col-12 text-sm-left col-sm-12  col-md-6">
                                 <h4 class="product-name"><strong>${cart.g_name}</strong></h4>
@@ -40,6 +40,7 @@ function displayCart() {
                                             title="Qty" class="qty" size="4">
                                         <input onclick="this.parentNode.querySelector('input[type=number]').stepDown();count();saveCart();"
                                             type="button" value="-" class="minus">
+                                            
                                     </div>
                                 </div>
                                 <div class="col-2 col-sm-2 col-md-2 text-right">
