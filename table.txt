@@ -186,7 +186,6 @@ BEGIN
 END ;
 $$;
 
-
 INSERT INTO public.region (region_name) VALUES ('ASIA');
 INSERT INTO public.region (region_name) VALUES ('Middle-East');
 INSERT INTO public.region (region_name) VALUES ('EUROPE');
@@ -342,53 +341,53 @@ INSERT INTO public.child_subcategory (category_name, fk_parent) VALUES ('Fightin
 INSERT INTO public.child_subcategory (category_name, fk_parent) VALUES ('Economy Games', 9);
 
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount, g_region) 
-VALUES ('Battlefield 2042 (PC) - Origin Key - GLOBAL', 40, 'a first person game which requires strategies in order to defeat the enemies', 1, 1, 1, '/images/battlefield-2042-pc-game-steam-cover.jpg', '2020/10/11', 20, 1);
+VALUES ('Battlefield 2042 (PC) - Origin Key - GLOBAL', 40, 'a first person game which requires strategies in order to defeat the enemies', 1, 1, 1, 'https://img.g2a.com/323x433/1x1x0/battlefield-2042-pc-origin-key-global/7a882745aa1a482892ad2aa7', '2020/10/11', 20, 1);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount, g_region) 
-VALUES ('Jurassic World Evolution 2  Deluxe Edition (PC) - Steam Key - GLOBAL', 50, 'a story based game which stimulates the players to solve mysteries surrounding the dinosaurs', 1, 1, 1, '/images/noimage.png', '2020/10/11', 30, 1);
+VALUES ('Jurassic World Evolution 2  Deluxe Edition (PC) - Steam Key - GLOBAL', 50, 'a story based game which stimulates the players to solve mysteries surrounding the dinosaurs', 1, 1, 1, 'https://images.g2a.com/newlayout/300x450/1x1x0/a0c6a285b1b9/17fb921e5e0c4e0aa5e8bf10', '2020/10/11', 30, 1);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region) 
-VALUES ('Marvels Guardians of the Galaxy (PC) - Steam Key - GLOBAL', 10, 'a FPS game which can be played in both story mode and battle mode with friends', 1, 1, 1, '/images/noimage.png', '2020/10/11', 1);
+VALUES ('Marvels Guardians of the Galaxy (PC) - Steam Key - GLOBAL', 10, 'a FPS game which can be played in both story mode and battle mode with friends', 1, 1, 1, 'https://img.g2a.com/323x433/1x1x0/marvels-guardians-of-the-galaxy-pc-steam-key-global/78ed71db9ad345cfbb687d61', '2020/10/11', 1);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount, g_region) 
-VALUES ('Age of Empires IV (PC) - Steam Key - GLOBAL', 60, 'Age of Empires IV is another installment in the series of classic strategy games known all over the world.', 1, 1, 1, '/images/noimage.png', '2020/10/11', 50, 1);
+VALUES ('Age of Empires IV (PC) - Steam Key - GLOBAL', 60, 'Age of Empires IV is another installment in the series of classic strategy games known all over the world.', 1, 1, 1, 'https://img.g2a.com/323x433/1x1x0/age-of-empires-iv-pc-steam-key-global/5fa28dee46177c533c169542', '2020/10/11', 50, 1);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region) 
-VALUES ('Football Manager 2022 (PC) - Steam Key - EUROPE', 10, 'a sports game with complex control and a third person game allowing players to create a team of players.', 1, 1, 1, '/images/noimage.png', '2020/10/11', 2);
+VALUES ('Football Manager 2022 (PC) - Steam Key - EUROPE', 10, 'a sports game with complex control and a third person game allowing players to create a team of players.', 1, 1, 1, 'https://img.g2a.com/323x433/1x1x0/football-manager-2022-pc-steam-key-europe/4c23053402b04b1cabac16cb', '2020/10/11', 2);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region) 
-VALUES ('Grand Theft Auto V: Premium Online Edition (PC) - Rockstar Key - GLOBAL', 10, 'Experience Rockstar Games critically acclaimed open world game, Grand Theft Auto V.', 1, 1, 1, '/images/noimage.png', '2020/10/11', 1);
+VALUES ('Grand Theft Auto V: Premium Online Edition (PC) - Rockstar Key - GLOBAL', 10, 'Experience Rockstar Games critically acclaimed open world game, Grand Theft Auto V.', 1, 1, 1, 'https://img.g2a.com/323x433/1x1x0/grand-theft-auto-v-premium-online-edition-rockstar-key-global/5d14729446177c656b5211b2', '2020/10/11', 1);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region) 
-VALUES ('Minecraft Java Edition Minecraft Key GLOBAL', 10, 'a popular game that allows user to play in different mode such as creative mode and is suitable for all age', 1, 1, 1, '/images/noimage.png', '2020/10/11', 2);
+VALUES ('Minecraft Java Edition Minecraft Key GLOBAL', 10, 'a popular game that allows user to play in different mode such as creative mode and is suitable for all age', 1, 1, 1, 'https://img.g2a.com/323x433/1x1x0/minecraft-java-edition-minecraft-key-global/5ca5b5095bafe32413643e03', '2020/10/11', 2);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount, g_region) 
-VALUES ('Going Medieval (PC) - Steam Key - GLOBAL', 15, 'Going Medieval is a city-building game that allows you to immerse yourself in the Dark Ages.', 1, 1, 1, '/images/noimage.png', '2020/10/11', 10, 3);
+VALUES ('Going Medieval (PC) - Steam Key - GLOBAL', 15, 'Going Medieval is a city-building game that allows you to immerse yourself in the Dark Ages.', 1, 1, 1, 'https://img.g2a.com/323x433/1x1x0/going-medieval-pc-steam-key-global/d8fb114593804a959b4c8ba4', '2020/10/11', 10, 3);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region) 
-VALUES ('Gloomhaven (PC) - Steam Key - GLOBAL', 10, 'Whether you are drawn to Gloomhaven by the call of adventure or by an avid desire for gold glimmering in the dark', 1, 1, 1, '/images/noimage.png', '2020/10/11', 3);
+VALUES ('Gloomhaven (PC) - Steam Key - GLOBAL', 10, 'Whether you are drawn to Gloomhaven by the call of adventure or by an avid desire for gold glimmering in the dark', 1, 1, 1, 'https://img.g2a.com/323x433/1x1x0/gloomhaven-steam-key-global/5d30712646177c319b51c1f2', '2020/10/11', 3);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount, g_region) 
-VALUES ('The Dark Pictures Anthology: House of Ashes (PC) - Steam Key - GLOBAL', 9, 'Man of Medan is an interactive drama survival horror video game developed.', 1, 1, 1, '/images/noimage.png', '2020/10/11',5, 1);
+VALUES ('The Dark Pictures Anthology: House of Ashes (PC) - Steam Key - GLOBAL', 9, 'Man of Medan is an interactive drama survival horror video game developed.', 1, 1, 1, 'https://img.g2a.com/323x433/1x1x0/the-dark-pictures-anthology-house-of-ashes-pc-steam-key-global/f89df612d54c423a89d5f957', '2020/10/11',5, 1);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region) 
-VALUES ('The Jackbox Party Pack 8 (PC) - Steam Key - GLOBAL', 10, 'a fun party favourtite played among families and is suitable for all ages', 1, 1, 1, '/images/noimage.png', '2020/10/11', 2);
+VALUES ('The Jackbox Party Pack 8 (PC) - Steam Key - GLOBAL', 10, 'a fun party favourtite played among families and is suitable for all ages', 1, 1, 1, 'https://img.g2a.com/323x433/1x1x0/the-jackbox-party-pack-8-pc-steam-key-global/26932e1df2354050802f1315', '2020/10/11', 2);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region) 
-VALUES ('The Sims 4 (PC) - Origin Key - GLOBAL', 10, 'a fun The Sims 4 is full of improvements and new solutions to make your Sims even more relatable', 1, 1, 1, '/images/noimage.png', '2020/10/11', 1);
+VALUES ('The Sims 4 (PC) - Origin Key - GLOBAL', 10, 'a fun The Sims 4 is full of improvements and new solutions to make your Sims even more relatable', 1, 1, 1, 'https://img.g2a.com/323x433/1x1x0/the-sims-4-origin-key-global/590e3f285bafe3eddf28b294', '2020/10/11', 1);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region) 
-VALUES ('NBA 2K22 | 75th Anniversary Edition (PC) - Steam Key - GLOBAL', 10, 'a sports game that allows palyers to play basketball as famous known nba players', 1, 1, 1, '/images/noimage.png', '2020/10/11', 1);
+VALUES ('NBA 2K22 | 75th Anniversary Edition (PC) - Steam Key - GLOBAL', 10, 'a sports game that allows palyers to play basketball as famous known nba players', 1, 1, 1, 'https://img.g2a.com/323x433/1x1x0/nba-2k22-75th-anniversary-edition-pc-steam-key-global/e000096a72b64b4bb3fb8d86', '2020/10/11', 1);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region) 
-VALUES ('Resident Evil 8: Village (PC) - Steam Key - GLOBAL', 10, 'Once again, players will step into the role of Ethan Winters who embarks on a dangerous journey.', 1, 1, 1, '/images/noimage.png', '2022/10/11', 3);
+VALUES ('Resident Evil 8: Village (PC) - Steam Key - GLOBAL', 10, 'Once again, players will step into the role of Ethan Winters who embarks on a dangerous journey.', 1, 1, 1, 'https://img.g2a.com/323x433/1x1x0/resident-evil-8-village-pc-steam-key-global/5ff4535246177c56f308a782', '2022/10/11', 3);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region) 
-VALUES ('Red Dead Redemption 2 (Ultimate Edition) - Rockstar Key - GLOBAL', 10, 'An action-adventure game it was released on Xbox One and PlayStation 4, and since 2019 it is also available on the PC.', 1, 1, 1, '/images/noimage.png', '2022/10/11', 3);
+VALUES ('Red Dead Redemption 2 (Ultimate Edition) - Rockstar Key - GLOBAL', 10, 'An action-adventure game it was released on Xbox One and PlayStation 4, and since 2019 it is also available on the PC.', 1, 1, 1, 'https://img.g2a.com/323x433/1x1x0/red-dead-redemption-2-rockstar-key-global/5bc41691ae653a49fd7f4e1b', '2022/10/11', 3);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount, g_region) 
-VALUES ('Dark Souls III Deluxe Edition (PC) - Steam Key - GLOBAL', 120, 'A classic RPG system, in which you control your character from a third-person point of view.', 1, 1, 2, '/images/noimage.png', '2022/10/11', 99, 3);
+VALUES ('Dark Souls III Deluxe Edition (PC) - Steam Key - GLOBAL', 120, 'A classic RPG system, in which you control your character from a third-person point of view.', 1, 1, 2, 'https://img.g2a.com/323x433/1x1x0/dark-souls-iii-deluxe-edition-steam-key-global/5f9bef4146177c2d104d9972', '2022/10/11', 99, 3);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region) 
-VALUES ('Snowrunner | Premium Edition (PC) - Steam Key - GLOBAL - 1', 10, 'In MudRunner players may experience driving off-road vehicles in difficult and dangerous terrain', 1, 1, 2, '/images/noimage.png', '2021/9/11', 1);
+VALUES ('Snowrunner | Premium Edition (PC) - Steam Key - GLOBAL - 1', 10, 'In MudRunner players may experience driving off-road vehicles in difficult and dangerous terrain', 1, 1, 2, 'https://img.g2a.com/323x433/1x1x0/snowrunner-premium-edition-pc-steam-key-global/adc0c6852b30449b911a8a4b', '2021/9/11', 1);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount, g_region) 
-VALUES ('Battlefield 1 Revolution Origin Key GLOBAL', 85.90, 'An action FPS game which players can experience fighting in a war battlefield', 1, 1, 2, '/images/noimage.png', '2021/11/11', 42.95, 2);
+VALUES ('Battlefield 1 Revolution Origin Key GLOBAL', 85.90, 'An action FPS game which players can experience fighting in a war battlefield', 1, 1, 2, 'https://img.g2a.com/323x433/1x1x0/battlefield-1-revolution-origin-key-global/599d5594ae653a389d13d303', '2021/11/11', 42.95, 2);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region) 
-VALUES ('Need for Speed Heat (PC) - Origin Key - GLOBAL - 1', 10, 'A fun and simple car racing game where players play against each other in real-time', 1, 1, 2, '/images/noimage.png', '2020/10/22', 1);
+VALUES ('Need for Speed Heat (PC) - Origin Key - GLOBAL - 1', 10, 'A fun and simple car racing game where players play against each other in real-time', 1, 1, 2, 'https://img.g2a.com/323x433/1x1x0/need-for-speed-heat-origin-key-global/5d56482d7e696c4b90652462', '2020/10/22', 1);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region) 
-VALUES ('Tabletop Simulator Steam Gift GLOBAL', 10, 'here are no rules to follow: just you with a physics sandbox and your friends.', 1, 1, 2, '/images/noimage.png', '2021/11/10', 3);
+VALUES ('Tabletop Simulator Steam Gift GLOBAL', 10, 'here are no rules to follow: just you with a physics sandbox and your friends.', 1, 1, 2, 'https://img.g2a.com/323x433/1x1x0/tabletop-simulator-steam-gift-global/59120e6c5bafe31741677937', '2021/11/10', 3);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount, g_region) 
-VALUES ('Cities: Skylines (PC) - Steam Key - GLOBAL', 200, 'a building game where players can customise and manage their own cities through challenges', 1, 1, 2, '/images/noimage.png', '2020/10/11',120.55, 2);
+VALUES ('Cities: Skylines (PC) - Steam Key - GLOBAL', 200, 'a building game where players can customise and manage their own cities through challenges', 1, 1, 2, 'https://img.g2a.com/323x433/1x1x0/cities-skylines-steam-key-global/d3aff606f90347d282114a1b', '2020/10/11',120.55, 2);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region) 
-VALUES ('Stellaris Steam Key GLOBAL', 10, 'a space story game whhich leads the players through the story of the stars with missions to complete', 1, 1, 2, '/images/noimage.png', '2020/10/11', 1);
+VALUES ('Stellaris Steam Key GLOBAL', 10, 'a space story game whhich leads the players through the story of the stars with missions to complete', 1, 1, 2, 'https://img.g2a.com/323x433/1x1x0/stellaris-steam-key-global/5d2ee5f346177c42ea015212', '2020/10/11', 1);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region) 
-VALUES ('Dont Starve Together Steam Gift GLOBAL', 10, 'Dont Starve Together is a standalone multiplayer version of the critically acclaimed Dont Starve.', 1, 1, 2, '/images/noimage.png', '2020/10/11', 2);
+VALUES ('Dont Starve Together Steam Gift GLOBAL', 10, 'Dont Starve Together is a standalone multiplayer version of the critically acclaimed Dont Starve.', 1, 1, 2, 'https://img.g2a.com/323x433/1x1x0/dont-starve-together-steam-gift-global/591211a0ae653a05e711d0bf', '2020/10/11', 2);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region) 
-VALUES ('Kerbal Space Program Steam Key GLOBAL', 10, 'An action space game where players are battling against aliens to reclaim the human territory', 1, 1, 2, '/images/noimage.png', '2020/10/11', 1);
+VALUES ('Kerbal Space Program Steam Key GLOBAL', 10, 'An action space game where players are battling against aliens to reclaim the human territory', 1, 1, 2, 'https://img.g2a.com/323x433/1x1x0/kerbal-space-program-steam-key-global/5aaa8cae5bafe36f357d38a3', '2020/10/11', 1);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount, g_region) 
 VALUES ('Mount & Blade: Warband Steam Key GLOBAL', 200, 'An action FPS game with a 80s theme where players use sowrds and hunt to survive.', 1, 1, 2, '/images/noimage.png', '2020/10/11',79.99, 2);
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount, g_region) 

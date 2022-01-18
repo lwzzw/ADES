@@ -27,17 +27,13 @@ router.post("/login", (req, res, next) => {
   } else {
     return database
       .query(
-        `SELECT id, name, email, type, phone FROM public.user_detail where email=$1`,
+        `SELECT user_detail.id, user_detail.name, user_detail.email, user_detail.phone, user_detail.auth_type, user_auth.password
+         FROM public.user_detail INNER JOIN user_auth ON user_detail.id = user_auth.userid
+         where email=$1`,
         [email]
       )
       .then((results) => {
-        if(results.rows[0].type == "1"){
-          return database
-      .query(
-        `SELECT password FROM public.user_auth where userid = $1`,
-        [results.rows[0].id]
-      ).then((results) => {
-        console.log(results.rows[0].password);
+        if(results.rows[0].auth_type == "1"){
         if (bcrypt.compareSync(password, results.rows[0].password) == true) {
           let data = {
             token: jwt.sign(
@@ -45,7 +41,8 @@ router.post("/login", (req, res, next) => {
                 id: results.rows[0].id,
                 name: results.rows[0].name,
                 email: results.rows[0].email,
-                phone: results.rows[0].phone
+                phone: results.rows[0].phone,
+                gender: results.rows[0].gender
               },
               config.JWTKEY,
               {
@@ -64,8 +61,7 @@ router.post("/login", (req, res, next) => {
           );
           return next(createHttpError(401, "login failed"));
         }
-      })
-    }      
+      }
       })
       .catch((err) => {
         next(createHttpError(500, err));
