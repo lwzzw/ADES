@@ -13,6 +13,19 @@ const validationFn = {
             res.status(400).json({error: 'validation failed, check your input.'})
         }
     },
+    searchValdiator: function(req,res, next) {
+        //Regex to check that only numbers and aphlabets only
+        checkUserInput = new RegExp( /^[a-zA-Z0-9-]+$/);
+        if (checkUserInput.test(req.body.input)) {
+            next();
+        } else {
+            res.status(400).json({error: 'validation failed, check your input.'})
+        }
+
+    },
+    requestFormValidator: function(req, res, next){
+
+    }
 
 };
 

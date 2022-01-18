@@ -189,7 +189,7 @@ window.addEventListener('DOMContentLoaded', function () {
     showGame();
     document.getElementById('searchBtn').addEventListener('click', search)
 
-    getSearchAC().then(response=>{
+    getAC().then(response=>{
         console.log(response);
         if(!response.length>0)return
         
@@ -263,8 +263,8 @@ function showGame() {
                 let string = `
                         <li>
                             <a href="/game.html?id=${data.g_id}">
-                                <div class="game-container">
-                                    <img class="game-image"
+                                <div class="game-container" style="height:410px;">
+                                    <img class="game-image" 
                                         src="${data.g_image}">
                                 </div>
 

@@ -104,19 +104,19 @@ function listGames(games) {
         let game = games[i];
         let discoverProduct = `
         <li>
-        <div style="width: 100%; height: 173px; margin: 0px">
+        <div style="width: 100%; height: 400px; margin: 0px">
             <img src="${game.g_image}" style="width: 100%; height: 100%;">
         </div>
         <div style="width: 100%; height: 142px; margin: 0px">
-                    <h3 style="font-size: 11px; font-weight: 500; padding-top: 10px; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical;">${game.g_name}</h3>
+                    <h3 style="font-size: 20px; font-weight: 500; padding-top: 10px; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical;">${game.g_name}</h3>
                     ${parseFloat(game.g_discount) < parseFloat(game.g_price) ? 
                         `
-                        <span> ${game.g_discount} <sup class='sub-script-striked'> SGD </sup></span>
+                        <span style="font-size: 16px;"> ${game.g_discount} <sup class='sub-script-striked' style="font-size: 14px;"> SGD </sup></span>
                         <br>
                         <div>
-                            <span class='slash-price'>${game.g_price}</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(game.g_price, game.g_discount)}%</span>
+                            <span class='slash-price' style="font-size: 20px;">${game.g_price}</span><sup class='sub-script-striked' style="font-size: 14px;"> SGD </sup><span class='discount-percentage' style="font-size: 13px;"> -${discountPercentage(game.g_price, game.g_discount)}%</span>
                         </div>`  
-                        : `<span>${game.g_price}</span><sup class='sub-script-striked'> SGD </sup>`}
+                        : `<span style="font-size: 20px;">${game.g_price}</span><sup class='sub-script-striked' style="font-size: 14px;"> SGD </sup>`}
         </div>
     </li>`
 
