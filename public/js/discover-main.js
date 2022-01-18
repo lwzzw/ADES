@@ -104,10 +104,10 @@ function listGames(games) {
         let game = games[i];
         let discoverProduct = `
         <li>
-        <div style="width: 100%; height: 400px; margin: 0px">
+        <div style="width: 270px; height: 173; margin: 0px">
             <img src="${game.g_image}" style="width: 100%; height: 100%;">
         </div>
-        <div style="width: 100%; height: 142px; margin: 0px">
+        <div style="width: 270px; height: 142px; margin: 0px">
                     <h3 style="font-size: 20px; font-weight: 500; padding-top: 10px; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical;">${game.g_name}</h3>
                     ${parseFloat(game.g_discount) < parseFloat(game.g_price) ? 
                         `

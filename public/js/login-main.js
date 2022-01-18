@@ -114,7 +114,6 @@ window.addEventListener('DOMContentLoaded', function () {
         if (response) {
           localStorage.setItem('token', response);
                     
-          //check if user has 2-FA enabled
           new Noty({
             type: 'success',
             layout: 'topCenter',
