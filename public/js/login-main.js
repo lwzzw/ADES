@@ -7,7 +7,8 @@ window.addEventListener('DOMContentLoaded', function () {
   const showPassword = document.getElementById('showPass');
   const googlebutton = document.getElementById('googleButton');
   const secretValidator = new RegExp(/^[0-9]{6}$/);
-
+  const secretCode = document.getElementById('secretInput');
+  $("#secretDiv")[0].style.display = "none";
   uidGenerate();
   if (window.location.href == "http://localhost:5000/authenticate/google") {
     googleLogin(code).then(response => {
@@ -118,11 +119,11 @@ window.addEventListener('DOMContentLoaded', function () {
               window.location.href = "index.html";
             } else {
               // if 2-FA is enabled, prompt user for secret key
-              let secretCode = prompt('Enter Secret Code');
+              
               //checks if userInput is 6 digits
-              if (secretValidator.test(secretCode)) {
+              if (secretValidator.test(secretCode.value)) {
                 // check if user's entered secret code is correct
-                validateSecretKey(secretCode, enabledAuth).then(authenticatorResult => {
+                validateSecretKey(secretCode.value, enabledAuth).then(authenticatorResult => {
                   //if secret code is correct, proceed
                   if (authenticatorResult == 'True') {
                     localStorage.setItem('token', response);
@@ -156,7 +157,10 @@ window.addEventListener('DOMContentLoaded', function () {
             text: 'Unable to login. Check your email and password',
           }).show();
         }
-      }).catch(err => {
+      }).then(res => {
+        
+      })
+      .catch(err => {
           console.log(err)
           new Noty({
             type: 'error',
@@ -169,3 +173,5 @@ window.addEventListener('DOMContentLoaded', function () {
     }
   };
 });
+
+

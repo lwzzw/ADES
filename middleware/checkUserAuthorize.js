@@ -28,6 +28,7 @@ function verifyToken(req, res, next) {
         req.name = decoded.name;
         req.email = decoded.email;
         req.phone = decoded.phone;
+        req.gender = decoded.gender;
         logger.info(
           `200 Verify success||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
         );

@@ -104,12 +104,10 @@ function listGames(games) {
         let game = games[i];
         let discoverProduct = `
         <li>
-        <a href='game.html?id=${game.g_id}' style="text-decoration: none; color: black;">
-        <div style="width: 270px; height: 173px;">
+        <div style="width: 100%; height: 173px; margin: 0px">
             <img src="${game.g_image}" style="width: 100%; height: 100%;">
         </div>
-        <div style="width: 268px; height: 142px;">
-            <div>
+        <div style="width: 100%; height: 142px; margin: 0px">
                     <h3 style="font-size: 11px; font-weight: 500; padding-top: 10px; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical;">${game.g_name}</h3>
                     ${parseFloat(game.g_discount) < parseFloat(game.g_price) ? 
                         `
@@ -119,10 +117,7 @@ function listGames(games) {
                             <span class='slash-price'>${game.g_price}</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(game.g_price, game.g_discount)}%</span>
                         </div>`  
                         : `<span>${game.g_price}</span><sup class='sub-script-striked'> SGD </sup>`}
-            </div> 
         </div>
-        </a>
-
     </li>`
 
         document.getElementById('discoverListings').insertAdjacentHTML('beforeend', discoverProduct);

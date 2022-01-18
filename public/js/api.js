@@ -751,7 +751,7 @@ function getSearchAC(){
         })
 }
 
-function saveUserDetails(username, email, phone) {
+function saveUserDetails(username, email, phone, gender) {
     const methods = {
         method: 'POST',
         headers: {
@@ -762,7 +762,8 @@ function saveUserDetails(username, email, phone) {
     const body = {
         username: username,
         email: email,
-        phone: phone
+        phone: phone,
+        gender: gender
     }
     return axios
         .post(`/user/saveUserInfo`, body, methods)

@@ -1,15 +1,13 @@
-
-html, 
-body {
-    height: 100%;
+html, body {
+    height: 100%
 }
 
 .bgc {
-    background-color: black;
+    background-color: #000;
     height: 120px;
     position: absolute;
     width: 100%;
-    z-index: -1;
+    z-index: -1
 }
 
 .top-header {
@@ -18,139 +16,135 @@ body {
     height: 80px;
     margin: auto;
     justify-content: space-between;
-    flex-wrap: wrap;
+    flex-wrap: wrap
 }
 
 .top-header>a {
     width: 200px;
-    align-self: center;
+    align-self: center
 }
 
 .logo {
     height: 40px;
-    width: 105px;
+    width: 105px
 }
 
 .dropdown-btn {
-    background-color: white !important;
-    color: black !important;
-    border-radius: 0px !important;
+    background-color: #fff !important;
+    color: #000 !important;
+    border-radius: 0 !important
 }
 
 .search-bar {
     display: inline-flex;
     align-self: center;
-    width: 600px;
+    width: 600px
 }
 
 .search {
     width: 100%;
     height: 44px !important;
-    border-radius: 5px 0px 0px 5px;
+    border-radius: 5px 0 0 5px
 }
 
 .search-icon {
     height: 40px;
     align-self: center;
-    background-color: rgb(47, 130, 251);
-    border-radius: 0px 5px 5px 0px;
+    background-color: #2f82fb;
+    border-radius: 0 5px 5px 0
 }
 
-.search,
-.dropdown-btn {
+.search, .dropdown-btn {
     height: 40px;
-    align-self: center;
+    align-self: center
 }
 
 .header-categories {
     display: flex;
     margin-bottom: 0;
-    padding-left: 0;
+    padding-left: 0
 }
 
 .navbar-category {
-    color: white;
-    border-radius: 3px 3px 0px 0px;
+    color: #fff;
+    border-radius: 3px 3px 0 0;
     display: flex;
     --webkit-box-align: center;
     justify-content: center;
     height: auto;
     width: 100%;
-    background-color: rgb(33, 33, 33);
-    margin: 0px 5px 0px 5px;
-    padding: 7px;
+    background-color: #212121;
+    margin: 0 5px;
+    padding: 7px
 }
 
 .navbar-category:first-child {
-    margin-left: 0;
+    margin-left: 0
 }
 
 .navbar-category:last-child {
-    margin-right: 0;
+    margin-right: 0
 }
 
 .navbar-category>a {
     display: block;
     width: 100%;
-    color: white !important;
+    color: #fff !important;
     text-decoration: none;
     font-size: 15px;
-    text-align-last: center;
+    text-align-last: center
 }
 
 ul {
-    list-style-type: none;
+    list-style-type: none
 }
 
 .header-categories>li:hover {
     text-decoration-line: none;
-    color: rgba(255, 255, 255, 0.9);
-    background-color: rgb(55, 55, 55);
+    color: rgba(255, 255, 255, .9);
+    background-color: #373737
 }
 
-input:focus,
-textarea:focus,
-select:focus {
-    outline: none;
+input:focus, textarea:focus, select:focus {
+    outline: none
 }
 
 select {
     -webkit-appearance: none;
     -moz-appearance: none;
     padding-left: 10px;
-    padding-right: 10px;
+    padding-right: 10px
 }
 
 span>a>svg {
     height: 24px;
-    width: 10%;
+    width: 10%
 }
 
 .cat {
     text-align-last: justify !important;
-    cursor: default;
+    cursor: default
 }
 
 .category {
-    background-color: white;
+    background-color: #fff;
     position: relative;
     width: 100%;
     margin: 0 !important;
-    display: none;
+    display: none
 }
 
 .category-list {
-    border: 1px solid rgb(224, 224, 224);
-    /* width: 300px !important; */
+    border: 1px solid #e0e0e0
 }
 
 .cat-block {
-    display: none;
+    display: none
 }
 
 #bg {
     position: absolute;
-    background-color: rgb(0, 0, 0);
+    background-color: #000;
     opacity: 0;
     transition-property: opacity;
     transition-duration: 500ms;
@@ -158,200 +152,193 @@ span>a>svg {
     display: none;
     top: 120px;
     width: 100%;
-    height: 1000%;
+    height: 1000%
 }
 
 .category-list li:hover {
-    text-decoration: underline !important;
+    text-decoration: underline !important
 }
 
 a {
-    color: black !important;
-    text-decoration: none !important;
+    color: #000 !important;
+    text-decoration: none !important
 }
 
 .category>.col {
-    padding: 0px !important;
+    padding: 0 !important
 }
 
 .productHeader>h2 {
-    font-weight: bold;
+    font-weight: 700
 }
 
 .headerParagraph {
     font-size: 14px;
-    color: rgba(0, 0, 0, .60);
+    color: rgba(0, 0, 0, .6)
 }
 
 body>section {
-    padding-top: 50px;
+    padding-top: 50px
 }
 
 .row .col-image {
-    width: 100px !important;
+    width: 100px !important
 }
 
 section header {
-    padding: 15px 0px;
+    padding: 15px 0
 }
 
 .sidebar-Category {
     align-items: center;
-    display: flex;
+    display: flex
 }
 
 .categoryGameHeader {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between
 }
 
 .categoryFilter {
     align-items: center;
-    display: flex;
+    display: flex
 }
 
 .categoryFilter>select {
-    margin-left: 10px;
+    margin-left: 10px
 }
 
 .filterCategories {
-    align-self: flex-start;
+    align-self: flex-start
 }
 
 .filterCategories ul li {
     display: flex;
     justify-content: space-between;
-    width: 200px;
-
+    width: 200px
 }
 
-
 .categoryFilter ul li>a {
-    text-decoration: underline !important;
+    text-decoration: underline !important
 }
 
 .game-section ul {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 30px;
-    justify-content: center;
+    justify-content: center
 }
 
 .game-section ul li {
     border-style: solid;
     border-width: thin;
-    width: 250px;
+    width: 250px
 }
 
 hr {
-    margin-top: 0px !important;
+    margin-top: 0 !important
 }
 
 .deals-container ul {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-gap: 30px;
-    justify-content: center;
+    justify-content: center
 }
 
 .deals-container ul>li {
     flex-direction: column !important;
-    border-style: solid;
+    border-style: solid
 }
 
 #game-container {
-    -webkit-justify-content: center;
+    justify-content: center;
     margin-top: 35px;
-    display: flex;
+    display: flex
 }
 
 .game-image {
     width: 100%;
-    height: 100%;
+    height: 100%
 }
 
 #showmore {
-    cursor: pointer;
+    cursor: pointer
 }
 
 #showmore:hover {
-    text-decoration: underline !important;
+    text-decoration: underline !important
 }
 
 #category_list a {
-    cursor: pointer;
+    cursor: pointer
 }
 
 #page {
-    text-align: end;
+    text-align: end
 }
 
 .pinput input {
-    width: 100%;
+    width: 100%
 }
 
 .price .span {
     padding: 0;
     text-align: center;
-    width: 10%;
+    width: 10%
 }
 
 .price div {
-    padding: 0;
+    padding: 0
 }
-
 
 .individual-game-image {
     width: 338px !important;
     height: 456px;
     border-style: solid;
-    object-fit: cover;
+    object-fit: cover
 }
 
-.individual-game-image > img {
+.individual-game-image>img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover
 }
 
 .individual-game-container {
-    padding: 0px 15px;
+    padding: 0 15px;
     height: 514;
-    width: 500px;
+    width: 500px
 }
 
 .individual-game-details {
     margin-top: 30px;
     display: grid;
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: repeat(2, 1fr);
     justify-content: center;
-    grid-gap: 20px;
+    grid-gap: 20px
 }
 
-
 .individual-game-description {
-    margin-top: 30px;
-
+    margin-top: 30px
 }
 
 .individual-game-price-section {
     align-self: center;
     align-items: center;
-    height: 362px;
-
+    height: 362px
 }
 
-.disabled,
-.disabled a {
+.disabled, .disabled a {
     color: currentColor;
     cursor: not-allowed;
-    opacity: 0.5;
-    text-decoration: none;
+    opacity: .5;
+    text-decoration: none
 }
 
 .slash-price {
     text-decoration: line-through;
-    font-size: 12px;
+    font-size: 12px
 }
 
 .sub-script {
@@ -360,17 +347,17 @@ hr {
     font-size: 13px;
     line-height: normal;
     vertical-align: super;
-    font-weight: 500;
+    font-weight: 500
 }
 
 .sub-script-striked {
-    color: rgb(0, 0, 0, 0.7);
+    color: rgb(0, 0, 0, .7);
     position: relative;
     top: 1px;
     font-size: 9px;
     line-height: normal;
     vertical-align: super;
-    font-weight: 400;
+    font-weight: 400
 }
 
 .discount-percentage {
@@ -378,19 +365,20 @@ hr {
     padding: 3px 6px;
     font-size: 11px;
     font-weight: 500;
-    letter-spacing: 0px;
+    letter-spacing: 0;
     line-height: 13px;
     text-transform: uppercase;
-    color: white;
-    background-color: rgb(221, 48, 28);
-    justify-content: center;
+    color: #fff;
+    background-color: #dd301c;
+    justify-content: center
 }
 
 #start_button {
     border: 0;
     background-color: transparent;
-    padding: 0;
+    padding: 0
 }
+
 #start_img {
-    height: 40px;
+    height: 40px
 }

@@ -1,22 +1,19 @@
-.product-container ul {
-    display: grid;
+#discoverListings {
+    display: inline-grid;
     grid-template-columns: repeat(4,1fr);
     grid-gap: 30px;
-    -webkit-justify-content: center;
-    -moz-box-pack: center;
-    justify-content: center;
     margin-bottom: 15px;
+    padding: 0;
+    justify-items: center;
+    -webkit-padding-start: 0;
 }
 
-.product-container ul li{
+#discoverListings li{
     border: 1px solid rgb(56, 56, 56);    
-    margin-top: 10px;
-    margin-left: 10px;
     list-style-type: none;
     width: 272px;
     height: 317px;
-    box-sizing: border-box;
-
+    padding: 0px;
 }
 
 .slash-price {

@@ -1,8 +1,8 @@
 let username, email, phone;
 window.addEventListener('DOMContentLoaded', function () {
-    if(localStorage.getItem("token")){
-    //Get user details
-    getDetails();
+    if (localStorage.getItem("token")) {
+        //Get user details
+        getDetails();
     } else {
         showNotification('error', 'Your session has expired, please login again');
         disableFeatures();
@@ -13,9 +13,23 @@ window.addEventListener('DOMContentLoaded', function () {
 //function to get and display user details
 function getDetails() {
     checkLogin().then(response => {
+        console.log(response)
         username = document.getElementById('user-name').value = response.name;
         email = document.getElementById('email').value = response.email;
-        phone = document.getElementById('phone').value = response.phone;
+
+        if (response.phone == null) {
+            phone = document.getElementById('phone').value = '';
+        } else {
+            phone = document.getElementById('phone').value = response.phone;
+        }
+
+        if (response.gender == 'M') {
+            document.getElementById('male').checked = true;
+        } else if (response.gender == 'F') {
+            document.getElementById('female').checked = true;
+        }
+
+
         //Save button listener
         saveInfoListener();
     }).catch(err => {
@@ -43,21 +57,27 @@ function disableFeatures() {
 
 function saveInfoListener() {
     document.getElementById('saveInfo').addEventListener('click', () => {
+
         document.getElementById('saveInfo').disabled = true;
         //gets user input
         let usernameInput = document.getElementById('user-name').value;
         let emailInput = document.getElementById('email').value;
         let phoneInput = document.getElementById('phone').value;
+        
+        if (document.getElementById('male').checked) {
+            genderInput = document.getElementById('male').value;
+          } else if (document.getElementById('female').checked) {
+            genderInput = document.getElementById('female').value;
+          }
+
         //save user details
-        saveUserDetails(usernameInput, emailInput, phoneInput).then(response => {
+        saveUserDetails(usernameInput, emailInput, phoneInput, genderInput).then(response => {
             localStorage.setItem('token', response.token);
             showNotification('success', 'Personal Details Updated !');
+            document.getElementById('saveInfo').disabled = false;
         }).catch(err => {
             console.log(err);
             showNotification('error', err.message);
-        }).finally (()=> {
-            document.getElementById('saveInfo').disabled = false;
-            getDetails();
         })
     })
 }
