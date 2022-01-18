@@ -131,6 +131,7 @@ span>a>svg {
     position: relative;
     width: 100%;
     margin: 0 !important;
+    z-index: 1;
 }
 
 .category-list {
