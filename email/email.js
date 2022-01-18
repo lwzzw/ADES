@@ -34,3 +34,22 @@ exports.sendMail = function (user, subject, body, callback) {
       })
   );
 };
+exports.receiveMail = function (subject, body, callback) {
+  var mailOptions = {
+    from: "config.EMAIL_USER",
+    to: "sharyssebuenaventura@gmail.com",
+    subject: subject,
+    html: body.html,
+  };
+  tranporter.sendMail(
+    mailOptions,
+    callback ||
+      ((err, info) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(info);
+        }
+      })
+  );
+};

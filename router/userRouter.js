@@ -3,18 +3,17 @@ const createHttpError = require("http-errors");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const config = require("../config");
-const queryString = require("query-string");
 const verifyToken = require("../middleware/checkUserAuthorize");
 const router = require("express").Router();
 const logger = require("../logger");
 const nocache = require("nocache");
 const sendMail = require("../email/email").sendMail;
+const receiveMail = require("../email/email").receiveMail;
 const generateKey = require("../key/generateKey");
 const nodeCache = require("node-cache");
 const e = require("express");
 const cache = new nodeCache({ stdTTL: 15 * 60, checkperiod: 60 });
 const validator = require("../middleware/validator");
-const { data } = require("../logger");
 
 
 router.post("/login", (req, res, next) => {
@@ -28,10 +27,17 @@ router.post("/login", (req, res, next) => {
   } else {
     return database
       .query(
-        `SELECT id, name, email, password, phone FROM public.user_detail where email=$1`,
+        `SELECT id, name, email, type, phone FROM public.user_detail where email=$1`,
         [email]
       )
       .then((results) => {
+        if(results.rows[0].type == "1"){
+          return database
+      .query(
+        `SELECT password FROM public.user_auth where userid = $1`,
+        [results.rows[0].id]
+      ).then((results) => {
+        console.log(results.rows[0].password);
         if (bcrypt.compareSync(password, results.rows[0].password) == true) {
           let data = {
             token: jwt.sign(
@@ -46,7 +52,8 @@ router.post("/login", (req, res, next) => {
                 expiresIn: 86400,
               }
             ),
-          };
+          }; 
+          
           logger.info(
             `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
           );
@@ -57,6 +64,8 @@ router.post("/login", (req, res, next) => {
           );
           return next(createHttpError(401, "login failed"));
         }
+      })
+    }      
       })
       .catch((err) => {
         next(createHttpError(500, err));
@@ -105,8 +114,8 @@ router.post("/register", (req, res, next) => {
         );
       } else {
         return database
-          .query(
-            `INSERT INTO public.user_detail (name, email, password, gender, phone) VALUES ($1, $2, $3, $4, $5) returning id, name, phone, email`,
+          .transactionQuery(
+            `select insert_user($1, $2, $3, $4, $5) `,
             [username, useremail, hash, usergender, userphone]
           )
           .then((response) => {
@@ -203,7 +212,8 @@ router.post("/verifyResetPass", nocache(), async (req, res, next) => {
           );
         }
         await database.query(
-          `UPDATE user_detail SET password = $1 WHERE email = $2;`,
+          `UPDATE user_auth SET password = $1 FROM (SELECT id, email FROM user_detail) AS subquery
+          WHERE  user_auth.userid = subquery.id AND subquery.email = $2`,
           [hash, email]
         );
         res.status(200).json({ status: "done" });
@@ -248,52 +258,6 @@ router.post("/verifyEmail", async (req, res, next) => {
     return next(createHttpError(500, err));
   }
 });
-
-router.post("/googleLogin", async (req, res, next) => {
-  const code = req.body.code;
-
-  const { data1 } = await axios({
-    url: `https://oauth2.googleapis.com/token`,
-    method: 'post',
-    data: {
-      client_id: config.GOOGLE_CLIENT_ID,
-      client_secret: config.GOOGLE_CLIENT_SECRET,
-      redirect_uri: 'http://localhost:5000/authenticate/google', //change to https://f2a.games/authenticate/google when redeployed;
-      grant_type: 'authorization_code',
-      code,
-    },
-  }).then((res) => res.data)
-    .catch((error) => {
-      next(createHttpError(500, error));
-    });
-  if (data1 == null) { return next(createHttpError(500, err)); }
-  else {
-    const { data2 } = await axios({
-      url: 'https://www.googleapis.com/oauth2/v2/userinfo',
-      method: 'get',
-      headers: {
-        Authorization: `Bearer ${data1.access_token}`,
-      },
-    }).then((res) => {
-      let data = {
-        token: jwt.sign(
-          {
-            id: res.id,
-            name: res.name,
-          },
-          config.JWTKEY,
-          {
-            expiresIn: 86400,
-          }
-        ),
-      };
-      return res.status(200).json(data);
-    });
-    if (data2 == null) { return next(createHttpError(500, err)); }
-  }
-
-})
-
 //When API is invoked, verifyToken and userInfoValidator middleware will be invoked before allowing user_detail to be updated.
 router.post("/saveUserInfo", verifyToken, validator.userInfoValidator,  async (req, res, next) => {
   //Update user's detail and return id,name,email and phone
@@ -324,6 +288,22 @@ router.post("/saveUserInfo", verifyToken, validator.userInfoValidator,  async (r
   }).catch(err => {
     next(createHttpError(500, err));
   })
+})
+
+router.post('/supportRequest', nocache(), async (req, res, next) => {
+  const email = req.body.email;
+  const subject = req.body.subject;
+  const message = req.body.message;
+
+  const html = `<p>This request is from user ${email}</p><p>The request is : ${message}</p>`
+  receiveMail(subject, { html }, (err, info) => {
+      if (err) {
+        console.log(err);
+        return next(createHttpError(500, err));
+      } else {
+        res.status(200).json({ status: "done" });
+      }
+    });
 })
 
 

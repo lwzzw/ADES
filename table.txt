@@ -38,16 +38,25 @@ CREATE TABLE IF NOT EXISTS twofactor_authenticator (
 	secret_key VARCHAR (250) not null
 );
 
+DROP TABLE IF EXISTS user_auth;
+CREATE TABLE IF NOT EXISTS user_auth(
+	id BIGSERIAL primary key,
+	userid int not null,
+	password varchar(255) not null
+);
+    
+
 DROP TABLE IF EXISTS user_detail;
 CREATE TABLE IF NOT EXISTS user_detail (
 	id BIGSERIAL primary key,
 	name varchar(50) not null,
 	email varchar(255) not null,
-	password varchar(255) not null,
+	auth_type int not null,
 	gender varchar(2) null,
 	phone varchar(255) null
 );
-    
+
+
 DROP TABLE IF EXISTS G2A_gameDatabase;
 CREATE TABLE IF NOT EXISTS G2A_gameDatabase (
 	g_id SERIAL primary key,
@@ -90,6 +99,9 @@ CREATE TABLE IF NOT EXISTS main_category (
 --ALTER TABLE keys
 --   ADD CONSTRAINT fk_historyOrderid FOREIGN KEY(order_id) REFERENCES order_detail(order_id),
 --   ADD CONSTRAINT fk_historyGid FOREIGN KEY(g_id) REFERENCES order_detail(g_id);
+
+ALTER TABLE user_auth
+	ADD CONSTRAINT fk_userid FOREIGN KEY(userid) REFERENCES user_detail(id);
 
 ALTER TABLE twofactor_authenticator
 	ADD CONSTRAINT fk_userid FOREIGN KEY(belong_to) REFERENCES user_detail(id);
@@ -156,6 +168,24 @@ BEGIN
 	RETURN hid;
 END ;
 $$;
+
+DROP FUNCTION IF EXISTS insert_user;
+CREATE FUNCTION insert_user (username varchar(255), useremail varchar(255), userpassword varchar(255), usergender varchar(2) , userphone varchar(255))
+	returns refcursor
+	language plpgsql
+as
+$$
+declare 
+uid int;
+ref refcursor;
+BEGIN
+	insert into user_detail (name, email, phone, gender, auth_type) VALUES (username, useremail, userphone, usergender, 1) RETURNING id into uid;
+	insert into user_auth (userid, password) VALUES (uid, userpassword);
+	open ref for select name, email, phone, gender from user_detail where id = uid limit 1; 
+	RETURN ref;
+END ;
+$$;
+
 
 INSERT INTO public.region (region_name) VALUES ('ASIA');
 INSERT INTO public.region (region_name) VALUES ('Middle-East');
@@ -372,11 +402,13 @@ VALUES ('7 Days to Die Steam Key GLOBAL', 82.50, '7 Days to Die is a gripping po
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount, g_region) 
 VALUES ('Overwatch Battle.net Key GLOBAL', 69.90, 'Overwatch is a 2016 first-person shooter multiplayer video game for PC developed and published by Blizzard Entertainment.', 1, 2, 2, '/images/noimage.png', '2020/10/11', 41.94, 1);
 
-INSERT INTO public.user_detail (name, email, password, gender, phone) VALUES ('Junheng', 'junheng.tan@hotmail.com', '$2b$10$hQvVBV5aArsNFcOtygZbGO46hU6jo52UTDQETdvMAbZyIItNysz72', 'M', 85529404);
-INSERT INTO public.user_detail (name, email, password, gender, phone) VALUES ('Adam', 'adam@gmail.com', '$2b$10$hQvVBV5aArsNFcOtygZbGO46hU6jo52UTDQETdvMAbZyIItNysz72', 'M', 97653242);
-INSERT INTO public.user_detail (name, email, password, gender, phone) VALUES ('Lily', 'lily@gmail.com', '$2b$10$hQvVBV5aArsNFcOtygZbGO46hU6jo52UTDQETdvMAbZyIItNysz72', 'F', 81136175);
+INSERT INTO public.user_detail (name, email, gender, phone, auth_type) VALUES ('Junheng', 'junheng.tan@hotmail.com','M', 85529404, 1);
+INSERT INTO public.user_detail (name, email, gender, phone, auth_type) VALUES ('Adam', 'adam@gmail.com', 'M', 97653242, 1);
+INSERT INTO public.user_detail (name, email, gender, phone, auth_type) VALUES ('Lily', 'lily@gmail.com', 'F', 81136175, 1);
 
-
+INSERT INTO public.user_auth (userid, password) VALUES ('1', '$2b$10$hQvVBV5aArsNFcOtygZbGO46hU6jo52UTDQETdvMAbZyIItNysz72');
+INSERT INTO public.user_auth (userid, password) VALUES ('2', '$2b$10$hQvVBV5aArsNFcOtygZbGO46hU6jo52UTDQETdvMAbZyIItNysz72');
+INSERT INTO public.user_auth (userid, password) VALUES ('3', '$2b$10$hQvVBV5aArsNFcOtygZbGO46hU6jo52UTDQETdvMAbZyIItNysz72');
 
 
 INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (1, 1, 1);
