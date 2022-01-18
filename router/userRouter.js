@@ -27,7 +27,7 @@ router.post("/login", (req, res, next) => {
   } else {
     return database
       .query(
-        `SELECT user_detail.id, user_detail.name, user_detail.email, user_detail.phone, user_detail.auth_type, user_auth.password
+        `SELECT user_detail.id, user_detail.name, user_detail.email, user_detail.phone, user_detail.auth_type, user_auth.password, user_detail.gender
          FROM public.user_detail INNER JOIN user_auth ON user_detail.id = user_auth.userid
          where email=$1`,
         [email]
@@ -152,7 +152,7 @@ router.post("/register", (req, res, next) => {
 });
 
 router.get("/checkLogin", nocache(), verifyToken, (req, res, next) => {
-  res.status(200).json({ name: req.name, id: req.id, email: req.email, phone: req.phone });
+  res.status(200).json({ name: req.name, id: req.id, email: req.email, phone: req.phone, gender: req.gender });
 });
 
 router.post("/forgetPass", nocache(), async (req, res, next) => {
@@ -268,7 +268,8 @@ router.post("/saveUserInfo", verifyToken, validator.userInfoValidator,  async (r
               id: result.rows[0].id,
               name: result.rows[0].name,
               email: result.rows[0].email,
-              phone: result.rows[0].phone
+              phone: result.rows[0].phone,
+              gender: result.rows[0].gender
             },
             config.JWTKEY,
             {
