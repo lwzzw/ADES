@@ -160,7 +160,8 @@ router.post("/save-order", async (req, res, next) => {
         });
         emailHtml += !isUser?"</ul>":"";
       });
-    let html = `<p>You have been successful make a payment total ${parseFloat(total).toFixed(2)} SGD on ${paypalRes.create_time}</p><p>Your order id for this transaction is ${cache.get(id)}</p>${emailHtml?emailHtml:""}`;
+    let date = new Date(paypalRes.create_time);
+    let html = `<p>You have been successful make a payment total ${parseFloat(total).toFixed(2)} SGD on ${date.toLocaleString('en-US')}</p><p>Your order id for this transaction is ${cache.get(id)}</p>${emailHtml?emailHtml:""}`;
     logger.info(
       `200 OK ||  ${cache.take(id)} - ${paypalRes.payer.email_address} - ${total} - ${req.ip}`
     );
