@@ -28,6 +28,7 @@ passport.use(new FacebookStrategy({
     console.log(refreshToken);
     console.log(profile);
     console.log(cb);
+    return cb(null, false);
   }
 ));
 
