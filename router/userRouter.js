@@ -13,34 +13,106 @@ const generateKey = require("../key/generateKey");
 const nodeCache = require("node-cache");
 const cache = new nodeCache({ stdTTL: 15 * 60, checkperiod: 60 });
 const validator = require("../middleware/validator");
-const axios = require('axios');
+const axios = require("axios");
 
-var passport = require('passport');
-var FacebookStrategy = require('passport-facebook');
+var passport = require("passport");
+var FacebookStrategy = require("passport-facebook");
 
-passport.use(new FacebookStrategy({
-    clientID: process.env['FACEBOOK_APP_ID']||"459608262423566",
-    clientSecret: process.env['FACEBOOK_APP_SECRET']||"76c7a3012d982c7ab1cbc66e0d3a5ed2",
-    callbackURL: 'https://f2a.games/user/oauth2/redirect/facebook'
-  },
-  function(accessToken, refreshToken, profile, cb) {
-    console.log(accessToken);
-    console.log(refreshToken);
-    console.log(profile);
-    console.log(cb);
-    return cb(null, false);
-  }
-));
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: process.env["FACEBOOK_APP_ID"] || "459608262423566",
+      clientSecret:
+        process.env["FACEBOOK_APP_SECRET"] ||
+        "76c7a3012d982c7ab1cbc66e0d3a5ed2",
+      callbackURL: "https://f2a.games/user/oauth2/redirect/facebook",
+    },
+    function (accessToken, refreshToken, profile, cb) {
+      console.log(accessToken);
+      console.log(refreshToken);
+      console.log(profile);
+      console.log(cb);
 
-router.get('/login/facebook', passport.authenticate('facebook', {
-  scope: [ 'email', 'user_location' ]
-}));
-router.get('/oauth2/redirect/facebook',
-  passport.authenticate('facebook', { failureRedirect: '/login', failureMessage: true }),
-  function(req, res) {
+      try {
+        database
+          .query(
+            `SELECT name, email, phone FROM public.user_detail where email = $1`,
+            [res.data.email]
+          )
+          .then((response) => {
+            if (response && response.rowCount == 1) {
+              //checks if the google account is already registered
+              let data = {
+                token: jwt.sign(
+                  {
+                    id: response.rows[0].id,
+                    name: response.rows[0].name,
+                    email: response.rows[0].email,
+                    phone: response.rows[0].phone || null,
+                  },
+                  config.JWTKEY,
+                  {
+                    expiresIn: 86400,
+                  }
+                ),
+              };
+              return cb(null, data);
+            } else {
+              //else they will be registerd
+              return database
+                .query(
+                  `INSERT INTO public.user_detail (name, email, auth_type) VALUES ($1, $2, $3) returning id, name, email`,
+                  [res.data.given_name, res.data.email, 2]
+                )
+                .then((response) => {
+                  console.log(response);
+                  if (response && response.rowCount == 1) {
+                    let data = {
+                      token: jwt.sign(
+                        {
+                          id: response.rows[0].id,
+                          name: response.rows[0].name,
+                          email: response.rows[0].email,
+                          phone: null,
+                        },
+                        config.JWTKEY,
+                        {
+                          expiresIn: 86400,
+                        }
+                      ),
+                    };
+                    return cb(null, data);
+                  }
+                });
+            }
+          })
+          .catch((err) => {
+            return cb(err);
+          });
+      } catch (err) {
+        return cb(err);
+      }
+    }
+  )
+);
+
+router.get(
+  "/login/facebook",
+  passport.authenticate("facebook", {
+    scope: ["username", "email"],
+  })
+);
+router.get(
+  "/oauth2/redirect/facebook",
+  passport.authenticate("facebook", {
+    failureRedirect: "/login.html",
+    failureMessage: true,
+  }),
+  function (req, res) {
     console.log("here");
-    res.redirect('/');
-  });
+    res.redirect("/");
+  }
+);
 router.post("/login", async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -59,49 +131,57 @@ router.post("/login", async (req, res, next) => {
         [email]
       )
       .then(async (results) => {
-          await database.query(`SELECT secret_key FROM twofactor_authenticator WHERE belong_to = $1`, [results.rows[0].id])    
-          .then(async auth => {
+        await database
+          .query(
+            `SELECT secret_key FROM twofactor_authenticator WHERE belong_to = $1`,
+            [results.rows[0].id]
+          )
+          .then(async (auth) => {
             if (auth.rows.length == 1) {
-              let authResult = await validateSecretKey(secretCode, auth.rows[0].secret_key)
-              if (authResult.toLowerCase() == 'false') {
-                return next(createHttpError(401, 'Wrong Secret Code'))
+              let authResult = await validateSecretKey(
+                secretCode,
+                auth.rows[0].secret_key
+              );
+              if (authResult.toLowerCase() == "false") {
+                return next(createHttpError(401, "Wrong Secret Code"));
               }
             }
-          })
-        if(results.rows[0].auth_type == "1"){
-        if (bcrypt.compareSync(password, results.rows[0].password) == true) {
-          let data = {
-            token: jwt.sign(
-              {
-                id: results.rows[0].id,
-                name: results.rows[0].name,
-                email: results.rows[0].email,
-                phone: results.rows[0].phone,
-                gender: results.rows[0].gender
-              },
-              config.JWTKEY,
-              {
-                expiresIn: 86400,
-              }
-            ),
-          }; 
-          
-          logger.info(
-            `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
-          );
-          return res.status(200).json(data);
-        } else {
-          logger.error(
-            `401 Login Failed ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
-          );
-          return next(createHttpError(401, "login failed"));
+          });
+        if (results.rows[0].auth_type == "1") {
+          if (bcrypt.compareSync(password, results.rows[0].password) == true) {
+            let data = {
+              token: jwt.sign(
+                {
+                  id: results.rows[0].id,
+                  name: results.rows[0].name,
+                  email: results.rows[0].email,
+                  phone: results.rows[0].phone,
+                  gender: results.rows[0].gender,
+                },
+                config.JWTKEY,
+                {
+                  expiresIn: 86400,
+                }
+              ),
+            };
+
+            logger.info(
+              `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
+            );
+            return res.status(200).json(data);
+          } else {
+            logger.error(
+              `401 Login Failed ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
+            );
+            return next(createHttpError(401, "login failed"));
+          }
         }
-      }
       })
       .catch((err) => {
         next(createHttpError(500, err));
         logger.error(
-          `${err || "500 Error"} ||  ${res.statusMessage} - ${req.originalUrl
+          `${err || "500 Error"} ||  ${res.statusMessage} - ${
+            req.originalUrl
           } - ${req.method} - ${req.ip}`
         );
       });
@@ -127,7 +207,7 @@ router.post("/register", (req, res, next) => {
     usergender == null ||
     !reEmail.test(useremail) ||
     !rePassword.test(userpassword) ||
-    (cache.get(useremail) != code)
+    cache.get(useremail) != code
   ) {
     logger.error(
       `401 Empty Credentials ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
@@ -145,12 +225,15 @@ router.post("/register", (req, res, next) => {
         );
       } else {
         return database
-          .transactionQuery(
-            `select insert_user($1, $2, $3, $4, $5) `,
-            [username, useremail, hash, usergender, userphone]
-          )
+          .transactionQuery(`select insert_user($1, $2, $3, $4, $5) `, [
+            username,
+            useremail,
+            hash,
+            usergender,
+            userphone,
+          ])
           .then((response) => {
-            console.log(response)
+            console.log(response);
             if (response && response.rowCount == 1) {
               let data = {
                 token: jwt.sign(
@@ -158,7 +241,7 @@ router.post("/register", (req, res, next) => {
                     id: response.rows[0].id,
                     name: response.rows[0].name,
                     email: response.rows[0].email,
-                    phone: response.rows[0].phone
+                    phone: response.rows[0].phone,
                   },
                   config.JWTKEY,
                   {
@@ -187,7 +270,15 @@ router.post("/register", (req, res, next) => {
 });
 
 router.get("/checkLogin", nocache(), verifyToken, (req, res, next) => {
-  res.status(200).json({ name: req.name, id: req.id, email: req.email, phone: req.phone, gender: req.gender });
+  res
+    .status(200)
+    .json({
+      name: req.name,
+      id: req.id,
+      email: req.email,
+      phone: req.phone,
+      gender: req.gender,
+    });
 });
 
 router.post("/forgetPass", nocache(), async (req, res, next) => {
@@ -290,73 +381,86 @@ router.post("/verifyEmail", async (req, res, next) => {
   }
 });
 //When API is invoked, verifyToken and userInfoValidator middleware will be invoked before allowing user_detail to be updated.
-router.post("/saveUserInfo", verifyToken, validator.userInfoValidator,  async (req, res, next) => {
-  //Update user's detail and return id,name,email and phone
-  return database.query(`UPDATE user_detail SET name = $1, email = $2, phone = $3 WHERE id = $4 returning id, name, email, phone`, [req.body.username, req.body.email, req.body.phone, req.id])
-    .then(result => {
-      //if user_detail is successfully updated
-      if (result.rowCount == 1) {
-        //create a new token
-        let data = {
-          token: jwt.sign(
-            {
-              id: result.rows[0].id,
-              name: result.rows[0].name,
-              email: result.rows[0].email,
-              phone: result.rows[0].phone,
-              gender: result.rows[0].gender
-            },
-            config.JWTKEY,
-            {
-              expiresIn: 86400,
-            }
-          ),
-        };
-        //return the token
-        return res.status(200).json(data);
-      } else {
-        return res.status(204).end();
-      }
-  }).catch(err => {
-    next(createHttpError(500, err));
-  })
-})
+router.post(
+  "/saveUserInfo",
+  verifyToken,
+  validator.userInfoValidator,
+  async (req, res, next) => {
+    //Update user's detail and return id,name,email and phone
+    return database
+      .query(
+        `UPDATE user_detail SET name = $1, email = $2, phone = $3 WHERE id = $4 returning id, name, email, phone`,
+        [req.body.username, req.body.email, req.body.phone, req.id]
+      )
+      .then((result) => {
+        //if user_detail is successfully updated
+        if (result.rowCount == 1) {
+          //create a new token
+          let data = {
+            token: jwt.sign(
+              {
+                id: result.rows[0].id,
+                name: result.rows[0].name,
+                email: result.rows[0].email,
+                phone: result.rows[0].phone,
+                gender: result.rows[0].gender,
+              },
+              config.JWTKEY,
+              {
+                expiresIn: 86400,
+              }
+            ),
+          };
+          //return the token
+          return res.status(200).json(data);
+        } else {
+          return res.status(204).end();
+        }
+      })
+      .catch((err) => {
+        next(createHttpError(500, err));
+      });
+  }
+);
 
-router.post('/supportRequest', nocache(), async (req, res, next) => {
+router.post("/supportRequest", nocache(), async (req, res, next) => {
   const email = req.body.email;
   const subject = req.body.subject;
   const message = req.body.message;
 
-  const html = `<p>This request is from user ${email}</p><p>The request is : ${message}</p>`
+  const html = `<p>This request is from user ${email}</p><p>The request is : ${message}</p>`;
   receiveMail(subject, { html }, (err, info) => {
-      if (err) {
-        console.log(err);
-        return next(createHttpError(500, err));
-      } else {
-        res.status(200).json({ status: "done" });
-      }
-    });
-})
+    if (err) {
+      console.log(err);
+      return next(createHttpError(500, err));
+    } else {
+      res.status(200).json({ status: "done" });
+    }
+  });
+});
 
 function validateSecretKey(secretCodeInput, secretKey) {
   var options = {
-      method: 'GET',
-      url: 'https://google-authenticator.p.rapidapi.com/validate/',
-      params: { code: secretCodeInput, secret: secretKey },
-      headers: {
-          'x-rapidapi-host': 'google-authenticator.p.rapidapi.com',
-          'x-rapidapi-key': 'a7cc9771dbmshdb30f345bae847ep1fb8d8jsn5d90b789d2ea'
-      }
+    method: "GET",
+    url: "https://google-authenticator.p.rapidapi.com/validate/",
+    params: { code: secretCodeInput, secret: secretKey },
+    headers: {
+      "x-rapidapi-host": "google-authenticator.p.rapidapi.com",
+      "x-rapidapi-key": "a7cc9771dbmshdb30f345bae847ep1fb8d8jsn5d90b789d2ea",
+    },
   };
-  return axios.request(options).then(function (response) {
+  return axios
+    .request(options)
+    .then(function (response) {
       console.log(response.data);
       return response.data;
-  }).catch(function (error) {
+    })
+    .catch(function (error) {
       if (error.response) {
-          throw new Error(JSON.stringify(error.response.data))
+        throw new Error(JSON.stringify(error.response.data));
       }
-      return error.response.data
-  });
+      return error.response.data;
+    });
 }
 
 module.exports = router;
