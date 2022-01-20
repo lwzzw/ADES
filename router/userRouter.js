@@ -29,11 +29,7 @@ passport.use(
       profileFields: ['displayName', 'email']
     },
     function (accessToken, refreshToken, profile, cb) {
-      console.log(accessToken);
-      console.log(refreshToken);
       console.log(profile);
-      console.log(cb);
-
       try {
         database
           .query(
@@ -103,6 +99,7 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(user, done) {
   done(null, user);
 });
+
 router.get(
   "/login/facebook",
   passport.authenticate("facebook", {
@@ -116,6 +113,7 @@ router.get(
     failureMessage: true
   }),
   function (req, res) {
+    console.log(req);
     console.log("here");
     res.redirect("/");
   }
