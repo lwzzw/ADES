@@ -69,9 +69,9 @@ function login(email, password, secretCode) {
         })
         .catch(error => {
             if (error.response) {
-                throw new Error(JSON.stringify(error.response.data))
+                throw new Error(error.response.data.error);
             }
-            return error.response.data
+            return error.response.data.error;
         })
 }
 

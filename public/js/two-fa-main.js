@@ -48,6 +48,7 @@ function authenticatorBtn() {
     document.getElementById('googleAuthenticatorBtn').addEventListener('click', () => {
         //disabled button
         document.getElementById('googleAuthenticatorBtn').disabled = true;
+        document.getElementById('googleAuthenticatorBtn').innerHTML = 'Enabling ';
         //gets authentication data 
         getSecret().then(response => {
             document.getElementById(`authText`).innerHTML = 'Download Google Authenticator and scan the QR Code below. (QR Code will not be saved, please ensure that you have scanned it)' 

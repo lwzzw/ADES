@@ -144,7 +144,7 @@ router.post("/login", async (req, res, next) => {
                 auth.rows[0].secret_key
               );
               if (authResult.toLowerCase() == "false") {
-                return next(createHttpError(401, "Wrong Secret Code"));
+                return next(createHttpError(401, "Please enter correct Secret Code"));
               }
             }
           });

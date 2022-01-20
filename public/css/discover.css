@@ -12,7 +12,7 @@
     border: 1px solid rgb(56, 56, 56);    
     list-style-type: none;
     width: 272px;
-    height: 504px;
+    height: 100%;
     padding: 0px;
 }
 
@@ -38,4 +38,8 @@
 }
 #start_img {
     height: 40px;
+}
+
+.span-space {
+    display: block;
 }

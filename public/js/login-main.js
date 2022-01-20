@@ -123,7 +123,6 @@ window.addEventListener('DOMContentLoaded', function () {
           }).on('onClose' ,() => {
             window.location.href = "index.html";
           }).show();
-          console.log(response);
         } else {
           new Noty({
             type: 'error',
@@ -137,13 +136,12 @@ window.addEventListener('DOMContentLoaded', function () {
         
       })
       .catch(err => {
-          console.log(err)
           new Noty({
             type: 'error',
             layout: 'topCenter',
             theme: 'sunset',
             timeout: '6000',
-            text: 'Unable to login. Check your email and password',
+            text: err.message,
           }).show();
         })
     }

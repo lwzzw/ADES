@@ -13,7 +13,6 @@ window.addEventListener('DOMContentLoaded', function () {
 //function to get and display user details
 function getDetails() {
     checkLogin().then(response => {
-        console.log(response)
         username = document.getElementById('user-name').value = response.name;
         email = document.getElementById('email').value = response.email;
 
