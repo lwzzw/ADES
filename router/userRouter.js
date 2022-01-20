@@ -66,7 +66,7 @@ passport.use(
                   [profile.displayName, profile.emails[0].value, 2]
                 )
                 .then((response) => {
-                  console.log(response);
+                  // console.log(response);
                   if (response && response.rowCount == 1) {
                     let data = {
                       token: jwt.sign(
@@ -96,7 +96,13 @@ passport.use(
     }
   )
 );
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
 
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
 router.get(
   "/login/facebook",
   passport.authenticate("facebook", {
@@ -107,7 +113,7 @@ router.get(
   "/oauth2/redirect/facebook",
   passport.authenticate("facebook", {
     failureRedirect: "/login.html",
-    failureMessage: true,
+    failureMessage: true
   }),
   function (req, res) {
     console.log("here");
