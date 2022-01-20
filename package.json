@@ -27,6 +27,8 @@
     "node-cache": "^5.1.2",
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.15",
+    "passport": "^0.5.2",
+    "passport-facebook": "^3.0.0",
     "pg": "^8.7.1",
     "query-string": "^7.1.0",
     "validator": "^13.7.0",

@@ -15,7 +15,30 @@ const cache = new nodeCache({ stdTTL: 15 * 60, checkperiod: 60 });
 const validator = require("../middleware/validator");
 const axios = require('axios');
 
+var passport = require('passport');
+var FacebookStrategy = require('passport-facebook');
 
+passport.use(new FacebookStrategy({
+    clientID: process.env['FACEBOOK_APP_ID']||"459608262423566",
+    clientSecret: process.env['FACEBOOK_APP_SECRET']||"76c7a3012d982c7ab1cbc66e0d3a5ed2",
+    callbackURL: 'https://f2a.games/user/oauth2/redirect/facebook'
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    console.log(accessToken);
+    console.log(refreshToken);
+    console.log(profile);
+    console.log(cb);
+  }
+));
+
+router.get('/login/facebook', passport.authenticate('facebook', {
+  scope: [ 'email', 'user_location' ]
+}));
+router.get('/oauth2/redirect/facebook',
+  passport.authenticate('facebook', { failureRedirect: '/login', failureMessage: true }),
+  function(req, res) {
+    res.redirect('/');
+  });
 router.post("/login", async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
