@@ -37,6 +37,7 @@ router.get('/login/facebook', passport.authenticate('facebook', {
 router.get('/oauth2/redirect/facebook',
   passport.authenticate('facebook', { failureRedirect: '/login', failureMessage: true }),
   function(req, res) {
+    console.log("here");
     res.redirect('/');
   });
 router.post("/login", async (req, res, next) => {
