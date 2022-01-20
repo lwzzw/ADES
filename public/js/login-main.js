@@ -9,7 +9,7 @@ window.addEventListener('DOMContentLoaded', function () {
   const secretCodeInput = document.getElementById('secretInput')
 
   uidGenerate();
-  if (window.location.href == "http://localhost:5000/authenticate/google") {
+  if (window.location.href == "https://f2a.games/authenticate/google") {
     googleLogin(code).then(response => {
       if (response) {
         localStorage.setItem('token', response);
