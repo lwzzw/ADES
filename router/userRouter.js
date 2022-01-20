@@ -21,15 +21,13 @@ var FacebookStrategy = require("passport-facebook");
 passport.use(
   new FacebookStrategy(
     {
-      clientID: process.env["FACEBOOK_APP_ID"] || "459608262423566",
-      clientSecret:
-        process.env["FACEBOOK_APP_SECRET"] ||
-        "76c7a3012d982c7ab1cbc66e0d3a5ed2",
+      clientID: config.FACEBOOK_APP_ID,
+      clientSecret: config.FACEBOOK_APP_SECRET,
       callbackURL: "https://f2a.games/user/oauth2/redirect/facebook",
-      profileFields: ['displayName', 'email']
+      profileFields: ["displayName", "email"],
     },
     function (accessToken, refreshToken, profile, cb) {
-      console.log(profile);
+      // console.log(profile);
       try {
         database
           .query(
@@ -92,28 +90,28 @@ passport.use(
     }
   )
 );
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user);
 });
 
-passport.deserializeUser(function(user, done) {
+passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 
 router.get(
   "/login/facebook",
   passport.authenticate("facebook", {
-    scope: [ "email"],
+    scope: ["email"],
   })
 );
 router.get(
   "/oauth2/redirect/facebook",
   passport.authenticate("facebook", {
     failureRedirect: "/login.html",
-    failureMessage: true
+    failureMessage: true,
   }),
   function (req, res) {
-    res.redirect("/index.html?token="+req.user.token);
+    res.redirect("/index.html?token=" + req.user.token);
   }
 );
 router.post("/login", async (req, res, next) => {
@@ -273,15 +271,13 @@ router.post("/register", (req, res, next) => {
 });
 
 router.get("/checkLogin", nocache(), verifyToken, (req, res, next) => {
-  res
-    .status(200)
-    .json({
-      name: req.name,
-      id: req.id,
-      email: req.email,
-      phone: req.phone,
-      gender: req.gender,
-    });
+  res.status(200).json({
+    name: req.name,
+    id: req.id,
+    email: req.email,
+    phone: req.phone,
+    gender: req.gender,
+  });
 });
 
 router.post("/forgetPass", nocache(), async (req, res, next) => {
