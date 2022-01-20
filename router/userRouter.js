@@ -26,6 +26,7 @@ passport.use(
         process.env["FACEBOOK_APP_SECRET"] ||
         "76c7a3012d982c7ab1cbc66e0d3a5ed2",
       callbackURL: "https://f2a.games/user/oauth2/redirect/facebook",
+      profileFields: ['id', 'displayName', 'photos', 'email']
     },
     function (accessToken, refreshToken, profile, cb) {
       console.log(accessToken);
