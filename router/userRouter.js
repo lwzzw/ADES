@@ -37,7 +37,7 @@ passport.use(
         database
           .query(
             `SELECT name, email, phone FROM public.user_detail where email = $1`,
-            [res.data.email]
+            [profile.email]
           )
           .then((response) => {
             if (response && response.rowCount == 1) {
@@ -62,7 +62,7 @@ passport.use(
               return database
                 .query(
                   `INSERT INTO public.user_detail (name, email, auth_type) VALUES ($1, $2, $3) returning id, name, email`,
-                  [res.data.given_name, res.data.email, 2]
+                  [profile.name, profile.email, 2]
                 )
                 .then((response) => {
                   console.log(response);
