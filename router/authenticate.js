@@ -10,7 +10,7 @@ const queryString = require('query-string');
 router.get("/google/url", (req, res, next) => {
   const stringifiedParams = queryString.stringify({
     client_id: config.GOOGLE_CLIENT_ID,
-    redirect_uri: 'http://localhost:5000/authenticate/google', //change to https://f2a.games/authenticate/google when redeployed
+    redirect_uri: 'http://f2a.games:5000/authenticate/google', //change to https://f2a.games/authenticate/google when redeployed
     scope: [
       'https://www.googleapis.com/auth/userinfo.email',
       'https://www.googleapis.com/auth/userinfo.profile',
