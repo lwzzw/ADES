@@ -31,7 +31,7 @@ passport.use(
       try {
         database
           .query(
-            `SELECT name, email, phone FROM public.user_detail where email = $1`,
+            `SELECT name, email, phone, gender FROM public.user_detail where email = $1`,
             [profile.emails[0].value]
           )
           .then((response) => {
@@ -44,6 +44,7 @@ passport.use(
                     name: response.rows[0].name,
                     email: response.rows[0].email,
                     phone: response.rows[0].phone || null,
+                    gender: response.rows[0].gender || null
                   },
                   config.JWTKEY,
                   {
@@ -56,7 +57,7 @@ passport.use(
               //else they will be registerd
               return database
                 .query(
-                  `INSERT INTO public.user_detail (name, email, auth_type) VALUES ($1, $2, $3) returning id, name, email`,
+                  `INSERT INTO public.user_detail (name, email, auth_type) VALUES ($1, $2, $3) returning id, name, email, gender`,
                   [profile.displayName, profile.emails[0].value, 2]
                 )
                 .then((response) => {
@@ -69,6 +70,7 @@ passport.use(
                           name: response.rows[0].name,
                           email: response.rows[0].email,
                           phone: null,
+                          gender: null
                         },
                         config.JWTKEY,
                         {
@@ -243,6 +245,7 @@ router.post("/register", (req, res, next) => {
                     name: response.rows[0].name,
                     email: response.rows[0].email,
                     phone: response.rows[0].phone,
+                    gender: response.rows[0].gender
                   },
                   config.JWTKEY,
                   {
@@ -388,8 +391,8 @@ router.post(
     //Update user's detail and return id,name,email and phone
     return database
       .query(
-        `UPDATE user_detail SET name = $1, email = $2, phone = $3 WHERE id = $4 returning id, name, email, phone`,
-        [req.body.username, req.body.email, req.body.phone, req.id]
+        `UPDATE user_detail SET name = $1, phone = $2, gender = $3 WHERE id = $4 returning id, name, email, phone, gender`,
+        [req.body.username, req.body.phone, req.body.gender, req.id]
       )
       .then((result) => {
         //if user_detail is successfully updated

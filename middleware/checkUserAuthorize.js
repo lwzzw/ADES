@@ -23,7 +23,6 @@ function verifyToken(req, res, next) {
         );
       } else {
         console.log("verify success");
-        console.log(decoded.id);
         req.id = decoded.id;
         req.name = decoded.name;
         req.email = decoded.email;

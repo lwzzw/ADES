@@ -728,7 +728,7 @@ function getSearchAC(){
         })
 }
 
-function saveUserDetails(username, email, phone, gender) {
+function saveUserDetails(username, phone, gender) {
     const methods = {
         method: 'POST',
         headers: {
@@ -738,7 +738,6 @@ function saveUserDetails(username, email, phone, gender) {
     }
     const body = {
         username: username,
-        email: email,
         phone: phone,
         gender: gender
     }
