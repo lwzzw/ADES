@@ -113,8 +113,9 @@ router.get(
     failureMessage: true
   }),
   function (req, res) {
-    console.log(req);
+    console.log(req.user);
     console.log("here");
+    res.cookie('token',req.user.token, { maxAge: 900000, httpOnly: false });
     res.redirect("/");
   }
 );
