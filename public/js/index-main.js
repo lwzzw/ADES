@@ -103,9 +103,9 @@ window.addEventListener('DOMContentLoaded', async function () {
                     </div>
                     </a>
                     `
-                    document.getElementById("bsloading").remove();
                     document.getElementById("bs-product").insertAdjacentHTML("beforeend", bestseller);
                 }
+                document.getElementById("bsloading").remove();
             })
             
             
