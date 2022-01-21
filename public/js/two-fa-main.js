@@ -19,6 +19,7 @@ window.addEventListener('DOMContentLoaded', function () {
 //Function to check if the user has 2FA enabled.
 function checkAuth() {
     authenticateSecretKey(localStorage.getItem('token')).then(enabledAuth => {
+        console.log(enabledAuth)
         if (enabledAuth.message != false) {
             document.getElementById(`googleAuthenticatorBtn`).innerHTML = 'Renew 2FA'
         }
@@ -59,7 +60,9 @@ function authenticatorBtn() {
             //checkAuth update
             checkAuth();
         }).catch(error => {
+            document.getElementById('googleAuthenticatorBtn').disabled = false;
+            document.getElementById('googleAuthenticatorBtn').innerHTML = 'Enable';
             showNotification('error', error.message);
-        });
+        })
     })
 }
