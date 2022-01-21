@@ -590,7 +590,7 @@ function getKeys(){
         methods.headers.Authorization = "Bearer " + localStorage.getItem("token")
     }
     return axios
-        .post(`/key/getkeys`, methods)
+        .get(`/key/getkeys`, methods)
         .then(response => {
             return response.data.keys
         })
@@ -769,6 +769,138 @@ function supportRequest(email, subject, message){
     }
     return axios
         .post(`/user/supportRequest`, body, methods)
+        .then(response => {
+            return response.data
+        })
+        .catch(error => {
+            if (error.response) {
+                throw new Error(error.response.data.error)
+            }
+            return error.response.data
+        })
+}
+
+function getAllCategory(){
+    const methods = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + localStorage.getItem("token")
+        }
+    }
+    return axios
+        .get(`/admin/getAllCategory`, methods)
+        .then(response => {
+            return response.data
+        })
+        .catch(error => {
+            if (error.response) {
+                throw new Error(error.response.data.error)
+            }
+            return error.response.data
+        })
+}
+
+function addGame(game){
+    const methods = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + localStorage.getItem("token")
+        }
+    }
+    const body = {
+        game
+    }
+    return axios
+        .post(`/admin/addGame`, body, methods)
+        .then(response => {
+            return response.data
+        })
+        .catch(error => {
+            if (error.response) {
+                throw new Error(error.response.data.error)
+            }
+            return error.response.data
+        })
+}
+
+function getRegion(){
+    const methods = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + localStorage.getItem("token")
+        }
+    }
+    return axios
+        .get(`/admin/region`, methods)
+        .then(response => {
+            return response.data
+        })
+        .catch(error => {
+            if (error.response) {
+                throw new Error(error.response.data.error)
+            }
+            return error.response.data
+        })
+}
+
+function adminGetGame(id){
+    const methods = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + localStorage.getItem("token")
+        }
+    }
+    return axios
+        .get(`/admin/adminGetGame/${id}`, methods)
+        .then(response => {
+            return response.data
+        })
+        .catch(error => {
+            if (error.response) {
+                throw new Error(error.response.data.error)
+            }
+            return error.response.data
+        })
+}
+
+function saveGame(game, id){
+    const methods = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + localStorage.getItem("token")
+        }
+    }
+    const body = {
+        game
+    }
+    return axios
+        .post(`/admin/saveGame/${id}`, body, methods)
+        .then(response => {
+            return response.data
+        })
+        .catch(error => {
+            if (error.response) {
+                throw new Error(error.response.data.error)
+            }
+            return error.response.data
+        })
+}
+
+function delGame(id){
+    const methods = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + localStorage.getItem("token")
+        }
+    }
+    return axios
+        .post(`/admin/delGame/${id}`, {}, methods)
         .then(response => {
             return response.data
         })

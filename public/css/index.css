@@ -385,3 +385,7 @@ hr {
 #start_img {
     height: 40px;
 }
+
+.adminPage a {
+    color: white !important;
+}

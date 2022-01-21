@@ -32,6 +32,10 @@ window.addEventListener('DOMContentLoaded', async function () {
     }
     if(localStorage.getItem("token")){
         checkLogin().then(response => {
+            console.log(response);
+            if(response.role==1){
+                document.getElementById("adminPage").insertAdjacentHTML("beforeend",`<a href="admin_page">Admin Page</a>`)
+            }
             let myAccBtn = `<a href='dashboard.html' style="color: white!important;">My Account</a>`
             document.getElementById("login").innerHTML = "log out";
             document.getElementById('myAccount').insertAdjacentHTML('beforeend', myAccBtn)
@@ -66,7 +70,7 @@ window.addEventListener('DOMContentLoaded', async function () {
                 <a href='game.html?id=${bestsellers.g_id}'>
                 <div class="row products">
                 <div class="col-4 col-image">
-                <img src='${bestsellers.g_image}' />
+                <img src='${bestsellers.g_image}' onerror="this.onerror=null;this.src='/images/noimage.png';" />
                 </div>
                 <div class="col-8 product-details">
                 <h6>${bestsellers.g_name}</h6>
@@ -85,8 +89,7 @@ window.addEventListener('DOMContentLoaded', async function () {
                     </div>
                     </a>
                     `
-                    
-                    
+                    document.getElementById("bsloading").remove();
                     document.getElementById("bs-product").insertAdjacentHTML("beforeend", bestseller);
                 }
             })
@@ -99,7 +102,7 @@ window.addEventListener('DOMContentLoaded', async function () {
                     <a href='game.html?id=${preorders.g_id}'>
                     <div class="row products">
                     <div class="col-4 col-image">
-                    <img src='${preorders.g_image}' />
+                    <img src='${preorders.g_image}' onerror="this.onerror=null;this.src='/images/noimage.png';" />
                     </div>
                     <div class="col-8 product-details">
                     <h6>${preorders.g_name}</h6>
@@ -122,6 +125,7 @@ window.addEventListener('DOMContentLoaded', async function () {
                     document.getElementById(`game-${preorders.g_id}`).insertAdjacentHTML("beforeend", string)
                 }
             }
+            document.getElementById("poloading").remove();
         })
         
         await getLRelease().then(response => {
@@ -131,7 +135,7 @@ window.addEventListener('DOMContentLoaded', async function () {
                 <a href='game.html?id=${lreleases.g_id}'>
                     <div class="row products">
                     <div class="col-4 col-image" style="height: auto">
-                    <img src='${lreleases.g_image}' />
+                    <img src='${lreleases.g_image}' onerror="this.onerror=null;this.src='/images/noimage.png';"/>
                     </div>
                     <div class="col-8 product-details">
                     <h6>${lreleases.g_name}</h6>
@@ -155,6 +159,7 @@ window.addEventListener('DOMContentLoaded', async function () {
                     document.getElementById(`lr-${lreleases.g_id}`).insertAdjacentHTML("beforeend", string)
                 }
             }
+            document.getElementById("lrloading").remove();
         })
         showCheapProducts();
         await getAllDeals();
@@ -211,6 +216,7 @@ window.addEventListener('DOMContentLoaded', async function () {
                         })
 
                 })
+                document.getElementById("dealsloading").remove();
             })
     }
     document.getElementById('searchBtn').addEventListener('click', search)
@@ -293,7 +299,7 @@ function showDeals() {
         <li>
         <a href='/game.html?id=${deals.g_id}'>
         <div class='deals-image'>
-            <img src='${deals.g_image}' />
+            <img src='${deals.g_image}' onerror="this.onerror=null;this.src='/images/noimage.png';" />
         </div>
         <div>
             <h3>${deals.g_name}</h3>

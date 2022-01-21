@@ -35,9 +35,9 @@
     <!-- Noty JS-->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="icon" href="../images/logo-discord.png">
     <script defer src="/js/api.js"></script>
     <script defer src="/js/support-main.js"></script>
@@ -48,6 +48,7 @@
         })
     </script>
 </head>
+
 <body>
     <div id="bg"></div>
     <div class="header">
@@ -60,38 +61,41 @@
         <aside class="sider" style="flex-direction: row;">
             <div><a href="/html/dashboard.html">Dashboard</a></div>
             <div><a href="/html/accountinfo.html">Account Detail</a></div>
-            <div><a href="/html/keys.html" >My Keys</a></div>
+            <div><a href="/html/keys.html">My Keys</a></div>
             <div><a href="/html/supportRequest.html">Request Support</a></div>
         </aside>
         <section class="layout">
             <div class="row">
-                <div class="offset-md-5 col"><h2 class="text-left font-bold black-text">Request Support</h2></div>
+                <div class="offset-md-5 col">
+                    <h2 class="text-left font-bold black-text">Request Support</h2>
+                </div>
                 <!--Grid column-->
                 <div class="offset-md-3 col-md-6 ">
-            <div class="card-body">
-                <!--Form support-->
-                <div class="md-form"><label for="emailInput">Email</label><input class="form-control" type="text" id="emailInput"
-                        placeholder="Email"></div>
-                <div class="md-form"> <label for="subjectInputt">Subject</label><input class="form-control" type="text" id="subjectInput"
-                        placeholder="Eg. Account"></div>
-                
-                <div class="md-form">
-                    <label for="messageInput">Message</label>
-                    <textarea class="form-control" type="text" id="messageInput"
-                     rows="4" cols="50"></textarea></div>
+                    <div class="card-body">
+                        <!--Form support-->
+                        <div class="md-form"><label for="emailInput">Email</label><input class="form-control"
+                                type="text" id="emailInput" placeholder="Email"></div>
+                        <div class="md-form"> <label for="subjectInputt">Subject</label><input class="form-control"
+                                type="text" id="subjectInput" placeholder="Eg. Account"></div>
 
-            </div>
-            <div class="text-center"><button type="button" class="btn btn-primary" id="submitButton">
-                    Submit Request</button>
+                        <div class="md-form">
+                            <label for="messageInput">Message</label>
+                            <textarea class="form-control" type="text" id="messageInput" rows="4" cols="50"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="text-center"><button type="button" class="btn btn-primary" id="submitButton">
+                            Submit Request</button>
                     </div>
 
 
                 </div>
-                </div>
-                </div>
-                </div>
+            </div>
+            </div>
+            </div>
 
-            </section>
-            </section>
-            </body>
-            </html>
+        </section>
+    </section>
+</body>
+
+</html>

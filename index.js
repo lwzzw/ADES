@@ -10,6 +10,9 @@ const getCat = require("./router/categoryRouter").getCat;
 const queryString = require("query-string");
 const getGameAC = require("./router/gameRouter").getGameAC;
 const readFile = require("fs").readFile;
+const verifyToken = require('./middleware/checkUserAuthorize');
+const cookieParser = require('cookie-parser');
+
 app.set("view engine", "ejs");
 
 
@@ -33,6 +36,8 @@ db.connect()
   });
 
 app.use(express.json());
+
+app.use(cookieParser());
 
 app.use((req, res, next) => {
   console.log(req.originalUrl);
@@ -59,6 +64,27 @@ app.get('/bestseller', (req, res, next) => {
 
 app.get('/preorders', (req, res, next) => {
   res.sendFile(path.join(__dirname, "/public/html/discover.html"));
+})
+
+app.get("/admin_page", verifyToken, (req, res, next)=>{
+  if(req.role!=1){
+    res.redirect("/login.html");
+  }
+  res.sendFile(path.join(__dirname, "/public/html/adminPage.html"));
+})
+
+app.get("/admin_game_list", verifyToken, (req, res, next)=>{
+  if(req.role!=1){
+    res.redirect("/login.html");
+  }
+  res.sendFile(path.join(__dirname, "/public/html/adminGameList.html"));
+})
+
+app.get("/edit_game", verifyToken, (req, res, next)=>{
+  if(req.role!=1){
+    res.redirect("/login.html");
+  }
+  res.sendFile(path.join(__dirname, "/public/html/editGame.html"));
 })
 
 app.use(express.static(path.join(__dirname, "public")));

@@ -121,7 +121,7 @@ function showGame(game) {
     document.getElementById('web-title').innerHTML = `${game.g_name}`
     let gameString = `
         <div class="individual-game-image">
-           <img src='${game.g_image}' /> 
+           <img src='${game.g_image}' onerror="this.onerror=null;this.src='/images/noimage.png';" /> 
         </div>
         <div class="individual-game-container">
                 <h1 style="display: -webkit-box; max-width: 100%; height: 140px; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; font-size: 34px;">${game.g_name}</h1>
@@ -150,8 +150,8 @@ function showGame(game) {
             <input style="display:none" type="text" value="${location.href}" id="copyValue">
         </div>
     `
+    document.getElementById("loading").remove();
     document.getElementById('game-container').insertAdjacentHTML('beforeend', gameString);
-
 }
 
 function voice(){

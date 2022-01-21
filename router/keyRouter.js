@@ -4,7 +4,7 @@ const database = require('../database/database');
 const verifyToken = require('../middleware/checkUserAuthorize');
 const createHttpError = require("http-errors");
 
-router.post('/getkeys', verifyToken, (req, res, next) =>{
+router.get('/getkeys', verifyToken, (req, res, next) =>{
     var id = req.id;
 
     return database.query(`SELECT g2a_gamedatabase.g_name, keys.order_id, keys.g_id, keys.key FROM keys

@@ -4,8 +4,13 @@ const config = require("../config");
 const logger = require("../logger");
 
 function verifyToken(req, res, next) {
+  console.log(req.path);
+  if (req.path == "/admin_page" && !req.cookies["token"]) {
+    return res.redirect("/login.html");
+  }
   (req.id = ""), (req.name = ""), (req.email = "");
-  var token = req.headers["authorization"];
+  var token = req.headers["authorization"] || "Bearer " + req.cookies["token"];
+  console.log(token);
   if (!token || !token.includes("Bearer")) {
     next(createHttpError(401, "No token"));
     // logger.error(
@@ -15,6 +20,10 @@ function verifyToken(req, res, next) {
     token = token.split("Bearer ")[1];
     jwt.verify(token, config.JWTKEY, function (err, decoded) {
       if (err) {
+        console.log(err);
+        if (req.path == "/admin_page") {
+          return res.redirect("/login.html");
+        }
         req.id = req.body.uid;
         console.log("verify error");
         next(createHttpError(401, "Not authorize"));
@@ -28,6 +37,7 @@ function verifyToken(req, res, next) {
         req.email = decoded.email;
         req.phone = decoded.phone;
         req.gender = decoded.gender;
+        req.role = decoded.role||0;
         logger.info(
           `200 Verify success||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
         );

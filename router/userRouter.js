@@ -128,7 +128,7 @@ router.post("/login", async (req, res, next) => {
   } else {
     return database
       .query(
-        `SELECT user_detail.id, user_detail.name, user_detail.email, user_detail.phone, user_detail.auth_type, user_auth.password, user_detail.gender
+        `SELECT user_detail.id, user_detail.name, user_detail.email, user_detail.phone, user_detail.auth_type, user_auth.password, user_detail.gender, user_detail.role
          FROM public.user_detail INNER JOIN user_auth ON user_detail.id = user_auth.userid
          where email=$1`,
         [email]
@@ -160,6 +160,7 @@ router.post("/login", async (req, res, next) => {
                   email: results.rows[0].email,
                   phone: results.rows[0].phone,
                   gender: results.rows[0].gender,
+                  role: results.rows[0].role,
                 },
                 config.JWTKEY,
                 {
@@ -171,6 +172,7 @@ router.post("/login", async (req, res, next) => {
             logger.info(
               `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
             );
+            res.cookie('token', data.token, { maxAge: 86400000, httpOnly: true });
             return res.status(200).json(data);
           } else {
             logger.error(
@@ -245,7 +247,8 @@ router.post("/register", (req, res, next) => {
                     name: response.rows[0].name,
                     email: response.rows[0].email,
                     phone: response.rows[0].phone,
-                    gender: response.rows[0].gender
+                    gender: response.rows[0].gender,
+                    role: response.rows[0].role
                   },
                   config.JWTKEY,
                   {
@@ -280,6 +283,7 @@ router.get("/checkLogin", nocache(), verifyToken, (req, res, next) => {
     email: req.email,
     phone: req.phone,
     gender: req.gender,
+    role: req.role
   });
 });
 

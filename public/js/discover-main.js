@@ -106,7 +106,7 @@ function listGames(games) {
         <li>
         <a href="/game.html?id=${game.g_id}">
         <div style="width: 270px; height: 173; margin: 0px">
-            <img src="${game.g_image}" style="width: 100%; height: 100%;">
+            <img src="${game.g_image}" onerror="this.onerror=null;this.src='/images/noimage.png';" style="width: 100%; height: 100%;">
         </div>
         <div style="width: 270px; height: auto; margin: 0px;">
                     <h3 style="font-size: 15px; font-weight: 500; padding-top: 10px; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical;">${game.g_name}</h3>

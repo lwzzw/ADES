@@ -39,7 +39,7 @@ exports.query = function (text, params) {
         resolve(result);
       }
     });
-  })
+  });
 };
 
 exports.transactionQuery = function (text, params) {

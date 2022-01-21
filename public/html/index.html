@@ -65,7 +65,7 @@
             <div class="login" id="myAccount">
                 
             </div>
-            <div class="cart"></div>
+            <div class="adminPage" id="adminPage"></div>
         </div>
         <div class="category-header container">
             <ul id="header-categories" class="header-categories">
@@ -90,16 +90,16 @@
                     </div>
                 </div>
                 <div class="category-list col" id="second_cat">
-                    <img class="img-second img-default"
-                        src="https://images.g2a.com/newlayout/300x450/1x1x0/0016edc7c245/4515669ea94844479a7002eb">
+                    <a href="/game.html?id=6"><img class="img-second img-default"
+                        src="https://images.g2a.com/newlayout/300x450/1x1x0/0016edc7c245/4515669ea94844479a7002eb"></a>
                 </div>
                 <div class="category-list col" id="third_cat">
-                    <img class="img-third img-default"
-                        src="https://images.g2a.com/newlayout/300x450/1x1x0/a0c6a285b1b9/17fb921e5e0c4e0aa5e8bf10">
+                    <a href="/game.html?id=2"><img class="img-third img-default"
+                        src="https://images.g2a.com/newlayout/300x450/1x1x0/a0c6a285b1b9/17fb921e5e0c4e0aa5e8bf10"></a>
                 </div>
                 <div class="category-list col">
-                    <img class="img-fourth img-default"
-                        src="https://images.g2a.com/newlayout/300x450/1x1x0/2a0cce4474cb/a323287cc64e4dff88573b3a">
+                    <a href="/game.html?id=2"><img class="img-fourth img-default"
+                        src="https://images.g2a.com/newlayout/300x450/1x1x0/2a0cce4474cb/a323287cc64e4dff88573b3a"></a>
                 </div>
             </div>
         </div>
@@ -117,10 +117,12 @@
                         <div class="col"><button id="bsBtn" class="btn btn-primary">Discover all</button></div>
                         <p class="headerParagraph">Browse the most popular video games & other products.</p>
                     </div>
-
-
                     <section id="bs-product" class="bs-product">
-
+                        <div id="bsloading" class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                              <span class="sr-only">Loading...</span>
+                            </div>
+                          </div>
                     </section>
                 </div>
 
@@ -130,6 +132,11 @@
                         <p class="headerParagraph">Update your library with the latest game releases.</p>
                     </div>
                     <section id='latest-release' class="latest-release">
+                        <div id="lrloading" class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                              <span class="sr-only">Loading...</span>
+                            </div>
+                          </div>
                     </section>
                 </div>
 
@@ -142,6 +149,11 @@
                         <p class="headerParagraph">Pre-order an upcoming game to start playing on Day 1.</p>
                     </div>
                     <section id='pre-product' class="pre-product">
+                        <div id="poloading" class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                              <span class="sr-only">Loading...</span>
+                            </div>
+                          </div>
                     </section>
                 </div>
             </div>
@@ -156,6 +168,11 @@
             <div>
                 <div class="deals-container">
                     <ul id="deals" class="deals">
+                        <div id="dealsloading" class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                              <span class="sr-only">Loading...</span>
+                            </div>
+                          </div>
                     </ul>
                 </div>
             </div>

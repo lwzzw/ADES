@@ -20,7 +20,7 @@ function displayCart() {
             id.push(cart.game_id);
             let string = `
                 <div class="col-12 col-sm-12 col-md-2 text-center pb-5 shoppingCart">
-                                <img class="img-responsive" src="${cart.g_image}" alt="preview" width="120" height="155px">
+                                <img class="img-responsive" src="${cart.g_image}" onerror="this.onerror=null;this.src='/images/noimage.png';" alt="preview" width="120" height="155px">
                             </div>
                             <div class="col-12 text-sm-left col-sm-12  col-md-6">
                                 <h4 class="product-name"><strong>${cart.g_name}</strong></h4>

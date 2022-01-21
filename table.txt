@@ -53,7 +53,8 @@ CREATE TABLE IF NOT EXISTS user_detail (
 	email varchar(255) not null,
 	auth_type int not null,
 	gender varchar(2) null,
-	phone varchar(255) null
+	phone varchar(255) null,
+	role int default 0
 );
 
 
@@ -121,8 +122,8 @@ ALTER TABLE child_subcategory
 ALTER TABLE cart
 	ADD CONSTRAINT fk_cart_game FOREIGN KEY(game_id) REFERENCES G2A_gameDatabase(g_id);
 	
-ALTER TABLE order_detail
-	ADD CONSTRAINT fk_history_detail FOREIGN KEY(g_id) REFERENCES G2A_gameDatabase(g_id);
+--ALTER TABLE order_detail
+--	ADD CONSTRAINT fk_history_detail FOREIGN KEY(g_id) REFERENCES G2A_gameDatabase(g_id) ON DELETE CASCADE;
 
 DROP FUNCTION IF EXISTS insert_cart;
 CREATE FUNCTION insert_cart (uid bigint, gid int, quantity int, edit varchar(20))
@@ -181,7 +182,7 @@ ref refcursor;
 BEGIN
 	insert into user_detail (name, email, phone, gender, auth_type) VALUES (username, useremail, userphone, usergender, 1) RETURNING id into uid;
 	insert into user_auth (userid, password) VALUES (uid, userpassword);
-	open ref for select name, email, phone, gender from user_detail where id = uid limit 1; 
+	open ref for select name, email, phone, gender, role from user_detail where id = uid limit 1; 
 	RETURN ref;
 END ;
 $$;
@@ -403,7 +404,7 @@ VALUES ('Overwatch Battle.net Key GLOBAL', 69.90, 'Overwatch is a 2016 first-per
 
 INSERT INTO public.user_detail (name, email, gender, phone, auth_type) VALUES ('Junheng', 'junheng.tan@hotmail.com','M', 85529404, 1);
 INSERT INTO public.user_detail (name, email, gender, phone, auth_type) VALUES ('Adam', 'adam@gmail.com', 'M', 97653242, 1);
-INSERT INTO public.user_detail (name, email, gender, phone, auth_type) VALUES ('Lily', 'lily@gmail.com', 'F', 81136175, 1);
+INSERT INTO public.user_detail (name, email, gender, phone, auth_type, role) VALUES ('Lily', 'lily@gmail.com', 'F', 81136175, 1, 1);
 
 INSERT INTO public.user_auth (userid, password) VALUES ('1', '$2b$10$hQvVBV5aArsNFcOtygZbGO46hU6jo52UTDQETdvMAbZyIItNysz72');
 INSERT INTO public.user_auth (userid, password) VALUES ('2', '$2b$10$hQvVBV5aArsNFcOtygZbGO46hU6jo52UTDQETdvMAbZyIItNysz72');
