@@ -460,20 +460,22 @@ function getSecret() {
                 .then(function (secret) {
                     //after getting the secret key, the secret key is saved into the database
                     return saveSecret(userDetails, secret.data).then(response => {
+                        console.log(response)
                         return response;
-                    });
+                    }).catch (err => {
+                        throw new Error(err.message)
+                    })
                 })
                 .catch(function (error) {
-                    if (error.response) {
-                        throw new Error(JSON.stringify(error.response.data))
+                    if (error) {
+                        throw new Error(error)
                     }
-                    return error.response.data
+                    return error
                 });
         }
     }).catch(error => {
-        console.log(error.message)
         if (error) {
-            throw new Error(JSON.stringify(error.message))
+            throw new Error(error.message)
         }
         return error.message
     })
@@ -530,9 +532,9 @@ function saveSecret(userDetails, secretKey) {
         })
         .catch(error => {
             if (error.response) {
-                throw new Error(JSON.stringify(error.response.data));
+                throw new Error(error.response.data.error);
             }
-            return error.response.data;
+            return error.response.data.error;
         })
 }
 
