@@ -910,4 +910,26 @@ function delGame(id){
             }
             return error.response.data
         })
+} 
+
+//Function to get create/log user in via paypal
+function getPaypal(params) {
+    const methods = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    //params is passed into the url
+    return axios
+        .get(`/user/login/callback?code=${params}`, methods)
+        .then(response => {
+            return response.data
+        })
+        .catch(error => {
+            if (error.response) {
+                throw new Error(error.response.data.error)
+            }
+            return error.response.data
+        })
 }

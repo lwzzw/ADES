@@ -14,6 +14,7 @@ const nodeCache = require("node-cache");
 const cache = new nodeCache({ stdTTL: 15 * 60, checkperiod: 60 });
 const validator = require("../middleware/validator");
 const axios = require("axios");
+var qs = require('qs');
 
 var passport = require("passport");
 var FacebookStrategy = require("passport-facebook");
@@ -185,8 +186,7 @@ router.post("/login", async (req, res, next) => {
       .catch((err) => {
         next(createHttpError(500, err));
         logger.error(
-          `${err || "500 Error"} ||  ${res.statusMessage} - ${
-            req.originalUrl
+          `${err || "500 Error"} ||  ${res.statusMessage} - ${req.originalUrl
           } - ${req.method} - ${req.ip}`
         );
       });
@@ -445,6 +445,114 @@ router.post("/supportRequest", nocache(), async (req, res, next) => {
   });
 });
 
+//PayPal login to get user's access_token
+router.get("/login/callback", (req, res, next) => {
+  //data to be sent to PayPal's authentication API in order to get the user's access_token
+  var data = qs.stringify({
+    'grant_type': 'authorization_code',
+    'code': req.query.code
+  });
+  var options = {
+    method: 'post',
+    url: 'https://api-m.sandbox.paypal.com/v1/oauth2/token',
+    headers: {
+      'Authorization': 'Basic QWNYdW9rM3puWm9HYTlKRTR0MGNaM2lsNTRKZ2s1akl1ZEtVUjVaZWU5c1U3YmREb2prZ0VCcEFvMmY4bEIxYy1lNXMwVlNYNE42eGVRYUM6RUhJQWV1S0RkUTNQcXZnNldCaWdoa3FjSk03OGx5TmM1ellIZlVKeWIzMlp3cUtYY3VFQXk1azVGT0ZLZ1I5NDFkZG9ZVXluQ2dvNE16Tms=',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Cookie': 'LANG=en_US%3BUS; cookie_check=yes; d_id=fd5c4b92473a41eba8a7b92593bcc19a1642746243115; enforce_policy=ccpa; ts=vreXpYrS%3D1737442687%26vteXpYrS%3D1642750087%26vr%3D76985c2417e0a7887168c0e1f32da9ff%26vt%3D7b4e681b17e0a60212536f7cd20503f2%26vtyp%3Dreturn; ts_c=vr%3D76985c2417e0a7887168c0e1f32da9ff%26vt%3D7b4e681b17e0a60212536f7cd20503f2; tsrce=unifiedloginnodeweb; x-cdn=fastly:QPG; x-pp-s=eyJ0IjoiMTY0Mjc0ODI4NzYzNCIsImwiOiIwIiwibSI6IjAifQ'
+    },
+    data: data
+  };
+
+  return axios(options)
+    .then(function (response) {
+      //the user's access_token is passed into the getPaypalUserIdentity function in order to retrieve the user's paypal profile information
+      getPaypalUserIdentity(response.data.access_token)
+        .then(response => {
+          let username = response.name;
+          let email = response.emails[0].value;
+          //after getting the user's paypal profile information, it is then used to create or login into the account
+          try {
+            //database checks if the user is already a registered user
+            database
+              .query(
+                `SELECT id, name, email, phone, gender FROM public.user_detail where email = $1`,
+                [email]
+              )
+              .then((results) => {
+                if (results && results.rowCount == 1) {
+                  //if the user is registered, the user will be logged in
+                  let data = {
+                    token: jwt.sign(
+                      {
+                        id: results.rows[0].id,
+                        name: results.rows[0].name,
+                        email: results.rows[0].email,
+                        phone: results.rows[0].phone || null,
+                        gender: results.rows[0].gender || null,
+                      },
+                      config.JWTKEY,
+                      {
+                        expiresIn: 86400,
+                      }
+                    ),
+                  };
+                  return res.status(200).json(data);
+                } else {
+                  console.log('register user')
+                  // else if the user is not a registered user, an account will be create for the user
+                  return database
+                    .query(
+                      `INSERT INTO public.user_detail (name, email, auth_type) VALUES ($1, $2, $3) returning id, name, email, gender`,
+                      [username, email, 2]
+                    )
+                    .then((response) => {
+                      if (response && response.rowCount == 1) {
+                        //after the account has been successfully created, the jwt token will be signed
+                        let data = {
+                          token: jwt.sign(
+                            {
+                              id: response.rows[0].id,
+                              name: response.rows[0].name,
+                              email: response.rows[0].email,
+                              phone: null,
+                              gender: null
+                            },
+                            config.JWTKEY,
+                            {
+                              expiresIn: 86400,
+                            }
+                          ),
+                        };
+                        return res.status(200).json(data);
+                      }
+                    });
+                }
+              }).catch((err) => {
+                //error occur when checking if the user is registered
+                console.log(err)
+                return err
+              });
+          } catch (err) {
+            //error occur when try block fails
+            console.log(err)
+            return err
+          }
+        }).catch(err => {
+          //error occur when getting user's paypal identity
+          if (err) {
+            throw new Error(JSON.stringify(err));
+          }
+          return err
+        })
+    })
+    .catch(function (error) {
+      //axios error
+      next(createHttpError(500, error));
+    });
+
+})
+
+//Checks if the user's secret code is correct
 function validateSecretKey(secretCodeInput, secretKey) {
   var options = {
     method: "GET",
@@ -467,6 +575,31 @@ function validateSecretKey(secretCodeInput, secretKey) {
       }
       return error.response.data;
     });
+}
+
+//gets user's paypal profile information via the access_token
+function getPaypalUserIdentity(access_token) {
+  var options = {
+    method: 'get',
+    url: 'https://api-m.sandbox.paypal.com/v1/identity/oauth2/userinfo?schema=paypalv1.1',
+    headers: {
+      'Authorization': `Bearer ${access_token}`,
+      'Cookie': 'LANG=en_US%3BUS; cookie_check=yes; d_id=fd5c4b92473a41eba8a7b92593bcc19a1642746243115; enforce_policy=ccpa; ts=vreXpYrS%3D1737442687%26vteXpYrS%3D1642750087%26vr%3D76985c2417e0a7887168c0e1f32da9ff%26vt%3D7b4e681b17e0a60212536f7cd20503f2%26vtyp%3Dreturn; ts_c=vr%3D76985c2417e0a7887168c0e1f32da9ff%26vt%3D7b4e681b17e0a60212536f7cd20503f2; tsrce=unifiedloginnodeweb; x-cdn=fastly:QPG; x-pp-s=eyJ0IjoiMTY0Mjc0ODI4NzYzNCIsImwiOiIwIiwibSI6IjAifQ'
+    }
+  };
+
+  return axios(options)
+    .then(function (response) {
+
+      return response.data
+    })
+    .catch(function (error) {
+      if (error.response) {
+        throw new Error(JSON.stringify(error.response.data));
+      }
+      return error.response.data
+    });
+
 }
 
 module.exports = router;

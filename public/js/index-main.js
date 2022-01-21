@@ -30,6 +30,20 @@ window.addEventListener('DOMContentLoaded', async function () {
             page: "same"
         }, "same page", "/index.html");
     }
+//if params contain query string code
+    if(params.get("code")){
+        //getPaypal function is invoked to log/create user's account
+        getPaypal(params.get('code'))
+            .then(res => {
+                localStorage.setItem("token", res.token)
+                window.history.pushState({
+                    page: "same"
+                }, "same page", "/index.html");
+                location.reload();
+            }).catch(err => {
+                console.log(err)
+            })
+    }
     if(localStorage.getItem("token")){
         checkLogin().then(response => {
             console.log(response);
