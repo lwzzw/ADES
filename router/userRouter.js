@@ -433,15 +433,31 @@ router.post("/supportRequest", nocache(), async (req, res, next) => {
   const email = req.body.email;
   const subject = req.body.subject;
   const message = req.body.message;
-
-  const html = `<p>This request is from user ${email}</p><p>The request is : ${message}</p>`;
-  receiveMail(subject, { html }, (err, info) => {
-    if (err) {
-      console.log(err);
-      return next(createHttpError(500, err));
-    } else {
-      res.status(200).json({ status: "done" });
-    }
+  var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  var charactersLength = characters.length;
+  let string = "";
+  for (var i = 0; i < 6; i++) {
+    string += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return database
+  .query(`INSERT INTO support_request (request_id, email, subject, message) VALUES($1,$2,$3,$4)`, [string, email, subject, message])
+  .then((result) =>{
+    if(result.rowCount == 1){
+      const html = `<h2>REQUEST NUMBER : ${string}</h2><p>This request is from user ${email}</p><p>The request is : ${message}</p>`;
+      receiveMail(subject, { html }, (err, info) => {
+        if (err) {
+          console.log(err);
+          return next(createHttpError(500, err));
+        } else {
+          res.status(200).json({ status: "done" });
+        }
+    })
+  }
+  else{
+    next(createHttpError(500, err));
+  }
+  }).catch((err) => {
+    next(createHttpError(500, err));
   });
 });
 

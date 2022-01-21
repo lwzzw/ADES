@@ -1,3 +1,14 @@
+DROP TABLE IF EXISTS support_request;
+CREATE TABLE IF NOT EXISTS support_request (
+	id SERIAL primary key,
+	request_id varchar(255) not null,
+	email varchar(255) not null,
+	subject varchar(255) not null,
+	message varchar(255) not null,
+	status int not null DEFAULT 1
+);
+
+
 DROP TABLE IF EXISTS keys;
 CREATE TABLE IF NOT EXISTS keys (
 	id SERIAL primary key,
@@ -420,3 +431,6 @@ INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (2, 4, 1);
 
 INSERT INTO public.order_history (user_id, buydate, total) VALUES (1,current_timestamp, 1);
 INSERT INTO public.order_history (user_id, buydate, total) VALUES (1,current_timestamp, 1);
+
+INSERT INTO public.support_request (request_id, email, subject, message) VALUES ('F3453E', 'adam@gmail.com', 'account', 'Hi, how can i reset my account password?');
+INSERT INTO public.support_request (request_id, email, subject, message) VALUES ('MM345D', 'junheng.tan@hotmail.com', 'purchase', 'Hello, for any purchase what is the refund policy?');

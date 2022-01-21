@@ -1,0 +1,43 @@
+body {
+    background-color: #fafafa !important;
+}
+
+.whole-layout {
+    box-sizing: border-box;
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.sider {
+    margin: 10px;
+}
+
+.sider a {
+    text-decoration: none;
+}
+
+.layout {
+    margin: 10px;
+}
+
+.header {
+    background-color: black;
+}
+
+.logo {
+    height: 70px;
+    width: 120px;
+}
+
+#rtable, tr, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 10px;
+    text-align: center;
+  }
+
+tr:nth-child(even) {
+    background-color: lightgray;
+  }

@@ -5,6 +5,8 @@ const verifyToken = require("../middleware/checkUserAuthorize");
 const createHttpError = require("http-errors");
 const logger = require("../logger");
 const getGameAC = require("../router/gameRouter").getGameAC;
+const { data } = require("../logger");
+const { response } = require("express");
 
 router.get("/getAllCategory", verifyToken, async (req, res, next) => {
   if (req.role != 1) return next(createHttpError(401, "Unauthorize"));
@@ -202,4 +204,38 @@ router.post("/delGame/:id", verifyToken, async (req, res, next) => {
     });
 });
 
+router.get("/requests", verifyToken, async (req,res,next)=> {
+  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));
+  database
+  .query(`SELECT request_id, email, subject, message, status FROM support_request`)
+  .then((result) => {
+    return res.status(200).json({
+      requests : result.rows
+     });
+  })
+  .catch((err) => {
+    next(createHttpError(500, err));
+  });
+})
+
+router.post("/updaterequests", verifyToken, async(req,res,next)=> {
+  const id = req.body.id;
+  const status = req.body.status;
+  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));
+  database
+  .query(`UPDATE support_request set status = $1 WHERE request_id = $2`, [status, id])
+  .then((result)=>{
+    if(result.rowCount == 1){
+    res.status(201).json({
+      result : result.rows
+    });
+    }
+    else{
+      next(createHttpError(500, 'Failed to update. Try again!'));
+    }
+
+  }). catch((err)=> {
+    next(createHttpError(500, err));
+  });
+})
 module.exports = router;

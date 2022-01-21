@@ -87,6 +87,13 @@ app.get("/edit_game", verifyToken, (req, res, next)=>{
   res.sendFile(path.join(__dirname, "/public/html/editGame.html"));
 })
 
+app.get("/admin_requests", verifyToken, (req, res, next)=>{
+  if(req.role!=1){
+    res.redirect("/login.html");
+  }
+  res.sendFile(path.join(__dirname, "/public/html/adminRequest.html"));
+})
+
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "public/html")));
 

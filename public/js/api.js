@@ -933,3 +933,50 @@ function getPaypal(params) {
             return error.response.data
         })
 }
+
+function getRequest(){
+    const methods = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + localStorage.getItem("token")
+        }
+    }
+    return axios
+        .get(`/admin/requests`, methods)
+        .then(response => {
+            return response.data
+        })
+        .catch(error => {
+            if (error.response) {
+                throw new Error(error.response.data.error)
+            }
+            return error.response.data
+        })
+
+}
+function updateRequest(requestid, status){
+    const methods = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + localStorage.getItem("token")
+        }
+    }
+    const body = {
+        id: requestid,
+        status, status
+    }
+    return axios
+        .post(`/admin/updaterequests`, body, methods)
+        .then(response => {
+            return response.data
+        })
+        .catch(error => {
+            if (error.response) {
+                throw new Error(error.response.data.error)
+            }
+            return error.response.data
+        })
+
+}

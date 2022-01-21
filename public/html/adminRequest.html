@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title id="web-title">Requests Admin</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link href="../css/support.css" rel="stylesheet" />
+    <script defer src="/js/api.js"></script>
+    <!-- Noty CSS-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css" rel="stylesheet">
+    <!-- Noty CSS Map-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css.map" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Noty JS-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
+    <script defer src="https://kraaden.github.io/autocomplete/autocomplete.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://kraaden.github.io/autocomplete/autocomplete.css">
+    <script defer src="/js/support_list-main.js"></script>
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/@widgetbot/crate@3' async defer>
+        new Crate({
+            server: '927904071933886474', // f2a.games
+            channel: '927904071933886477' // #常规
+        })
+    </script>
+    <link rel="icon" href="../images/logo-discord.png">
+    <script src="https://unpkg.com/biri@0.4.0/dist/biri.min.js"></script>
+</head>
+<body>
+    <div id="bg"></div>
+    <div class="header">
+        <div class="bgc"></div>
+        <div class="top-header container row ">
+            <a href="index.html"><img class="logo" src="/images/logo.png"></a>
+        </div>
+    </div>
+    <section class="whole-layout" style="flex-direction: row;">
+        <aside class="sider">
+            <div><a href="/admin_page">Add game</a></div>
+            <div><a href="/admin_game_list">Game List</a></div>
+            <div><a href="/admin_requests">View Requests</a></div>
+        </aside>
+        <section class="layout">
+            <div class="card-body">
+                <table style="width: 100%;" id="rtable">
+                   <tr style="border: 1px solid black;">
+                       <th>Request ID</th>
+                       <th>Email</th>
+                       <th>Subject</th>
+                       <th>Message</th>
+                       <th>Status</th>
+                       <th></th>
+                   </tr>
+                </table>
+                </div>
+                </section>
+                </section>
+                </body>
+</html>

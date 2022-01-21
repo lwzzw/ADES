@@ -23,10 +23,6 @@ const validationFn = {
         }
 
     },
-    requestFormValidator: function(req, res, next){
-
-    }
-
 };
 
 module.exports = validationFn;
