@@ -456,7 +456,7 @@ router.get("/login/callback", (req, res, next) => {
     method: 'post',
     url: 'https://api-m.sandbox.paypal.com/v1/oauth2/token',
     headers: {
-      'Authorization': 'Basic QWNYdW9rM3puWm9HYTlKRTR0MGNaM2lsNTRKZ2s1akl1ZEtVUjVaZWU5c1U3YmREb2prZ0VCcEFvMmY4bEIxYy1lNXMwVlNYNE42eGVRYUM6RUhJQWV1S0RkUTNQcXZnNldCaWdoa3FjSk03OGx5TmM1ellIZlVKeWIzMlp3cUtYY3VFQXk1azVGT0ZLZ1I5NDFkZG9ZVXluQ2dvNE16Tms=',
+      'Authorization': `Basic ${config.PAYPAL_SECRET}`,
       'Content-Type': 'application/x-www-form-urlencoded',
       'Cookie': 'LANG=en_US%3BUS; cookie_check=yes; d_id=fd5c4b92473a41eba8a7b92593bcc19a1642746243115; enforce_policy=ccpa; ts=vreXpYrS%3D1737442687%26vteXpYrS%3D1642750087%26vr%3D76985c2417e0a7887168c0e1f32da9ff%26vt%3D7b4e681b17e0a60212536f7cd20503f2%26vtyp%3Dreturn; ts_c=vr%3D76985c2417e0a7887168c0e1f32da9ff%26vt%3D7b4e681b17e0a60212536f7cd20503f2; tsrce=unifiedloginnodeweb; x-cdn=fastly:QPG; x-pp-s=eyJ0IjoiMTY0Mjc0ODI4NzYzNCIsImwiOiIwIiwibSI6IjAifQ'
     },

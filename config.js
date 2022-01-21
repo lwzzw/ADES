@@ -15,3 +15,4 @@ exports.GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 exports.GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 exports.FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
 exports.FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
+exports.PAYPAL_SECRET = process.env.PAYPAL_SECRET;
