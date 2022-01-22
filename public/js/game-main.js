@@ -274,22 +274,24 @@ function addListener() {
         }
     })
     document.getElementById("bg").addEventListener("mouseover", function () {
-        document.getElementById("bg").style.opacity = "0";
-        document.getElementById("bg").style.display = "none";
-        document.body.style.overflow = "auto";
-        first_cat.forEach(id => {
-            try {
-                document.getElementById(`1-${id}`).style.display = "none";
-            } catch (e) {}
-        });
-        second_cat.forEach(id => {
-            try {
-                document.getElementById(`2-${id.substr(2)}`).style.display = "none";
-            } catch (e) {}
-        });
-        Array.from(document.getElementsByClassName("img-default")).forEach(e => {
-            e.style.display = "block";
-        })
+        setTimeout(()=>{
+            document.getElementById("bg").style.opacity = "0";
+            document.getElementById("bg").style.display = "none";
+            document.body.style.overflow = "auto";
+            first_cat.forEach(id => {
+                try {
+                    document.getElementById(`1-${id}`).style.display = "none";
+                } catch (e) {}
+            });
+            second_cat.forEach(id => {
+                try {
+                    document.getElementById(`2-${id.substr(2)}`).style.display = "none";
+                } catch (e) {}
+            });
+            Array.from(document.getElementsByClassName("img-default")).forEach(e => {
+                e.style.display = "block";
+            })
+        },duration)
     })
 }
 
