@@ -221,6 +221,31 @@ window.addEventListener("DOMContentLoaded", async function () {
   };
 
   delGameBtn.onclick = () => {
+    var n = new Noty({
+      text: "Do you want to continue?",
+      theme: "sunset",
+      buttons: [
+        Noty.button(
+          "YES",
+          "btn btn-success",
+          function () {
+            console.log("button 1 clicked");
+            n.close();
+            delegame();
+          },
+          { id: "button1", "data-status": "ok" }
+        ),
+
+        Noty.button("NO", "btn btn-error", function () {
+          console.log("button 2 clicked");
+          n.close();
+        }),
+      ],
+    });
+    n.show();
+  };
+
+  function delegame() {
     delGameBtn.disabled = true;
     delGame(params.get("id"))
       .then((response) => {
@@ -232,7 +257,11 @@ window.addEventListener("DOMContentLoaded", async function () {
             theme: "sunset",
             timeout: "6000",
             text: "Success delete game",
-          }).show();
+          })
+            .on("onClose", () => {
+              window.location = document.referrer;
+            })
+            .show();
           delGameBtn.disabled = false;
         } else {
           new Noty({
@@ -256,5 +285,5 @@ window.addEventListener("DOMContentLoaded", async function () {
         }).show();
         delGameBtn.disabled = false;
       });
-  };
+  }
 });

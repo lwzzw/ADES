@@ -5,8 +5,6 @@ const verifyToken = require("../middleware/checkUserAuthorize");
 const createHttpError = require("http-errors");
 const logger = require("../logger");
 const getGameAC = require("../router/gameRouter").getGameAC;
-const { data } = require("../logger");
-const { response } = require("express");
 
 router.get("/getAllCategory", verifyToken, async (req, res, next) => {
   if (req.role != 1) return next(createHttpError(401, "Unauthorize"));

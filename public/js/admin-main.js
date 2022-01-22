@@ -10,6 +10,7 @@ window.addEventListener("DOMContentLoaded", async function () {
   const gamePic = document.getElementById("gamePic");
   const addGameBtn = document.getElementById("addGame");
   const region = document.getElementById("region");
+  const showImg = document.getElementById("img");
 
   let main = [],
     sec = [],
@@ -121,6 +122,11 @@ window.addEventListener("DOMContentLoaded", async function () {
     } catch (err) {
       gameDiscount.value = 0.0;
     }
+  };
+
+  gamePic.onchange = () => {
+    console.log(gamePic.value);
+    showImg.src = gamePic.value.trim();
   };
 
   addGameBtn.onclick = () => {

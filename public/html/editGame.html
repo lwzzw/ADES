@@ -36,14 +36,14 @@
     </div>
     <section class="whole-layout" style="flex-direction: row;">
         <aside class="sider">
-            <input name="action" onclick="history.back()" type="button" value="Back" />
+            <input name="action" onclick="window.location=document.referrer;" type="button" value="Back" />
             <div><a href="/admin_page">Add game</a></div>
             <div><a href="/admin_game_list">Game List</a></div>
         </aside>
         <section class="layout">
             <div class="card-body">
                 <!--Form support-->
-                <div class="md-form"><img id="img" onerror="this.onerror=null;this.src='/images/noimage.png';"></div>
+                <div class="md-form"><img id="img" src="/images/noimage.png" onerror="this.onerror=null;this.src='/images/noimage.png';"></div>
 
                 <div class="md-form"><label for="pic">Game Picture</label><input class="form-control" type="text"
                         id="gamePic" placeholder="Game Picture Link"></div>
