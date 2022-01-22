@@ -11,6 +11,8 @@ window.addEventListener("DOMContentLoaded", async function () {
   const addGameBtn = document.getElementById("addGame");
   const region = document.getElementById("region");
   const showImg = document.getElementById("img");
+  const uploadBtn = document.getElementById("uploadImg");
+  const imageFile = document.getElementById("imgFile");
 
   let main = [],
     sec = [],
@@ -199,6 +201,59 @@ window.addEventListener("DOMContentLoaded", async function () {
           }).show();
           addGameBtn.disabled = false;
         });
+    }
+  };
+
+  uploadBtn.onclick = () => {
+    imageFile.click();
+  };
+
+  imageFile.onchange = async () => {
+    try {
+      const files = imageFile.files;
+      const file = files[0];
+      const originUrl = gamePic.value.trim();
+      if (file == null) {
+        return new Noty({
+          type: "error",
+          layout: "topCenter",
+          theme: "sunset",
+          timeout: "6000",
+          text: "No file selected",
+        }).show();
+      }
+      let signRequest = await getSignedRequest(file, originUrl).then((res) => res.result);
+      var changedFile = file.slice(0, file.size, signRequest.fileType); 
+      newFile = new File([changedFile], signRequest.fileName, {type: signRequest.fileType});
+      let uploadStatus = await uploadFile(newFile, signRequest.signedRequest);
+      if(uploadStatus==200){
+        new Noty({
+          type: "success",
+          layout: "topCenter",
+          theme: "sunset",
+          timeout: "6000",
+          text: "Upload success",
+        }).show();
+        showImg.src = `${signRequest.url}?${Math.random()}`;
+        gamePic.value = signRequest.url;
+      }else{
+        return new Noty({
+          type: "error",
+          layout: "topCenter",
+          theme: "sunset",
+          timeout: "6000",
+          text: "Upload unsuccess",
+        }).show();
+      }
+    } catch (err) {
+      console.log(err);
+      return new Noty({
+        type: "error",
+        layout: "topCenter",
+        theme: "sunset",
+        timeout: "6000",
+        text: err,
+      }).show();
     }
   };
 });

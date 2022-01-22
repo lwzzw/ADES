@@ -11,8 +11,10 @@ window.addEventListener("DOMContentLoaded", async function () {
   const saveGameBtn = document.getElementById("saveGame");
   const delGameBtn = document.getElementById("delGame");
   const region = document.getElementById("region");
-  const img = document.getElementById("img");
+  const showImg = document.getElementById("img");
   const params = new URLSearchParams(window.location.search);
+  const uploadBtn = document.getElementById("uploadImg");
+  const imageFile = document.getElementById("imgFile");
   let main = [],
     sec = [],
     third = [];
@@ -73,7 +75,7 @@ window.addEventListener("DOMContentLoaded", async function () {
     region.value = game.g_region;
     gameDes.value = game.g_description;
     gamePic.value = game.g_image;
-    img.src = game.g_image;
+    showImg.src = game.g_image;
     gamePrice.value = game.g_price;
     gameDiscount.value = game.g_discount;
     mainCat.value = game.g_maincategory;
@@ -129,6 +131,11 @@ window.addEventListener("DOMContentLoaded", async function () {
       gamePrice.value = 0.0;
     }
   };
+
+  gamePic.onchange = () => {
+    showImg.src = `${gamePic.value.trim()}?${Math.random()}`;
+  };
+
   gameDiscount.onchange = () => {
     try {
       if (!gamePrice.value) {
@@ -193,7 +200,7 @@ window.addEventListener("DOMContentLoaded", async function () {
               timeout: "6000",
               text: "Success save game",
             }).show();
-            img.src = gamePic.value.trim();
+            showImg.src = `${gamePic.value.trim()}?${Math.random()}`;
             saveGameBtn.disabled = false;
           } else {
             new Noty({
@@ -286,4 +293,57 @@ window.addEventListener("DOMContentLoaded", async function () {
         delGameBtn.disabled = false;
       });
   }
+
+  uploadBtn.onclick = () => {
+    imageFile.click();
+  };
+
+  imageFile.onchange = async () => {
+    try {
+      const files = imageFile.files;
+      const file = files[0];
+      const originUrl = gamePic.value.trim();
+      if (file == null) {
+        return new Noty({
+          type: "error",
+          layout: "topCenter",
+          theme: "sunset",
+          timeout: "6000",
+          text: "No file selected",
+        }).show();
+      }
+      let signRequest = await getSignedRequest(file, originUrl).then((res) => res.result);
+      var changedFile = file.slice(0, file.size, signRequest.fileType); 
+      newFile = new File([changedFile], signRequest.fileName, {type: signRequest.fileType});
+      let uploadStatus = await uploadFile(newFile, signRequest.signedRequest);
+      if(uploadStatus==200){
+        new Noty({
+          type: "success",
+          layout: "topCenter",
+          theme: "sunset",
+          timeout: "6000",
+          text: "Upload success",
+        }).show();
+        showImg.src = `${signRequest.url}?${Math.random()}`;
+        gamePic.value = signRequest.url;
+      }else{
+        return new Noty({
+          type: "error",
+          layout: "topCenter",
+          theme: "sunset",
+          timeout: "6000",
+          text: "Upload unsuccess",
+        }).show();
+      }
+    } catch (err) {
+      console.log(err);
+      return new Noty({
+        type: "error",
+        layout: "topCenter",
+        theme: "sunset",
+        timeout: "6000",
+        text: err,
+      }).show();
+    }
+  };
 });

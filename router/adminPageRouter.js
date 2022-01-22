@@ -5,6 +5,10 @@ const verifyToken = require("../middleware/checkUserAuthorize");
 const createHttpError = require("http-errors");
 const logger = require("../logger");
 const getGameAC = require("../router/gameRouter").getGameAC;
+const generateKey = require("../key/generateKey");
+const aws = require('aws-sdk');
+const S3_BUCKET = config.S3_BUCKET_NAME;
+aws.config.region = 'us-east-2';
 
 router.get("/getAllCategory", verifyToken, async (req, res, next) => {
   if (req.role != 1) return next(createHttpError(401, "Unauthorize"));
@@ -236,4 +240,36 @@ router.post("/updaterequests", verifyToken, async(req,res,next)=> {
     next(createHttpError(500, err));
   });
 })
+
+router.get('/sign-s3', verifyToken, (req, res, next) => {
+  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));
+  const s3 = new aws.S3();
+  const originUrl = req.query['origin-url']||false;
+  var fileName = generateKey(20)+req.query['file-name'];
+  if(originUrl&&originUrl.startsWith("https://f2aimage.s3.amazonaws.com/")){
+    fileName = originUrl.split("https://f2aimage.s3.amazonaws.com/")[1];
+  }
+  const fileType = req.query['file-type'];
+  const s3Params = {
+    Bucket: S3_BUCKET,
+    Key: fileName,
+    Expires: 60,
+    ContentType: fileType,
+    ACL: 'public-read'
+  };
+  s3.getSignedUrl('putObject', s3Params, (err, data) => {
+    if(err){
+      console.log(err);
+      return next(createHttpError(500, err));
+    }
+    const returnData = {
+      signedRequest: data,
+      url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`,
+      fileType,
+      fileName
+    };
+    res.status(200).json({result:returnData});
+  });
+});
+
 module.exports = router;

@@ -955,8 +955,8 @@ function getRequest(){
             }
             return error.response.data
         })
-
 }
+
 function updateRequest(requestid, status){
     const methods = {
         method: 'POST',
@@ -980,5 +980,48 @@ function updateRequest(requestid, status){
             }
             return error.response.data
         })
-
 }
+
+function getSignedRequest(file, originUrl){
+    const methods = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + localStorage.getItem("token")
+        }
+    }
+    return axios
+        .get(`/admin/sign-s3?file-name=${file.name}&file-type=${file.type}&origin-url=${originUrl}`, methods)
+        .then(response => {
+            // console.log(response);
+            return response.data;
+        })
+        .catch(error => {
+            if (error.response) {
+                throw new Error(error.response.data.error)
+            }
+            return error.response.data
+        })
+  }
+
+  function uploadFile(file, signedRequest){
+      file.name = file.name+"test"
+    const methods = {
+        method: 'PUT'
+    }
+    console.log(file);
+    return axios
+        .put(signedRequest, file, methods)
+        .then(response => {
+            console.log(response);
+            return response.status
+        })
+        .catch(error => {
+            if (error.response) {
+                console.log(error);
+                throw new Error(error.response.data.error)
+            }
+            return error.response.data
+        })
+
+  }

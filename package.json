@@ -12,6 +12,7 @@
   "dependencies": {
     "@googleapis/docs": "^0.2.0",
     "@paypal/checkout-server-sdk": "^1.0.2",
+    "aws-sdk": "^2.1062.0",
     "axios": "^0.24.0",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",

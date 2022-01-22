@@ -16,3 +16,6 @@ exports.GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 exports.FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
 exports.FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
 exports.PAYPAL_SECRET = process.env.PAYPAL_SECRET;
+exports.AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
+exports.AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
+exports.S3_BUCKET_NAME = process.env.S3_BUCKET_NAME;
