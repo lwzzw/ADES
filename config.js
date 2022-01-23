@@ -19,3 +19,4 @@ exports.PAYPAL_SECRET = process.env.PAYPAL_SECRET;
 exports.AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
 exports.AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
 exports.S3_BUCKET_NAME = process.env.S3_BUCKET_NAME;
+exports.RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET;

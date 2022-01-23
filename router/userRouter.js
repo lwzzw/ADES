@@ -14,7 +14,8 @@ const nodeCache = require("node-cache");
 const cache = new nodeCache({ stdTTL: 15 * 60, checkperiod: 60 });
 const validator = require("../middleware/validator");
 const axios = require("axios");
-var qs = require('qs');
+const recaptchaKey = config.RECAPTCHA_SECRET;
+var qs = require("qs");
 
 var passport = require("passport");
 var FacebookStrategy = require("passport-facebook");
@@ -45,7 +46,7 @@ passport.use(
                     name: response.rows[0].name,
                     email: response.rows[0].email,
                     phone: response.rows[0].phone || null,
-                    gender: response.rows[0].gender || null
+                    gender: response.rows[0].gender || null,
                   },
                   config.JWTKEY,
                   {
@@ -71,7 +72,7 @@ passport.use(
                           name: response.rows[0].name,
                           email: response.rows[0].email,
                           phone: null,
-                          gender: null
+                          gender: null,
                         },
                         config.JWTKEY,
                         {
@@ -107,6 +108,7 @@ router.get(
     scope: ["email"],
   })
 );
+
 router.get(
   "/oauth2/redirect/facebook",
   passport.authenticate("facebook", {
@@ -117,7 +119,30 @@ router.get(
     res.redirect("/index.html?token=" + req.user.token);
   }
 );
+
 router.post("/login", async (req, res, next) => {
+  if (!req.body.captcha) {
+    return res.json({ success: false, msg: "Capctha is not checked" });
+  }
+
+  const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaKey}&response=${req.body.captcha}`;
+
+  var options = {
+    method: "POST",
+    url: verifyUrl,
+  };
+  let verify = await axios(options)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      return next(createHttpError(500, error));
+    });
+  if (!verify.success && verify.success === undefined) {
+    return res.json({ success: false, msg: "Capctha cannot verify" });
+  } else if (verify.score < 0.4) {
+    return res.json({ success: false, msg: "You are robot" });
+  }
   const email = req.body.email;
   const password = req.body.password;
   const secretCode = req.body.secretCode;
@@ -147,13 +172,16 @@ router.post("/login", async (req, res, next) => {
                 auth.rows[0].secret_key
               );
               if (authResult.toLowerCase() == "false") {
-                return next(createHttpError(401, "Please enter correct Secret Code"));
+                return next(
+                  createHttpError(401, "Please enter correct Secret Code")
+                );
               }
             }
           });
         if (results.rows[0].auth_type == "1") {
           if (bcrypt.compareSync(password, results.rows[0].password) == true) {
             let data = {
+              success: true,
               token: jwt.sign(
                 {
                   id: results.rows[0].id,
@@ -173,7 +201,10 @@ router.post("/login", async (req, res, next) => {
             logger.info(
               `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
             );
-            res.cookie('token', data.token, { maxAge: 86400000, httpOnly: true });
+            res.cookie("token", data.token, {
+              maxAge: 86400000,
+              httpOnly: true,
+            });
             return res.status(200).json(data);
           } else {
             logger.error(
@@ -186,7 +217,8 @@ router.post("/login", async (req, res, next) => {
       .catch((err) => {
         next(createHttpError(500, err));
         logger.error(
-          `${err || "500 Error"} ||  ${res.statusMessage} - ${req.originalUrl
+          `${err || "500 Error"} ||  ${res.statusMessage} - ${
+            req.originalUrl
           } - ${req.method} - ${req.ip}`
         );
       });
@@ -248,7 +280,7 @@ router.post("/register", (req, res, next) => {
                     email: response.rows[0].email,
                     phone: response.rows[0].phone,
                     gender: response.rows[0].gender,
-                    role: response.rows[0].role
+                    role: response.rows[0].role,
                   },
                   config.JWTKEY,
                   {
@@ -283,7 +315,7 @@ router.get("/checkLogin", nocache(), verifyToken, (req, res, next) => {
     email: req.email,
     phone: req.phone,
     gender: req.gender,
-    role: req.role
+    role: req.role,
   });
 });
 
@@ -440,50 +472,54 @@ router.post("/supportRequest", nocache(), async (req, res, next) => {
     string += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return database
-  .query(`INSERT INTO support_request (request_id, email, subject, message) VALUES($1,$2,$3,$4)`, [string, email, subject, message])
-  .then((result) =>{
-    if(result.rowCount == 1){
-      const html = `<h2>REQUEST NUMBER : ${string}</h2><p>This request is from user ${email}</p><p>The request is : ${message}</p>`;
-      receiveMail(subject, { html }, (err, info) => {
-        if (err) {
-          console.log(err);
-          return next(createHttpError(500, err));
-        } else {
-          res.status(200).json({ status: "done" });
-        }
+    .query(
+      `INSERT INTO support_request (request_id, email, subject, message) VALUES($1,$2,$3,$4)`,
+      [string, email, subject, message]
+    )
+    .then((result) => {
+      if (result.rowCount == 1) {
+        const html = `<h2>REQUEST NUMBER : ${string}</h2><p>This request is from user ${email}</p><p>The request is : ${message}</p>`;
+        receiveMail(subject, { html }, (err, info) => {
+          if (err) {
+            console.log(err);
+            return next(createHttpError(500, err));
+          } else {
+            res.status(200).json({ status: "done" });
+          }
+        });
+      } else {
+        next(createHttpError(500, err));
+      }
     })
-  }
-  else{
-    next(createHttpError(500, err));
-  }
-  }).catch((err) => {
-    next(createHttpError(500, err));
-  });
+    .catch((err) => {
+      next(createHttpError(500, err));
+    });
 });
 
 //PayPal login to get user's access_token
 router.get("/login/callback", (req, res, next) => {
   //data to be sent to PayPal's authentication API in order to get the user's access_token
   var data = qs.stringify({
-    'grant_type': 'authorization_code',
-    'code': req.query.code
+    grant_type: "authorization_code",
+    code: req.query.code,
   });
   var options = {
-    method: 'post',
-    url: 'https://api-m.sandbox.paypal.com/v1/oauth2/token',
+    method: "post",
+    url: "https://api-m.sandbox.paypal.com/v1/oauth2/token",
     headers: {
-      'Authorization': `Basic ${config.PAYPAL_SECRET}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Cookie': 'LANG=en_US%3BUS; cookie_check=yes; d_id=fd5c4b92473a41eba8a7b92593bcc19a1642746243115; enforce_policy=ccpa; ts=vreXpYrS%3D1737442687%26vteXpYrS%3D1642750087%26vr%3D76985c2417e0a7887168c0e1f32da9ff%26vt%3D7b4e681b17e0a60212536f7cd20503f2%26vtyp%3Dreturn; ts_c=vr%3D76985c2417e0a7887168c0e1f32da9ff%26vt%3D7b4e681b17e0a60212536f7cd20503f2; tsrce=unifiedloginnodeweb; x-cdn=fastly:QPG; x-pp-s=eyJ0IjoiMTY0Mjc0ODI4NzYzNCIsImwiOiIwIiwibSI6IjAifQ'
+      Authorization: `Basic ${config.PAYPAL_SECRET}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+      Cookie:
+        "LANG=en_US%3BUS; cookie_check=yes; d_id=fd5c4b92473a41eba8a7b92593bcc19a1642746243115; enforce_policy=ccpa; ts=vreXpYrS%3D1737442687%26vteXpYrS%3D1642750087%26vr%3D76985c2417e0a7887168c0e1f32da9ff%26vt%3D7b4e681b17e0a60212536f7cd20503f2%26vtyp%3Dreturn; ts_c=vr%3D76985c2417e0a7887168c0e1f32da9ff%26vt%3D7b4e681b17e0a60212536f7cd20503f2; tsrce=unifiedloginnodeweb; x-cdn=fastly:QPG; x-pp-s=eyJ0IjoiMTY0Mjc0ODI4NzYzNCIsImwiOiIwIiwibSI6IjAifQ",
     },
-    data: data
+    data: data,
   };
 
   return axios(options)
     .then(function (response) {
       //the user's access_token is passed into the getPaypalUserIdentity function in order to retrieve the user's paypal profile information
       getPaypalUserIdentity(response.data.access_token)
-        .then(response => {
+        .then((response) => {
           let username = response.name;
           let email = response.emails[0].value;
           //after getting the user's paypal profile information, it is then used to create or login into the account
@@ -514,7 +550,7 @@ router.get("/login/callback", (req, res, next) => {
                   };
                   return res.status(200).json(data);
                 } else {
-                  console.log('register user')
+                  console.log("register user");
                   // else if the user is not a registered user, an account will be create for the user
                   return database
                     .query(
@@ -531,7 +567,7 @@ router.get("/login/callback", (req, res, next) => {
                               name: response.rows[0].name,
                               email: response.rows[0].email,
                               phone: null,
-                              gender: null
+                              gender: null,
                             },
                             config.JWTKEY,
                             {
@@ -543,30 +579,33 @@ router.get("/login/callback", (req, res, next) => {
                       }
                     });
                 }
-              }).catch((err) => {
+              })
+              .catch((err) => {
                 //error occur when checking if the user is registered
-                console.log(err)
-                return err
+                console.log(err);
+                next(createHttpError(500, error));
+                return err;
               });
           } catch (err) {
             //error occur when try block fails
-            console.log(err)
-            return err
+            console.log(err);
+            next(createHttpError(500, error));
+            return err;
           }
-        }).catch(err => {
+        })
+        .catch((err) => {
           //error occur when getting user's paypal identity
           if (err) {
             throw new Error(JSON.stringify(err));
           }
-          return err
-        })
+          return err;
+        });
     })
     .catch(function (error) {
       //axios error
       next(createHttpError(500, error));
     });
-
-})
+});
 
 //Checks if the user's secret code is correct
 function validateSecretKey(secretCodeInput, secretKey) {
@@ -596,26 +635,25 @@ function validateSecretKey(secretCodeInput, secretKey) {
 //gets user's paypal profile information via the access_token
 function getPaypalUserIdentity(access_token) {
   var options = {
-    method: 'get',
-    url: 'https://api-m.sandbox.paypal.com/v1/identity/oauth2/userinfo?schema=paypalv1.1',
+    method: "get",
+    url: "https://api-m.sandbox.paypal.com/v1/identity/oauth2/userinfo?schema=paypalv1.1",
     headers: {
-      'Authorization': `Bearer ${access_token}`,
-      'Cookie': 'LANG=en_US%3BUS; cookie_check=yes; d_id=fd5c4b92473a41eba8a7b92593bcc19a1642746243115; enforce_policy=ccpa; ts=vreXpYrS%3D1737442687%26vteXpYrS%3D1642750087%26vr%3D76985c2417e0a7887168c0e1f32da9ff%26vt%3D7b4e681b17e0a60212536f7cd20503f2%26vtyp%3Dreturn; ts_c=vr%3D76985c2417e0a7887168c0e1f32da9ff%26vt%3D7b4e681b17e0a60212536f7cd20503f2; tsrce=unifiedloginnodeweb; x-cdn=fastly:QPG; x-pp-s=eyJ0IjoiMTY0Mjc0ODI4NzYzNCIsImwiOiIwIiwibSI6IjAifQ'
-    }
+      Authorization: `Bearer ${access_token}`,
+      Cookie:
+        "LANG=en_US%3BUS; cookie_check=yes; d_id=fd5c4b92473a41eba8a7b92593bcc19a1642746243115; enforce_policy=ccpa; ts=vreXpYrS%3D1737442687%26vteXpYrS%3D1642750087%26vr%3D76985c2417e0a7887168c0e1f32da9ff%26vt%3D7b4e681b17e0a60212536f7cd20503f2%26vtyp%3Dreturn; ts_c=vr%3D76985c2417e0a7887168c0e1f32da9ff%26vt%3D7b4e681b17e0a60212536f7cd20503f2; tsrce=unifiedloginnodeweb; x-cdn=fastly:QPG; x-pp-s=eyJ0IjoiMTY0Mjc0ODI4NzYzNCIsImwiOiIwIiwibSI6IjAifQ",
+    },
   };
 
   return axios(options)
     .then(function (response) {
-
-      return response.data
+      return response.data;
     })
     .catch(function (error) {
       if (error.response) {
         throw new Error(JSON.stringify(error.response.data));
       }
-      return error.response.data
+      return error.response.data;
     });
-
 }
 
 module.exports = router;

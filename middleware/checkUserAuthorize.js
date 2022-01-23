@@ -5,7 +5,13 @@ const logger = require("../logger");
 
 function verifyToken(req, res, next) {
   console.log(req.path);
-  if (req.path == "/admin_page" && !req.cookies["token"]) {
+  if (
+    (req.path == "/admin_page" ||
+      req.path == "/admin_game_list" ||
+      req.path == "/edit_game" ||
+      req.path == "/admin_requests") &&
+    !req.cookies["token"]
+  ) {
     return res.redirect("/login.html");
   }
   (req.id = ""), (req.name = ""), (req.email = "");
@@ -37,7 +43,7 @@ function verifyToken(req, res, next) {
         req.email = decoded.email;
         req.phone = decoded.phone;
         req.gender = decoded.gender;
-        req.role = decoded.role||0;
+        req.role = decoded.role || 0;
         logger.info(
           `200 Verify success||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
         );

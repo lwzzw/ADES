@@ -96,10 +96,11 @@ window.addEventListener('DOMContentLoaded', function () {
     })
 }
 
-  checkLoginBtn.onclick = function () {
+  checkLoginBtn.onclick = async function () {
     // To ensure login input is correct in the input is valid
     reEmail = new RegExp(`^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$`);
     rePassword = new RegExp(`^.{8,}$`);
+    const token = await grecaptcha.execute('6LczHDAeAAAAAPsiuOHlO3fBQHyORdNbxq9ipkzt', {action: 'login'}).then(token=>token);
     if (!rePassword.test(password.value) || !reEmail.test(email.value)) {
       new Noty({
         type: 'error',
@@ -109,10 +110,22 @@ window.addEventListener('DOMContentLoaded', function () {
         text: 'Check your email and password',
       }).show();
     } else {
-      login(email.value, password.value, secretCodeInput.value).then(response => {
+      console.log(token);
+      login(email.value, password.value, secretCodeInput.value, token).then(response => {
+        console.log(response);
+        if(!response.success&&response.msg){
+          new Noty({
+            type: 'alert',
+            layout: 'topCenter',
+            theme: 'sunset',
+            timeout: '1000',
+            text: response.msg,
+          }).show()
+        }
+        return
         // if login details is correct
-        if (response) {
-          localStorage.setItem('token', response);
+        if (response.token) {
+          localStorage.setItem('token', response.token);
                     
           new Noty({
             type: 'success',

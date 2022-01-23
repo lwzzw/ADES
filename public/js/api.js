@@ -50,7 +50,7 @@ function register(username, useremail, userpassword, usergender, userphone,code)
     })
 }
 
-function login(email, password, secretCode) {
+function login(email, password, secretCode, token) {
     const methods = {
         method: 'POST',
         headers: {
@@ -60,12 +60,13 @@ function login(email, password, secretCode) {
     const body = {
         email,
         password,
-        secretCode
+        secretCode,
+        captcha:token
     }
     return axios
         .post(`/user/login`, body, methods)
         .then(response => {
-            return response.data.token;
+            return response.data;
         })
         .catch(error => {
             if (error.response) {
