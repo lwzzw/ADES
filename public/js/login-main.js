@@ -1,4 +1,3 @@
-
 window.addEventListener('DOMContentLoaded', function () {
   // Get reference to relevant elements
   const checkLoginBtn = document.getElementById('submitButton');
@@ -6,8 +5,10 @@ window.addEventListener('DOMContentLoaded', function () {
   const password = document.getElementById('passwordInput');
   const showPassword = document.getElementById('showPass');
   const googlebutton = document.getElementById('googleButton');
+  const loading = document.getElementById('loading');
   const secretCodeInput = document.getElementById('secretInput')
 
+  loading.style.display = 'none';
   uidGenerate();
   if (window.location.href == "https://f2a.games/authenticate/google") {
     googleLogin(code).then(response => {
@@ -97,6 +98,8 @@ window.addEventListener('DOMContentLoaded', function () {
 }
 
   checkLoginBtn.onclick = async function () {
+    checkLoginBtn.style.display ='none';
+    loading.style.display = 'inline';
     // To ensure login input is correct in the input is valid
     reEmail = new RegExp(`^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$`);
     rePassword = new RegExp(`^.{8,}$`);
@@ -109,6 +112,8 @@ window.addEventListener('DOMContentLoaded', function () {
         timeout: '6000',
         text: 'Check your email and password',
       }).show();
+      checkLoginBtn.style.display = 'inline';
+      loading.style.display = 'none';
     } else {
       console.log(token);
       login(email.value, password.value, secretCodeInput.value, token).then(response => {
@@ -121,6 +126,8 @@ window.addEventListener('DOMContentLoaded', function () {
             timeout: '1000',
             text: response.msg,
           }).show()
+          checkLoginBtn.style.display = 'inline';
+          loading.style.display = 'none';
         }
         // if login details is correct
         if (response.token) {
@@ -135,6 +142,8 @@ window.addEventListener('DOMContentLoaded', function () {
           }).on('onClose' ,() => {
             window.location.href = "index.html";
           }).show();
+          checkLoginBtn.style.display = 'inline';
+          loading.style.display = 'none';
         } else {
           new Noty({
             type: 'error',
@@ -143,9 +152,9 @@ window.addEventListener('DOMContentLoaded', function () {
             timeout: '6000',
             text: 'Unable to login. Check your email and password',
           }).show();
+          checkLoginBtn.style.display = 'inline';
+          loading.style.display = 'none';
         }
-      }).then(res => {
-        
       })
       .catch(err => {
           new Noty({
@@ -155,6 +164,8 @@ window.addEventListener('DOMContentLoaded', function () {
             timeout: '6000',
             text: err.message,
           }).show();
+          checkLoginBtn.style.display = 'inline';
+          loading.style.display = 'none';
         })
     }
   };

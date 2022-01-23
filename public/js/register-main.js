@@ -1,5 +1,6 @@
 window.addEventListener("DOMContentLoaded", function () {
   // Get reference to relevant elements
+  const loading = document.getElementById("loading");
   const checkRegisterBtn = document.getElementById("submitButton");
   const username = document.getElementById("nameInput");
   const useremail = document.getElementById("emailInput");
@@ -10,8 +11,11 @@ window.addEventListener("DOMContentLoaded", function () {
   const usermale = document.getElementById("male");
   const verifyBtn = document.getElementById("verifyEmail");
   const codeLayout = document.getElementById("codeLayout");
+  const form = document.getElementById("form");
   let usergender = "";
 
+
+  loading.style.visibility = 'hidden';
   showPassword.onclick = function () {
     if (userpassword.type === "password") {
       userpassword.type = "text";
@@ -47,23 +51,46 @@ window.addEventListener("DOMContentLoaded", function () {
 
   checkRegisterBtn.onclick = function () {
     let rePassword = new RegExp(`^.{8,}$`);
+    const checkPhone = new RegExp(`/^[89]\d{7}$/`);
     const codeInput = document.getElementById("codeInput") || null;
     if (userfemale.checked) {
       usergender = userfemale.value;
     } else if (usermale.checked) {
       usergender = usermale.value;
     }
+    if(userpassword.value == '' || useremail.value == '' || username.value == '' || userphone.value == ''){
+      return new Noty({
+        type: "error",
+        layout: "topCenter",
+        theme: "sunset",
+        timeout: "6000",
+        text: "Empty Input!",
+      }).show();
+    }
     if (
       !rePassword.test(userpassword.value) ||
       !checkEmail(useremail.value) ||
       !codeInput
     ) {
+      let string = "all your inputs"
+      if(!rePassword.test(userpassword.value) && checkEmail(useremail.value) && checkPhone.test(userphone.value)){
+        string = "password format";
+      }
+      else if(!checkEmail(useremail.value) && rePassword.test(useremail.value) && checkPhone.test(userphone.value)){
+        string = "email format"
+      }
+      else if(!checkPhone.test(userphone.value) && checkEmail(useremail.value) && rePassword.test(useremail.value)){
+        string = "phone number format (8 digits exact starting with 8 or 9)"
+      }
+      else if(!codeInput && checkEmail(useremail.value) && rePassword.test(userpassword.test) && checkPhone.test(userphone.value)){
+        string = "code";
+      }
       new Noty({
         type: "error",
         layout: "topCenter",
         theme: "sunset",
         timeout: "6000",
-        text: "Check your inputs!",
+        text: "Check your " + string ,
       }).show();
     } else {
       if (codeInput.value.length != 20) {
@@ -75,6 +102,8 @@ window.addEventListener("DOMContentLoaded", function () {
           text: "Please enter a valid code(the length should be 20)",
         }).show();
       }
+      form.remove();
+      loading.style.visibility = 'visible';
       register(
         username.value,
         useremail.value,

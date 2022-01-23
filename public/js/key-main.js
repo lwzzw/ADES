@@ -11,7 +11,10 @@ window.addEventListener('DOMContentLoaded', function () {
               <br><br>
               </li>`
         }
-        document.getElementById("keys").insertAdjacentHTML("beforeend", string);
+        if(keys.length > 0){
+            document.getElementById("nokeys").remove();
+            document.getElementById("keys").insertAdjacentHTML("beforeend", string);
+        }
     })
 
     

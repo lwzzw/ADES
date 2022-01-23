@@ -461,7 +461,7 @@ router.post(
   }
 );
 
-router.post("/supportRequest", nocache(), async (req, res, next) => {
+router.post("/supportRequest", verifyToken, validator.supportformValidator, nocache(), async (req, res, next) => {
   const email = req.body.email;
   const subject = req.body.subject;
   const message = req.body.message;
