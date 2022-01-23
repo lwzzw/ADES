@@ -122,7 +122,6 @@ window.addEventListener('DOMContentLoaded', function () {
             text: response.msg,
           }).show()
         }
-        return
         // if login details is correct
         if (response.token) {
           localStorage.setItem('token', response.token);
