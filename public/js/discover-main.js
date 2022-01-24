@@ -19,7 +19,10 @@ recognition.onerror = function(event) {
     })
         .show();
 }
+const overlayLoading = document.getElementById('loading');
+
 window.addEventListener('DOMContentLoaded', function () {
+
     if(localStorage.getItem("token")){
         checkLogin().then(response => {
             let myAccBtn = `<a href='dashboard.html' style="color: white!important;">My Account</a>`
@@ -41,14 +44,14 @@ window.addEventListener('DOMContentLoaded', function () {
 
     //Execute corresponding APIs depending on the discover url
     if (window.location.pathname == '/bestseller') {
-        document.getElementById('productTitle').innerHTML = 'Discover Bestsellers';
+        let header = 'Discover Bestsellers';
         getBestsellers(false).then(bsGames => {
-            listGames(bsGames);
+            listGames(bsGames, header);
         });
     } else if (window.location.pathname == '/preorders') {
-        document.getElementById('productTitle').innerHTML = 'Discover Preorders';
+        let header = 'Discover Preorders';
         getPreOrders(false).then(poGames => {
-            listGames(poGames);
+            listGames(poGames, header);
         })
     }
     getSearchAC().then(response=>{
@@ -99,7 +102,8 @@ recognition.onresult = function(event) {
 };
 
 //This function populates the website with the products that are passed into this function.
-function listGames(games) {
+function listGames(games, headers) {
+    document.getElementById('productTitle').innerHTML = headers;
     for (let i = 0; i < games.length; i++) {
         let game = games[i];
         let discoverProduct = `
@@ -123,6 +127,7 @@ function listGames(games) {
         document.getElementById('discoverListings').insertAdjacentHTML('beforeend', discoverProduct);
 
     };
+    overlayLoading.hidden = true;
 };
 
 //Calculates discount percentage

@@ -31,6 +31,7 @@
             channel: '927904071933886477' // #常规
         })
     </script>
+    <link href="./css/overlay-loading.css" rel="stylesheet" />
     <link rel="icon" href="../images/logo-discord.png">
 
 </head>
@@ -45,6 +46,12 @@
     </div>
 
     <div class="container" style="padding: 50px;">
+        <div id="loading" class="loading">
+            <div class="spinner-wrapper">
+              <span class="spinner-text">LOADING</span>
+              <span class="spinner"></span>
+            </div>
+          </div>
         <h1>Order History</h1>
         <div class="orders" id="all-orders">
             <div class="order-header">

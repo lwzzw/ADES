@@ -128,6 +128,8 @@ window.addEventListener("DOMContentLoaded", function () {
         codeInput.value
       )
         .then((response) => {
+          form.style.visibility = "visible";
+          loading.style.visibility = 'hidden';
           if (response) {
             localStorage.setItem("token", response);
             new Noty({

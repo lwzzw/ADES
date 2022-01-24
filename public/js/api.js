@@ -703,7 +703,7 @@ function verifyEmail(email){
         .catch(error => {
             console.log(error);
             if (error.response) {
-                throw new Error(JSON.stringify(error.response.data))
+                throw new Error(JSON.stringify(error.response.data.error))
             }
             return error.response.data
         })
