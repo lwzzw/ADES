@@ -393,25 +393,16 @@ function showDeals() {
         <li>
         <a href='/game.html?id=${deals.g_id}'>
         <div class='deals-image'>
-            <img src='${
-              deals.g_image
-            }' onerror="this.onerror=null;this.src='/images/noimage.png';" />
+            <img src='${deals.g_image}' onerror="this.onerror=null;this.src='/images/noimage.png';" />
         </div>
         <div>
-            <h3>${deals.g_name}</h3>
+            <h3 style="display: -webkit-box; max-width: 400px; height: 40px; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">${deals.g_name}</h3>
         </div>
         <div>
-        <span><span class='discount-price'>${
-          deals.g_discount
-        }</span> <sup class='sub-script'> SGD </sup></span>
+        <span><span class='discount-price'>${deals.g_discount}</span> <sup class='sub-script'> SGD </sup></span>
         </div>
         <div>
-        <span><span class='slash-price'>${
-          deals.g_price
-        }</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(
-      deals.g_price,
-      deals.g_discount
-    )}%</span></span>
+        <span><span class='slash-price'>${deals.g_price}</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(deals.g_price, deals.g_discount)}%</span></span>
         </div>
         </a>
         </li>

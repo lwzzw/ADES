@@ -18,7 +18,7 @@
 
 .slash-price {
     text-decoration: line-through;
-    font-size: 12px;
+    font-size: 13px !important;
 }
 
 .slash-price sup{
@@ -42,4 +42,8 @@
 
 .span-space {
     display: block;
+}
+
+span {
+    font-weight: 700;
 }
