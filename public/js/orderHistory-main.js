@@ -1,8 +1,13 @@
 window.addEventListener('DOMContentLoaded', async function () {
+    const overlayLoading = document.getElementById('loading');
 
     const getOrderHistory = async () => {
         getOrderID().then(async response => {
-            console.log(response)
+            if (response[0]) {
+                console.log('hi')
+            } else {
+                document.getElementById('all-orders').innerHTML = 'You have no order history'
+            }
             for (let i = 0; i < response.length; i++) {
                 let orders = response[i];
 
@@ -33,6 +38,8 @@ window.addEventListener('DOMContentLoaded', async function () {
                 })
             }
 
+        }).finally(res => {
+            overlayLoading.hidden = true;
         })
 
     }

@@ -180,7 +180,9 @@ a {
 .headerParagraph {
     font-size: 14px;
     color: rgba(0, 0, 0, .60);
+    padding: 0px !important;
 }
+
 
 body>section {
     padding-top: 50px;
