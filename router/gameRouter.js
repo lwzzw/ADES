@@ -2,9 +2,34 @@ const database = require("../database/database");
 const createHttpError = require("http-errors");
 const router = require("express").Router();
 const logger = require("../logger");
-let gameAC = [];
+const APP_CACHE = require('../cache')
 
+let gameAC = [];
 module.exports.getGameAC = getGameAC;
+
+//--------------------
+// All Application Cache keys
+// const CACHE_KEYS = {
+//   DEALS: {
+//     ROWS: "deals.rows",
+//   }
+// };
+
+// const appCache = new nodeCache({ 
+//   stdTTL: 60 * 5, 
+//   checkperiod: 60,
+//   deleteOnExpire: true
+// });
+
+// // if touch multiple things, flush the all cache
+// appCache.flushAll();
+
+// // Only touch the deal, flush deal cache
+// foreach( cacheKey in CACHE_KEYS.DEALS ){
+//   appCache.delete(cacheKey);
+// }
+//-------------------------
+
 
 router.get("/gameDetailById/:id", (req, res, next) => {
   var id = req.params.id;
@@ -36,8 +61,7 @@ router.get("/gameDetailById/:id", (req, res, next) => {
     .catch((err) => {
       next(createHttpError(500, err));
       logger.error(
-        `${err || "500 Error"}  ||  ${res.statusMessage} - ${
-          req.originalUrl
+        `${err || "500 Error"}  ||  ${res.statusMessage} - ${req.originalUrl
         } - ${req.method} - ${req.ip}`
       );
     });
@@ -76,36 +100,30 @@ router.get("/gameDetailFilter", (req, res, next) => {
     .query(
       `SELECT g_id, g_name, g_description, g_price, g_discount, g_image, g_publishdate, g_region 
                             from G2A_gameDatabase 
-                            where 1=1 ${
-                              name
-                                ? `AND g_name ILIKE '%' || $${i++} || '%' `
-                                : ""
-                            }
-                            ${
-                              minprice
-                                ? `AND COALESCE(g_discount, g_price) >= $${i++} `
-                                : ""
-                            }
-                            ${
-                              maxprice
-                                ? `AND COALESCE(g_discount, g_price) <= $${i++} `
-                                : ""
-                            }
-                            ${
-                              platform
-                                ? `AND g_parentsubcategory = (select id from parent_subcategory where category_name = $${i++}) `
-                                : ""
-                            }
-                            ${
-                              maincat && maincat != "All categories"
-                                ? `AND g_maincategory = (select id from main_category where category_name = $${i++}) `
-                                : ""
-                            }
-                            ${
-                              childcat
-                                ? `AND g_childsubcategory in (select id from child_subcategory where category_name = $${i++}) `
-                                : ""
-                            }
+                            where 1=1 ${name
+        ? `AND g_name ILIKE '%' || $${i++} || '%' `
+        : ""
+      }
+                            ${minprice
+        ? `AND COALESCE(g_discount, g_price) >= $${i++} `
+        : ""
+      }
+                            ${maxprice
+        ? `AND COALESCE(g_discount, g_price) <= $${i++} `
+        : ""
+      }
+                            ${platform
+        ? `AND g_parentsubcategory = (select id from parent_subcategory where category_name = $${i++}) `
+        : ""
+      }
+                            ${maincat && maincat != "All categories"
+        ? `AND g_maincategory = (select id from main_category where category_name = $${i++}) `
+        : ""
+      }
+                            ${childcat
+        ? `AND g_childsubcategory in (select id from child_subcategory where category_name = $${i++}) `
+        : ""
+      }
                             ${order ? "order by " + order : ""}
                             LIMIT $${i++} OFFSET $${i++};
                             `,
@@ -122,8 +140,7 @@ router.get("/gameDetailFilter", (req, res, next) => {
     .catch((err) => {
       next(createHttpError(500, err));
       logger.error(
-        `${err || "500 Error"}  ||  ${res.statusMessage} - ${
-          req.originalUrl
+        `${err || "500 Error"}  ||  ${res.statusMessage} - ${req.originalUrl
         } - ${req.method} - ${req.ip}`
       );
     });
@@ -151,21 +168,18 @@ router.get("/gameDetailFilterPageCount", (req, res, next) => {
         where 1=1 ${name ? `AND g_name ILIKE '%' || $${i++} || '%' ` : ""}
         ${minprice ? `AND COALESCE(g_discount, g_price) >= $${i++} ` : ""}
         ${maxprice ? `AND COALESCE(g_discount, g_price) <= $${i++} ` : ""}
-        ${
-          platform
-            ? `AND g_parentsubcategory = (select id from parent_subcategory where category_name = $${i++}) `
-            : ""
-        }
-        ${
-          maincat && maincat != "All categories"
-            ? `AND g_maincategory = (select id from main_category where category_name = $${i++}) `
-            : ""
-        }
-        ${
-          childcat
-            ? `AND g_childsubcategory in (select id from child_subcategory where category_name = $${i++}) `
-            : ""
-        }
+        ${platform
+        ? `AND g_parentsubcategory = (select id from parent_subcategory where category_name = $${i++}) `
+        : ""
+      }
+        ${maincat && maincat != "All categories"
+        ? `AND g_maincategory = (select id from main_category where category_name = $${i++}) `
+        : ""
+      }
+        ${childcat
+        ? `AND g_childsubcategory in (select id from child_subcategory where category_name = $${i++}) `
+        : ""
+      }
         `,
       array
     )
@@ -180,17 +194,26 @@ router.get("/gameDetailFilterPageCount", (req, res, next) => {
     .catch((err) => {
       next(createHttpError(500, err));
       logger.error(
-        `${err || "500 Error"}  ||  ${res.statusMessage} - ${
-          req.originalUrl
+        `${err || "500 Error"}  ||  ${res.statusMessage} - ${req.originalUrl
         } - ${req.method} - ${req.ip}`
       );
     });
 });
 
 router.get("/getDeals/:row", (req, res, next) => {
-  var row = req.params.row;
+  var row = parseInt(req.params.row);
   if (isNaN(row) || --row < 0) row = 0;
-  const LIMIT = 6;
+  const CACHE_KEYS = APP_CACHE.get("CACHE_KEYS")
+  
+  const dealsRowCache = APP_CACHE.get(CACHE_KEYS.DEALS.ROWS) || {}; // returns dict of cached deals rows
+  // if cache contains our row, return the cached row
+  if( row in dealsRowCache ){
+    return res.status(200).json({
+      deals: dealsRowCache[row],
+    });
+  }
+  // if not found in the cache, fetch from database
+  const LIMIT = 6; // Magic number!
   var offset = LIMIT * row;
   return database
     .query(
@@ -201,6 +224,9 @@ router.get("/getDeals/:row", (req, res, next) => {
       logger.info(
         `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
       );
+      dealsRowCache[row] = result.rows; // add to the cache
+
+      APP_CACHE.set(CACHE_KEYS.DEALS.ROWS, dealsRowCache); // update the node cache with latest value
       return res.status(200).json({
         deals: result.rows,
       });
@@ -208,8 +234,7 @@ router.get("/getDeals/:row", (req, res, next) => {
     .catch((err) => {
       next(createHttpError(500, err));
       logger.error(
-        `${err || "500 Error"}  ||  ${res.statusMessage} - ${
-          req.originalUrl
+        `${err || "500 Error"}  ||  ${res.statusMessage} - ${req.originalUrl
         } - ${req.method} - ${req.ip}`
       );
     });
@@ -221,15 +246,11 @@ router.get("/getBSellers/:limitProducts", (req, res, next) => {
   //limitProducts contains true or false, if it contains true, it will query the database and limit its search radius to 6 products only. if not, it will query the database for all of the products available.
   return database
     .query(
-      `SELECT order_detail.g_id, SUM(amount) bestseller, g2a_gamedatabase.g_name, g2a_gamedatabase.g_image, COALESCE(g_discount, g_price) g_discount, g2a_gamedatabase.g_price FROM order_detail INNER JOIN g2a_gamedatabase ON order_detail.g_id = g2a_gamedatabase.g_id GROUP BY order_detail.g_id, g2a_gamedatabase.g_name, g2a_gamedatabase.g_image, g2a_gamedatabase.g_price, g2a_gamedatabase.g_discount ORDER BY bestseller DESC ${
-        limitProducts == "true" ? "LIMIT 6" : ""
+      `SELECT order_detail.g_id, SUM(amount) bestseller, g2a_gamedatabase.g_name, g2a_gamedatabase.g_image, COALESCE(g_discount, g_price) g_discount, g2a_gamedatabase.g_price FROM order_detail INNER JOIN g2a_gamedatabase ON order_detail.g_id = g2a_gamedatabase.g_id GROUP BY order_detail.g_id, g2a_gamedatabase.g_name, g2a_gamedatabase.g_image, g2a_gamedatabase.g_price, g2a_gamedatabase.g_discount ORDER BY bestseller DESC ${limitProducts == "true" ? "LIMIT 6" : ""
       };`
     )
     .then((result) => {
-      if (!result.rows)
-        return res.status(200).json({
-          bsellers: [],
-        });
+
       logger.info(
         `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
       );
@@ -240,8 +261,7 @@ router.get("/getBSellers/:limitProducts", (req, res, next) => {
     .catch((err) => {
       next(createHttpError(500, err));
       logger.error(
-        `${err || "500 Error"} ||  ${res.statusMessage} - ${
-          req.originalUrl
+        `${err || "500 Error"} ||  ${res.statusMessage} - ${req.originalUrl
         } - ${req.method} - ${req.ip}`
       );
     });
@@ -253,8 +273,7 @@ router.get(`/getPreorders/:limitProducts`, (req, res, next) => {
   const limitProducts = req.params.limitProducts;
   return database
     .query(
-      `SELECT g_id, g_name, g_price, g_image, COALESCE(g_discount, g_price) g_discount, NULLIF(g2a_gamedatabase.g_discount, g2a_gamedatabase.g_price), g_publishdate FROM g2a_gamedatabase WHERE g_publishDate > current_timestamp ${
-        limitProducts == "true" ? "LIMIT 6" : ""
+      `SELECT g_id, g_name, g_price, g_image, COALESCE(g_discount, g_price) g_discount, NULLIF(g2a_gamedatabase.g_discount, g2a_gamedatabase.g_price), g_publishdate FROM g2a_gamedatabase WHERE g_publishDate > current_timestamp ${limitProducts == "true" ? "LIMIT 6" : ""
       };`
     )
     .then((result) => {
@@ -268,8 +287,7 @@ router.get(`/getPreorders/:limitProducts`, (req, res, next) => {
     .catch((err) => {
       next(createHttpError(500, err));
       logger.error(
-        `${err || "500 Error"} ||  ${res.statusMessage} - ${
-          req.originalUrl
+        `${err || "500 Error"} ||  ${res.statusMessage} - ${req.originalUrl
         } - ${req.method} - ${req.ip}`
       );
     });
@@ -291,8 +309,7 @@ router.get("/getLRelease", (req, res, next) => {
     .catch((err) => {
       next(createHttpError(500, err));
       logger.error(
-        `${err || "500 Error"}  ||  ${res.statusMessage} - ${
-          req.originalUrl
+        `${err || "500 Error"}  ||  ${res.statusMessage} - ${req.originalUrl
         } - ${req.method} - ${req.ip}`
       );
     });
@@ -310,8 +327,7 @@ router.get("/gameNameDes", async (req, res, next) => {
     console.log(err);
     next(createHttpError(500, err));
     logger.error(
-      `${err || "500 Error"}  ||  ${res.statusMessage} - ${req.originalUrl} - ${
-        req.method
+      `${err || "500 Error"}  ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method
       } - ${req.ip}`
     );
   }
@@ -323,18 +339,23 @@ async function getGameAC() {
       .query(`SELECT g_name, g_description, child_subcategory.category_name child_subcategory, parent_subcategory.category_name parent_subcategory, main_category.category_name main_category FROM g2a_gamedatabase join child_subcategory on g_childSubcategory=child_subcategory.id join parent_subcategory on g_parentSubcategory=parent_subcategory.id join main_category on g_maincategory=main_category.id`)
       .then((result) => {
         result.rows.forEach((game) => {
-          gameAC.push({ label: game.g_name, des: game.g_description, main_cat: game.main_category, parent_cat: game.parent_subcategory, child_cat: game.child_subcategory});
+          gameAC.push({ label: game.g_name, des: game.g_description, main_cat: game.main_category, parent_cat: game.parent_subcategory, child_cat: game.child_subcategory });
         });
       });
   } catch (err) {
     console.log(err);
     next(createHttpError(500, err));
     logger.error(
-      `${err || "500 Error"}  ||  ${res.statusMessage} - ${req.originalUrl} - ${
-        req.method
+      `${err || "500 Error"}  ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method
       } - ${req.ip}`
     );
   }
+}
+
+async function updateDealsCache() {
+  try {
+
+  } catch (err) {}
 }
 
 module.exports.default = router;

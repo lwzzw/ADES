@@ -223,8 +223,9 @@ window.addEventListener('DOMContentLoaded', async function () {
                 document.getElementById('dealsButton').addEventListener('click', () => {
                     getDeals(++row)
                         .then(response => {
-                            for (let i = 0; i < response.length; i++) {
-                                dealsArray.push(response[i])
+                            let gameResult = response
+                            for (let i = 0; i < gameResult.length; i++) {
+                                dealsArray.push(gameResult[i])
                             }
                             showDeals()
                         })
