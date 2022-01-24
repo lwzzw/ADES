@@ -11,7 +11,8 @@ const sendMail = require("../email/email").sendMail;
 const receiveMail = require("../email/email").receiveMail;
 const generateKey = require("../key/generateKey");
 const nodeCache = require("node-cache");
-const cache = new nodeCache({ stdTTL: 15 * 60, checkperiod: 60 });
+const APP_CACHE = require('../cache');
+const CACHE_KEYS = APP_CACHE.get("CACHE_KEYS");
 const validator = require("../middleware/validator");
 const axios = require("axios");
 const recaptchaKey = config.RECAPTCHA_SECRET;
@@ -236,6 +237,7 @@ router.post("/register", (req, res, next) => {
     `^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$`
   );
   let rePassword = new RegExp(`^.{8,}$`);
+  const CODE_CACHE = APP_CACHE.get(`${CACHE_KEYS.USERS.EMAILS}.${useremail}`);
   if (
     username == null ||
     useremail == null ||
@@ -244,7 +246,7 @@ router.post("/register", (req, res, next) => {
     usergender == null ||
     !reEmail.test(useremail) ||
     !rePassword.test(userpassword) ||
-    cache.get(useremail) != code
+    CODE_CACHE != code
   ) {
     logger.error(
       `401 Empty Credentials ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
@@ -262,7 +264,7 @@ router.post("/register", (req, res, next) => {
         );
       } else {
         return database
-          .transactionQuery(`select insert_user($1, $2, $3, $4, $5) `, [
+          .transactionQuery(`select insert_user($1, $2, $3, $4, $5); `, [
             username,
             useremail,
             hash,
@@ -270,17 +272,16 @@ router.post("/register", (req, res, next) => {
             userphone,
           ])
           .then((response) => {
-            console.log(response);
             if (response && response.rowCount == 1) {
               let data = {
                 token: jwt.sign(
                   {
-                    id: response.rows[0].id,
-                    name: response.rows[0].name,
-                    email: response.rows[0].email,
-                    phone: response.rows[0].phone,
-                    gender: response.rows[0].gender,
-                    role: response.rows[0].role,
+                    id: response.rows[0].insert_user,//get insert user id from insert_user
+                    name: username,
+                    email: useremail,
+                    phone: userphone,
+                    gender: usergender,
+                    role: 0,
                   },
                   config.JWTKEY,
                   {
@@ -291,7 +292,7 @@ router.post("/register", (req, res, next) => {
               logger.info(
                 `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
               );
-              cache.del(useremail);
+              APP_CACHE.del(`${CACHE_KEYS.USERS.EMAILS}.${useremail}`);//delete cache after register
               return res.status(200).json(data);
             } else {
               logger.error(
@@ -341,7 +342,7 @@ router.post("/forgetPass", nocache(), async (req, res, next) => {
     const link = `https://f2a.games/resetPass.html?email=${email}&code=${resetCode}`;
     let html = `<p>You've recently requested to reset your f2a account password from ${req.ip}.</p><p>Please click the following <a href='${link}'>link</a> to reset your password.</p><p>Please ignore this email if you did not request to reset your password.</p>`;
     sendMail(email, "Reset Password", { html }, () => {
-      cache.set(email, resetCode);
+      APP_CACHE.set(`${CACHE_KEYS.USERS.FORGETPASS}.${email}`, resetCode, 15*60);//set resetcode to cache and the ttl is 15 minutes
       res.status(200).json({ status: "done" });
     });
   } catch (err) {
@@ -356,11 +357,12 @@ router.post("/verifyResetPass", nocache(), async (req, res, next) => {
     const code = req.body.code;
     const password = req.body.password;
     let rePassword = new RegExp(`^.{8,}$`);
-    if (cache.get(email) == code) {
+    const USERCODE = APP_CACHE.get(`${CACHE_KEYS.USERS.FORGETPASS}.${email}`);
+    if (USERCODE == code) {
       if (!rePassword.test(password)) {
         return next(createHttpError(400, "Wrong password format"));
       }
-      cache.del(email);
+      APP_CACHE.del(`${CACHE_KEYS.USERS.FORGETPASS}.${email}`);//delete user code after verify
       bcrypt.hash(password, 10, async (err, hash) => {
         if (err) {
           console.log("Error on hashing password");
@@ -403,7 +405,7 @@ router.post("/verifyEmail", async (req, res, next) => {
       return next(createHttpError(400, "This email already exist"));
     }
     const code = generateKey(20);
-    cache.set(email, code);
+    APP_CACHE.set(`${CACHE_KEYS.USERS.EMAILS}.${email}`, code, 15*60);//set code ttl to 15 minutes
     const html = `<p>Your verification code is <h1>${code}</h1></p><p>Enter this code in the register page within 15 minutes to continue register.</p><p>Please ignore this email if you did not request to register account.</p><p>If you have any questions, send us an email <a href="mailto:support@f2a.games">support@f2a.games</a>.</p>`;
     sendMail(email, "Verify Your Email", { html }, (err, info) => {
       if (err) {

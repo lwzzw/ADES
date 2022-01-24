@@ -183,7 +183,7 @@ $$;
 
 DROP FUNCTION IF EXISTS insert_user;
 CREATE FUNCTION insert_user (username varchar(255), useremail varchar(255), userpassword varchar(255), usergender varchar(2) , userphone varchar(255))
-	returns refcursor
+	returns int
 	language plpgsql
 as
 $$
@@ -194,7 +194,7 @@ BEGIN
 	insert into user_detail (name, email, phone, gender, auth_type) VALUES (username, useremail, userphone, usergender, 1) RETURNING id into uid;
 	insert into user_auth (userid, password) VALUES (uid, userpassword);
 	open ref for select name, email, phone, gender, role from user_detail where id = uid limit 1; 
-	RETURN ref;
+	RETURN uid;
 END ;
 $$;
 

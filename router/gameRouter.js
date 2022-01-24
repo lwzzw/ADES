@@ -2,9 +2,9 @@ const database = require("../database/database");
 const createHttpError = require("http-errors");
 const router = require("express").Router();
 const logger = require("../logger");
-const APP_CACHE = require('../cache')
+const APP_CACHE = require('../cache');
+const CACHE_KEYS = APP_CACHE.get("CACHE_KEYS");
 
-let gameAC = [];
 module.exports.getGameAC = getGameAC;
 
 //--------------------
@@ -203,7 +203,6 @@ router.get("/gameDetailFilterPageCount", (req, res, next) => {
 router.get("/getDeals/:row", (req, res, next) => {
   var row = parseInt(req.params.row);
   if (isNaN(row) || --row < 0) row = 0;
-  const CACHE_KEYS = APP_CACHE.get("CACHE_KEYS")
 
   const dealsRowCache = APP_CACHE.get(CACHE_KEYS.DEALS.ROWS) || {}; // returns dict of cached deals rows
   // if cache contains our row, return the cached row
@@ -246,7 +245,6 @@ router.get("/getBSellers/:limitProducts", (req, res, next) => {
   const limitProducts = (req.params.limitProducts === 'true');
   var productIndex = 0
   
-  const CACHE_KEYS = APP_CACHE.get("CACHE_KEYS");
   const bestSellerCache = APP_CACHE.get(CACHE_KEYS.BESTSELLERS.GAMES) || {}; // returns dict of cached bestselling games
   if (limitProducts !== true) {
     productIndex = 1;
@@ -270,7 +268,7 @@ router.get("/getBSellers/:limitProducts", (req, res, next) => {
         `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
       );
       bestSellerCache[productIndex] = result.rows; // add data to cache
-      APP_CACHE.set(CACHE_KEYS.BESTSELLERS.GAMES, bestSellerCache); // update the node cache with latest value
+      APP_CACHE.set(CACHE_KEYS.BESTSELLERS.GAMES, bestSellerCache, 60); // update the node cache with latest value
       return res.status(200).json({
         bsellers: result.rows,
       });
@@ -290,7 +288,6 @@ router.get(`/getPreorders/:limitProducts`, (req, res, next) => {
   const limitProducts = (req.params.limitProducts === 'true');
   var productIndex = 0;
 
-  const CACHE_KEYS = APP_CACHE.get("CACHE_KEYS");
   const preOrdersCache = APP_CACHE.get(CACHE_KEYS.PREORDERS.GAMES) || {}; // returns dict of cached games for preorder
   if (limitProducts !== true) {
     productIndex = 1;
@@ -329,7 +326,6 @@ router.get(`/getPreorders/:limitProducts`, (req, res, next) => {
 });
 
 router.get("/getLRelease", (req, res, next) => {
-  const CACHE_KEYS = APP_CACHE.get("CACHE_KEYS");
   const latestReleaseCache = APP_CACHE.get(CACHE_KEYS.LATESTRELEASES.GAMES) || {}; // returns dict of cached bestselling games
   var productIndex = 0;
   // if cache contains latest release, return the cached data
@@ -365,11 +361,12 @@ router.get("/getLRelease", (req, res, next) => {
 
 router.get("/gameNameDes", async (req, res, next) => {
   try {
-    if (gameAC.length > 0) {
-      return res.status(200).json(gameAC);
+    const GAME_AC = APP_CACHE.get(CACHE_KEYS.AUTOCOMPLETE.GAMES);
+    if (GAME_AC) {
+      return res.status(200).json(GAME_AC);
     } else {
       await getGameAC();
-      return res.status(200).json(gameAC);
+      return res.status(200).json(APP_CACHE.get(CACHE_KEYS.AUTOCOMPLETE.GAMES));
     }
   } catch (err) {
     console.log(err);
@@ -386,9 +383,11 @@ async function getGameAC() {
     await database
       .query(`SELECT g_name, g_description, child_subcategory.category_name child_subcategory, parent_subcategory.category_name parent_subcategory, main_category.category_name main_category FROM g2a_gamedatabase join child_subcategory on g_childSubcategory=child_subcategory.id join parent_subcategory on g_parentSubcategory=parent_subcategory.id join main_category on g_maincategory=main_category.id`)
       .then((result) => {
+        let gameAC = []
         result.rows.forEach((game) => {
           gameAC.push({ label: game.g_name, des: game.g_description, main_cat: game.main_category, parent_cat: game.parent_subcategory, child_cat: game.child_subcategory });
         });
+        APP_CACHE.set(CACHE_KEYS.AUTOCOMPLETE.GAMES, gameAC)
       });
   } catch (err) {
     console.log(err);
@@ -398,12 +397,6 @@ async function getGameAC() {
       } - ${req.ip}`
     );
   }
-}
-
-async function updateDealsCache() {
-  try {
-
-  } catch (err) { }
 }
 
 module.exports.default = router;

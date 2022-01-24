@@ -46,6 +46,15 @@ window.addEventListener("DOMContentLoaded", function () {
       let codeInput = `<input class="form-control" type="text" id="codeInput" placeholder="Code" required>`;
 
       codeLayout.innerHTML = codeInput;
+    }).catch(err=>{
+      console.log(err);
+          new Noty({
+            type: "error",
+            layout: "topCenter",
+            theme: "sunset",
+            timeout: "6000",
+            text: err.message,
+          }).show();
     });
   };
 
@@ -102,7 +111,7 @@ window.addEventListener("DOMContentLoaded", function () {
           text: "Please enter a valid code(the length should be 20)",
         }).show();
       }
-      form.remove();
+      form.style.visibility = "hidden";
       loading.style.visibility = 'visible';
       register(
         username.value,
@@ -113,6 +122,8 @@ window.addEventListener("DOMContentLoaded", function () {
         codeInput.value
       )
         .then((response) => {
+          form.style.visibility = "visible";
+          loading.style.visibility = 'hidden';
           if (response) {
             localStorage.setItem("token", response);
             new Noty({

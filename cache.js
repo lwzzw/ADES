@@ -2,7 +2,8 @@ const nodeCache = require("node-cache");
 
 // All Application Cache keys
 const APP_CACHE = new nodeCache({
-    deleteOnExpire: true
+    deleteOnExpire: true,
+    checkperiod: 60
 });
 const CACHE_KEYS = {
     DEALS: {
@@ -11,11 +12,18 @@ const CACHE_KEYS = {
     BESTSELLERS: {
         GAMES: "bestsellers.games",
     },
-    PREORDERS : {
+    PREORDERS: {
         GAMES: "preorders.games"
     },
-    LATESTRELEASES : {
+    LATESTRELEASES: {
         GAMES: "latestreleases.games"
+    },
+    AUTOCOMPLETE: {
+        GAMES: "autocomplete.games"
+    },
+    USERS: {
+        EMAILS: "users.emails",
+        FORGETPASS: "users.forgetpass"
     },
 }
 APP_CACHE.set("CACHE_KEYS", CACHE_KEYS)

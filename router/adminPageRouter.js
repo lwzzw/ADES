@@ -4,11 +4,12 @@ const database = require("../database/database");
 const verifyToken = require("../middleware/checkUserAuthorize");
 const createHttpError = require("http-errors");
 const logger = require("../logger");
-const getGameAC = require("../router/gameRouter").getGameAC;
 const generateKey = require("../key/generateKey");
 const aws = require('aws-sdk');
 const S3_BUCKET = config.S3_BUCKET_NAME;
 aws.config.region = 'us-east-2';
+const APP_CACHE = require('../cache');
+const CACHE_KEYS = APP_CACHE.get("CACHE_KEYS");
 
 router.get("/getAllCategory", verifyToken, async (req, res, next) => {
   if (req.role != 1) return next(createHttpError(401, "Unauthorize"));
@@ -100,7 +101,10 @@ router.post("/addGame", verifyToken, async function (req, res, next) {
       `201 Insert ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
     );
     res.status(201).json({ success: 1 });
-    getGameAC();
+    APP_CACHE.del(CACHE_KEYS.AUTOCOMPLETE.GAMES);
+    APP_CACHE.del(CACHE_KEYS.DEALS.ROWS);
+    APP_CACHE.del(CACHE_KEYS.PREORDERS.GAMES);
+    APP_CACHE.del(CACHE_KEYS.LATESTRELEASES.GAMES);
   } catch (err) {
     next(createHttpError(500, err));
     logger.error(
@@ -182,7 +186,10 @@ router.post("/saveGame/:id", verifyToken, async function (req, res, next) {
       `201 UPDATE ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
     );
     res.status(201).json({ success: 1 });
-    getGameAC();
+    APP_CACHE.del(CACHE_KEYS.AUTOCOMPLETE.GAMES);
+    APP_CACHE.del(CACHE_KEYS.DEALS.ROWS);
+    APP_CACHE.del(CACHE_KEYS.PREORDERS.GAMES);
+    APP_CACHE.del(CACHE_KEYS.LATESTRELEASES.GAMES);
   } catch (err) {
     next(createHttpError(500, err));
     logger.error(
@@ -199,6 +206,10 @@ router.post("/delGame/:id", verifyToken, async (req, res, next) => {
   database
     .query(`DELETE from public.G2A_gameDatabase where g_id = $1`, [id])
     .then((result) => {
+      APP_CACHE.del(CACHE_KEYS.AUTOCOMPLETE.GAMES);
+      APP_CACHE.del(CACHE_KEYS.DEALS.ROWS);
+      APP_CACHE.del(CACHE_KEYS.PREORDERS.GAMES);
+      APP_CACHE.del(CACHE_KEYS.LATESTRELEASES.GAMES);
       return res.status(200).json({ success: 1 });
     })
     .catch((err) => {
