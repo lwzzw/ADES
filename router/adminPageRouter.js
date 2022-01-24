@@ -229,7 +229,7 @@ router.post("/updaterequests", verifyToken, async(req,res,next)=> {
   .then((result)=>{
     if(result.rowCount == 1){
     res.status(201).json({
-      result : result.rows
+      result : result.rowCount
     });
     }
     else{

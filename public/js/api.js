@@ -973,7 +973,7 @@ function updateRequest(requestid, status){
     return axios
         .post(`/admin/updaterequests`, body, methods)
         .then(response => {
-            return response.data
+            return response.data.result
         })
         .catch(error => {
             if (error.response) {

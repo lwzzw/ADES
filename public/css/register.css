@@ -33,7 +33,6 @@
   text-transform:uppercase;
   text-shadow:0 0 10px lightskyblue;
   box-shadow:0 0 20px rgba(0,0,0,.5);
-  display: none;
 }
 .ring:before
 {

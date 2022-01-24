@@ -101,7 +101,7 @@ window.addEventListener('DOMContentLoaded', function () {
     checkLoginBtn.style.display ='none';
     loading.style.display = 'inline';
     // To ensure login input is correct in the input is valid
-    reEmail = new RegExp(`^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$`);
+    reEmail = new RegExp(`/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/`);
     rePassword = new RegExp(`^.{8,}$`);
     const token = await grecaptcha.execute('6LczHDAeAAAAAPsiuOHlO3fBQHyORdNbxq9ipkzt', {action: 'login'}).then(token=>token);
     if (!rePassword.test(password.value) || !reEmail.test(email.value)) {

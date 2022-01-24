@@ -15,6 +15,14 @@ window.addEventListener('DOMContentLoaded', function () {
             document.getElementById("nokeys").remove();
             document.getElementById("keys").insertAdjacentHTML("beforeend", string);
         }
+    }).catch(err => {
+        new Noty({
+          type: 'error',
+          layout: 'topCenter',
+          theme: 'sunset',
+          timeout: '6000',
+          text: err.message,
+        }).show();
     })
 
     

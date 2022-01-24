@@ -31,7 +31,30 @@ const validationFn = {
         }else {
             res.status(400).json({error: 'validation failed, check your input. Only alphabets and digits for subject and message!'})
         }
-    }
+    },
+    
+    validateRegister: function (req, res, next) {
+
+        var fullname = req.body.username;
+        var email = req.body.email;
+        var password = req.body.password;
+
+        refullname = new RegExp(`^[a-zA-Z\s,']+$`);
+        reEmail = new RegExp(`^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$`);
+        rePassword = new RegExp(`^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$`);
+    
+
+        
+        if (refullname.test(fullname) && rePassword.test(password) && reEmail.test(email)) {
+
+            next();
+        } else {
+
+            res.status(500);
+            res.send(`{"Message":"Error!!"}`);
+            logger.error(`500 error ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+        }
+    },
 
 };
 

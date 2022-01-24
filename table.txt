@@ -63,8 +63,8 @@ CREATE TABLE IF NOT EXISTS user_detail (
 	name varchar(50) not null,
 	email varchar(255) not null,
 	auth_type int not null,
-	gender varchar(2) null,
-	phone varchar(255) null,
+	gender varchar(2) null DEFAULT 'M',
+	phone int null,
 	role int default 0
 );
 
@@ -182,21 +182,23 @@ END ;
 $$;
 
 DROP FUNCTION IF EXISTS insert_user;
-CREATE FUNCTION insert_user (username varchar(255), useremail varchar(255), userpassword varchar(255), usergender varchar(2) , userphone varchar(255))
-	returns refcursor
+CREATE FUNCTION insert_user (username varchar(255), useremail varchar(255), userpassword varchar(255), usergender varchar(2) , userphone int)
+	returns table(nid bigint,uname varchar(255), uemail varchar(255), uphone int, ugender varchar(2), urole int)
 	language plpgsql
 as
 $$
 declare 
 uid int;
-ref refcursor;
 BEGIN
 	insert into user_detail (name, email, phone, gender, auth_type) VALUES (username, useremail, userphone, usergender, 1) RETURNING id into uid;
 	insert into user_auth (userid, password) VALUES (uid, userpassword);
-	open ref for select name, email, phone, gender, role from user_detail where id = uid limit 1; 
-	RETURN ref;
+	return query
+	select id, name, email, phone, gender, role from user_detail where id= uid;
+
+	
 END ;
 $$;
+
 
 INSERT INTO public.region (region_name) VALUES ('ASIA');
 INSERT INTO public.region (region_name) VALUES ('Middle-East');

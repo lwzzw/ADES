@@ -12,6 +12,8 @@ window.addEventListener("DOMContentLoaded", function () {
   const verifyBtn = document.getElementById("verifyEmail");
   const codeLayout = document.getElementById("codeLayout");
   const form = document.getElementById("form");
+  const loadingText = document.getElementById("loadingText");
+  ;
   let usergender = "";
 
 
@@ -25,6 +27,7 @@ window.addEventListener("DOMContentLoaded", function () {
   };
 
   verifyBtn.onclick = function () {
+    verifyBtn.innerHTML = `<i class="fa fa-circle-o-notch fa-spin">`;
     if (!checkEmail(useremail.value)) {
       return new Noty({
         type: "error",
@@ -35,6 +38,7 @@ window.addEventListener("DOMContentLoaded", function () {
       }).show();
     }
     verifyEmail(useremail.value).then((response) => {
+      verifyBtn.innerHTML = 'Code Sent';
       if (response != "done") return;
       new Noty({
         type: "success",
@@ -46,12 +50,22 @@ window.addEventListener("DOMContentLoaded", function () {
       let codeInput = `<input class="form-control" type="text" id="codeInput" placeholder="Code" required>`;
 
       codeLayout.innerHTML = codeInput;
+    }).catch((error) => {
+      console.log(error);
+      new Noty({
+        type: "error",
+        layout: "topCenter",
+        theme: "sunset",
+        timeout: "6000",
+        text: error.message,
+      }).show();
+      verifyBtn.innerHTML = 'Send Code Again'
     });
   };
 
   checkRegisterBtn.onclick = function () {
-    let rePassword = new RegExp(`^.{8,}$`);
-    const checkPhone = new RegExp(`/^[89]\d{7}$/`);
+    const rePassword = new RegExp(`^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$`);
+    const checkPhone = new RegExp(`[8|9]\d{7}|\[8|9]\d{7}|\\s[8|9]\d{7}`);
     const codeInput = document.getElementById("codeInput") || null;
     if (userfemale.checked) {
       usergender = userfemale.value;
@@ -76,10 +90,10 @@ window.addEventListener("DOMContentLoaded", function () {
       if(!rePassword.test(userpassword.value) && checkEmail(useremail.value) && checkPhone.test(userphone.value)){
         string = "password format";
       }
-      else if(!checkEmail(useremail.value) && rePassword.test(useremail.value) && checkPhone.test(userphone.value)){
+      else if(!checkEmail(useremail.value) && rePassword.test(userpassword.value) && checkPhone.test(userphone.value)){
         string = "email format"
       }
-      else if(!checkPhone.test(userphone.value) && checkEmail(useremail.value) && rePassword.test(useremail.value)){
+      else if(!checkPhone.test(userphone.value) && checkEmail(useremail.value) && rePassword.test(userpassword.value)){
         string = "phone number format (8 digits exact starting with 8 or 9)"
       }
       else if(!codeInput && checkEmail(useremail.value) && rePassword.test(userpassword.test) && checkPhone.test(userphone.value)){
@@ -102,7 +116,8 @@ window.addEventListener("DOMContentLoaded", function () {
           text: "Please enter a valid code(the length should be 20)",
         }).show();
       }
-      form.remove();
+      form.style.display = 'none';
+      loadingText.innerHTML = 'creating account';
       loading.style.visibility = 'visible';
       register(
         username.value,
@@ -134,6 +149,8 @@ window.addEventListener("DOMContentLoaded", function () {
               timeout: "6000",
               text: "Unable To Register. Try again!",
             }).show();
+            loading.style.visibility = 'hidden';
+            form.style.display = 'inline';
           }
         })
         .catch((error) => {
@@ -145,12 +162,14 @@ window.addEventListener("DOMContentLoaded", function () {
             timeout: "6000",
             text: "Unable To Register. Try again!",
           }).show();
+          loading.style.visibility = 'hidden';
+          form.style.display = 'inline';
         });
     }
   };
   function checkEmail(email) {
     let reEmail = new RegExp(
-      `^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$`
+      `/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/`
     );
     return reEmail.test(email);
   }

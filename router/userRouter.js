@@ -19,6 +19,7 @@ var qs = require("qs");
 
 var passport = require("passport");
 var FacebookStrategy = require("passport-facebook");
+const { validateRegister } = require("../middleware/validator");
 
 passport.use(
   new FacebookStrategy(
@@ -225,7 +226,7 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-router.post("/register", (req, res, next) => {
+router.post("/register", validateRegister,(req, res, next) => {
   const username = req.body.username;
   const useremail = req.body.useremail;
   const userpassword = req.body.userpassword;
@@ -262,7 +263,7 @@ router.post("/register", (req, res, next) => {
         );
       } else {
         return database
-          .transactionQuery(`select insert_user($1, $2, $3, $4, $5) `, [
+          .transactionQuery(`select * from insert_user($1, $2, $3, $4, $5)`, [
             username,
             useremail,
             hash,
@@ -270,17 +271,17 @@ router.post("/register", (req, res, next) => {
             userphone,
           ])
           .then((response) => {
-            console.log(response);
+            console.log(response.rows);
             if (response && response.rowCount == 1) {
               let data = {
                 token: jwt.sign(
                   {
-                    id: response.rows[0].id,
-                    name: response.rows[0].name,
-                    email: response.rows[0].email,
-                    phone: response.rows[0].phone,
-                    gender: response.rows[0].gender,
-                    role: response.rows[0].role,
+                    id: response.rows[0].nid,
+                    name: response.rows[0].uname,
+                    email: response.rows[0].uemail,
+                    phone: response.rows[0].uphone,
+                    gender: response.rows[0].ugender,
+                    role: response.rows[0].urole,
                   },
                   config.JWTKEY,
                   {
@@ -404,6 +405,7 @@ router.post("/verifyEmail", async (req, res, next) => {
     }
     const code = generateKey(20);
     cache.set(email, code);
+    console.log(code);
     const html = `<p>Your verification code is <h1>${code}</h1></p><p>Enter this code in the register page within 15 minutes to continue register.</p><p>Please ignore this email if you did not request to register account.</p><p>If you have any questions, send us an email <a href="mailto:support@f2a.games">support@f2a.games</a>.</p>`;
     sendMail(email, "Verify Your Email", { html }, (err, info) => {
       if (err) {
