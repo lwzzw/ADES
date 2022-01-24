@@ -78,6 +78,7 @@ window.addEventListener('DOMContentLoaded', async function () {
         // const result = await getAllCategories()
         
         await getBestsellers(true).then(response => {
+            console.log(response)
             for (let i = 0; i < response.length; i++) {
                 let bestsellers = response[i]
                 let bestseller = `                        

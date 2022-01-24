@@ -7,7 +7,16 @@ const APP_CACHE = new nodeCache({
 const CACHE_KEYS = {
     DEALS: {
         ROWS: "deals.rows",
-    }
+    },
+    BESTSELLERS: {
+        GAMES: "bestsellers.games",
+    },
+    PREORDERS : {
+        GAMES: "preorders.games"
+    },
+    LATESTRELEASES : {
+        GAMES: "latestreleases.games"
+    },
 }
 APP_CACHE.set("CACHE_KEYS", CACHE_KEYS)
 

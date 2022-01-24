@@ -204,10 +204,10 @@ router.get("/getDeals/:row", (req, res, next) => {
   var row = parseInt(req.params.row);
   if (isNaN(row) || --row < 0) row = 0;
   const CACHE_KEYS = APP_CACHE.get("CACHE_KEYS")
-  
+
   const dealsRowCache = APP_CACHE.get(CACHE_KEYS.DEALS.ROWS) || {}; // returns dict of cached deals rows
   // if cache contains our row, return the cached row
-  if( row in dealsRowCache ){
+  if (row in dealsRowCache) {
     return res.status(200).json({
       deals: dealsRowCache[row],
     });
@@ -242,18 +242,35 @@ router.get("/getDeals/:row", (req, res, next) => {
 
 //This API querys the database for bestselling products depending on how many times a game has been purchased.
 router.get("/getBSellers/:limitProducts", (req, res, next) => {
-  const limitProducts = req.params.limitProducts;
   //limitProducts contains true or false, if it contains true, it will query the database and limit its search radius to 6 products only. if not, it will query the database for all of the products available.
+  const limitProducts = (req.params.limitProducts === 'true');
+  var productIndex = 0
+  
+  const CACHE_KEYS = APP_CACHE.get("CACHE_KEYS");
+  const bestSellerCache = APP_CACHE.get(CACHE_KEYS.BESTSELLERS.GAMES) || {}; // returns dict of cached bestselling games
+  if (limitProducts !== true) {
+    productIndex = 1;
+  };
+
+  // if cache contains productIndex, return the cached index
+  if (productIndex in bestSellerCache) {
+    return res.status(200).json({
+      bsellers: bestSellerCache[productIndex],
+    });
+  };
+
+  // if index is not found in cache, fetch from database
   return database
     .query(
-      `SELECT order_detail.g_id, SUM(amount) bestseller, g2a_gamedatabase.g_name, g2a_gamedatabase.g_image, COALESCE(g_discount, g_price) g_discount, g2a_gamedatabase.g_price FROM order_detail INNER JOIN g2a_gamedatabase ON order_detail.g_id = g2a_gamedatabase.g_id GROUP BY order_detail.g_id, g2a_gamedatabase.g_name, g2a_gamedatabase.g_image, g2a_gamedatabase.g_price, g2a_gamedatabase.g_discount ORDER BY bestseller DESC ${limitProducts == "true" ? "LIMIT 6" : ""
+      `SELECT order_detail.g_id, SUM(amount) bestseller, g2a_gamedatabase.g_name, g2a_gamedatabase.g_image, COALESCE(g_discount, g_price) g_discount, g2a_gamedatabase.g_price FROM order_detail INNER JOIN g2a_gamedatabase ON order_detail.g_id = g2a_gamedatabase.g_id GROUP BY order_detail.g_id, g2a_gamedatabase.g_name, g2a_gamedatabase.g_image, g2a_gamedatabase.g_price, g2a_gamedatabase.g_discount ORDER BY bestseller DESC ${limitProducts == true ? "LIMIT 6" : ""
       };`
     )
     .then((result) => {
-
       logger.info(
         `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
       );
+      bestSellerCache[productIndex] = result.rows; // add data to cache
+      APP_CACHE.set(CACHE_KEYS.BESTSELLERS.GAMES, bestSellerCache); // update the node cache with latest value
       return res.status(200).json({
         bsellers: result.rows,
       });
@@ -270,7 +287,23 @@ router.get("/getBSellers/:limitProducts", (req, res, next) => {
 //This API querys the database for products under preorder.
 router.get(`/getPreorders/:limitProducts`, (req, res, next) => {
   //limitProducts contains true or false, if it contains true, it will query the database and limit its search radius to 6 products only. if not, it will query the database for all of the products available.
-  const limitProducts = req.params.limitProducts;
+  const limitProducts = (req.params.limitProducts === 'true');
+  var productIndex = 0;
+
+  const CACHE_KEYS = APP_CACHE.get("CACHE_KEYS");
+  const preOrdersCache = APP_CACHE.get(CACHE_KEYS.PREORDERS.GAMES) || {}; // returns dict of cached games for preorder
+  if (limitProducts !== true) {
+    productIndex = 1;
+  };
+
+    // if cache contains productIndex, return the cached index
+    if (productIndex in preOrdersCache) {
+      return res.status(200).json({
+        preorders: preOrdersCache[productIndex],
+      });
+    };
+  
+  // if index is not found in cache, fetch from database
   return database
     .query(
       `SELECT g_id, g_name, g_price, g_image, COALESCE(g_discount, g_price) g_discount, NULLIF(g2a_gamedatabase.g_discount, g2a_gamedatabase.g_price), g_publishdate FROM g2a_gamedatabase WHERE g_publishDate > current_timestamp ${limitProducts == "true" ? "LIMIT 6" : ""
@@ -280,6 +313,8 @@ router.get(`/getPreorders/:limitProducts`, (req, res, next) => {
       logger.info(
         `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
       );
+      preOrdersCache[productIndex] = result.rows; // add data to cache
+      APP_CACHE.set(CACHE_KEYS.PREORDERS.GAMES, preOrdersCache); // update the node cache with latest value
       return res.status(200).json({
         preorders: result.rows,
       });
@@ -294,6 +329,17 @@ router.get(`/getPreorders/:limitProducts`, (req, res, next) => {
 });
 
 router.get("/getLRelease", (req, res, next) => {
+  const CACHE_KEYS = APP_CACHE.get("CACHE_KEYS");
+  const latestReleaseCache = APP_CACHE.get(CACHE_KEYS.LATESTRELEASES.GAMES) || {}; // returns dict of cached bestselling games
+  var productIndex = 0;
+  // if cache contains latest release, return the cached data
+  if (productIndex in latestReleaseCache) {
+    return res.status(200).json({
+      lrelease: latestReleaseCache[productIndex],
+    });
+  };
+
+  // if latest releases is not found in cache, fetch from database
   return database
     .query(
       `SELECT g_id, g_name, g_image, COALESCE(g_discount, g_price) g_discount, g_price, NULLIF(g2a_gamedatabase.g_discount, g2a_gamedatabase.g_price), to_char(g_publishdate::timestamp,'dd/mm/YYYY') as date FROM g2a_gamedatabase WHERE g_publishdate <= current_timestamp ORDER BY g_publishdate DESC LIMIT 6;`
@@ -302,6 +348,8 @@ router.get("/getLRelease", (req, res, next) => {
       logger.info(
         `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
       );
+      latestReleaseCache[productIndex] = result.rows; // add data to cache
+      APP_CACHE.set(CACHE_KEYS.LATESTRELEASES.GAMES, latestReleaseCache); // update the node cache with latest value
       return res.status(200).json({
         lrelease: result.rows,
       });
@@ -355,7 +403,7 @@ async function getGameAC() {
 async function updateDealsCache() {
   try {
 
-  } catch (err) {}
+  } catch (err) { }
 }
 
 module.exports.default = router;
