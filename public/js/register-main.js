@@ -64,7 +64,7 @@ window.addEventListener("DOMContentLoaded", function () {
   };
 
   checkRegisterBtn.onclick = function () {
-    const rePassword = new RegExp(`^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$`);
+    const rePassword = new RegExp(`^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,9}$`);
     const checkPhone = new RegExp(`[8|9]\d{7}|\[8|9]\d{7}|\\s[8|9]\d{7}`);
     const codeInput = document.getElementById("codeInput") || null;
     if (userfemale.checked) {
