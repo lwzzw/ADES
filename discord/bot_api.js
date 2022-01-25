@@ -1,5 +1,7 @@
 const database = require("../database/database");
 database.connect();
+
+//this api used by discord bot command {/price}
 exports.getPrice = function (gameName) {
   return database
     .query(
@@ -15,6 +17,7 @@ exports.getPrice = function (gameName) {
     });
 };
 
+//this api used by discord bot command {/best_seller}
 exports.getBSellers = function () {
   return database
     .query(
@@ -30,6 +33,7 @@ exports.getBSellers = function () {
     });
 };
 
+//this api used by discord bot command {/preorder}
 exports.getPreorders = function () {
   return database
     .query(

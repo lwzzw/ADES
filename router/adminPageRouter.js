@@ -11,8 +11,9 @@ aws.config.region = 'us-east-2';
 const APP_CACHE = require('../cache');
 const CACHE_KEYS = APP_CACHE.get("CACHE_KEYS");
 
+//admin get all category to let admin add game, edit game
 router.get("/getAllCategory", verifyToken, async (req, res, next) => {
-  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));
+  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));//if the user is not a admin return 401
   let main, sub, child;
   main = await database
     .query("SELECT id, category_name FROM main_category")
@@ -35,8 +36,9 @@ router.get("/getAllCategory", verifyToken, async (req, res, next) => {
   return res.status(200).json({ main, sub, child });
 });
 
+//admin get all region to let admin add game, edit game
 router.get("/region", verifyToken, async (req, res, next) => {
-  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));
+  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));//if the user is not a admin return 401
   database
     .query("select id, region_name from region", [])
     .then((result) => {
@@ -47,13 +49,15 @@ router.get("/region", verifyToken, async (req, res, next) => {
     });
 });
 
+
+//admin add game
 router.post("/addGame", verifyToken, async function (req, res, next) {
-  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));
+  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));//if the user is not a admin return 401
   const game = req.body.game;
   console.log(game);
   game.gamePrice = parseFloat(game.gamePrice).toFixed(2);
   game.gameDiscount = parseFloat(game.gameDiscount).toFixed(2);
-  game.gameDiscount == "NaN" ? (game.gameDiscount = 0) : "";
+  game.gameDiscount == "NaN" ? (game.gameDiscount = 0) : "";//if admin didt enter game discount then game discount will be 0
   if (
     !game.gameName.trim() ||
     !game.gameDes.trim() ||
@@ -81,11 +85,9 @@ router.post("/addGame", verifyToken, async function (req, res, next) {
     game.date,
     game.region,
   ];
-  console.log(val);
   if (game.gameDiscount && game.gameDiscount > 0) {
-    val.push(game.gameDiscount);
+    val.push(game.gameDiscount);//if admin enter game discount then add it to the array
   }
-  console.log(val);
   try {
     await database.query(
       `INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_region${
@@ -101,6 +103,7 @@ router.post("/addGame", verifyToken, async function (req, res, next) {
       `201 Insert ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
     );
     res.status(201).json({ success: 1 });
+    //reset the cache
     APP_CACHE.del(CACHE_KEYS.AUTOCOMPLETE.GAMES);
     APP_CACHE.del(CACHE_KEYS.DEALS.ROWS);
     APP_CACHE.del(CACHE_KEYS.PREORDERS.GAMES);
@@ -115,8 +118,9 @@ router.post("/addGame", verifyToken, async function (req, res, next) {
   }
 });
 
+//admin get game detail
 router.get("/adminGetGame/:id", verifyToken, async (req, res, next) => {
-  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));
+  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));//if the user is not a admin return 401
   database
     .query(
       `SELECT g_region, g_id, g_name, g_description, g_price, g_image, to_char(g_publishdate::timestamp,'dd/mm/YYYY') g_publishdate, g_discount, g_maincategory, g_parentsubcategory, g_childsubcategory
@@ -132,15 +136,16 @@ router.get("/adminGetGame/:id", verifyToken, async (req, res, next) => {
     });
 });
 
+//admin edit the game
 router.post("/saveGame/:id", verifyToken, async function (req, res, next) {
-  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));
+  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));//if the user is not a admin return 401
   const game = req.body.game;
   const id = req.params.id;
   console.log(game);
   game.gamePrice = parseFloat(game.gamePrice).toFixed(2);
   game.gameDiscount = parseFloat(game.gameDiscount).toFixed(2);
   game.gameDiscount == "NaN" || game.gameDiscount == 0
-    ? (game.gameDiscount = "null")
+    ? (game.gameDiscount = "null")//if admin didt enter game discount then game discount will be null
     : "";
   if (
     !game.gameName.trim() ||
@@ -171,7 +176,7 @@ router.post("/saveGame/:id", verifyToken, async function (req, res, next) {
     id,
   ];
   if (game.gameDiscount != "null") {
-    val.push(game.gameDiscount);
+    val.push(game.gameDiscount);//if admin enter game discount then add it to the array
   }
   console.log(val);
   try {
@@ -186,6 +191,7 @@ router.post("/saveGame/:id", verifyToken, async function (req, res, next) {
       `201 UPDATE ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
     );
     res.status(201).json({ success: 1 });
+    //reset the cache
     APP_CACHE.del(CACHE_KEYS.AUTOCOMPLETE.GAMES);
     APP_CACHE.del(CACHE_KEYS.DEALS.ROWS);
     APP_CACHE.del(CACHE_KEYS.PREORDERS.GAMES);
@@ -200,12 +206,14 @@ router.post("/saveGame/:id", verifyToken, async function (req, res, next) {
   }
 });
 
+//admin delete the game
 router.post("/delGame/:id", verifyToken, async (req, res, next) => {
-  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));
+  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));//if the user is not a admin return 401
   const id = req.params.id;
   database
     .query(`DELETE from public.G2A_gameDatabase where g_id = $1`, [id])
     .then((result) => {
+      //reset the cache
       APP_CACHE.del(CACHE_KEYS.AUTOCOMPLETE.GAMES);
       APP_CACHE.del(CACHE_KEYS.DEALS.ROWS);
       APP_CACHE.del(CACHE_KEYS.PREORDERS.GAMES);
@@ -217,8 +225,9 @@ router.post("/delGame/:id", verifyToken, async (req, res, next) => {
     });
 });
 
+//admin get the requests list
 router.get("/requests", verifyToken, async (req,res,next)=> {
-  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));
+  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));//if the user is not a admin return 401
   database
   .query(`SELECT request_id, email, subject, message, status FROM support_request`)
   .then((result) => {
@@ -231,10 +240,11 @@ router.get("/requests", verifyToken, async (req,res,next)=> {
   });
 })
 
+//admin update the requests
 router.post("/updaterequests", verifyToken, async(req,res,next)=> {
   const id = req.body.id;
   const status = req.body.status;
-  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));
+  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));//if the user is not a admin return 401
   database
   .query(`UPDATE support_request set status = $1 WHERE request_id = $2`, [status, id])
   .then((result)=>{
@@ -252,12 +262,13 @@ router.post("/updaterequests", verifyToken, async(req,res,next)=> {
   });
 })
 
+//admin send the image detail and this will return the sign request to let admin upload the image in front end
 router.get('/sign-s3', verifyToken, (req, res, next) => {
-  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));
+  if (req.role != 1) return next(createHttpError(401, "Unauthorize"));//if the user is not a admin return 401
   const s3 = new aws.S3();
   const originUrl = req.query['origin-url']||false;
   var fileName = generateKey(20)+req.query['file-name'];
-  if(originUrl&&originUrl.startsWith("https://f2aimage.s3.amazonaws.com/")){
+  if(originUrl&&originUrl.startsWith("https://f2aimage.s3.amazonaws.com/")){//if the game original url is from the s3 bucket then use the original url to replace the image with new image
     fileName = originUrl.split("https://f2aimage.s3.amazonaws.com/")[1];
   }
   const fileType = req.query['file-type'];

@@ -5,33 +5,32 @@ const router = require("express").Router();
 const logger = require("../logger");
 const verifyToken = require("../middleware/checkUserAuthorize");
 const axios = require("axios");
-const nodeCache = require("node-cache");
 const config = require("../config");
 const sendMail = require("../email/email").sendMail;
 const generateKey = require("../key/generateKey");
 const Environment =
   config.ENV === "production"
     ? paypal.core.LiveEnvironment
-    : paypal.core.SandboxEnvironment;
+    : paypal.core.SandboxEnvironment;//declare the paypal environment
 const paypalClient = new paypal.core.PayPalHttpClient(
   new Environment(config.PAYPAL_CLIENT_ID, config.PAYPAL_CLIENT_SECRET)
 );
 const PaypalAccessToken = Buffer.from(
   config.PAYPAL_CLIENT_ID + ":" + config.PAYPAL_CLIENT_SECRET
-).toString("base64");
-const cache = new nodeCache({ stdTTL: 1800, checkperiod: 60 });
+).toString("base64");//paypal access token to check the order detail
+const APP_CACHE = require('../cache');
+const CACHE_KEYS = APP_CACHE.get("CACHE_KEYS");
 
 //create new order and count the total
 router.post("/create-order", async (req, res, next) => {
   var id,
     total = 0.00;
-    console.log(typeof(total));
   if (req.headers.authorization) {
     verifyToken(req, res, () => {
-      id = req.id;
+      id = req.id;//if user is login user
     });
   } else {
-    id = req.body.uid;
+    id = req.body.uid;//if user is public user
   }
   await database
     .query(
@@ -43,7 +42,7 @@ router.post("/create-order", async (req, res, next) => {
         return result.rows.forEach((cart) => {
           cart.g_discount
             ? (total += parseFloat(cart.g_discount).toFixed(2)*parseInt(cart.amount))
-            : (total += parseFloat(cart.g_price).toFixed(2)*parseInt(cart.amount));
+            : (total += parseFloat(cart.g_price).toFixed(2)*parseInt(cart.amount));//check if the discount exist
         });
       } else {
         return 0;
@@ -53,8 +52,7 @@ router.post("/create-order", async (req, res, next) => {
       next(createHttpError(500, err));
     });
   if (total <= 0) return next(createHttpError(400, "No cart"));
-  console.log(total);
-  const request = new paypal.orders.OrdersCreateRequest();
+  const request = new paypal.orders.OrdersCreateRequest();//create new order
 
   request.prefer("return=representation");
   request.requestBody({
@@ -63,7 +61,7 @@ router.post("/create-order", async (req, res, next) => {
       {
         amount: {
           currency_code: "SGD",
-          value: total,
+          value: total,//set the total
           breakdown: {
             item_total: {
               currency_code: "SGD",
@@ -76,8 +74,8 @@ router.post("/create-order", async (req, res, next) => {
   });
 
   try {
-    const order = await paypalClient.execute(request);
-    cache.set(id, order.result.id);
+    const order = await paypalClient.execute(request);//send the order detail to paypal and get the order
+    APP_CACHE.set(`${CACHE_KEYS.USERS.ORDER}.${id}`, order.result.id, 30*60)//set the cache ttl to 30 minutes
     res.status(200).json({
       id: order.result.id,
     });
@@ -93,13 +91,13 @@ router.post("/save-order", async (req, res, next) => {
       total = 0.00;
     if (req.headers.authorization) {
       verifyToken(req, res, () => {
-        id = req.id;
+        id = req.id;//if user is login user
       });
     } else {
-      id = req.body.uid;
+      id = req.body.uid;//if user is public user
     }
 
-    if (req.body.detail.status !== "COMPLETED") {
+    if (req.body.detail.status !== "COMPLETED") {//check if the status is completed
       return next(createHttpError(400, "transaction not complete"));
     }
     const paypalRes = await axios
@@ -109,8 +107,8 @@ router.post("/save-order", async (req, res, next) => {
           Authorization: "Basic " + PaypalAccessToken,
         },
       })
-      .then((res) => res.data);
-    if (paypalRes.status !== "COMPLETED" || paypalRes.id != cache.get(id)) {
+      .then((res) => res.data);//get the order status from paypal
+    if (paypalRes.status !== "COMPLETED" || paypalRes.id != APP_CACHE.get(`${CACHE_KEYS.USERS.ORDER}.${id}`)) {//check with paypal if the status is completed
       return next(createHttpError(400, "transaction not complete"));
     }
 
@@ -124,7 +122,7 @@ router.post("/save-order", async (req, res, next) => {
     let hid = await database.transactionQuery(`select confirm_order($1, $2)`, [
       id,
       total,
-    ]);
+    ]);//insert the order detail to database, delete the cart and get the id from database
     let emailHtml
     await database
       .transactionQuery(
@@ -138,7 +136,7 @@ router.post("/save-order", async (req, res, next) => {
         let orderList = result.rows;
         emailHtml = !isUser?"<p>Below is your game key</p><ul>":"";
         orderList.forEach((orderDetail) => {
-          if (isUser) {
+          if (isUser) {//if user is login user store the key to database
             insertKey(orderDetail.amount);
             function insertKey(amount) {
               let string = "";
@@ -152,7 +150,7 @@ router.post("/save-order", async (req, res, next) => {
                 insertKey(amount);
               });
             }
-          } else {
+          } else {//if user is public user send the key to the email
             for (let i = 0; i < orderDetail.amount; i++) {
               emailHtml += `<li> ${orderDetail.g_name} - ${generateKey(16)} </li>`;
             }
@@ -161,12 +159,12 @@ router.post("/save-order", async (req, res, next) => {
         emailHtml += !isUser?"</ul>":"";
       });
     let date = new Date(paypalRes.create_time);
-    let html = `<p>You have been successful make a payment total ${parseFloat(total).toFixed(2)} SGD on ${date.toLocaleString('en-US')}</p><p>Your order id for this transaction is ${cache.get(id)}</p>${emailHtml?emailHtml:""}`;
+    let html = `<p>You have been successful make a payment total ${parseFloat(total).toFixed(2)} SGD on ${date.toLocaleString('en-US')}</p><p>Your order id for this transaction is ${APP_CACHE.get(`${CACHE_KEYS.USERS.ORDER}.${id}`)}</p>${emailHtml?emailHtml:""}`;
     logger.info(
-      `200 OK ||  ${cache.take(id)} - ${paypalRes.payer.email_address} - ${total} - ${req.ip}`
+      `200 OK ||  ${APP_CACHE.get(`${CACHE_KEYS.USERS.ORDER}.${id}`)} - ${paypalRes.payer.email_address} - ${total} - ${req.ip}`
     );
-    sendMail(paypalRes.payer.email_address, "Thank you for purchase", { html });
-    cache.del(id);
+    sendMail(paypalRes.payer.email_address, "Thank you for purchase", { html });//send the email to user
+    APP_CACHE.del(`${CACHE_KEYS.USERS.ORDER}.${id}`);
     res.status(201).json({
       done: "true",
     });
@@ -175,14 +173,15 @@ router.post("/save-order", async (req, res, next) => {
   }
 });
 
+//get the order history
 router.post("/orderHistory", (req, res, next) => {
   var id;
   if (req.headers.authorization) {
     verifyToken(req, res, () => {
-      id = req.id;
+      id = req.id;//if user is login user
     });
   } else {
-    id = req.body.uid;
+    id = req.body.uid;//if user is public user
   }
   return database
     .query(
@@ -211,6 +210,7 @@ router.post("/orderHistory", (req, res, next) => {
     });
 });
 
+//get the order detail
 router.post("/orderDetails", (req, res, next) => {
   var oid = req.body.oid;
   return database

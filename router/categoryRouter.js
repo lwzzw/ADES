@@ -2,13 +2,14 @@ const database = require("../database/database");
 const createHttpError = require("http-errors");
 const logger = require("../logger");
 const router = require("express").Router();
-var cat;
-// getCat();
+const APP_CACHE = require('../cache');
+const CACHE_KEYS = APP_CACHE.get("CACHE_KEYS");
 
 module.exports.getCat = getCats;
 
 //cache the category
 async function getCats() {
+  var cat;
   try {
     let main, sub, child;
     main = await database
@@ -38,6 +39,7 @@ async function getCats() {
         main[index].parent.push(subCat);
       });
       cat = main;
+      APP_CACHE.set(CACHE_KEYS.CATEGORIES.CAT, cat);//set the category to cache
       return {
         categories: cat,
       };
@@ -49,12 +51,14 @@ async function getCats() {
   }
 }
 
+//get all category
 router.get("/getAllCategories", async function (req, res, next) {
-  if (cat)
+  const cat = APP_CACHE.get(CACHE_KEYS.CATEGORIES.CAT);
+  if (cat)//if category cache exist return the cache
     return res.status(200).json({
       categories: cat,
     });
-  let result = await getCats();
+  let result = await getCats();//if category cache does not exist call getCats to cache it
   if (result) {
     logger.info(
       `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
@@ -68,6 +72,7 @@ router.get("/getAllCategories", async function (req, res, next) {
   }
 });
 
+//get count of game by main category
 router.get("/countOfGame/:mainCategory", (req, res, next) => {
   var mainCat = req.params.mainCategory;
   return database
@@ -84,7 +89,6 @@ router.get("/countOfGame/:mainCategory", (req, res, next) => {
       logger.info(
         `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
       );
-      console.log(result.rows);
       return res.status(200).json({
         count: result.rows,
       });
@@ -99,9 +103,9 @@ router.get("/countOfGame/:mainCategory", (req, res, next) => {
     });
 });
 
+//get count of game by sub category
 router.get("/countOfGameByPlatform/:subCategory", (req, res, next) => {
   var subCat = req.params.subCategory;
-  console.log(subCat);
   return database
     .query(
       `SELECT COUNT(g_id),category_name 

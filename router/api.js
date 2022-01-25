@@ -9,6 +9,7 @@ const keyRouter = require('./keyRouter');
 const authenticate = require('./authenticate');
 const admin = require("./adminPageRouter")
 
+//router
 router.use('/game', gameRouter);
 router.use('/cart', cartRouter);
 router.use('/category', categoryRouter);

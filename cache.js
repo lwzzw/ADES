@@ -23,8 +23,12 @@ const CACHE_KEYS = {
     },
     USERS: {
         EMAILS: "users.emails",
-        FORGETPASS: "users.forgetpass"
+        FORGETPASS: "users.forgetpass",
+        ORDER: "users.order"
     },
+    CATEGORIES: {
+        CAT: "categories.cat"
+    }
 }
 APP_CACHE.set("CACHE_KEYS", CACHE_KEYS)
 

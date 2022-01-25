@@ -7,30 +7,7 @@ const CACHE_KEYS = APP_CACHE.get("CACHE_KEYS");
 
 module.exports.getGameAC = getGameAC;
 
-//--------------------
-// All Application Cache keys
-// const CACHE_KEYS = {
-//   DEALS: {
-//     ROWS: "deals.rows",
-//   }
-// };
-
-// const appCache = new nodeCache({ 
-//   stdTTL: 60 * 5, 
-//   checkperiod: 60,
-//   deleteOnExpire: true
-// });
-
-// // if touch multiple things, flush the all cache
-// appCache.flushAll();
-
-// // Only touch the deal, flush deal cache
-// foreach( cacheKey in CACHE_KEYS.DEALS ){
-//   appCache.delete(cacheKey);
-// }
-//-------------------------
-
-
+//get game detail by id
 router.get("/gameDetailById/:id", (req, res, next) => {
   var id = req.params.id;
   //parent_subcategory is platform
@@ -67,8 +44,9 @@ router.get("/gameDetailById/:id", (req, res, next) => {
     });
 });
 
+//get game by filtering
 router.get("/gameDetailFilter", (req, res, next) => {
-  const LIMIT = 18;
+  const LIMIT = 18;//one page only contains 18 games
   var i = 1,
     platform = req.query.platform,
     maincat = req.query.maincat,
@@ -77,9 +55,10 @@ router.get("/gameDetailFilter", (req, res, next) => {
     minprice = req.query.minprice,
     maxprice = req.query.maxprice,
     page = req.query.page,
-    offset = (page - 1 < 0 ? 0 : page - 1) * LIMIT || 0,
+    offset = (page - 1 < 0 ? 0 : page - 1) * LIMIT || 0,//if the offset is below 0 set it to 0
     order = req.query.sort;
-  var array = [];
+  var array = [];//array that will pass into the query
+  //if the filter exist then add it to query
   if (name) array.push(name);
   if (minprice) array.push(minprice);
   if (maxprice) array.push(maxprice);
@@ -146,6 +125,7 @@ router.get("/gameDetailFilter", (req, res, next) => {
     });
 });
 
+//get game count
 router.get("/gameDetailFilterPageCount", (req, res, next) => {
   var i = 1,
     platform = req.query.platform,
@@ -200,6 +180,7 @@ router.get("/gameDetailFilterPageCount", (req, res, next) => {
     });
 });
 
+//get deals
 router.get("/getDeals/:row", (req, res, next) => {
   var row = parseInt(req.params.row);
   if (isNaN(row) || --row < 0) row = 0;
@@ -359,13 +340,14 @@ router.get("/getLRelease", (req, res, next) => {
     });
 });
 
+//get auto complete source
 router.get("/gameNameDes", async (req, res, next) => {
   try {
     const GAME_AC = APP_CACHE.get(CACHE_KEYS.AUTOCOMPLETE.GAMES);
-    if (GAME_AC) {
+    if (GAME_AC) {//if cache exist return the cache
       return res.status(200).json(GAME_AC);
     } else {
-      await getGameAC();
+      await getGameAC();//set the cache
       return res.status(200).json(APP_CACHE.get(CACHE_KEYS.AUTOCOMPLETE.GAMES));
     }
   } catch (err) {
@@ -378,6 +360,7 @@ router.get("/gameNameDes", async (req, res, next) => {
   }
 });
 
+//function to get the game detail and cache it
 async function getGameAC() {
   try {
     await database

@@ -12,7 +12,7 @@ function verifyToken(req, res, next) {
       req.path == "/admin_requests") &&
     !req.cookies["token"]
   ) {
-    return res.redirect("/login.html");
+    return res.redirect("/login.html"); //if the path is adminpage and the cookie is not exist then redirect to login page
   }
   (req.id = ""), (req.name = ""), (req.email = "");
   var token = req.headers["authorization"] || "Bearer " + req.cookies["token"];
@@ -27,8 +27,13 @@ function verifyToken(req, res, next) {
     jwt.verify(token, config.JWTKEY, function (err, decoded) {
       if (err) {
         console.log(err);
-        if (req.path == "/admin_page") {
-          return res.redirect("/login.html");
+        if (
+          req.path == "/admin_page" ||
+          req.path == "/admin_game_list" ||
+          req.path == "/edit_game" ||
+          req.path == "/admin_requests"
+        ) {
+          return res.redirect("/login.html");//if the path is adminpage then redirect to login page
         }
         req.id = req.body.uid;
         console.log("verify error");

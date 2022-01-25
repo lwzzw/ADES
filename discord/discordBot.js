@@ -6,16 +6,20 @@ const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
 const PREFIX = "/";
-const LOG_CHANNEL_ID = "928283533087240192";
+const LOG_CHANNEL_ID = "928283533087240192";//this is the log channel let discord bot log the error
 
+//to deploy on heroku we need this
 const express = require("express");
 const app = express();
-const port = process.env.PORT||8080;
+const port = process.env.PORT||8080;//either heroku declare the port or use 8080
+//
 
+//put the discord bot online
 client.login(config.DISCORD_BOT_TOKEN).catch((err) => {
   console.log(err);
 });
 
+//format the message when an error occur
 function format_log(err, user, command, options, createdAt) {
   let op = "";
   if (options) {
@@ -27,17 +31,19 @@ function format_log(err, user, command, options, createdAt) {
   }
   return `error: ${err}\nuser: ${user}\ncreated at: ${createdAt}\ncommand: ${command}\noptions: [${op}\n]`;
 }
+
+//received the command
 client.on("interactionCreate", async (interaction) => {
-  if (!interaction.isCommand()) return;
+  if (!interaction.isCommand()) return;//return if the command is not a standard command
 
   const { commandName, options } = interaction;
 
-  await interaction.deferReply({ ephemeral: true });
+  await interaction.deferReply({ ephemeral: true });//reply the user to avoid timeout problem ephemeral is declare to let only the user who send this command can see the reply
 
   switch (commandName) {
     case "price":
       {
-        const result = await API.getPrice(options.getString("game_name"));
+        const result = await API.getPrice(options.getString("game_name"));//get the result from database using the options that user pass in
         if (result.err) {
           interaction.editReply({
             content: "Sorry, this command is temporarily unavailable",
@@ -51,7 +57,7 @@ client.on("interactionCreate", async (interaction) => {
             interaction.createdAt
           );
           console.log(err);
-          client.channels.get(LOG_CHANNEL_ID).send(err);
+          client.channels.get(LOG_CHANNEL_ID).send(err);//log the error to specify channel
         } else {
           if (result.data.length < 1) {
             interaction.editReply({
@@ -75,7 +81,7 @@ client.on("interactionCreate", async (interaction) => {
 
     case "best_seller":
       {
-        const result = await API.getBSellers();
+        const result = await API.getBSellers();//get the result from database
         if (result.err || result.data.length < 1) {
           interaction.editReply({
             content: "Sorry, this command is temporarily unavailable",
@@ -89,7 +95,7 @@ client.on("interactionCreate", async (interaction) => {
             interaction.createdAt
           );
           console.log(err);
-          client.channels.get(LOG_CHANNEL_ID).send(err);
+          client.channels.get(LOG_CHANNEL_ID).send(err);//log the error to specify channel
         } else {
           let content = result.data.map((games) => {
             return `\n${games.g_name} - $${games.g_price}`;
@@ -104,7 +110,7 @@ client.on("interactionCreate", async (interaction) => {
 
     case "preorder":
       {
-        const result = await API.getPreorders();
+        const result = await API.getPreorders();//get the result from database
         if (result.err || result.data.length < 1) {
           interaction.editReply({
             content: "Sorry, this command is temporarily unavailable",
@@ -118,7 +124,7 @@ client.on("interactionCreate", async (interaction) => {
             interaction.createdAt
           );
           console.log(err);
-          client.channels.get(LOG_CHANNEL_ID).send(err);
+          client.channels.get(LOG_CHANNEL_ID).send(err);//log the error to specify channel
         } else {
           let content = result.data.map((games) => {
             return `\n${games.g_name} - $${games.g_price} - ${games.g_publishdate}`;
@@ -131,7 +137,7 @@ client.on("interactionCreate", async (interaction) => {
       }
       break;
 
-    default:
+    default://default reply if command not found
       interaction.reply({
         content: "Sorry, the command is not available now",
         ephemeral: true,
@@ -140,6 +146,7 @@ client.on("interactionCreate", async (interaction) => {
   }
 });
 //https://discord.com/developers/docs/interactions/application-commands
+//when the bot is ready declare the command if the command not exist
 client.on("ready", () => {
   console.log("The bot is login");
 
@@ -148,7 +155,7 @@ client.on("ready", () => {
   commands?.create({
     name: "price",
     description: "get price",
-    options: [
+    options: [//user need enter the option
       {
         name: "game_name",
         description: "The name of the game you want to search",
@@ -167,10 +174,10 @@ client.on("ready", () => {
     name: "preorder",
     description: "get preorder game",
   });
+
 });
-// app.all("/",(req,res,next)=>{
-//   next()
-// })
+
+//use for deploying on heroku
 app.use((error, req, res, next) => {
   console.error(error);
   return res.status(error.status || 500).json({
@@ -179,6 +186,7 @@ app.use((error, req, res, next) => {
   });
 });
 
+//listen to heroku
 app.listen(port, () => {
   console.log(`App listen on port http://localhost:${port}`);
 });
