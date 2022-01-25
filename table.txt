@@ -182,13 +182,8 @@ END ;
 $$;
 
 DROP FUNCTION IF EXISTS insert_user;
-<<<<<<< HEAD
 CREATE FUNCTION insert_user (username varchar(255), useremail varchar(255), userpassword varchar(255), usergender varchar(2) , userphone int)
 	returns table(nid bigint,uname varchar(255), uemail varchar(255), uphone int, ugender varchar(2), urole int)
-=======
-CREATE FUNCTION insert_user (username varchar(255), useremail varchar(255), userpassword varchar(255), usergender varchar(2) , userphone varchar(255))
-	returns int
->>>>>>> 41ffadb00dcda8b9cb8dc98f28bfbc35815d56d4
 	language plpgsql
 as
 $$
@@ -197,15 +192,10 @@ uid int;
 BEGIN
 	insert into user_detail (name, email, phone, gender, auth_type) VALUES (username, useremail, userphone, usergender, 1) RETURNING id into uid;
 	insert into user_auth (userid, password) VALUES (uid, userpassword);
-<<<<<<< HEAD
 	return query
 	select id, name, email, phone, gender, role from user_detail where id= uid;
 
 	
-=======
-	open ref for select name, email, phone, gender, role from user_detail where id = uid limit 1; 
-	RETURN uid;
->>>>>>> 41ffadb00dcda8b9cb8dc98f28bfbc35815d56d4
 END ;
 $$;
 
