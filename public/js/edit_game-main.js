@@ -243,7 +243,7 @@ window.addEventListener("DOMContentLoaded", async function () {
           { id: "button1", "data-status": "ok" }
         ),
 
-        Noty.button("NO", "btn btn-error", function () {
+        Noty.button("NO", "btn btn-danger", function () {
           console.log("button 2 clicked");
           n.close();
         }),

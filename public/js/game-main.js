@@ -141,7 +141,7 @@ function showGame(game) {
             <h5>PRICE</h5>
             <h4>${game.g_discount ? `${game.g_discount}<sup class='sub-script'> SGD </sup><br><span class='slash-price'>${game.g_price}</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(game.g_price, game.g_discount)}%</span>`
             : `${game.g_price}<sup class='sub-script'> SGD </sup>`}</h4>
-            <button onclick="addCart(${game.g_id})" id="addcartbtn">Add to cart</button>
+            <button onclick="addCart(${game.g_id})" id="addcartbtn" class="btn btn-primary">Add to cart</button>
             <button onclick="copy()" class="btn btn-default btn-copy js-tooltip js-copy" id="copy" title="Copy to clipboard">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
             <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
@@ -320,7 +320,7 @@ function addCart(id) {
                 layout: "topCenter",
                 theme: "sunset",
                 timeout: "6000",
-                text: "Add success",
+                text: "Added item to cart !",
               })
                 .show();
                 document.getElementById("addcartbtn").disabled = false;
@@ -332,7 +332,7 @@ function addCart(id) {
                 layout: "topCenter",
                 theme: "sunset",
                 timeout: "6000",
-                text: err
+                text: err.message
             })
                 .show();
                 })

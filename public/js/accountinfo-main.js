@@ -14,10 +14,11 @@ window.addEventListener('DOMContentLoaded', function () {
 //function to get and display user details
 function getDetails() {
     checkLogin().then(response => {
+        //display user details
         username = document.getElementById('user-name').value = response.name;
         email = document.getElementById('email').value = response.email;
         phone = document.getElementById('phone').value = response.phone || null;
-
+        //check radio button depending on gender
         if (response.gender == 'M') {
             document.getElementById('male').checked = true;
         } else if (response.gender == 'F') {
@@ -29,6 +30,7 @@ function getDetails() {
         saveInfoListener();
     }).catch(err => {
         console.log(err);
+        //removes whole layout if user is not logged in
         disableFeatures();
         showNotification('error', err.message);
     })

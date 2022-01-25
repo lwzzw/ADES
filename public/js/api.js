@@ -97,6 +97,7 @@ function getAllCategories() {
         })
 }
 
+//getDeals function gets products on discount
 function getDeals(params) {
     const methods = {
         method: 'GET',
@@ -343,7 +344,7 @@ function addShoppingCart(cart, edit) {
         .catch(error => {
             console.log(error);
             if (error.response) {
-                throw new Error(JSON.stringify(error.response.data))
+                throw new Error((error.response.data.error))
             }
             return error.response.data
         })

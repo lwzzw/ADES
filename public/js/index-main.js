@@ -50,6 +50,13 @@ window.addEventListener("DOMContentLoaded", async function () {
       })
       .catch((err) => {
         console.log(err);
+        new Noty({
+          type: "error",
+          layout: "topCenter",
+          theme: "sunset",
+          timeout: "6000",
+          text: err.message,
+        }).show();
       });
   }
   if (localStorage.getItem("token")) {
@@ -301,7 +308,9 @@ window.addEventListener("DOMContentLoaded", async function () {
           });
       });
       document.getElementById("dealsloading").remove();
-    });
+    }).catch(error => {
+      document.getElementById("deals-container").innerHTML = 'No games found'
+    })
   };
   document.getElementById("searchBtn").addEventListener("click", search);
   getSearchAC().then((response) => {
@@ -381,6 +390,10 @@ function showCheapProducts() {
 }
 
 function showDeals() {
+
+  if (!dealsArray||dealsArray.length < 1) {
+    document.getElementById("deals").innerText = 'No games found'
+  }
   for (let i = 0; i < 6; dealsArrayi++, i++) {
     let deals = dealsArray[dealsArrayi];
     // if there are no longer deals in the array, dealsButton will be removed.
@@ -396,8 +409,9 @@ function showDeals() {
             <img src='${deals.g_image}' onerror="this.onerror=null;this.src='/images/noimage.png';" />
         </div>
         <div>
-            <h3 style="display: -webkit-box; max-width: 400px; height: 40px; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">${deals.g_name}</h3>
+            <h3 class="m-0" style="display: -webkit-box; max-width: 400px; height: 40px; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">${deals.g_name}</h3>
         </div>
+        <span id="deals-price">PRICE</span>
         <div>
         <span><span class='discount-price'>${deals.g_discount}</span> <sup class='sub-script'> SGD </sup></span>
         </div>

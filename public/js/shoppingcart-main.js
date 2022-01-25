@@ -78,28 +78,49 @@ function saveCart() {
 }
 
 function delete_cart(id) {
-    if (confirm("You are deleting cart ", id)) {
-        deleteCart(id).then(result => {
-            // alert(err)
-            new Noty({
-                type: "success",
-                layout: "topCenter",
-                theme: "sunset",
-                timeout: "6000",
-                text: "Delete success"
-            })
-                .show();
-            displayCart();
-        }).catch(err => {
-            // alert(err)
-            new Noty({
-                type: "error",
-                layout: "topCenter",
-                theme: "sunset",
-                timeout: "6000",
-                text: err
-            })
-                .show();
+    var n = new Noty({
+        text: "Do you want to delete item from cart ?",
+        theme: "sunset",
+        buttons: [
+          Noty.button(
+            "YES",
+            "btn btn-success",
+            function () {
+              console.log("button 1 clicked");
+              n.close();
+              deleteCart(id).then(result => {
+                // alert(err)
+                new Noty({
+                    type: "success",
+                    layout: "topCenter",
+                    theme: "sunset",
+                    timeout: "6000",
+                    text: "Delete success"
                 })
-    }
+                    .show();
+                displayCart();
+            }).catch(err => {
+                // alert(err)
+                new Noty({
+                    type: "error",
+                    layout: "topCenter",
+                    theme: "sunset",
+                    timeout: "6000",
+                    text: err
+                })
+                    .show();
+                    })
+            },
+            { id: "button1", "data-status": "ok" }
+          ),
+  
+          Noty.button("NO", "btn btn-danger", function () {
+            console.log("button 2 clicked");
+            n.close();
+          }),
+        ],
+      });
+      n.show();
+
+    
 }

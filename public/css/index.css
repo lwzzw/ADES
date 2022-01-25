@@ -228,6 +228,11 @@ body>section {
     font-weight: 700;
 }
 
+#deals-price {
+    letter-spacing: 0.6px;
+    font-weight: 700 !important;
+}
+
 section header {
     padding: 15px 0px;
 }

@@ -628,7 +628,8 @@ router.get("/login/callback", (req, res, next) => {
     })
     .catch(function (error) {
       //axios error
-      next(createHttpError(500, error));
+      console.log(error);
+      return res.status(401).json({error: error.response.statusText + ': ' + error.response.data.error})
     });
 });
 
