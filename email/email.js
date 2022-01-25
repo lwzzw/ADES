@@ -40,7 +40,7 @@ exports.sendMail = function (user, subject, body, callback) {
 exports.receiveMail = function (subject, body, callback) {
   var mailOptions = {
     from: config.EMAIL_USER,
-    to: "sharyssebuenaventura@gmail.com",
+    to: "support@f2a.games",
     subject: subject,
     html: body.html,
   };

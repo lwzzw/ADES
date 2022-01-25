@@ -25,7 +25,7 @@ const validationFn = {
     },
     supportformValidator: function(req, res, next){
         checkUserInput = new RegExp(/^[\w\s]+$/);
-        checkUserEmail = new RegExp(`^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$`);
+        checkUserEmail = new RegExp(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$/);
         if(checkUserInput.test(req.body.subject) && checkUserEmail.test(req.body.email) && checkUserInput.test(req.body.message)){
             next();
         }else {
@@ -35,24 +35,18 @@ const validationFn = {
     
     validateRegister: function (req, res, next) {
 
-        var fullname = req.body.username;
-        var email = req.body.email;
-        var password = req.body.password;
-
-        refullname = new RegExp(`^[a-zA-Z\s,']+$`);
-        reEmail = new RegExp(`^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$`);
-        rePassword = new RegExp(`^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$`);
-    
-
+        refullname = new RegExp(/^[a-zA-Z\s,']+$/);
+        reEmail = new RegExp(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/);
+        rePassword = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,9}$/);
+        rePhone = new RegExp(/[8|9]\d{7}|\[8|9]\d{7}|\\s[8|9]\d{7}/);
         
-        if (refullname.test(fullname) && rePassword.test(password) && reEmail.test(email)) {
+        if (refullname.test(req.body.username) && rePassword.test(req.body.userpassword) && reEmail.test(req.body.useremail) && rePhone.test(req.body.userphone)) {
 
             next();
         } else {
 
             res.status(500);
-            res.send(`{"Message":"Error!!"}`);
-            logger.error(`500 error ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+            res.send(`{"Message":"Error!! "}`);
         }
     },
 

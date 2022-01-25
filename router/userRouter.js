@@ -16,10 +16,8 @@ const validator = require("../middleware/validator");
 const axios = require("axios");
 const recaptchaKey = config.RECAPTCHA_SECRET;
 var qs = require("qs");
-
 var passport = require("passport");
 var FacebookStrategy = require("passport-facebook");
-const { validateRegister } = require("../middleware/validator");
 
 //for facebook login
 passport.use(
@@ -235,17 +233,13 @@ router.post("/login", async (req, res, next) => {
 });
 
 //register user
-router.post("/register", validateRegister, (req, res, next) => {
+router.post("/register", validator.validateRegister, (req, res, next) => {
   const username = req.body.username;
   const useremail = req.body.useremail;
   const userpassword = req.body.userpassword;
   const userphone = req.body.userphone;
   const usergender = req.body.usergender;
   const code = req.body.code;
-  let reEmail = new RegExp(
-    `^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$`
-  );
-  let rePassword = new RegExp(`^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$`);
   const CODE_CACHE = APP_CACHE.get(`${CACHE_KEYS.USERS.EMAILS}.${useremail}`);//get the verify email code
   if (
     username == null ||
@@ -253,8 +247,6 @@ router.post("/register", validateRegister, (req, res, next) => {
     userpassword == null ||
     userphone == null ||
     usergender == null ||
-    !reEmail.test(useremail) ||
-    !rePassword.test(userpassword) ||
     CODE_CACHE != code//if the code is different then return 401
   ) {
     logger.error(
@@ -338,7 +330,7 @@ router.post("/forgetPass", nocache(), async (req, res, next) => {
       return next(createHttpError(400, "no email"));
     }
     let reEmail = new RegExp(
-      `^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$`
+      /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$/
     );
     if (!reEmail.test(email)) {
       return next(createHttpError(400, "wrong email format"));//return 400 if the user enter wrong email format
@@ -372,7 +364,7 @@ router.post("/verifyResetPass", nocache(), async (req, res, next) => {
     const email = req.body.email;
     const code = req.body.code;
     const password = req.body.password;
-    let rePassword = new RegExp(`^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$`);
+    let rePassword = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,9}$/);
     const USERCODE = APP_CACHE.get(`${CACHE_KEYS.USERS.FORGETPASS}.${email}`);//get the code from cache
     if (USERCODE == code) {
       if (!rePassword.test(password)) {
@@ -410,7 +402,7 @@ router.post("/verifyEmail", async (req, res, next) => {
   try {
     const email = req.body.email;
     let reEmail = new RegExp(
-      `^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$`
+    /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$/
     );
     if (!reEmail.test(email)) {
       return next(createHttpError(400, "wrong email format"));//return 400 if the user enter wrong email format
