@@ -117,9 +117,8 @@ window.addEventListener("DOMContentLoaded", async function () {
                 }</h6>
                 <div><span>PRICE</span></div>
                 <div>
-                ${
-                  parseFloat(bestsellers.g_discount) <
-                  parseFloat(bestsellers.g_price)
+                ${// if game discount is less than game price, it will display the game with discount price and original price
+                  parseFloat(bestsellers.g_discount) <parseFloat(bestsellers.g_price)
                     ? `
                     <span> ${
                       bestsellers.g_discount
@@ -133,7 +132,8 @@ window.addEventListener("DOMContentLoaded", async function () {
                         bestsellers.g_discount
                       )}%</span>
                     </div>`
-                    : `<span>${bestsellers.g_price}</span><sup class='sub-script-striked'> SGD </sup>`
+                    ://if game does not have discount, display original price 
+                    `<span>${bestsellers.g_price}</span><sup class='sub-script-striked'> SGD </sup>`
                 }
                     </div>
                     </div>
@@ -162,7 +162,8 @@ window.addEventListener("DOMContentLoaded", async function () {
                             <span>PRICE</span> 
                         </div>
                     <div>
-                ${parseFloat(preorders.g_discount) < parseFloat(preorders.g_price) ? `
+                ${// if game discount is less than game price, it will display the game with discount price and original price
+                  parseFloat(preorders.g_discount) < parseFloat(preorders.g_price) ? `
                     <span> ${preorders.g_discount} 
                         <sup class='sub-script-striked'> SGD </sup>
                     </span>
@@ -172,7 +173,8 @@ window.addEventListener("DOMContentLoaded", async function () {
                         <sup class='sub-script-striked'> SGD </sup>
                         <span class='discount-percentage'> -${discountPercentage(preorders.g_price, preorders.g_discount)}%</span>
                     </div>`
-                    : `<span>${preorders.g_price}</span> <sup class='sub-script-striked'> SGD </sup>`
+                    : //if game does not have discount, display original price
+                    `<span>${preorders.g_price}</span> <sup class='sub-script-striked'> SGD </sup>`
                   }
                             </div>
                         </div>
@@ -202,7 +204,8 @@ window.addEventListener("DOMContentLoaded", async function () {
                             <span class="font-weight-bold"> Release Date ${lreleases.date}</span>
                         </div>
                     <div>
-                ${parseFloat(lreleases.g_discount) < parseFloat(lreleases.g_price) ? `
+                ${// if game discount is less than game price, it will display the game with discount price and original price
+                  parseFloat(lreleases.g_discount) < parseFloat(lreleases.g_price) ? `
                     <span> ${lreleases.g_discount} 
                         <sup class='sub-script-striked'> SGD </sup>
                     </span>
@@ -212,7 +215,8 @@ window.addEventListener("DOMContentLoaded", async function () {
                         <sup class='sub-script-striked'> SGD </sup>
                         <span class='discount-percentage'> -${discountPercentage(lreleases.g_price, lreleases.g_discount)}%</span>
                     </div>`
-                    : `<span>${lreleases.g_price}</span> <sup class='sub-script-striked'> SGD </sup>`
+                    : //if game does not have discount, display original price
+                    `<span>${lreleases.g_price}</span> <sup class='sub-script-striked'> SGD </sup>`
                   }
                             </div>
                         </div>
@@ -268,7 +272,7 @@ window.addEventListener("DOMContentLoaded", async function () {
     addListener();
     getAllProducts();
   });
-
+//button listeners for best seller and preorder buttons
   document.getElementById("bsBtn").addEventListener("click", () => {
     window.location.href = "/bestseller";
   });
@@ -367,7 +371,7 @@ recognition.onresult = function (event) {
   input.value = transcript;
   input.dispatchEvent(new KeyboardEvent("keyup"));
 };
-
+//displays price range of products starting from 0~250SGD
 function showCheapProducts() {
   let minPrice, maxPrice;
   for (let i = 1, j = 0, f = 0; i < 6; i++, f++) {
@@ -389,8 +393,9 @@ function showCheapProducts() {
   }
 }
 
+//display games on deal in a row
 function showDeals() {
-
+  //if dealsArray is empty, display no games found
   if (!dealsArray||dealsArray.length < 1) {
     document.getElementById("deals").innerText = 'No games found'
   }

@@ -22,8 +22,9 @@ recognition.onerror = function(event) {
 const overlayLoading = document.getElementById('loading');
 
 window.addEventListener('DOMContentLoaded', function () {
-
+    //checks if user is logged in
     if(localStorage.getItem("token")){
+        //if user is logged in, display buttons that only registered users can access
         checkLogin().then(response => {
             let myAccBtn = `<a href='dashboard.html' style="color: white!important;">My Account</a>`
             document.getElementById("login").innerHTML = "log out";
@@ -33,6 +34,7 @@ window.addEventListener('DOMContentLoaded', function () {
             })
         })
         .catch(err => {
+            //handles error
             showNotification('error', err.message)
         })
     }
@@ -117,12 +119,14 @@ function listGames(games, headers) {
                     <div> 
                         <span>PRICE</span>
                     </div>
-                    ${parseFloat(game.g_discount) < parseFloat(game.g_price) ? 
+                    ${// if game discount is less than game price, it will display the game with discount price and original price
+                        parseFloat(game.g_discount) < parseFloat(game.g_price) ? 
                         `
                         <span class="span-space" style="font-size: 17px;"> ${game.g_discount} <sup class='sub-script-striked' style="font-size: 14px;"> SGD </sup></span>
                             <span class="span-space"><span style="font-size: 20px;"><span class='slash-price'>${game.g_price}</span><sup class='sub-script-striked' style="font-size: 14px;"> SGD </sup></span><span class='discount-percentage' style="font-size: 13px;"> -${discountPercentage(game.g_price, game.g_discount)}%</span></span>
                         `  
-                        : `<span style="font-size: 20px;">${game.g_price}</span><sup class='sub-script-striked' style="font-size: 14px;"> SGD </sup>`}
+                        : // if game does not have discount, display game with its price
+                        `<span style="font-size: 20px;">${game.g_price}</span><sup class='sub-script-striked' style="font-size: 14px;"> SGD </sup>`}
         </div>
         </a>
     </li>`

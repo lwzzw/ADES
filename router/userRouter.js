@@ -539,7 +539,7 @@ router.get("/login/callback", (req, res, next) => {
     },
     data: data,
   };
-
+  //sends request to Paypal sandbox API
   return axios(options)
     .then(function (response) {
       //the user's access_token is passed into the getPaypalUserIdentity function in order to retrieve the user's paypal profile information
@@ -644,6 +644,7 @@ function validateSecretKey(secretCodeInput, secretKey) {
       "x-rapidapi-key": "a7cc9771dbmshdb30f345bae847ep1fb8d8jsn5d90b789d2ea",
     },
   };
+  //sends request to google authenticator API
   return axios
     .request(options)
     .then(function (response) {
@@ -669,7 +670,7 @@ function getPaypalUserIdentity(access_token) {
         "LANG=en_US%3BUS; cookie_check=yes; d_id=fd5c4b92473a41eba8a7b92593bcc19a1642746243115; enforce_policy=ccpa; ts=vreXpYrS%3D1737442687%26vteXpYrS%3D1642750087%26vr%3D76985c2417e0a7887168c0e1f32da9ff%26vt%3D7b4e681b17e0a60212536f7cd20503f2%26vtyp%3Dreturn; ts_c=vr%3D76985c2417e0a7887168c0e1f32da9ff%26vt%3D7b4e681b17e0a60212536f7cd20503f2; tsrce=unifiedloginnodeweb; x-cdn=fastly:QPG; x-pp-s=eyJ0IjoiMTY0Mjc0ODI4NzYzNCIsImwiOiIwIiwibSI6IjAifQ",
     },
   };
-
+  //sends request to paypal sandbox API
   return axios(options)
     .then(function (response) {
       return response.data;

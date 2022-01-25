@@ -3,9 +3,9 @@ window.addEventListener('DOMContentLoaded', async function () {
 
     const getOrderHistory = async () => {
         getOrderID().then(async response => {
-            if (response[0]) {
-                console.log('hi')
-            } else {
+            if (response[0]) {} 
+            else {
+                //displays when order history not found
                 document.getElementById('all-orders').innerHTML = 'You have no order history'
             }
             for (let i = 0; i < response.length; i++) {
@@ -47,6 +47,7 @@ window.addEventListener('DOMContentLoaded', async function () {
 
 
     uidGenerate();
+    //gets order history
     getOrderHistory();
 
 })

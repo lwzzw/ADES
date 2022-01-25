@@ -46,7 +46,7 @@ router.get("/gameDetailById/:id", (req, res, next) => {
 
 //get game by filtering
 router.get("/gameDetailFilter", (req, res, next) => {
-  const LIMIT = 18;//one page only contains 18 games
+  const LIMIT = 18;//one page only contains 18 games // Magic Number !
   var i = 1,
     platform = req.query.platform,
     maincat = req.query.maincat,
@@ -205,7 +205,6 @@ router.get("/getDeals/:row", (req, res, next) => {
         `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
       );
       dealsRowCache[row] = result.rows; // add to the cache
-
       APP_CACHE.set(CACHE_KEYS.DEALS.ROWS, dealsRowCache); // update the node cache with latest value
       return res.status(200).json({
         deals: result.rows,
@@ -376,8 +375,7 @@ async function getGameAC() {
     console.log(err);
     next(createHttpError(500, err));
     logger.error(
-      `${err || "500 Error"}  ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method
-      } - ${req.ip}`
+      `${err || "500 Error"}  ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
     );
   }
 }

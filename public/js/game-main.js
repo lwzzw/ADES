@@ -117,6 +117,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
 })
 
+//displays game details
 function showGame(game) {
     document.getElementById('web-title').innerHTML = `${game.g_name}`
     let gameString = `
