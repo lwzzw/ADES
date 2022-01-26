@@ -26,6 +26,7 @@ paths:
       - in: body
         name: uid
         description: user unique id
+        required: true
         schema:
           $ref: '#/definitions/UserVerify'
       - in: header
@@ -58,6 +59,7 @@ paths:
       - in: body
         name: uid
         description: user unique id and cart
+        required: true
         schema: 
           $ref: '#/definitions/EditShoppingCart'
       - in: header
@@ -67,6 +69,35 @@ paths:
       responses:
         201:
           description: shopping cart edit successful
+        500:
+          description: Internal Server Error
+
+  /cart/getShoppingBadge:
+    post:
+      summary: get shopping badge
+      operationId: getShoppingBadge
+      description: |
+        By passing in the user id, you can get your shopping cart badge
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: uid
+        description: user unique id
+        required: true
+        schema: 
+          $ref: '#/definitions/UserVerify'
+      - in: header
+        name: token
+        description: user login token
+        type: string
+      responses:
+        201:
+          description: shopping cart edit successful
+          schema:
+            $ref: '#/definitions/GetShoppingBadge'
         500:
           description: Internal Server Error
 
@@ -88,10 +119,10 @@ paths:
 
   /category/countOfGame/{mainCategory}:
     get:
-      summary: get the total game of the category
+      summary: get the total game of the main category
       operationId: countOfGame
       description: |
-        Send the count of each category
+        Send the count of each main category
       produces:
       - application/json
       parameters:
@@ -105,6 +136,28 @@ paths:
           description: return count of game
           schema:
             $ref: '#/definitions/CountOfGame'
+        500:
+          description: Internal Server Error
+
+  /category/countOfGameByPlatform/{subCategory}:
+    get:
+      summary: get the total game of the sub category
+      operationId: countOfGameByPlatform
+      description: |
+        Send the count of each sub category
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: subCategory
+        description: sub category / platform
+        type: string
+        required: true
+      responses:
+        200:
+          description: return count of game
+          schema:
+            $ref: '#/definitions/PlatformCountOfGame'
         500:
           description: Internal Server Error
 
@@ -182,7 +235,53 @@ paths:
         500:
           description: Internal Server Error
 
-  /game/getDeals:
+  /game/gameDetailFilterPageCount:
+    get:
+      summary: get the game detail page count by filtering
+      operationId: gameDetailFilterPageCount
+      description: |
+        Return game detail
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: platform
+        description: second category
+        type: string
+      - in: query
+        name: name
+        description: search name
+        type: string
+      - in: query
+        name: maincat
+        description: the first category name
+        type: string
+      - in: query
+        name: childcat
+        description: the second category/platform name
+        type: string
+      - in: query
+        name: minprice
+        description: minimum price
+        type: integer
+      - in: query
+        name: maxprice
+        description: maximum price
+        type: integer
+      - in: query
+        name: page
+        description: show the page number
+        type: integer
+      
+      responses:
+        200:
+          description: return game detail
+          schema:
+            $ref: '#/definitions/GameDetailPageCountFilter'
+        500:
+          description: Internal Server Error
+
+  /game/getDeals/{row}:
     get:
       summary: get the game which have discount
       operationId: getDeals
@@ -190,6 +289,13 @@ paths:
         get all game which have discount
       produces:
       - application/json
+      parameters:
+      - in: path
+        name: row
+        description: |
+          determine which row you want to get
+        type: integer
+        required: true
       responses:
         200:
           description: return game
@@ -198,14 +304,21 @@ paths:
         500:
           description: Internal Server Error
 
-  /game/getBSellers:
+  /game/getBSellers/{limitProducts}:
     get:
       summary: get the game which are best selling
       operationId: getBSellers
       description: |
-        get 6 game from our game
+        get best selling game
       produces:
       - application/json
+      parameters:
+      - in: path
+        name: limitProducts
+        description: |
+          if it contains true, it will query the database and limit its search radius to 6 products only. if not, it will query the database for all of the products available.
+        type: integer
+        required: true
       responses: 
         200:
           description: return game
@@ -214,14 +327,21 @@ paths:
         500:
           description: Internal Server Error
 
-  /game/getPreorders:
+  /game/getPreorders/{limitProducts}:
     get:
       summary: get the game which are pre order
       operationId: getPreorders
       description: |
-        get 6 game from our game
+        get preorder game
       produces:
       - application/json
+      parameters:
+      - in: path
+        name: limitProducts
+        description: |
+          if it contains true, it will query the database and limit its search radius to 6 products only. if not, it will query the database for all of the products available.
+        type: integer
+        required: true
       responses: 
         200:
           description: return game
@@ -232,7 +352,7 @@ paths:
 
   /game/getLRelease:
     get:
-      summary: get the game which are latest release
+      summary: get 6 game which are latest release
       operationId: getLRease
       description: |
         get 6 game from our game
@@ -243,6 +363,22 @@ paths:
           description: return game
           schema:
             $ref: '#/definitions/GetLRelease'
+        500:
+          description: Internal Server Error
+
+  /game/gameNameDes:
+    get:
+      summary: get the source of the auto complete
+      operationId: gameNameDes
+      description: |
+        get the source of the auto complete
+      produces:
+      - application/json
+      responses: 
+        200:
+          description: return game details
+          schema:
+            $ref: '#/definitions/GetGameNameDes'
         500:
           description: Internal Server Error
 
@@ -260,8 +396,9 @@ paths:
       - in: body
         name: uid
         description: user unique id
+        required: true
         schema: 
-          $ref: '#/definitions/Create-order'
+          $ref: '#/definitions/UserVerify'
       - in: header
         name: token
         description: user login token
@@ -288,6 +425,7 @@ paths:
       - in: body
         name: detail
         description: user unique id and order status
+        required: true
         schema: 
           $ref: '#/definitions/Save-order'
       - in: header
@@ -316,6 +454,7 @@ paths:
       - in: body
         name: detail
         description: user unique id
+        required: true
         schema: 
           $ref: '#/definitions/UserVerify'
       - in: header
@@ -344,6 +483,7 @@ paths:
       - in: body
         name: detail
         description: user unique id
+        required: true
         schema: 
           $ref: '#/definitions/UserVerify'
       - in: header
@@ -372,6 +512,7 @@ paths:
       - in: body
         name: detail
         description: user detail
+        required: true
         schema: 
           $ref: '#/definitions/UserLogin'
       responses:
@@ -379,6 +520,33 @@ paths:
           description: return order history
           schema:
             $ref: '#/definitions/UserLoginResult'
+        401: 
+          description: Verify user error
+        500:
+          description: Internal Server Error
+
+  /user/register:
+    post:
+      summary: user register
+      operationId: register
+      description: |
+        user login
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: detail
+        description: user detail
+        required: true
+        schema: 
+          $ref: '#/definitions/UserRegister'
+      responses:
+        200:
+          description: return order history
+          schema:
+            $ref: '#/definitions/UserRegisterResult'
         401: 
           description: Verify user error
         500:
@@ -398,15 +566,608 @@ paths:
       - in: body
         name: detail
         description: user detail
+        required: true
         schema: 
           $ref: '#/definitions/UserVerify'
       responses:
         200:
           description: return user name
           schema:
-            $ref: '#/definitions/UserName'
+            $ref: '#/definitions/UserDetail'
         401: 
           description: Verify user error
+        500:
+          description: Internal Server Error
+
+  /user/login/facebook:
+    post:
+      summary: user login with facebook
+      operationId: /login/facebook
+      description: |
+        user login with facebook
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        301:
+          description: if success redirect user to index page, if failed redirect user to login page
+
+  /user/oauth2/redirect/facebook:
+    post:
+      summary: user login success with facebook
+      operationId: /oauth2/redirect/facebook
+      description: |
+        user login success with facebook
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        301:
+          description: redirect user to index page
+  
+  /user/forgetPass:
+    post:
+      summary: user forget password
+      operationId: forgetPass
+      description: |
+        check user login
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        required: true
+        name: email
+        description: user email
+        schema: 
+          $ref: '#/definitions/UserEmail'
+      responses:
+        200:
+          description: return status
+          schema:
+            $ref: '#/definitions/UserForgetPassResult'
+        400: 
+          description: Wrong email format
+        404: 
+          description: User email does not exist
+        500:
+          description: Internal Server Error
+
+  /user/verifyResetPass:
+    post:
+      summary: user reset password
+      operationId: verifyResetPass
+      description: |
+        user reset password
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        required: true
+        name: detail
+        description: user detail
+        schema: 
+          $ref: '#/definitions/UserResetPassDetail'
+      responses:
+        200:
+          description: return status
+          schema:
+            $ref: '#/definitions/UserForgetPassResult'
+        400: 
+          description: Wrong password format, wrong code
+        500:
+          description: Internal Server Error
+
+  /user/verifyEmail:
+    post:
+      summary: user register verify email
+      operationId: verifyEmail
+      description: |
+        user register verify email
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: email
+        required: true
+        description: user email
+        schema: 
+          $ref: '#/definitions/UserEmail'
+      responses:
+        200:
+          description: return status
+          schema:
+            $ref: '#/definitions/UserForgetPassResult'
+        400: 
+          description: email already registered
+        500:
+          description: Internal Server Error
+
+  /user/saveUserInfo:
+    post:
+      summary: user update detail
+      operationId: saveUserInfo
+      description: |
+        user update detail
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        required: true
+        name: user detail
+        description: user detail
+        schema: 
+          $ref: '#/definitions/UserUpdateDetail'
+      - in: header
+        name: token
+        description: user login token
+        type: string
+      responses:
+        200:
+          description: return status
+          schema:
+            $ref: '#/definitions/UserRegisterResult'
+        204: 
+          description: no user to update
+        500:
+          description: Internal Server Error
+
+  /user/supportRequest:
+    post:
+      summary: user request support
+      operationId: supportRequest
+      description: |
+        user request support
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: detail
+        required: true
+        description: detail
+        schema: 
+          $ref: '#/definitions/UserRequestSupport'
+      - in: header
+        name: token
+        description: user login token
+        required: true
+        type: string
+      responses:
+        200:
+          description: return status
+          schema:
+            $ref: '#/definitions/UserRequestSupportResult'
+        500:
+          description: Internal Server Error
+
+  /user/login/callback:
+    post:
+      summary: user login with paypal
+      operationId: /login/callback
+      description: |
+        user login with paypal
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: code
+        required: true
+        description: paypal login code
+        type: string
+      responses:
+        200:
+          description: return status
+          schema:
+            $ref: '#/definitions/UserRegisterResult'
+        401:
+          description: login failed
+        500:
+          description: Internal Server Error
+
+  /admin/getAllCategories:
+    get:
+      summary: admin get all category to display
+      operationId: adminGetAllCategories
+      description: |
+        admin get all category to display(no cache)
+      produces:
+      - application/json
+      parameters:
+      - in: header
+        name: token
+        description: admin login token
+        required: true
+        type: string
+      responses:
+        200:
+          description: return all category
+          schema:
+            $ref: '#/definitions/Categories'
+        401:
+          description: user is not admin
+        500:
+          description: Internal Server Error
+
+  /admin/region:
+    get:
+      summary: admin get all region to display
+      operationId: adminGetAllRegion
+      description: |
+        admin get all region to display(no cache)
+      produces:
+      - application/json
+      parameters:
+      - in: header
+        name: token
+        description: admin login token
+        required: true
+        type: string
+      responses:
+        200:
+          description: return all region
+          schema:
+            $ref: '#/definitions/Region'
+        401:
+          description: user is not admin
+        500:
+          description: Internal Server Error
+
+  /admin/addGame:
+    post:
+      summary: admin add game
+      operationId: addGame
+      description: |
+        admin add game
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: game detail
+        description: game detail
+        required: true
+        schema: 
+          $ref: '#/definitions/AdminAddGame'
+      - in: header
+        name: token
+        description: admin login token
+        required: true
+        type: string
+      responses:
+        201:
+          description: return status
+          schema:
+            $ref: '#/definitions/AddGameStatus'
+        400:
+          description: wrong input format
+        401:
+          description: user is not admin
+        500:
+          description: Internal Server Error
+
+  /admin/adminGetGame/{id}:
+    get:
+      summary: admin get game
+      operationId: adminGetGame
+      description: |
+        admin get game
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: game id
+        required: true
+        type: string
+      - in: header
+        name: token
+        description: admin login token
+        required: true
+        type: string
+      responses:
+        200:
+          description: return status
+          schema:
+            $ref: '#/definitions/AdminGetGame'
+        401:
+          description: user is not admin
+        500:
+          description: Internal Server Error
+
+  /admin/saveGame/{id}:
+    post:
+      summary: admin save game
+      operationId: saveGame
+      description: |
+        admin save game
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: game id
+        required: true
+        type: string
+      - in: body
+        name: game detail
+        description: game detail
+        required: true
+        schema: 
+          $ref: '#/definitions/AdminAddGame'
+      - in: header
+        name: token
+        description: admin login token
+        required: true
+        type: string
+      responses:
+        201:
+          description: return status
+          schema:
+            $ref: '#/definitions/AddGameStatus'
+        400:
+          description: wrong input format
+        401:
+          description: user is not admin
+        500:
+          description: Internal Server Error
+
+  /admin/delGame/{id}:
+    post:
+      summary: admin delete game
+      operationId: delGame
+      description: |
+        admin delete game
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: header
+        name: token
+        description: admin login token
+        required: true
+        type: string
+      - in: path
+        name: id
+        description: game id
+        required: true
+        type: string
+      responses:
+        200:
+          description: return status
+          schema:
+            $ref: '#/definitions/AddGameStatus'
+        401:
+          description: user is not admin
+        500:
+          description: Internal Server Error
+
+  /admin/requests:
+    get:
+      summary: admin get requests
+      operationId: requests
+      description: |
+        admin get requests
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: header
+        name: token
+        description: admin login token
+        required: true
+        type: string
+      responses:
+        200:
+          description: return requests
+          schema:
+            $ref: '#/definitions/GetRequests'
+        401:
+          description: user is not admin
+        500:
+          description: Internal Server Error
+
+  /admin/updaterequests:
+    post:
+      summary: admin update requests
+      operationId: updaterequests
+      description: |
+        admin update requests
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: requests detail
+        description: requests detail
+        required: true
+        schema: 
+          $ref: '#/definitions/UpdateRequests'
+      - in: header
+        name: token
+        description: admin login token
+        required: true
+        type: string
+      responses:
+        201:
+          description: return update row count
+          schema:
+            $ref: '#/definitions/UpdateRequestsStatus'
+        401:
+          description: user is not admin
+        500:
+          description: Internal Server Error
+
+  /admin/sign-s3:
+    get:
+      summary: admin get signed url
+      operationId: sign-s3
+      description: |
+        admin get signed url
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: header
+        name: token
+        description: admin login token
+        required: true
+        type: string
+      - in: query
+        name: file-type
+        description: file details
+        required: true
+        type: string
+      - in: query
+        name: origin-url
+        description: image origin url
+        type: string
+      responses:
+        200:
+          description: return requests
+          schema:
+            $ref: '#/definitions/Sign-s3'
+        401:
+          description: user is not admin
+        500:
+          description: Internal Server Error
+
+  /authenticate/google/url:
+    get:
+      summary: user login with google
+      operationId: /google/url
+      description: |
+        user login with google
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        301:
+          description: redirect to google login page
+
+  /authenticate/google:
+    get:
+      summary: user login with google
+      operationId: google
+      description: |
+        user login with google
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: code
+        description: google login code
+        required: true
+        type: string
+      responses:
+        301:
+          description: redirect to index page with the token
+        500:
+          description: Internal Server Error
+
+  /key/getkeys:
+    get:
+      summary: user get the game key
+      operationId: getkeys
+      description: |
+        user get game key if they are login user, public user will get their key from the email
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: header
+        name: token
+        description: user login token
+        required: true
+        type: string
+      responses:
+        200:
+          description: return the Keys
+          schema:
+            $ref: '#/definitions/GetKeys'
+        401:
+          description: token verify error
+        404:
+          description: no key found
+        500:
+          description: Internal Server Error
+
+  /twofa/secretDetail:
+    post:
+      summary: user enable 2fa
+      operationId: secretDetail
+      description: |
+        user enable 2fa
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: 2fakey
+        description: 2fa key
+        required: true
+        schema: 
+          $ref: '#/definitions/TwoFA'
+      - in: header
+        name: token
+        description: user login token
+        required: true
+        type: string
+      responses:
+        200:
+          description: return message
+        401:
+          description: token verify error
+        500:
+          description: Internal Server Error
+
+  /twofa/getSecret:
+    post:
+      summary: user get secret key
+      operationId: getSecret
+      description: |
+        user get secret key
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: header
+        name: token
+        description: user login token
+        required: true
+        type: string
+      responses:
+        200:
+          description: return message
+        401:
+          description: token verify error
         500:
           description: Internal Server Error
 
@@ -461,7 +1222,7 @@ definitions:
         example: 10.00
       g_image:
         type: string
-        example: /images/game1.png
+        example: 	https://images.g2a.com/newlayout/300x450/1x1x0/0016edc7c245/4515669ea94844479a7002eb
 
   EditShoppingCart:
     type: object
@@ -470,9 +1231,7 @@ definitions:
     - cart
     properties:
       uid:
-        type: integer
-        format: int64
-        example: 1820797504
+        $ref: '#/definitions/UserVerify'
       cart:
         type: array
         items:
@@ -493,6 +1252,26 @@ definitions:
         format: int32
         example: 1
   
+  GetShoppingBadge:
+    type: object
+    required:
+    - items
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/ShoppingBadge'
+  
+  ShoppingBadge:
+    type: object
+    required:
+    - amount
+    properties:
+      amount: 
+        type: integer
+        format: int32
+        example: 1
+
   Categories:
     type: object
     required:
@@ -575,6 +1354,16 @@ definitions:
         format: int32
         example: 1
 
+  PlatformCountOfGame:
+    type: object
+    required:
+    - count
+    properties:
+      count:
+        type: integer
+        format: int32
+        example: 1
+
   GameDetail:
     type: object
     required:
@@ -615,7 +1404,7 @@ definitions:
         example: 10.00
       g_image: 
         type: string
-        example: /images/game1.png
+        example: https://images.g2a.com/newlayout/300x450/1x1x0/0016edc7c245/4515669ea94844479a7002eb
       g_publishdate:
         type: string
         example: 11/11/2021
@@ -671,7 +1460,7 @@ definitions:
         example: 10.00
       g_image: 
         type: string
-        example: /images/game1.png
+        example: 	https://images.g2a.com/newlayout/300x450/1x1x0/0016edc7c245/4515669ea94844479a7002eb
       g_publishdate:
         type: string
         example: 11/11/2021
@@ -683,6 +1472,26 @@ definitions:
         format: NUMERIC(12,2)
         example: 10.00
       
+  GameDetailPageCountFilter:
+    type: object
+    required:
+    - games
+    properties:
+      games:
+        type: array
+        items:
+          $ref: '#/definitions/GameDetailPageCountFilterArray'
+
+  GameDetailPageCountFilterArray:
+    type: object
+    required:
+    - count
+    properties:
+      count:
+        type: integer
+        format: int32
+        example: 1
+
   GetDeals:
     type: object
     required:
@@ -715,7 +1524,7 @@ definitions:
         example: 10.00
       g_image: 
         type: string
-        example: /images/game1.png
+        example: 	https://images.g2a.com/newlayout/300x450/1x1x0/0016edc7c245/4515669ea94844479a7002eb
       g_price:
         type: number
         format: NUMERIC(12,2)
@@ -754,7 +1563,7 @@ definitions:
         example: 10.00
       g_image: 
         type: string
-        example: /images/game1.png
+        example: https://images.g2a.com/newlayout/300x450/1x1x0/0016edc7c245/4515669ea94844479a7002eb
       g_discount:
         type: number
         format: NUMERIC(12,2)
@@ -802,7 +1611,7 @@ definitions:
         example: 10.00
       g_image: 
         type: string
-        example: /images/game1.png
+        example: https://images.g2a.com/newlayout/300x450/1x1x0/0016edc7c245/4515669ea94844479a7002eb
       preorder_price:
         type: number
         format: NUMERIC(12,2)
@@ -849,7 +1658,7 @@ definitions:
         example: 10.00
       g_image: 
         type: string
-        example: /images/game1.png
+        example: https://images.g2a.com/newlayout/300x450/1x1x0/0016edc7c245/4515669ea94844479a7002eb
       preorder_price:
         type: number
         format: NUMERIC(12,2)
@@ -866,15 +1675,35 @@ definitions:
         format: NUMERIC(12,2)
         example: 10.00
     
-  Create-order:
+  GetGameNameDes:
+    type: array
+    items:
+      $ref: '#/definitions/GetGameNameDesArray'
+
+  GetGameNameDesArray:
     type: object
     required:
-    - uid
+    - label
+    - des
+    - main_cat
+    - parent_cat
+    - child_cat
     properties:
-      uid:
-        type: integer
-        format: int64
-        example: 1820797504
+      label:
+        type: string
+        example: Game name
+      des:
+        type: string
+        example: description
+      main_cat:
+        type: string
+        example: main_cat
+      parent_cat:
+        type: string
+        example: parent_cat
+      child_cat:
+        type: string
+        example: child_cat
   
   CreateOrder:
     type: object
@@ -892,9 +1721,7 @@ definitions:
     - detail
     properties:
       uid:
-        type: integer
-        format: int64
-        example: 1820797504
+        $ref: '#/definitions/UserVerify'
       detail:
         $ref: '#/definitions/Save-orderObject'
       
@@ -994,6 +1821,8 @@ definitions:
     required:
     - email
     - password
+    - captcha
+    - secretCode
     properties:
       email:
         type: string
@@ -1001,8 +1830,56 @@ definitions:
       password:
         type: string
         example: example
+      captcha: 
+        type: string
+        example: captcha
+      secretCode:
+        type: string
+        example: 012345
 
   UserLoginResult:
+    type: object
+    required:
+    - token
+    - success
+    properties:
+      token:
+        type: string
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6IkxpbHkiLCJpYXQiOjE2Mzc5MDI3MjIsImV4cCI6MTYzNzk4OTEyMn0.sybmhllBjRafuPKMlyxnTmuCs2JToI0oF85sC9gmXIg
+      success:
+        type: string
+        example: true
+
+  UserRegister:
+    type: object
+    required:
+    - username
+    - useremail
+    - userpassword
+    - userphone
+    - usergender
+    - code
+    properties:
+      username:
+        type: string
+        example: user name
+      useremail:
+        type: string
+        example: lily@gmail.com
+      userpassword:
+        type: string
+        example: passwordInput
+      userphone: 
+        type: string
+        example: 01234567
+      usergender:
+        type: string
+        example: 1
+      code:
+        type: string
+        example: code
+
+  UserRegisterResult:
     type: object
     required:
     - token
@@ -1011,16 +1888,378 @@ definitions:
         type: string
         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6IkxpbHkiLCJpYXQiOjE2Mzc5MDI3MjIsImV4cCI6MTYzNzk4OTEyMn0.sybmhllBjRafuPKMlyxnTmuCs2JToI0oF85sC9gmXIg
 
-  UserName:
+  UserDetail:
     type: object
     required:
     - name
+    - id
+    - email
+    - phone
+    - gender
+    - role
     properties:
       name:
         type: string
         example: lily
+      id:
+        type: string
+        example: 1
+      email:
+        type: string
+        example: lily@gmail.com
+      phone:
+        type: string
+        example: 01234567
+      gender:
+        type: string
+        example: 1
+      role:
+        type: string
+        example: 0
 
+  UserEmail:
+    type: object
+    required:
+    - email
+    properties:
+      email:
+        type: string
+        example: lily@gmail.com
 
+  UserForgetPassResult:
+    type: object
+    required:
+    - status
+    properties:
+      status:
+        type: string
+        example: done
+
+  UserResetPassDetail:
+    type: object
+    required:
+    - email
+    - password
+    - code
+    properties:
+      email: 
+        type: string
+        example: lily@gmail.com
+      password:
+        type: string
+        example: password
+      code:
+        type: string
+        example: qwertyuiop0987654321
+
+  UserUpdateDetail:
+    type: object
+    required:
+    - username
+    - phone
+    - gender
+    properties:
+      username:
+        type: string
+        example: Lily
+      phone:
+        type: string
+        example: 01234567
+      gender:
+        type: string
+        example: 1
+
+  UserRequestSupport:
+    type: object
+    required:
+    - email
+    - subject
+    - message
+    properties:
+      email:
+        type: string
+        example: lily@gmail.com
+      subject:
+        type: string
+        example: subject
+      message:
+        type: string
+        example: message
+
+  UserRequestSupportResult:
+    type: object
+    required:
+    - status
+    properties:
+      status:
+        type: string
+        example: done
+  
+  Region:
+    type: object
+    required:
+    - result
+    properties:
+      result:
+        type: array
+        items:
+          $ref: '#/definitions/RegionArray'
+
+  RegionArray:
+    type: object
+    required:
+    - id
+    - region_name
+    properties:
+      id:
+        type: string
+        example: 1
+      region_name:
+        type: string
+        example: region
+
+  AdminAddGame:
+    type: object
+    required:
+    - game
+    properties:
+      game:
+        type: object
+        items:
+          $ref: '#/definitions/GameDetailAdmin'
+
+  GameDetailAdmin:
+    type: object
+    required:
+    - gamePrice
+    - gameDiscount
+    - gameName
+    - gameDes
+    - gamePic
+    - mainCat
+    - secCat
+    - thirdCat
+    - region
+    - date
+    properties:
+      gamePrice:
+        type: number
+        format: NUMERIC(12,2)
+        example: 10.00
+      gameDiscount:
+        type: number
+        format: NUMERIC(12,2)
+        example: 10.00
+      gameName:
+        type: string
+        example: game name
+      gameDes: 
+        type: string
+        example: game description
+      gamePic:
+        type: string
+        example: https://images.g2a.com/newlayout/300x450/1x1x0/0016edc7c245/4515669ea94844479a7002eb
+      mainCat: 
+        type: string
+        example: 1
+      secCat:
+        type: string
+        example: 1
+      thirdCat:
+        type: string
+        example: 1
+      region:
+        type: string
+        example: region
+      date:
+        type: string
+        example: 1/1/2021
+
+  AddGameStatus:
+    type: object
+    required:
+    - success
+    properties:
+      success:
+        type: string
+        example: 1
+
+  AdminGetGame:
+    type: object
+    required:
+    - g_region
+    - g_id
+    - g_name
+    - g_description
+    - g_price
+    - g_image
+    - g_publishdate
+    - g_discount
+    - g_maincategory
+    - g_parentsubcategory
+    - g_childsubcategory
+    properties:
+      g_region:
+        type: string
+        example: region
+      g_id:
+        type: string
+        example: 1
+      g_name:
+        type: string
+        example: game name
+      g_description:
+        type: string
+        example: description
+      g_price:
+        type: number
+        format: NUMERIC(12,2)
+        example: 10.00
+      g_discount:
+        type: number
+        format: NUMERIC(12,2)
+        example: 10.00
+      g_maincategory:
+        type: string
+        example: 1
+      g_parentsubcategory:
+        type: string
+        example: 1
+      g_childsubcategory:
+        type: string
+        example: 1
+
+  GetRequests:
+    type: object
+    required:
+    - requests
+    properties:
+      requests:
+        type: array
+        items:
+          $ref: '#/definitions/RequestsArray'
+
+  RequestsArray:
+    type: object
+    required:
+    - request_id
+    - email
+    - subject
+    - message
+    - status
+    properties:
+      requests_id:
+        type: string
+        example: qwerty
+      email:
+        type: string
+        example: lily@gmail.com
+      subject:
+        type: string
+        example: subject
+      message:
+        type: string
+        example: message
+      status:
+        type: string
+        example: 1
+
+  UpdateRequests:
+    type: object
+    required:
+    - id
+    - status
+    properties:
+      id:
+        type: string
+        example: qwerty
+      status:
+        type: string
+        example: 1
+
+  UpdateRequestsStatus:
+    type: object
+    required:
+    - result
+    properties:
+      result:
+        type: string
+        example: 1
+
+  Sign-s3:
+    type: object
+    required:
+    - result
+    properties:
+      result:
+        type: object
+        items:
+          $ref: '#/definitions/Sign-s3Data'
+
+  Sign-s3Data:
+    type: object
+    required:
+    - signedRequest
+    - url
+    - fileType
+    - fileName
+    properties:
+      signedRequests: 
+        type: string
+        example: signedRequests
+      url:
+        type: string
+        example: https://s3bucket.amazonaws.com/filename
+      fileType:
+        type: string
+        example: png
+      fileName:
+        type: string
+        example: auahigaiugaimage.jpg
+
+  GetKeys:
+    type: object
+    required:
+    - keys
+    properties:
+      keys: 
+        type: array
+        items:
+          $ref: '#/definitions/Keys'
+  
+  Keys:
+    type: object
+    required:
+    - g_name
+    - order_id
+    - g_id
+    - key
+    properties:
+      g_name:
+        type: string
+        example: game name
+      order_id:
+        type: string
+        example: 123456776
+      g_id:
+        type: string
+        example: 1
+      key:
+        type: string
+        example: qwertyuiop0987654321
+
+  TwoFA:
+    type: object
+    required:
+    - uid
+    - secretkey
+    properties:
+      uid:
+        type: string
+        example: 1
+      secretkey:
+        type: string
+        example: qwertyuiop0987654321
 
 # Added by API Auto Mocking Plugin
 host: virtserver.swaggerhub.com
