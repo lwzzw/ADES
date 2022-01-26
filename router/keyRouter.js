@@ -4,8 +4,9 @@ const database = require('../database/database');
 const verifyToken = require('../middleware/checkUserAuthorize');
 const createHttpError = require("http-errors");
 
+//get steam keys from database
 router.get('/getkeys', verifyToken, (req, res, next) =>{
-    var id = req.id;
+    const id = req.id;
 
     return database.query(`SELECT g2a_gamedatabase.g_name, keys.order_id, keys.g_id, keys.key FROM keys
      INNER JOIN order_history ON order_history.id = keys.order_id 

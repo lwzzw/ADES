@@ -37,7 +37,7 @@ const validationFn = {
 
         refullname = new RegExp(/^[a-zA-Z\s,']+$/);
         reEmail = new RegExp(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/);
-        rePassword = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,9}$/);
+        rePassword = new RegExp(/^(?=.[A-Za-z])(?=.\d)[A-Za-z\d]{8,}$/);
         rePhone = new RegExp(/[8|9]\d{7}|\[8|9]\d{7}|\\s[8|9]\d{7}/);
         
         if (refullname.test(req.body.username) && rePassword.test(req.body.userpassword) && reEmail.test(req.body.useremail) && rePhone.test(req.body.userphone)) {
@@ -49,6 +49,39 @@ const validationFn = {
             res.send(`{"Message":"Error!! "}`);
         }
     },
+
+    verifyemail : function(req, res,next){
+        reEmail = new RegExp(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/);
+                
+        if (reEmail.test(req.body.email)) {
+
+            next();
+        } else {
+            res.status(400).json({error: 'validation failed, check your email.'})
+        }
+    },
+
+    verifypassword : function(req,res, next){
+        rePassword = new RegExp(/^(?=.[A-Za-z])(?=.\d)[A-Za-z\d]{8,}$/);
+        reEmail = new RegExp(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/);
+
+        if (rePassword.test(req.body.password) && reEmail.test(req.body.email) ) {
+
+            next();
+        } else {
+            res.status(400).json({error: 'validation failed, check your password.'})
+        }
+    },
+    verifylogin: function(req, res, next){
+        rePassword = new RegExp(/^(?=.[A-Za-z])(?=.\d)[A-Za-z\d]{8,}$/);
+
+        if (rePassword.test(req.body.password)) {
+
+            next();
+        } else {
+            res.status(400).json({error: 'validation failed, check your password.'})
+        }
+    }
 
 };
 
