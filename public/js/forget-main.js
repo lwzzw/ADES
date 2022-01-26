@@ -17,6 +17,7 @@ window.addEventListener("DOMContentLoaded", function () {
         text: "Check your inputs!",
       }).show();
     } else {
+      //send the verify email
       sendVerifyCode(useremail.value)
         .then((response) => {
           if (response == "done") {

@@ -16,10 +16,11 @@ window.addEventListener("DOMContentLoaded", function () {
   };
 
   checkReset.onclick = function () {
+    //reset password
     let reEmail = new RegExp(
       `^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$`
     );
-    let rePassword = new RegExp(`^.{8,}$`);
+    let rePassword = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,9}$/);
 
     if (
       !rePassword.test(userpassword.value) ||
@@ -68,6 +69,7 @@ window.addEventListener("DOMContentLoaded", function () {
         });
     }
   };
+  //set the input field value the params values
   code.value = params.get("code");
   useremail.value = params.get("email");
   useremail.disabled = true;

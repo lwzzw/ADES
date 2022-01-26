@@ -6,6 +6,7 @@ recognition.continuous = true;
 recognition.interimResults = true;
 recognition.lang = 'EN';
 recognition.onerror = function(event) { 
+    //if recognition error
     console.log(event);
     recording = false;
     recognition.stop();
@@ -57,11 +58,13 @@ window.addEventListener('DOMContentLoaded', function () {
         })
     }
     getSearchAC().then(response=>{
+        //get the auto complete source
         console.log(response);
         if(!response.length>0)return
         
         var input = document.getElementById("searchProduct");
         
+        //declare autocomplete
         autocomplete({
             minLength: 1,
             input: input,
@@ -78,6 +81,7 @@ window.addEventListener('DOMContentLoaded', function () {
 });
 
 function voice(){
+    //start or stop voice recognition
     if(!recording){
         recognition.start();
     }else{
@@ -99,7 +103,8 @@ recognition.onresult = function(event) {
     for (var i = event.resultIndex; i < event.results.length; ++i) {
         transcript += event.results[i][0].transcript;
     }
-    input.value = transcript;
+    input.value = transcript;//set the input box value
+    //after the input value change dispatch an event to let the auto complete work
     input.dispatchEvent(new KeyboardEvent('keyup'));
 };
 
@@ -165,7 +170,7 @@ getAllCategories().then(response => {
         string += `</ul></div>`;
         document.getElementById("second_cat").insertAdjacentHTML("beforeend", string);
     }
-    addListener();
+    addListener();//add the listeners
 }).catch(err => {
     showNotification('error', err.message)
 });

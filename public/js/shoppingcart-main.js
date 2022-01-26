@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', function () {
-    uidGenerate();
+    uidGenerate();//generate the uid for public
     displayCart();
 })
 var pricearr = [],
@@ -10,7 +10,7 @@ function count() {
     $(".qty").each(function (index) {
         price += this.value * pricearr[index];
     });
-    $("#p").empty().append("Total price: <b>" + price.toFixed(2) + "</b>")
+    $("#p").empty().append("Total price: <b>" + price.toFixed(2) + "</b>");
 }
 
 function displayCart() {
@@ -59,6 +59,7 @@ function displayCart() {
     })
 }
 
+//save the cart
 function saveCart() {
     // document.getElementById("update").disabled = true;
     var cartArr = [];
@@ -77,6 +78,7 @@ function saveCart() {
     })
 }
 
+//delete cart
 function delete_cart(id) {
     var n = new Noty({
         text: "Do you want to delete item from cart ?",
@@ -121,6 +123,4 @@ function delete_cart(id) {
         ],
       });
       n.show();
-
-    
 }

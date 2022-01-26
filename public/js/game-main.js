@@ -8,6 +8,7 @@ recognition.continuous = true;
 recognition.interimResults = true;
 recognition.lang = 'EN';
 recognition.onerror = function(event) { 
+    //if recognition error
     console.log(event);
     recording = false;
     recognition.stop();
@@ -24,7 +25,7 @@ recognition.onerror = function(event) {
 window.addEventListener('DOMContentLoaded', function () {
     if(localStorage.getItem("token")){
         checkLogin().then(response => {
-            document.getElementById("login").innerHTML = "log out";
+            document.getElementById("login").innerHTML = "log out";//if login set button to log out
             document.getElementById("login").addEventListener("click", () => {
                 localStorage.removeItem("token");
             })
@@ -40,12 +41,11 @@ window.addEventListener('DOMContentLoaded', function () {
                     .show();
                 localStorage.removeItem("token");
                 document.getElementById("login").innerHTML = "Login";
-                // console.log(err);
             })
     }
     $("#categ")[0].style.display = "none";
-    uidGenerate();
-    showCartAmount();
+    uidGenerate();//generate the uid for public
+    showCartAmount();//show the amount of cart
     getAllCategories().then(response => {
         //add first category list
         for (let i = 0; i < response.length; i++) {
@@ -68,9 +68,8 @@ window.addEventListener('DOMContentLoaded', function () {
             string += `</ul></div>`;
             document.getElementById("second_cat").insertAdjacentHTML("beforeend", string);
         }
-        addListener();
+        addListener();//add the listeners
     }).catch(err => {
-        // alert(err)
         new Noty({
             type: "error",
             layout: "topCenter",
@@ -82,9 +81,9 @@ window.addEventListener('DOMContentLoaded', function () {
         })
 
     getGame(id).then(response => {
+        //show the game
         showGame(response[0]);
     }).catch(err => {
-        // alert(err)
         new Noty({
             type: "error",
             layout: "topCenter",
@@ -96,11 +95,12 @@ window.addEventListener('DOMContentLoaded', function () {
         })
 
     getSearchAC().then(response=>{
-        console.log(response.length);
+        //get the search auto complete source
         if(!response.length>0)return
         
         var input = document.getElementById("searchProduct");
 
+        //declare autocomplete
         autocomplete({
             minLength: 1,
             input: input,
@@ -156,6 +156,7 @@ function showGame(game) {
 }
 
 function voice(){
+    //start or stop voice recognition
     if(!recording){
         recognition.start();
     }else{
@@ -167,7 +168,6 @@ function voice(){
 
 recognition.onresult = function(event) {
     var input = document.getElementById("searchProduct");
-    // console.log(event);
     var transcript = "";
     if (typeof(event.results) == 'undefined') {
         recognition.onend = null;
@@ -177,7 +177,8 @@ recognition.onresult = function(event) {
     for (var i = event.resultIndex; i < event.results.length; ++i) {
         transcript += event.results[i][0].transcript;
     }
-    input.value = transcript;
+    input.value = transcript;//set the input box value
+    //after the input value change dispatch an event to let the auto complete work
     input.dispatchEvent(new KeyboardEvent('keyup'));
 };
 
@@ -187,6 +188,8 @@ function discountPercentage(originalPrice, discountedPrice) {
 }
 
 function copy(){
+    //user click the copy button
+    //copy the game url to clipboard
     var copyText = document.getElementById("copyValue");
 
     copyText.select();
@@ -196,6 +199,7 @@ function copy(){
 }
 
 function addListener() {
+    //add the event listener
     var list = document.getElementsByClassName("cat-content");
     var first_cat = [],
         second_cat = [],
@@ -306,6 +310,7 @@ $("#catdrop").on("click", function () {
 })
 
 function addCart(id) {
+    //add cart
     document.getElementById("addcartbtn").disabled = true;
     document.getElementById("addcartbtn").textContent="Adding"
     addShoppingCart([{
@@ -313,8 +318,6 @@ function addCart(id) {
             amount: 1
         }], 'false')
         .then(result => {
-            // alert("Add success");
-            // window.location.reload();
             showCartAmount();
             new Noty({
                 type: "success",
@@ -327,7 +330,6 @@ function addCart(id) {
                 document.getElementById("addcartbtn").disabled = false;
                 document.getElementById("addcartbtn").textContent="Add to cart"
         }).catch(err => {
-            // alert(err)
             new Noty({
                 type: "error",
                 layout: "topCenter",

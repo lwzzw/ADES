@@ -13,7 +13,6 @@ window.addEventListener("DOMContentLoaded", function () {
   const codeLayout = document.getElementById("codeLayout");
   const form = document.getElementById("form");
   const loadingText = document.getElementById("loadingText");
-  ;
   let usergender = "";
 
 
@@ -37,6 +36,7 @@ window.addEventListener("DOMContentLoaded", function () {
         text: "Please enter correct email!",
       }).show();
     }
+    //send the email verification
     verifyEmail(useremail.value).then((response) => {
       verifyBtn.innerHTML = 'Code Sent';
       if (response != "done") return;
@@ -64,6 +64,7 @@ window.addEventListener("DOMContentLoaded", function () {
   };
 
   checkRegisterBtn.onclick = function () {
+    //check the input
     const rePassword = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,9}$/);
     const checkPhone = new RegExp(/[8|9]\d{7}|\[8|9]\d{7}|\\s[8|9]\d{7}/);
     const codeInput = document.getElementById("codeInput") || null;
@@ -128,7 +129,6 @@ window.addEventListener("DOMContentLoaded", function () {
         codeInput.value
       )
         .then((response) => {
-          form.style.visibility = "visible";
           loading.style.visibility = 'hidden';
           if (response) {
             localStorage.setItem("token", response);

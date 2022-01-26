@@ -46,7 +46,7 @@ window.addEventListener('DOMContentLoaded', async function () {
 
 
 
-    uidGenerate();
+    uidGenerate();//generate the uid for public
     //gets order history
     getOrderHistory();
 

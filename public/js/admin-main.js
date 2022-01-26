@@ -16,11 +16,11 @@ window.addEventListener("DOMContentLoaded", async function () {
 
   let main = [],
     sec = [],
-    third = [];
+    third = [];//array for categories
 
   $("#datepicker").datepicker({
     uiLibrary: "bootstrap4",
-  });
+  });//declare the datepicker
 
   await getAllCategory()
     .then((response) => {
@@ -28,9 +28,9 @@ window.addEventListener("DOMContentLoaded", async function () {
       sec = response.sub;
       third = response.child;
       main.forEach((e) => {
-        let mainOp = document.createElement("option");
-        mainOp.setAttribute("value", e.id);
-        let t = document.createTextNode(e.category_name);
+        let mainOp = document.createElement("option");//create option
+        mainOp.setAttribute("value", e.id);//value
+        let t = document.createTextNode(e.category_name);//name
         mainOp.appendChild(t);
         mainCat.appendChild(mainOp);
       });
@@ -47,12 +47,11 @@ window.addEventListener("DOMContentLoaded", async function () {
 
   await getRegion()
     .then((result) => {
-      console.log(result);
       let regionData = result.result;
       regionData.forEach((e) => {
-        let regionOp = document.createElement("option");
-        regionOp.setAttribute("value", e.id);
-        let t = document.createTextNode(e.region_name);
+        let regionOp = document.createElement("option");//create option
+        regionOp.setAttribute("value", e.id);//value
+        let t = document.createTextNode(e.region_name);//name
         regionOp.appendChild(t);
         region.appendChild(regionOp);
       });
@@ -67,27 +66,29 @@ window.addEventListener("DOMContentLoaded", async function () {
       }).show();
     });
   function mainCatChange() {
+    //when main category change, change second category
     secCat.innerHTML = "<option value='0' selected>Second Category</option>";
     sec
       .filter((e) => e.fk_main == mainCat.value)
       .forEach((e) => {
-        let secOp = document.createElement("option");
-        secOp.setAttribute("value", e.id);
-        let t = document.createTextNode(e.category_name);
+        let secOp = document.createElement("option");//create option
+        secOp.setAttribute("value", e.id);//value
+        let t = document.createTextNode(e.category_name);//name
         secOp.appendChild(t);
         secCat.appendChild(secOp);
       });
-    secCatChange();
+    secCatChange();//change third category
   }
 
   function secCatChange() {
+    //when sec category change, change third category
     thirdCat.innerHTML = "<option value='0' selected>Third Category</option>";
     third
       .filter((e) => e.fk_parent == secCat.value)
       .forEach((e) => {
-        let thirdOp = document.createElement("option");
-        thirdOp.setAttribute("value", e.id);
-        let t = document.createTextNode(e.category_name);
+        let thirdOp = document.createElement("option");//create option
+        thirdOp.setAttribute("value", e.id);//value
+        let t = document.createTextNode(e.category_name);//name
         thirdOp.appendChild(t);
         thirdCat.appendChild(thirdOp);
       });
@@ -105,7 +106,7 @@ window.addEventListener("DOMContentLoaded", async function () {
   gamePrice.onchange = () => {
     try {
       if (gamePrice.value <= 0) {
-        gamePrice.value = 1;
+        gamePrice.value = 1;//if game price below 0 or is 0 then game price is 1
       }
       gamePrice.value = Number.parseFloat(gamePrice.value).toFixed(2);
     } catch (err) {
@@ -115,10 +116,10 @@ window.addEventListener("DOMContentLoaded", async function () {
   gameDiscount.onchange = () => {
     try {
       if (!gamePrice.value) {
-        gamePrice.value = 1;
+        gamePrice.value = 1;//if game price does not exist set it to 1
       }
       if (gameDiscount.value < 0 || gameDiscount.value >= gamePrice.value) {
-        gameDiscount.value = gamePrice.value;
+        gameDiscount.value = gamePrice.value;//if game discount is more than game price or below 0 set it to game price
       }
       gameDiscount.value = Number.parseFloat(gameDiscount.value).toFixed(2);
     } catch (err) {
@@ -127,11 +128,11 @@ window.addEventListener("DOMContentLoaded", async function () {
   };
 
   gamePic.onchange = () => {
-    console.log(gamePic.value);
-    showImg.src = gamePic.value.trim();
+    showImg.src = gamePic.value.trim();//display the preview image
   };
 
   addGameBtn.onclick = () => {
+    //add game
     addGameBtn.disabled = true;
     if (
       !gameName.value.trim() ||
@@ -205,14 +206,14 @@ window.addEventListener("DOMContentLoaded", async function () {
   };
 
   uploadBtn.onclick = () => {
-    imageFile.click();
+    imageFile.click();//show upload file ui
   };
 
   imageFile.onchange = async () => {
     try {
       const files = imageFile.files;
       const file = files[0];
-      const originUrl = gamePic.value.trim();
+      const originUrl = gamePic.value.trim();//if the game picture url exist
       if (file == null) {
         return new Noty({
           type: "error",
@@ -222,10 +223,10 @@ window.addEventListener("DOMContentLoaded", async function () {
           text: "No file selected",
         }).show();
       }
-      let signRequest = await getSignedRequest(file, originUrl).then((res) => res.result);
-      var changedFile = file.slice(0, file.size, signRequest.fileType); 
-      newFile = new File([changedFile], signRequest.fileName, {type: signRequest.fileType});
-      let uploadStatus = await uploadFile(newFile, signRequest.signedRequest);
+      let signRequest = await getSignedRequest(file, originUrl).then((res) => res.result);//get the signRequest to upload file to aws s3 bucket
+      var changedFile = file.slice(0, file.size, signRequest.fileType);
+      newFile = new File([changedFile], signRequest.fileName, {type: signRequest.fileType});//change the file name
+      let uploadStatus = await uploadFile(newFile, signRequest.signedRequest);//upload file to aws s3 bucket
       if(uploadStatus==200){
         new Noty({
           type: "success",
@@ -234,7 +235,7 @@ window.addEventListener("DOMContentLoaded", async function () {
           timeout: "6000",
           text: "Upload success",
         }).show();
-        showImg.src = `${signRequest.url}?${Math.random()}`;
+        showImg.src = `${signRequest.url}?${Math.random()}`;//show the image
         gamePic.value = signRequest.url;
       }else{
         return new Noty({

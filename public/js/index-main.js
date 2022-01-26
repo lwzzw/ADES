@@ -10,6 +10,7 @@ recognition.continuous = true;
 recognition.interimResults = true;
 recognition.lang = "EN";
 recognition.onerror = function (event) {
+  //if recognition error
   console.log(event);
   recording = false;
   recognition.stop();
@@ -23,6 +24,7 @@ recognition.onerror = function (event) {
   }).show();
 };
 window.addEventListener("DOMContentLoaded", async function () {
+  //get the token and store to localStorage
   if (params.get("token")) {
     localStorage.setItem("token", params.get("token"));
     window.history.pushState(
@@ -72,7 +74,7 @@ window.addEventListener("DOMContentLoaded", async function () {
             );
         }
         let myAccBtn = `<a href='dashboard.html' style="color: white!important;">My Account</a>`;
-        document.getElementById("login").innerHTML = "log out";
+        document.getElementById("login").innerHTML = "log out";//if login set button to log out
         document
           .getElementById("myAccount")
           .insertAdjacentHTML("beforeend", myAccBtn);
@@ -93,8 +95,8 @@ window.addEventListener("DOMContentLoaded", async function () {
         // console.log(err);
       });
   }
-  uidGenerate();
-  showCartAmount();
+  uidGenerate();//generate the uid for public
+  showCartAmount();//show the amount of cart
 
   const getAllProducts = async () => {
     // const result = await getAllCategories()
@@ -233,6 +235,7 @@ window.addEventListener("DOMContentLoaded", async function () {
     await getAllDeals();
   };
   await getAllCategories().then((response) => {
+    //add first category list
     for (let i = 0; i < response.length; i++) {
       let string = `<li class="cat-content first-cat" id="${response[i].id}"><a href="/category.html?maincat=${encodeURI(response[i].category_name)}">${response[i].category_name}</a></li>`;
       let category = `<option value='${response[i].category_name}'>${response[i].category_name}</option>`;
@@ -244,6 +247,7 @@ window.addEventListener("DOMContentLoaded", async function () {
         .insertAdjacentHTML("beforeend", string);
       if (!response[i].parent) break;
       string = `<div class="cat-block" id="1-${response[i].id}"><ul>`;
+      //add second category list
       for (let j = 0; j < response[i].parent.length; j++) {
         string += `<li class="cat-content second-cat" id="1-${
           response[i].parent[j].fk_main
@@ -254,6 +258,7 @@ window.addEventListener("DOMContentLoaded", async function () {
         )}">${response[i].parent[j].category_name}</a></li>`;
         if (!response[i].parent[j].child) break;
         let thirdstring = `<div class="cat-content third-cat cat-block" id="2-${response[i].parent[j].fk_main}-${response[i].parent[j].id}"><ul>`;
+        //add third category list
         for (let k = 0; k < response[i].parent[j].child.length; k++) {
           thirdstring += `<li><a href="/category.html?childcat=${encodeURI(
             response[i].parent[j].child[k].category_name
@@ -269,7 +274,7 @@ window.addEventListener("DOMContentLoaded", async function () {
         .getElementById("second_cat")
         .insertAdjacentHTML("beforeend", string);
     }
-    addListener();
+    addListener();//add the listeners
     getAllProducts();
   });
 //button listeners for best seller and preorder buttons
@@ -318,11 +323,12 @@ window.addEventListener("DOMContentLoaded", async function () {
   };
   document.getElementById("searchBtn").addEventListener("click", search);
   getSearchAC().then((response) => {
-    console.log(response);
+    //get the search auto complete source
     if (!response.length > 0) return;
 
     var input = document.getElementById("searchProduct");
 
+    //declare autocomplete
     autocomplete({
       minLength: 1,
       input: input,
@@ -345,6 +351,7 @@ window.addEventListener("DOMContentLoaded", async function () {
   });
 });
 function voice() {
+  //start or stop voice recognition
   if (!recording) {
     recognition.start();
   } else {
@@ -368,7 +375,8 @@ recognition.onresult = function (event) {
   for (var i = event.resultIndex; i < event.results.length; ++i) {
     transcript += event.results[i][0].transcript;
   }
-  input.value = transcript;
+  input.value = transcript;//set the input box value
+  //after the input value change dispatch an event to let the auto complete work
   input.dispatchEvent(new KeyboardEvent("keyup"));
 };
 //displays price range of products starting from 0~250SGD
@@ -437,6 +445,7 @@ function discountPercentage(originalPrice, discountedPrice) {
 }
 
 function addListener() {
+  //add the event listener
   var list = document.getElementsByClassName("cat-content");
   var first_cat = [],
     second_cat = [],

@@ -2,10 +2,13 @@ let duration = 250;
 let toFirst, toSecond;
 var recognition = new webkitSpeechRecognition();
 var recording = false;
+const params = new URLSearchParams(window.location.search);
+var min, max;
 recognition.continuous = true;
 recognition.interimResults = true;
 recognition.lang = "EN";
 recognition.onerror = function (event) {
+  //if recognition error
   console.log(event);
   recording = false;
   recognition.stop();
@@ -23,7 +26,7 @@ window.addEventListener("DOMContentLoaded", function () {
     checkLogin()
       .then((response) => {
         let myAccBtn = `<a href='dashboard.html' style="color: white!important;">My Account</a>`;
-        document.getElementById("login").innerHTML = "log out";
+        document.getElementById("login").innerHTML = "log out";//if login set button to log out
         document
           .getElementById("myAccount")
           .insertAdjacentHTML("beforeend", myAccBtn);
@@ -41,12 +44,11 @@ window.addEventListener("DOMContentLoaded", function () {
         }).show();
         localStorage.removeItem("token");
         document.getElementById("login").innerHTML = "Login";
-        // console.log(err);
       });
   }
   $("#categ")[0].style.display = "none";
-  uidGenerate();
-  showCartAmount();
+  uidGenerate();//generate the uid for public
+  showCartAmount();//show the amount of cart
   getAllCategories()
     .then((response) => {
       //add first category list
@@ -92,10 +94,9 @@ window.addEventListener("DOMContentLoaded", function () {
           .getElementById("second_cat")
           .insertAdjacentHTML("beforeend", string);
       }
-      addListener();
+      addListener();//add the listeners
     })
     .catch((err) => {
-      // alert(err)
       new Noty({
         type: "error",
         layout: "topCenter",
@@ -108,6 +109,7 @@ window.addEventListener("DOMContentLoaded", function () {
   if (params.get("maincat")) {
     getCategoryCount(params.get("maincat") || null)
       .then((response) => {
+        //display category count
         if (!response) return;
         if (response.length <= 0) {
           document.getElementById("category").style.display = "none";
@@ -118,7 +120,7 @@ window.addEventListener("DOMContentLoaded", function () {
             .getElementById("category_list")
             .insertAdjacentHTML("beforeend", string);
         }
-        showlm();
+        showlm();//show (less/more)
         document.getElementById("showmore").addEventListener("click", () => {
           showlm();
         });
@@ -131,7 +133,6 @@ window.addEventListener("DOMContentLoaded", function () {
         });
       })
       .catch((err) => {
-        // alert(err);
         new Noty({
           type: "error",
           layout: "topCenter",
@@ -143,6 +144,7 @@ window.addEventListener("DOMContentLoaded", function () {
   } else if (params.get("platform")) {
     getCategoryCountByPlatform(params.get("platform") || null)
       .then((response) => {
+        //get the platform/second category count
         if (!response) return;
         if (response.length <= 0) {
           document.getElementById("category").style.display = "none";
@@ -166,7 +168,6 @@ window.addEventListener("DOMContentLoaded", function () {
         });
       })
       .catch((err) => {
-        // alert(err);
         new Noty({
           type: "error",
           layout: "topCenter",
@@ -218,11 +219,13 @@ window.addEventListener("DOMContentLoaded", function () {
   document.getElementById("searchBtn").addEventListener("click", search);
 
   getSearchAC().then((response) => {
+    //get the search auto complete source
     console.log(response);
     if (!response.length > 0) return;
 
     var input = document.getElementById("searchProduct");
 
+    //declare autocomplete
     autocomplete({
       minLength: 1,
       input: input,
@@ -246,6 +249,7 @@ window.addEventListener("DOMContentLoaded", function () {
 });
 
 function voice() {
+  //start or stop voice recognition
   if (!recording) {
     recognition.start();
   } else {
@@ -259,7 +263,6 @@ function voice() {
 
 recognition.onresult = function (event) {
   var input = document.getElementById("searchProduct");
-  // console.log(event);
   var transcript = "";
   if (typeof event.results == "undefined") {
     recognition.onend = null;
@@ -269,12 +272,10 @@ recognition.onresult = function (event) {
   for (var i = event.resultIndex; i < event.results.length; ++i) {
     transcript += event.results[i][0].transcript;
   }
-  input.value = transcript;
+  input.value = transcript;//set the input box value
+  //after the input value change dispatch an event to let the auto complete work
   input.dispatchEvent(new KeyboardEvent("keyup"));
 };
-
-const params = new URLSearchParams(window.location.search);
-var min, max;
 
 function priceChange() {
   if (min) params.set("minprice", min);
@@ -285,6 +286,7 @@ function priceChange() {
 }
 
 function showGame() {
+  //show the game
   $("#pinput_max").val(params.get("maxprice"));
   $("#pinput_min").val(params.get("minprice"));
   $("#sort").val(params.get("sort") || "default");
@@ -339,18 +341,19 @@ function showGame() {
       document.getElementById("npage").disabled = true;
       document.getElementById("ppage").disabled = true;
       let pageNum = params.get("page") || 1;
+      //if next page got no game then disable the next page button
       getPageCount(params.toString()).then((result) => {
         if (pageNum * 18 < parseInt(result[0].count)) {
           document.getElementById("npage").disabled = false;
         }
       });
+      //if previous page is 0 then disable the previous page button
       if (pageNum > 1) {
         document.getElementById("ppage").disabled = false;
       }
-      window.scrollTo(0, 0);
+      window.scrollTo(0, 0);//scroll to top
     })
     .catch((err) => {
-      // alert(err);
       new Noty({
         type: "error",
         layout: "topCenter",
@@ -369,6 +372,7 @@ function discountPercentage(originalPrice, discountedPrice) {
 }
 
 function addListener() {
+  //add the event listener
   var list = document.getElementsByClassName("cat-content");
   var first_cat = [],
     second_cat = [],
@@ -485,6 +489,7 @@ function showlm() {
   let cat_list = cat.querySelectorAll(".child");
   let num = cat_list.length;
   for (let i = 0; i < num; i++) {
+    //display only five cat list
     if (i < 5) {
       cat_list[i].style.display = "flex";
     } else {
@@ -497,6 +502,7 @@ function showlm() {
     ? (document.getElementById("showmore").textContent = "Show Less")
     : (document.getElementById("showmore").textContent = "Show More");
   if (num < 5) {
+    //if the number is less than 5 then set the content to empty
     document.getElementById("showmore").textContent = "";
   }
 }

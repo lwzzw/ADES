@@ -1,6 +1,8 @@
+//paypal render button
 paypal
     .Buttons({
         createOrder: function () {
+            //create order
             let headers = {
                 "Content-Type": "application/json",
             }
@@ -28,6 +30,7 @@ paypal
                 })
         },
         onApprove: function (data, actions) {
+            //after user approve the order
             console.log(data)
             return actions.order.capture().then(detail => {
                 let headers = {
@@ -47,7 +50,6 @@ paypal
                     .then(response => response.json())
                     .then(result => {
                         if (result.done) {
-                            // alert("Transaction done");
                             new Noty({
                                 type: "success",
                                 layout: "topCenter",
@@ -60,7 +62,6 @@ paypal
                                 })
                                 .show();
                         } else {
-                            // alert("Transaction cancel");
                             new Noty({
                                 type: "error",
                                 layout: "topCenter",
@@ -75,7 +76,6 @@ paypal
                         }
                     })
             }).catch(err => {
-                // alert(err);
                 new Noty({
                     type: "error",
                     layout: "topCenter",
@@ -87,7 +87,7 @@ paypal
             })
         },
         onError: function (err) {
-            // alert(err);
+            //if error
             new Noty({
                 type: "error",
                 layout: "topCenter",

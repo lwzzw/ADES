@@ -9,7 +9,7 @@ window.addEventListener('DOMContentLoaded', function () {
   const secretCodeInput = document.getElementById('secretInput')
 
   loading.style.display = 'none';
-  uidGenerate();
+  uidGenerate();//generate the uid for public
   if (window.location.href == "https://f2a.games/authenticate/google") {
     googleLogin(code).then(response => {
       if (response) {
@@ -88,9 +88,6 @@ window.addEventListener('DOMContentLoaded', function () {
       }).on("close",()=>{
         window.location.href = "index.html";
       }).show();
-      // setTimeout(() => {
-      //   window.location.href = "index.html";
-      // }, 3000);
     })
     .catch(err => {
       console.log(err);
