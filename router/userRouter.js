@@ -40,9 +40,9 @@ router.post('/login', validator.verifypassword, async (req, res, next) => {
 
   // check the user
   if (!verify.success && verify.success === undefined) {
-    return res.json({ success: false, msg: 'Capctha cannot verify' })
+    return res.json({ success: false, msg: 'Captcha cannot verify' })
   } else if (verify.score < 0.4) {
-    return res.json({ success: false, msg: 'You are robot' })
+    return res.json({ success: false, msg: 'You are a robot' })
   }
 
   // start login
@@ -450,6 +450,7 @@ router.post("/reset2FA/confirmed", nocache(), async (req, res, next) => {
             //delete user's secret key
             database.query(`DELETE FROM twofactor_authenticator USING user_detail WHERE user_detail.email = $1 `, [email])
               .then(result => {
+                console.log(result)
                 APP_CACHE.del(`${CACHE_KEYS.USERS.TWOFACODE}.${email}`); //delete user's verification code after successfully resetting 2-fa
                 res.status(200).json({ status: "done" });
               }).catch(error => {
