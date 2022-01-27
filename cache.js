@@ -6,29 +6,30 @@ const APP_CACHE = new nodeCache({
   checkperiod: 60
 })
 const CACHE_KEYS = {
-  DEALS: {
-    ROWS: 'deals.rows'
-  },
-  BESTSELLERS: {
-    GAMES: 'bestsellers.games'
-  },
-  PREORDERS: {
-    GAMES: 'preorders.games'
-  },
-  LATESTRELEASES: {
-    GAMES: 'latestreleases.games'
-  },
-  AUTOCOMPLETE: {
-    GAMES: 'autocomplete.games'
-  },
-  USERS: {
-    EMAILS: 'users.emails',
-    FORGETPASS: 'users.forgetpass',
-    ORDER: 'users.order'
-  },
-  CATEGORIES: {
-    CAT: 'categories.cat'
-  }
+    DEALS: {
+        ROWS: "deals.rows",
+    },
+    BESTSELLERS: {
+        GAMES: "bestsellers.games",
+    },
+    PREORDERS: {
+        GAMES: "preorders.games"
+    },
+    LATESTRELEASES: {
+        GAMES: "latestreleases.games"
+    },
+    AUTOCOMPLETE: {
+        GAMES: "autocomplete.games"
+    },
+    USERS: {
+        EMAILS: "users.emails",
+        FORGETPASS: "users.forgetpass",
+        ORDER: "users.order",
+        TWOFACODE: "users.TWOFACODE"
+    },
+    CATEGORIES: {
+        CAT: "categories.cat"
+    }
 }
 APP_CACHE.set('CACHE_KEYS', CACHE_KEYS)
 

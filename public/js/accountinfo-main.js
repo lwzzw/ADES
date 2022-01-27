@@ -54,6 +54,7 @@ function disableFeatures () {
 function saveInfoListener () {
   document.getElementById('saveInfo').addEventListener('click', () => {
     document.getElementById('saveInfo').disabled = true
+    document.getElementById('saveInfo').innerHTML = 'Saving'
     try {
       // gets user input
       const usernameInput = document.getElementById('user-name').value
@@ -69,6 +70,7 @@ function saveInfoListener () {
       saveUserDetails(usernameInput, phoneInput, genderInput).then(response => {
         localStorage.setItem('token', response.token)
         showNotification('success', 'Personal Details Updated !')
+        document.getElementById('saveInfo').innerHTML = 'Save'
       }).catch(err => {
         console.log(err)
         showNotification('error', err.message)

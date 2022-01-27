@@ -323,32 +323,6 @@ router.get('/login/callback', (req, res, next) => {
     })
 })
 
-// Checks if the user's secret code is correct
-function validateSecretKey (secretCodeInput, secretKey) {
-  const options = {
-    method: 'GET',
-    url: 'https://google-authenticator.p.rapidapi.com/validate/',
-    params: { code: secretCodeInput, secret: secretKey },
-    headers: {
-      'x-rapidapi-host': 'google-authenticator.p.rapidapi.com',
-      'x-rapidapi-key': 'a7cc9771dbmshdb30f345bae847ep1fb8d8jsn5d90b789d2ea'
-    }
-  }
-  // sends request to google authenticator API
-  return axios
-    .request(options)
-    .then(function (response) {
-      console.log(response.data)
-      return response.data
-    })
-    .catch(function (error) {
-      if (error.response) {
-        throw new Error(JSON.stringify(error.response.data))
-      }
-      return error.response.data
-    })
-}
-
 // gets user's paypal profile information via the access_token
 function getPaypalUserIdentity (access_token) {
   const options = {

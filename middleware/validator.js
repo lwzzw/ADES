@@ -1,4 +1,5 @@
 const check = require('validator')
+const axios = require('axios')
 
 const validationFn = {
   userInfoValidator: function (req, res, next) {
@@ -59,6 +60,7 @@ const validationFn = {
   verifypassword: function (req, res, next) {
     const rePassword = new RegExp(/^(?=.[A-Za-z])(?=.\d)[A-Za-z\d]{8,}$/)
     const reEmail = new RegExp(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/)
+    //        rePassword = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
 
     if (rePassword.test(req.body.password) && reEmail.test(req.body.email)) {
       next()
@@ -67,14 +69,41 @@ const validationFn = {
     }
   },
   verifylogin: function (req, res, next) {
-    const rePassword = new RegExp(/^(?=.[A-Za-z])(?=.\d)[A-Za-z\d]{8,}$/)
+    const rePassword = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
 
     if (rePassword.test(req.body.password)) {
       next()
     } else {
       res.status(400).json({ error: 'validation failed, check your password.' })
     }
+  },
+
+  // Checks if the user's secret code is correct
+    validateSecretKey: function (secretCodeInput, secretKey) {
+    const options = {
+      method: 'GET',
+      url: 'https://google-authenticator.p.rapidapi.com/validate/',
+      params: { code: secretCodeInput, secret: secretKey },
+      headers: {
+        'x-rapidapi-host': 'google-authenticator.p.rapidapi.com',
+        'x-rapidapi-key': 'a7cc9771dbmshdb30f345bae847ep1fb8d8jsn5d90b789d2ea'
+      }
+    }
+    // sends request to google authenticator API
+    return axios
+      .request(options)
+      .then(function (response) {
+        console.log(response.data)
+        return response.data
+      })
+      .catch(function (error) {
+        if (error.response) {
+          throw new Error(JSON.stringify(error.response.data))
+        }
+        return error.response.data
+      })
   }
+  
 
 }
 

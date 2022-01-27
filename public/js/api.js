@@ -1021,3 +1021,54 @@ function uploadFile (file, signedRequest) {
       return error.response.data
     })
 }
+
+function requestReset2FA(email) {
+    const methods = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    const body = {
+        email
+    }
+    return axios
+        .post(`/user/reset2FA`, body, methods)
+        .then(response => {
+            return response.data.status
+        })
+        .catch(error => {
+            console.log(error);
+            console.log(error.response)
+            if (error.response) {
+                throw new Error(error.response.data.error)
+            }
+            return error.response.data.error
+        })
+  }
+
+function reset2FA(email, code, password){
+    const methods = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    const body = {
+        email,
+        code,
+        password
+    }
+    return axios
+        .post(`/user/reset2FA/confirmed`, body, methods)
+        .then(response => {
+            return response.data.status
+        })
+        .catch(error => {
+            console.log(error);
+            if (error.response) {
+                throw new Error(JSON.stringify(error.response.data))
+            }
+            return error.response.data
+        })
+}

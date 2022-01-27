@@ -229,14 +229,12 @@ router.get('/getBSellers/:limitProducts', (req, res, next) => {
   if (limitProducts !== true) {
     productIndex = 1
   };
-
   // if cache contains productIndex, return the cached index
   if (productIndex in bestSellerCache) {
     return res.status(200).json({
       bsellers: bestSellerCache[productIndex]
     })
   };
-
   // if index is not found in cache, fetch from database
   return database
     .query(
