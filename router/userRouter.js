@@ -62,11 +62,11 @@ router.post('/login', validator.verifylogin, async (req, res, next) => {
          where email=$1`,
         [email]
       )
-      .then(async (results) => {//attempts to get the user's secret_key
+      .then(async (result) => {//attempts to get the user's secret_key
         await database
           .query(
             'SELECT secret_key FROM twofactor_authenticator WHERE belong_to = $1',
-            [results.rows[0].id]
+            [result.rows[0].id]
           )
           .then(async (auth) => {//if user has a secret_key
             if (auth.rows.length == 1) {//validate the user's secretCode input with the google-authenticator API.
@@ -81,18 +81,18 @@ router.post('/login', validator.verifylogin, async (req, res, next) => {
               }
             }
           })//if the user's secret code has been validated and its correct, it will check if the user is a normal user
-        if (results.rows[0].auth_type == '1') {
-          if (bcrypt.compareSync(password, results.rows[0].password) == true) {
+        if (result.rows[0].auth_type == '1') {
+          if (bcrypt.compareSync(password, result.rows[0].password) == true) {
             const data = {
               success: true,
               token: jwt.sign(
                 {
-                  id: results.rows[0].id,
-                  name: results.rows[0].name,
-                  email: results.rows[0].email,
-                  phone: results.rows[0].phone,
-                  gender: results.rows[0].gender,
-                  role: results.rows[0].role
+                  id: result.rows[0].id,
+                  name: result.rows[0].name,
+                  email: result.rows[0].email,
+                  phone: result.rows[0].phone,
+                  gender: result.rows[0].gender,
+                  role: result.rows[0].role
                 },
                 config.JWTKEY,
                 {
@@ -167,17 +167,17 @@ router.post('/register', validator.validateRegister, (req, res, next) => {
             usergender,
             userphone
           ])
-          .then((response) => {
-            if (response && response.rowCount == 1) {
+          .then((result) => {
+            if (result && result.rowCount == 1) {
               const data = {
                 token: jwt.sign(
                   {
-                    id: response.rows[0].nid,
-                    name: response.rows[0].uname,
-                    email: response.rows[0].uemail,
-                    phone: response.rows[0].uphone,
-                    gender: response.rows[0].ugender,
-                    role: response.rows[0].urole
+                    id: result.rows[0].nid,
+                    name: result.rows[0].uname,
+                    email: result.rows[0].uemail,
+                    phone: result.rows[0].uphone,
+                    gender: result.rows[0].ugender,
+                    role: result.rows[0].urole
                   },
                   config.JWTKEY,
                   {
@@ -442,9 +442,9 @@ router.post("/reset2FA/confirmed", nocache(), async (req, res, next) => {
       }
       //gets the password of the requesting user
       database.query(`SELECT password FROM user_auth inner join user_detail ON user_detail.id = user_auth.userid WHERE user_detail.email = $1`, [email])
-        .then(results => {
+        .then(result => {
           //verify if the password is correct
-          if (bcrypt.compareSync(password, results.rows[0].password) == true) {
+          if (bcrypt.compareSync(password, result.rows[0].password) == true) {
             //delete user's secret key
             database.query(`DELETE FROM twofactor_authenticator USING user_detail WHERE user_detail.email = $1 `, [email])
               .then(result => {

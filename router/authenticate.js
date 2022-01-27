@@ -59,15 +59,15 @@ router.get('/google', async (req, res, next) => {
     }).then((response) => {
       return database
         .query('SELECT name, email, phone FROM public.user_detail where email = $1', [response.data.email])
-        .then((response) => {
-          if (response && response.rowCount == 1) { // checks if the google account is already registered
+        .then((result) => {
+          if (result && result.rowCount == 1) { // checks if the google account is already registered
             const data = {
               token: jwt.sign(
                 {
-                  id: response.rows[0].id,
-                  name: response.rows[0].name,
-                  email: response.rows[0].email,
-                  phone: response.rows[0].phone
+                  id: result.rows[0].id,
+                  name: result.rows[0].name,
+                  email: result.rows[0].email,
+                  phone: result.rows[0].phone
                 },
                 config.JWTKEY,
                 {
@@ -80,18 +80,18 @@ router.get('/google', async (req, res, next) => {
             return database
               .query(
                 'INSERT INTO public.user_detail (name, email, auth_type) VALUES ($1, $2, $3) returning id, name, phone, email',
-                [response.data.given_name, response.data.email, 2]
+                [result.data.given_name, result.data.email, 2]
               )
-              .then((response) => {
-                console.log(response)
-                if (response && response.rowCount == 1) {
+              .then((result) => {
+                console.log(result)
+                if (result && result.rowCount == 1) {
                   const data = {
                     token: jwt.sign(
                       {
-                        id: response.rows[0].id,
-                        name: response.rows[0].name,
-                        email: response.rows[0].email,
-                        phone: response.rows[0].phone
+                        id: result.rows[0].id,
+                        name: result.rows[0].name,
+                        email: result.rows[0].email,
+                        phone: result.rows[0].phone
                       },
                       config.JWTKEY,
                       {
@@ -146,17 +146,17 @@ passport.use(
             'SELECT name, email, phone, gender FROM public.user_detail where email = $1',
             [profile.emails[0].value]
           )
-          .then((response) => {
-            if (response && response.rowCount == 1) {
+          .then((result) => {
+            if (result && result.rowCount == 1) {
               // checks if the facebook account is already registered
               const data = {
                 token: jwt.sign(
                   {
-                    id: response.rows[0].id,
-                    name: response.rows[0].name,
-                    email: response.rows[0].email,
-                    phone: response.rows[0].phone || null,
-                    gender: response.rows[0].gender || null
+                    id: result.rows[0].id,
+                    name: result.rows[0].name,
+                    email: result.rows[0].email,
+                    phone: result.rows[0].phone || null,
+                    gender: result.rows[0].gender || null
                   },
                   config.JWTKEY,
                   {
@@ -172,14 +172,14 @@ passport.use(
                   'INSERT INTO public.user_detail (name, email, auth_type) VALUES ($1, $2, $3) returning id, name, email, gender',
                   [profile.displayName, profile.emails[0].value, 2]
                 )
-                .then((response) => {
-                  if (response && response.rowCount == 1) {
+                .then((result) => {
+                  if (result && result.rowCount == 1) {
                     const data = {
                       token: jwt.sign(
                         {
-                          id: response.rows[0].id,
-                          name: response.rows[0].name,
-                          email: response.rows[0].email,
+                          id: result.rows[0].id,
+                          name: result.rows[0].name,
+                          email: result.rows[0].email,
                           phone: null,
                           gender: null
                         },
@@ -245,17 +245,17 @@ router.get('/login/callback', (req, res, next) => {
                 'SELECT id, name, email, phone, gender FROM public.user_detail where email = $1',
                 [email]
               )
-              .then((results) => {
-                if (results && results.rowCount == 1) {
+              .then((result) => {
+                if (result && result.rowCount == 1) {
                   // if the user is registered, the user will be logged in
                   const data = {
                     token: jwt.sign(
                       {
-                        id: results.rows[0].id,
-                        name: results.rows[0].name,
-                        email: results.rows[0].email,
-                        phone: results.rows[0].phone || null,
-                        gender: results.rows[0].gender || null
+                        id: result.rows[0].id,
+                        name: result.rows[0].name,
+                        email: result.rows[0].email,
+                        phone: result.rows[0].phone || null,
+                        gender: result.rows[0].gender || null
                       },
                       config.JWTKEY,
                       {
@@ -272,15 +272,15 @@ router.get('/login/callback', (req, res, next) => {
                       'INSERT INTO public.user_detail (name, email, auth_type) VALUES ($1, $2, $3) returning id, name, email, gender',
                       [username, email, 2]
                     )
-                    .then((response) => {
-                      if (response && response.rowCount == 1) {
+                    .then((result) => {
+                      if (result && result.rowCount == 1) {
                         // after the account has been successfully created, the jwt token will be signed
                         const data = {
                           token: jwt.sign(
                             {
-                              id: response.rows[0].id,
-                              name: response.rows[0].name,
-                              email: response.rows[0].email,
+                              id: result.rows[0].id,
+                              name: result.rows[0].name,
+                              email: result.rows[0].email,
                               phone: null,
                               gender: null
                             },

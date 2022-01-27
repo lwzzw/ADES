@@ -12,10 +12,10 @@ router.get('/getkeys', verifyToken, (req, res, next) => {
      INNER JOIN order_history ON order_history.id = keys.order_id 
      INNER JOIN g2a_gamedatabase ON g2a_gamedatabase.g_id = keys.g_id
      where user_id = $1`, [id])
-    .then(response => {
-      if (response) {
+    .then(result => {
+      if (result) {
         return res.status(200).json({
-          keys: response.rows
+          keys: result.rows
         })
       } else {
         return res.status(404).json('not found')

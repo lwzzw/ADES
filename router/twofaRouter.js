@@ -10,16 +10,16 @@ router.post('/secretDetail', (req, res, next) => {
   const secretKey = req.body.secretkey
   // checks if user is from third-party platform e.g paypal, google and facebook
   return database.query('SELECT auth_type FROM user_detail WHERE id = $1', [userID])
-    .then(response => {
+    .then(result => {
       // if user is from third-party platform, throw error
-      if (response && response.rows[0].auth_type == 2) {
+      if (result && result.rows[0].auth_type == 2) {
         throw new Error('Users connected via third party platforms need not have 2-fa enabled')
       } else {
         // inserts secret key into database, if user has existing secret key, it will be updated with the new secret key.
         return database.query('INSERT INTO twofactor_authenticator (belong_to, secret_key) VALUES ($1, $2) ON CONFLICT (belong_to) DO UPDATE SET secret_key = $2', [userID, secretKey])
-          .then(response => {
-            if (response) {
-              if (response.rowCount == 1) {
+          .then(result => {
+            if (result) {
+              if (result.rowCount == 1) {
                 const message = 'Successfully uploaded secret key'
                 return res.status(200).json(message)
               }

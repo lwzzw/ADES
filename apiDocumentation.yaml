@@ -579,7 +579,7 @@ paths:
         500:
           description: Internal Server Error
 
-  /user/login/facebook:
+  /authenticate/login/facebook:
     post:
       summary: user login with facebook
       operationId: /login/facebook
@@ -593,7 +593,7 @@ paths:
         301:
           description: if success redirect user to index page, if failed redirect user to login page
 
-  /user/oauth2/redirect/facebook:
+  /authenticate/oauth2/redirect/facebook:
     post:
       summary: user login success with facebook
       operationId: /oauth2/redirect/facebook
@@ -751,7 +751,7 @@ paths:
         500:
           description: Internal Server Error
 
-  /user/login/callback:
+  /authenticate/login/callback:
     post:
       summary: user login with paypal
       operationId: /login/callback
