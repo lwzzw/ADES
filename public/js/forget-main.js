@@ -14,7 +14,7 @@ window.addEventListener('DOMContentLoaded', function () {
         layout: 'topCenter',
         theme: 'sunset',
         timeout: '6000',
-        text: 'Check your inputs!'
+        text: 'Please enter your correct email !'
       }).show()
     } else {
       // send the verify email
@@ -26,7 +26,7 @@ window.addEventListener('DOMContentLoaded', function () {
               layout: 'topCenter',
               theme: 'sunset',
               timeout: '22000',
-              text: "We have send you the reset password link via email, if the email did't exist please go to spam/junk email"
+              text: "Email sent ! Please check your inbox/spam to reset your password."
             })
               .on('onClose', () => {
                 window.location.href = 'login.html'

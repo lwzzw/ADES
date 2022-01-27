@@ -17,7 +17,7 @@ const axios = require('axios')
 const recaptchaKey = config.RECAPTCHA_SECRET
 
 // user login as normal user
-router.post('/login', validator.verifylogin, async (req, res, next) => {
+router.post('/login', validator.verifypassword, async (req, res, next) => {
   if (!req.body.captcha) {
     // google recaptcha
     return res.json({ success: false, msg: 'Captcha is not checked' })
@@ -113,14 +113,14 @@ router.post('/login', validator.verifylogin, async (req, res, next) => {
             logger.error(
               `401 Login Failed ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
             )
-            return next(createHttpError(401, 'login failed'))
+            return next(createHttpError(401, 'Email or password is invalid'))
           }
         }
       })
       .catch((err) => {
-        next(createHttpError(500, err))
+        next(createHttpError(401, 'Email or password is invalid'))
         logger.error(
-          `${err || '500 Error'} ||  ${res.statusMessage} - ${req.originalUrl
+          `${err || '401 Login Failed'} ||  ${res.statusMessage} - ${req.originalUrl
           } - ${req.method} - ${req.ip}`
         )
       })
@@ -248,7 +248,7 @@ router.post('/forgetPass', validator.verifyemail, nocache(), async (req, res, ne
 })
 
 // verify user reset password
-router.post('/verifyResetPass', validator.verifypassword, nocache(), async (req, res, next) => {
+router.post('/verifyResetPass', validator.verifypassword, validator.verifyemail, nocache(), async (req, res, next) => {
   try {
     const email = req.body.email
     const code = req.body.code
@@ -312,7 +312,9 @@ router.post('/verifyEmail', validator.verifyemail, async (req, res, next) => {
 router.post(
   '/saveUserInfo',
   verifyToken,
-  validator.userInfoValidator,
+  validator.validateUsername,
+  validator.validatePhoneNo,
+  validator.validateGender,
   async (req, res, next) => {
     // Update user's detail and return id,name,email and phone
     return database
