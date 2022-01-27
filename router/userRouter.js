@@ -1,60 +1,59 @@
-const database = require("../database/database");
-const createHttpError = require("http-errors");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const config = require("../config");
-const verifyToken = require("../middleware/checkUserAuthorize");
-const router = require("express").Router();
-const logger = require("../logger");
-const nocache = require("nocache");
-const sendMail = require("../email/email").sendMail;
-const receiveMail = require("../email/email").receiveMail;
-const generateKey = require("../key/generateKey");
-const APP_CACHE = require("../cache");
-const CACHE_KEYS = APP_CACHE.get("CACHE_KEYS");
-const validator = require("../middleware/validator");
-const axios = require("axios");
-const recaptchaKey = config.RECAPTCHA_SECRET;
+const database = require('../database/database')
+const createHttpError = require('http-errors')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
+const config = require('../config')
+const verifyToken = require('../middleware/checkUserAuthorize')
+const router = require('express').Router()
+const logger = require('../logger')
+const nocache = require('nocache')
+const sendMail = require('../email/email').sendMail
+const receiveMail = require('../email/email').receiveMail
+const generateKey = require('../key/generateKey')
+const APP_CACHE = require('../cache')
+const CACHE_KEYS = APP_CACHE.get('CACHE_KEYS')
+const validator = require('../middleware/validator')
+const axios = require('axios')
+const recaptchaKey = config.RECAPTCHA_SECRET
 
-
-//user login as normal user
-router.post("/login", validator.verifylogin, async (req, res, next) => {
+// user login as normal user
+router.post('/login', validator.verifylogin, async (req, res, next) => {
   if (!req.body.captcha) {
-    //google recaptcha
-    return res.json({ success: false, msg: "Captcha is not checked" });
+    // google recaptcha
+    return res.json({ success: false, msg: 'Captcha is not checked' })
   }
 
-  const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaKey}&response=${req.body.captcha}`; //url that verify the recaptcha
+  const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaKey}&response=${req.body.captcha}` // url that verify the recaptcha
 
-  var options = {
-    method: "POST",
-    url: verifyUrl,
-  };
+  const options = {
+    method: 'POST',
+    url: verifyUrl
+  }
 
-  let verify = await axios(options)
+  const verify = await axios(options)
     .then(function (response) {
-      return response.data;
+      return response.data
     })
     .catch(function (error) {
-      return next(createHttpError(500, error));
-    }); //send the request
+      return next(createHttpError(500, error))
+    }) // send the request
 
-  //check the user
+  // check the user
   if (!verify.success && verify.success === undefined) {
-    return res.json({ success: false, msg: "Capctha cannot verify" });
+    return res.json({ success: false, msg: 'Capctha cannot verify' })
   } else if (verify.score < 0.4) {
-    return res.json({ success: false, msg: "You are robot" });
+    return res.json({ success: false, msg: 'You are robot' })
   }
 
-  //start login
-  const email = req.body.email;
-  const password = req.body.password;
-  const secretCode = req.body.secretCode;
+  // start login
+  const email = req.body.email
+  const password = req.body.password
+  const secretCode = req.body.secretCode
   if (email == null || password == null) {
     logger.error(
       `401 Empty Credentials ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
-    );
-    return next(createHttpError(401, "empty credentials"));
+    )
+    return next(createHttpError(401, 'empty credentials'))
   } else {
     return database
       .query(
@@ -66,25 +65,25 @@ router.post("/login", validator.verifylogin, async (req, res, next) => {
       .then(async (results) => {
         await database
           .query(
-            `SELECT secret_key FROM twofactor_authenticator WHERE belong_to = $1`,
+            'SELECT secret_key FROM twofactor_authenticator WHERE belong_to = $1',
             [results.rows[0].id]
           )
           .then(async (auth) => {
             if (auth.rows.length == 1) {
-              let authResult = await validateSecretKey(
+              const authResult = await validateSecretKey(
                 secretCode,
                 auth.rows[0].secret_key
-              );
-              if (authResult.toLowerCase() == "false") {
+              )
+              if (authResult.toLowerCase() == 'false') {
                 return next(
-                  createHttpError(401, "Please enter correct Secret Code")
-                );
+                  createHttpError(401, 'Please enter correct Secret Code')
+                )
               }
             }
-          });
-        if (results.rows[0].auth_type == "1") {
+          })
+        if (results.rows[0].auth_type == '1') {
           if (bcrypt.compareSync(password, results.rows[0].password) == true) {
-            let data = {
+            const data = {
               success: true,
               token: jwt.sign(
                 {
@@ -93,84 +92,84 @@ router.post("/login", validator.verifylogin, async (req, res, next) => {
                   email: results.rows[0].email,
                   phone: results.rows[0].phone,
                   gender: results.rows[0].gender,
-                  role: results.rows[0].role,
+                  role: results.rows[0].role
                 },
                 config.JWTKEY,
                 {
-                  expiresIn: 86400,
+                  expiresIn: 86400
                 }
-              ),
-            };
+              )
+            }
 
             logger.info(
               `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
-            );
-            res.cookie("token", data.token, {
+            )
+            res.cookie('token', data.token, {
               maxAge: 86400000,
-              httpOnly: true,
-            });
-            return res.status(200).json(data);
+              httpOnly: true
+            })
+            return res.status(200).json(data)
           } else {
             logger.error(
               `401 Login Failed ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
-            );
-            return next(createHttpError(401, "login failed"));
+            )
+            return next(createHttpError(401, 'login failed'))
           }
         }
       })
       .catch((err) => {
-        next(createHttpError(500, err));
+        next(createHttpError(500, err))
         logger.error(
-          `${err || "500 Error"} ||  ${res.statusMessage} - ${req.originalUrl
+          `${err || '500 Error'} ||  ${res.statusMessage} - ${req.originalUrl
           } - ${req.method} - ${req.ip}`
-        );
-      });
+        )
+      })
   }
-});
+})
 
-//register user
-router.post("/register", validator.validateRegister, (req, res, next) => {
-  const username = req.body.username;
-  const useremail = req.body.useremail;
-  const userpassword = req.body.userpassword;
-  const userphone = req.body.userphone;
-  const usergender = req.body.usergender;
-  const code = req.body.code;
-  const CODE_CACHE = APP_CACHE.get(`${CACHE_KEYS.USERS.EMAILS}.${useremail}`);//get the verify email code
+// register user
+router.post('/register', validator.validateRegister, (req, res, next) => {
+  const username = req.body.username
+  const useremail = req.body.useremail
+  const userpassword = req.body.userpassword
+  const userphone = req.body.userphone
+  const usergender = req.body.usergender
+  const code = req.body.code
+  const CODE_CACHE = APP_CACHE.get(`${CACHE_KEYS.USERS.EMAILS}.${useremail}`)// get the verify email code
   if (
     username == null ||
     useremail == null ||
     userpassword == null ||
     userphone == null ||
     usergender == null ||
-    CODE_CACHE != code//if the code is different then return 401
+    CODE_CACHE != code// if the code is different then return 401
   ) {
     logger.error(
       `401 Empty Credentials ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
-    );
-    return next(createHttpError(401, "empty credentials"));
+    )
+    return next(createHttpError(401, 'empty credentials'))
   } else {
     bcrypt.hash(userpassword, 10, async (err, hash) => {
       if (err) {
-        console.log("Error on hashing password");
+        console.log('Error on hashing password')
         res
           .status(500)
-          .json({ statusMessage: "Unable to complete registration" });
+          .json({ statusMessage: 'Unable to complete registration' })
         return logger.error(
           `500 unable to complete registration || ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
-        );
+        )
       } else {
         return database
-          .transactionQuery(`select * from insert_user($1, $2, $3, $4, $5)`, [
+          .transactionQuery('select * from insert_user($1, $2, $3, $4, $5)', [
             username,
             useremail,
             hash,
             usergender,
-            userphone,
+            userphone
           ])
           .then((response) => {
             if (response && response.rowCount == 1) {
-              let data = {
+              const data = {
                 token: jwt.sign(
                   {
                     id: response.rows[0].nid,
@@ -178,221 +177,219 @@ router.post("/register", validator.validateRegister, (req, res, next) => {
                     email: response.rows[0].uemail,
                     phone: response.rows[0].uphone,
                     gender: response.rows[0].ugender,
-                    role: response.rows[0].urole,
+                    role: response.rows[0].urole
                   },
                   config.JWTKEY,
                   {
-                    expiresIn: 86400,
+                    expiresIn: 86400
                   }
-                ),
-              };
+                )
+              }
               logger.info(
                 `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
-              );
-              APP_CACHE.del(`${CACHE_KEYS.USERS.EMAILS}.${useremail}`); //delete cache after register
-              return res.status(200).json(data);
+              )
+              APP_CACHE.del(`${CACHE_KEYS.USERS.EMAILS}.${useremail}`) // delete cache after register
+              return res.status(200).json(data)
             } else {
               logger.error(
                 `401 Register Failed ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
-              );
-              return next(createHttpError(401, "Register failed"));
+              )
+              return next(createHttpError(401, 'Register failed'))
             }
           })
           .catch((error) => {
-            next(createHttpError(500, error));
-          });
+            next(createHttpError(500, error))
+          })
       }
-    });
+    })
   }
-});
+})
 
-//check user if they are already login and return the user detail
-router.get("/checkLogin", nocache(), verifyToken, (req, res, next) => {
+// check user if they are already login and return the user detail
+router.get('/checkLogin', nocache(), verifyToken, (req, res, next) => {
   res.status(200).json({
     name: req.name,
     id: req.id,
     email: req.email,
     phone: req.phone,
     gender: req.gender,
-    role: req.role,
-  });
-});
+    role: req.role
+  })
+})
 
-//user forget password
-router.post("/forgetPass", validator.verifyemail, nocache(), async (req, res, next) => {
+// user forget password
+router.post('/forgetPass', validator.verifyemail, nocache(), async (req, res, next) => {
   try {
-    const email = req.body.email;
+    const email = req.body.email
     if (!email) {
-      return next(createHttpError(400, "no email"));
+      return next(createHttpError(400, 'no email'))
     }
-    let isEmailExist = await database
-      .query(`SELECT 1 from user_detail WHERE email = $1`, [email])
-      .then((result) => result.rows);
+    const isEmailExist = await database
+      .query('SELECT 1 from user_detail WHERE email = $1', [email])
+      .then((result) => result.rows)
     if (isEmailExist.length != 1) {
-      return next(createHttpError(404, "User email not exist"));//if the user email not exist return 404
+      return next(createHttpError(404, 'User email not exist'))// if the user email not exist return 404
     }
-    const resetCode = generateKey(20);
-    const link = `https://f2a.games/resetPass.html?email=${email}&code=${resetCode}`;
-    let html = `<p>You've recently requested to reset your f2a account password from ${req.ip}.</p><p>Please click the following <a href='${link}'>link</a> to reset your password.</p><p>Please ignore this email if you did not request to reset your password.</p>`;
-    sendMail(email, "Reset Password", { html }, () => {
+    const resetCode = generateKey(20)
+    const link = `https://f2a.games/resetPass.html?email=${email}&code=${resetCode}`
+    const html = `<p>You've recently requested to reset your f2a account password from ${req.ip}.</p><p>Please click the following <a href='${link}'>link</a> to reset your password.</p><p>Please ignore this email if you did not request to reset your password.</p>`
+    sendMail(email, 'Reset Password', { html }, () => {
       APP_CACHE.set(
         `${CACHE_KEYS.USERS.FORGETPASS}.${email}`,
         resetCode,
         15 * 60
-      ); //set resetcode to cache and the ttl is 15 minutes
-      res.status(200).json({ status: "done" });
-    });//send the email to user
+      ) // set resetcode to cache and the ttl is 15 minutes
+      res.status(200).json({ status: 'done' })
+    })// send the email to user
   } catch (err) {
-    console.log(err);
-    next(createHttpError(500, err));
+    console.log(err)
+    next(createHttpError(500, err))
   }
-});
+})
 
-//verify user reset password 
-router.post("/verifyResetPass", validator.verifypassword, nocache(), async (req, res, next) => {
+// verify user reset password
+router.post('/verifyResetPass', validator.verifypassword, nocache(), async (req, res, next) => {
   try {
-    const email = req.body.email;
-    const code = req.body.code;
-    const password = req.body.password;
-    const USERCODE = APP_CACHE.get(`${CACHE_KEYS.USERS.FORGETPASS}.${email}`);//get the code from cache
+    const email = req.body.email
+    const code = req.body.code
+    const password = req.body.password
+    const USERCODE = APP_CACHE.get(`${CACHE_KEYS.USERS.FORGETPASS}.${email}`)// get the code from cache
     if (USERCODE == code) {
-      APP_CACHE.del(`${CACHE_KEYS.USERS.FORGETPASS}.${email}`); //delete user code after verify
+      APP_CACHE.del(`${CACHE_KEYS.USERS.FORGETPASS}.${email}`) // delete user code after verify
       bcrypt.hash(password, 10, async (err, hash) => {
         if (err) {
-          console.log("Error on hashing password");
+          console.log('Error on hashing password')
           logger.error(
             `500 unable to complete registration || ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
-          );
+          )
           return next(
-            createHttpError(500, "Unable to complete reset password")
-          );
+            createHttpError(500, 'Unable to complete reset password')
+          )
         }
         await database.query(
           `UPDATE user_auth SET password = $1 FROM (SELECT id, email FROM user_detail) AS subquery
           WHERE  user_auth.userid = subquery.id AND subquery.email = $2`,
           [hash, email]
-        );
-        res.status(200).json({ status: "done" });
-      });
+        )
+        res.status(200).json({ status: 'done' })
+      })
     } else {
-      return next(createHttpError(400, "Wrong code"));//if user enter wrong code return 400
+      return next(createHttpError(400, 'Wrong code'))// if user enter wrong code return 400
     }
   } catch (err) {
-    console.log(err);
-    next(createHttpError(500, err));
+    console.log(err)
+    next(createHttpError(500, err))
   }
-});
+})
 
-//verify the email when user register
-router.post("/verifyEmail", validator.verifyemail, async (req, res, next) => {
+// verify the email when user register
+router.post('/verifyEmail', validator.verifyemail, async (req, res, next) => {
   try {
-    const email = req.body.email;
-    let isEmailExist = await database
-      .query(`SELECT 1 from user_detail WHERE email = $1`, [email])
-      .then((result) => result.rows);
+    const email = req.body.email
+    const isEmailExist = await database
+      .query('SELECT 1 from user_detail WHERE email = $1', [email])
+      .then((result) => result.rows)
     if (isEmailExist.length != 0) {
-      return next(createHttpError(400, "This email already exist"));//return 400 if the email exist
+      return next(createHttpError(400, 'This email already exist'))// return 400 if the email exist
     }
-    const code = generateKey(20);//generate the code
-    APP_CACHE.set(`${CACHE_KEYS.USERS.EMAILS}.${email}`, code, 15 * 60); //set code ttl to 15 minutes
-    const html = `<p>Your verification code is <h1>${code}</h1></p><p>Enter this code in the register page within 15 minutes to continue register.</p><p>Please ignore this email if you did not request to register account.</p><p>If you have any questions, send us an email <a href="mailto:support@f2a.games">support@f2a.games</a>.</p>`;
-    sendMail(email, "Verify Your Email", { html }, (err, info) => {
+    const code = generateKey(20)// generate the code
+    APP_CACHE.set(`${CACHE_KEYS.USERS.EMAILS}.${email}`, code, 15 * 60) // set code ttl to 15 minutes
+    const html = `<p>Your verification code is <h1>${code}</h1></p><p>Enter this code in the register page within 15 minutes to continue register.</p><p>Please ignore this email if you did not request to register account.</p><p>If you have any questions, send us an email <a href="mailto:support@f2a.games">support@f2a.games</a>.</p>`
+    sendMail(email, 'Verify Your Email', { html }, (err, info) => {
       if (err) {
-        console.log(err);
-        return next(createHttpError(500, err));
+        console.log(err)
+        return next(createHttpError(500, err))
       } else {
-        res.status(200).json({ status: "done" });
+        res.status(200).json({ status: 'done' })
       }
-    });//send the email
+    })// send the email
   } catch (err) {
-    console.log(err);
-    return next(createHttpError(500, err));
+    console.log(err)
+    return next(createHttpError(500, err))
   }
-});
-//When API is invoked, verifyToken and userInfoValidator middleware will be invoked before allowing user_detail to be updated.
+})
+// When API is invoked, verifyToken and userInfoValidator middleware will be invoked before allowing user_detail to be updated.
 router.post(
-  "/saveUserInfo",
+  '/saveUserInfo',
   verifyToken,
   validator.userInfoValidator,
   async (req, res, next) => {
-    //Update user's detail and return id,name,email and phone
+    // Update user's detail and return id,name,email and phone
     return database
       .query(
-        `UPDATE user_detail SET name = $1, phone = $2, gender = $3 WHERE id = $4 returning id, name, email, phone, gender`,
+        'UPDATE user_detail SET name = $1, phone = $2, gender = $3 WHERE id = $4 returning id, name, email, phone, gender',
         [req.body.username, req.body.phone, req.body.gender, req.id]
       )
       .then((result) => {
-        //if user_detail is successfully updated
+        // if user_detail is successfully updated
         if (result.rowCount == 1) {
-          //create a new token
-          let data = {
+          // create a new token
+          const data = {
             token: jwt.sign(
               {
                 id: result.rows[0].id,
                 name: result.rows[0].name,
                 email: result.rows[0].email,
                 phone: result.rows[0].phone,
-                gender: result.rows[0].gender,
+                gender: result.rows[0].gender
               },
               config.JWTKEY,
               {
-                expiresIn: 86400,
+                expiresIn: 86400
               }
-            ),
-          };
-          //return the token
-          return res.status(200).json(data);
+            )
+          }
+          // return the token
+          return res.status(200).json(data)
         } else {
-          return res.status(204).end();
+          return res.status(204).end()
         }
       })
       .catch((err) => {
-        next(createHttpError(500, err));
-      });
+        next(createHttpError(500, err))
+      })
   }
-);
+)
 
 router.post(
-  "/supportRequest",
+  '/supportRequest',
   verifyToken,
   validator.supportformValidator,
   nocache(),
   async (req, res, next) => {
-    const email = req.body.email;
-    const subject = req.body.subject;
-    const message = req.body.message;
-    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    var charactersLength = characters.length;
-    let string = "";
-    for (var i = 0; i < 6; i++) {
-      string += characters.charAt(Math.floor(Math.random() * charactersLength));
+    const email = req.body.email
+    const subject = req.body.subject
+    const message = req.body.message
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    const charactersLength = characters.length
+    let string = ''
+    for (let i = 0; i < 6; i++) {
+      string += characters.charAt(Math.floor(Math.random() * charactersLength))
     }
     return database
       .query(
-        `INSERT INTO support_request (request_id, email, subject, message) VALUES($1,$2,$3,$4)`,
+        'INSERT INTO support_request (request_id, email, subject, message) VALUES($1,$2,$3,$4)',
         [string, email, subject, message]
       )
       .then((result) => {
         if (result.rowCount == 1) {
-          const html = `<h2>REQUEST NUMBER : ${string}</h2><p>This request is from user ${email}</p><p>The request is : ${message}</p>`;
+          const html = `<h2>REQUEST NUMBER : ${string}</h2><p>This request is from user ${email}</p><p>The request is : ${message}</p>`
           receiveMail(subject, { html }, (err, info) => {
             if (err) {
-              console.log(err);
-              return next(createHttpError(500, err));
+              console.log(err)
+              return next(createHttpError(500, err))
             } else {
-              res.status(200).json({ status: "done" });
+              res.status(200).json({ status: 'done' })
             }
-          });
+          })
         } else {
-          next(createHttpError(500, err));
+          next(createHttpError(500, err))
         }
       })
       .catch((err) => {
-        next(createHttpError(500, err));
-      });
+        next(createHttpError(500, err))
+      })
   }
-);
+)
 
-
-
-module.exports = router;
+module.exports = router

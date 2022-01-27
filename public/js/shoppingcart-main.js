@@ -1,24 +1,24 @@
 window.addEventListener('DOMContentLoaded', function () {
-    uidGenerate();//generate the uid for public
-    displayCart();
+  uidGenerate()// generate the uid for public
+  displayCart()
 })
-var pricearr = [],
-    id = [];
+const pricearr = []
+const id = []
 
-function count() {
-    var price = 0;
-    $(".qty").each(function (index) {
-        price += this.value * pricearr[index];
-    });
-    $("#p").empty().append("Total price: <b>" + price.toFixed(2) + "</b>");
+function count () {
+  let price = 0
+  $('.qty').each(function (index) {
+    price += this.value * pricearr[index]
+  })
+  $('#p').empty().append('Total price: <b>' + price.toFixed(2) + '</b>')
 }
 
-function displayCart() {
-    getShoppingCart().then(result => {
-        document.getElementById("cart").innerHTML = "";
-        result.cart.forEach(cart => {
-            id.push(cart.game_id);
-            let string = `
+function displayCart () {
+  getShoppingCart().then(result => {
+    document.getElementById('cart').innerHTML = ''
+    result.cart.forEach(cart => {
+      id.push(cart.game_id)
+      const string = `
                 <div class="col-12 col-sm-12 col-md-2 text-center pb-5 shoppingCart">
                                 <img class="img-responsive" src="${cart.g_image}" onerror="this.onerror=null;this.src='/images/noimage.png';" alt="preview" width="120" height="155px">
                             </div>
@@ -30,7 +30,7 @@ function displayCart() {
                             </div>
                             <div class="col-12 col-sm-12 text-sm-center col-md-4 text-md-right row">
                                 <div class="col-3 col-sm-3 col-md-6 text-md-right" style="padding-top: 5px">
-                                    <h6><strong><span class="text-muted price">${cart.g_discount?cart.g_discount:cart.g_price}SGD</span></strong></h6>
+                                    <h6><strong><span class="text-muted price">${cart.g_discount ? cart.g_discount : cart.g_price}SGD</span></strong></h6>
                                 </div>
                                 <div class="col-4 col-sm-4 col-md-4">
                                     <div class="quantity">
@@ -50,77 +50,77 @@ function displayCart() {
                                 </div>
                             </div>
                 `
-            document.getElementById("cart").insertAdjacentHTML("beforeend", string);
-        });
-        $(".price").each(function () {
-            pricearr.push(parseFloat(this.innerText.replace("SGD", "").trim()));
-        });
-        count();
+      document.getElementById('cart').insertAdjacentHTML('beforeend', string)
     })
+    $('.price').each(function () {
+      pricearr.push(parseFloat(this.innerText.replace('SGD', '').trim()))
+    })
+    count()
+  })
 }
 
-//save the cart
-function saveCart() {
-    // document.getElementById("update").disabled = true;
-    var cartArr = [];
-    for (let i = 0; i < id.length; i++) {
-        cartArr.push({
-            id: id[i],
-            amount: $(`#amount-${id[i]}`).val()
-        });
-    }
-    addShoppingCart(cartArr, 'true').then(result => {
-        // alert("Save cart");
-        // document.getElementById("update").disabled = false;
-    }).catch(err => {
-        console.log(err);
-        // document.getElementById("update").disabled = false;
+// save the cart
+function saveCart () {
+  // document.getElementById("update").disabled = true;
+  const cartArr = []
+  for (let i = 0; i < id.length; i++) {
+    cartArr.push({
+      id: id[i],
+      amount: $(`#amount-${id[i]}`).val()
     })
+  }
+  addShoppingCart(cartArr, 'true').then(result => {
+    // alert("Save cart");
+    // document.getElementById("update").disabled = false;
+  }).catch(err => {
+    console.log(err)
+    // document.getElementById("update").disabled = false;
+  })
 }
 
-//delete cart
-function delete_cart(id) {
-    var n = new Noty({
-        text: "Do you want to delete item from cart ?",
-        theme: "sunset",
-        buttons: [
-          Noty.button(
-            "YES",
-            "btn btn-success",
-            function () {
-              console.log("button 1 clicked");
-              n.close();
-              deleteCart(id).then(result => {
-                // alert(err)
-                new Noty({
-                    type: "success",
-                    layout: "topCenter",
-                    theme: "sunset",
-                    timeout: "6000",
-                    text: "Delete success"
-                })
-                    .show();
-                displayCart();
-            }).catch(err => {
-                // alert(err)
-                new Noty({
-                    type: "error",
-                    layout: "topCenter",
-                    theme: "sunset",
-                    timeout: "6000",
-                    text: err
-                })
-                    .show();
-                    })
-            },
-            { id: "button1", "data-status": "ok" }
-          ),
-  
-          Noty.button("NO", "btn btn-danger", function () {
-            console.log("button 2 clicked");
-            n.close();
-          }),
-        ],
-      });
-      n.show();
+// delete cart
+function delete_cart (id) {
+  var n = new Noty({
+    text: 'Do you want to delete item from cart ?',
+    theme: 'sunset',
+    buttons: [
+      Noty.button(
+        'YES',
+        'btn btn-success',
+        function () {
+          console.log('button 1 clicked')
+          n.close()
+          deleteCart(id).then(result => {
+            // alert(err)
+            new Noty({
+              type: 'success',
+              layout: 'topCenter',
+              theme: 'sunset',
+              timeout: '6000',
+              text: 'Delete success'
+            })
+              .show()
+            displayCart()
+          }).catch(err => {
+            // alert(err)
+            new Noty({
+              type: 'error',
+              layout: 'topCenter',
+              theme: 'sunset',
+              timeout: '6000',
+              text: err
+            })
+              .show()
+          })
+        },
+        { id: 'button1', 'data-status': 'ok' }
+      ),
+
+      Noty.button('NO', 'btn btn-danger', function () {
+        console.log('button 2 clicked')
+        n.close()
+      })
+    ]
+  })
+  n.show()
 }

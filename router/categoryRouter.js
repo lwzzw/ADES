@@ -1,80 +1,82 @@
-const database = require("../database/database");
-const createHttpError = require("http-errors");
-const logger = require("../logger");
-const router = require("express").Router();
-const APP_CACHE = require('../cache');
-const CACHE_KEYS = APP_CACHE.get("CACHE_KEYS");
+const database = require('../database/database')
+const createHttpError = require('http-errors')
+const logger = require('../logger')
+const router = require('express').Router()
+const APP_CACHE = require('../cache')
+const CACHE_KEYS = APP_CACHE.get('CACHE_KEYS')
 
-module.exports.getCat = getCats;
+module.exports.getCat = getCats
 
-//cache the category
-async function getCats() {
-  var cat;
+// cache the category
+async function getCats () {
+  let cat
   try {
-    let main, sub, child;
+    let main, sub, child
     main = await database
-      .query("SELECT id, category_name FROM main_category")
+      .query('SELECT id, category_name FROM main_category')
       .then((result) => {
-        return main = result.rows;
-      });
+        return main = result.rows
+      })
     sub = await database
-      .query("SELECT id, category_name, fk_main FROM parent_subcategory")
+      .query('SELECT id, category_name, fk_main FROM parent_subcategory')
       .then((result) => {
-        return sub = result.rows;
-      });
+        return sub = result.rows
+      })
     child = await database
-      .query("SELECT id, category_name, fk_parent FROM child_subcategory")
+      .query('SELECT id, category_name, fk_parent FROM child_subcategory')
       .then((result) => {
-        return child = result.rows;
-      });
+        return child = result.rows
+      })
     return Promise.all([main, sub, child]).then(() => {
       child.forEach((childCat) => {
-        let index = sub.findIndex((subCat) => subCat.id == childCat.fk_parent);
-        if (!sub[index].child) sub[index].child = [];
-        sub[index].child.push(childCat);
-      });
+        const index = sub.findIndex((subCat) => subCat.id == childCat.fk_parent)
+        if (!sub[index].child) sub[index].child = []
+        sub[index].child.push(childCat)
+      })
       sub.forEach((subCat) => {
-        let index = main.findIndex((mainCat) => mainCat.id == subCat.fk_main);
-        if (!main[index].parent) main[index].parent = [];
-        main[index].parent.push(subCat);
-      });
-      cat = main;
-      APP_CACHE.set(CACHE_KEYS.CATEGORIES.CAT, cat);//set the category to cache
+        const index = main.findIndex((mainCat) => mainCat.id == subCat.fk_main)
+        if (!main[index].parent) main[index].parent = []
+        main[index].parent.push(subCat)
+      })
+      cat = main
+      APP_CACHE.set(CACHE_KEYS.CATEGORIES.CAT, cat)// set the category to cache
       return {
-        categories: cat,
-      };
-    }).catch(err=>{
-      console.log(err);
-    });
+        categories: cat
+      }
+    }).catch(err => {
+      console.log(err)
+    })
   } catch (err) {
-    console.log(err);
+    console.log(err)
   }
 }
 
-//get all category
-router.get("/getAllCategories", async function (req, res, next) {
-  const cat = APP_CACHE.get(CACHE_KEYS.CATEGORIES.CAT);
-  if (cat)//if category cache exist return the cache
+// get all category
+router.get('/getAllCategories', async function (req, res, next) {
+  const cat = APP_CACHE.get(CACHE_KEYS.CATEGORIES.CAT)
+  if (cat)// if category cache exist return the cache
+  {
     return res.status(200).json({
-      categories: cat,
-    });
-  let result = await getCats();//if category cache does not exist call getCats to cache it
+      categories: cat
+    })
+  }
+  const result = await getCats()// if category cache does not exist call getCats to cache it
   if (result) {
     logger.info(
       `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
-    );
-    return res.status(200).json(result);
+    )
+    return res.status(200).json(result)
   } else {
-    next(createHttpError(500, "Get category error"));
+    next(createHttpError(500, 'Get category error'))
     logger.error(
       `500 Error ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
-    );
+    )
   }
-});
+})
 
-//get count of game by main category
-router.get("/countOfGame/:mainCategory", (req, res, next) => {
-  var mainCat = req.params.mainCategory;
+// get count of game by main category
+router.get('/countOfGame/:mainCategory', (req, res, next) => {
+  const mainCat = req.params.mainCategory
   return database
     .query(
       `SELECT COUNT(g_id),parent_subcategory.category_name 
@@ -88,24 +90,24 @@ router.get("/countOfGame/:mainCategory", (req, res, next) => {
     .then((result) => {
       logger.info(
         `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
-      );
+      )
       return res.status(200).json({
-        count: result.rows,
-      });
+        count: result.rows
+      })
     })
     .catch((err) => {
-      next(createHttpError(500, err));
+      next(createHttpError(500, err))
       logger.error(
-        `${err || "500 Error"} ||  ${res.statusMessage} - ${
+        `${err || '500 Error'} ||  ${res.statusMessage} - ${
           req.originalUrl
         } - ${req.method} - ${req.ip}`
-      );
-    });
-});
+      )
+    })
+})
 
-//get count of game by sub category
-router.get("/countOfGameByPlatform/:subCategory", (req, res, next) => {
-  var subCat = req.params.subCategory;
+// get count of game by sub category
+router.get('/countOfGameByPlatform/:subCategory', (req, res, next) => {
+  const subCat = req.params.subCategory
   return database
     .query(
       `SELECT COUNT(g_id),category_name 
@@ -118,19 +120,19 @@ router.get("/countOfGameByPlatform/:subCategory", (req, res, next) => {
     .then((result) => {
       logger.info(
         `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
-      );
+      )
       return res.status(200).json({
-        count: result.rows,
-      });
+        count: result.rows
+      })
     })
     .catch((err) => {
-      next(createHttpError(500, err));
+      next(createHttpError(500, err))
       logger.error(
-        `${err || "500 Error"} ||  ${res.statusMessage} - ${
+        `${err || '500 Error'} ||  ${res.statusMessage} - ${
           req.originalUrl
         } - ${req.method} - ${req.ip}`
-      );
-    });
-});
+      )
+    })
+})
 
-module.exports.default = router;
+module.exports.default = router
