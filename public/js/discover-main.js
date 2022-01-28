@@ -21,6 +21,8 @@ recognition.onerror = function (event) {
     .show()
 }
 const overlayLoading = document.getElementById('loading')
+// Hides the category div
+$('#categ')[0].style.display = 'none'
 
 window.addEventListener('DOMContentLoaded', function () {
   // checks if user is logged in
@@ -42,8 +44,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
   // shows total amount of items in shopping cart
   showCartAmount()
-  // Hides the category div
-  $('#categ')[0].style.display = 'none'
 
   // Execute corresponding APIs depending on the discover url
   if (window.location.pathname == '/bestseller') {

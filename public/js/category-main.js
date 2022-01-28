@@ -21,6 +21,8 @@ recognition.onerror = function (event) {
     text: event.error
   }).show()
 }
+// Hides the category div
+$('#categ')[0].style.display = 'none'
 window.addEventListener('DOMContentLoaded', function () {
   if (localStorage.getItem('token')) {
     checkLogin()
@@ -46,7 +48,6 @@ window.addEventListener('DOMContentLoaded', function () {
         document.getElementById('login').innerHTML = 'Login'
       })
   }
-  $('#categ')[0].style.display = 'none'
   uidGenerate()// generate the uid for public
   showCartAmount()// show the amount of cart
   getAllCategories()
