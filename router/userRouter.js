@@ -414,7 +414,7 @@ router.post("/reset2FA", nocache(), async (req, res, next) => {
       return next(createHttpError(400, "User is not registered or does not have 2-fa enabled"));//if the user does not have 2fa enabled or registered return 400
     }
     const resetCode = generateKey(20); //generate code
-    const link = `http://localhost:5000/reset_fa.html?email=${email}&code=${resetCode}`; //set reset link
+    const link = `https://f2a.games/reset_fa.html?email=${email}&code=${resetCode}`; //set reset link
     //set email message
     let html = `<p>You've recently requested to reset your two-factor authenticator from f2a.games</p><p>Please click the following <a href='${link}'>link</a> to reset your authenticator.</p><p>Please ignore this email if you did not request to reset your authenticator.</p>`;
     sendMail(email, "Reset 2-FA", { html }, () => {
