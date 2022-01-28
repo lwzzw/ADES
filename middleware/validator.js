@@ -45,12 +45,12 @@ const validationFn = {
     }
   },
   supportformValidator: function (req, res, next) {
-    const checkUserInput = new RegExp(/^[\w\s]+$/)
+    const checkUserInput = new RegExp(/^[a-zA-Z0-9-]+$/)
     const checkUserEmail = new RegExp(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$/)
     if (checkUserInput.test(req.body.subject) && checkUserEmail.test(req.body.email) && checkUserInput.test(req.body.message)) {
       next()
     } else {
-      res.status(400).json({ error: 'validation failed, check your input. Only alphabets and digits for subject and message!' })
+      res.status(400).json({ error: 'validation failed, check your input.Only alphabets and digits for subject and message!' })
     }
   },
 

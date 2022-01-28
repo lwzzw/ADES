@@ -1,4 +1,9 @@
 window.addEventListener('DOMContentLoaded', function () {
+  const useremail = document.getElementById('emailInput')
+  const subject = document.getElementById('subjectInput')
+  const message = document.getElementById('messageInput')
+  const submitButton = document.getElementById('submitButton')
+  const loading = document.getElementById('loading')
 
   if (localStorage.getItem('token')) {
     checkLogin().then(response => {
@@ -41,15 +46,6 @@ window.addEventListener('DOMContentLoaded', function () {
     showNotification('error', 'Your session has expired, please login again')
     disableFeatures()
   }
-
-
-  const useremail = document.getElementById('emailInput')
-  const subject = document.getElementById('subjectInput')
-  const message = document.getElementById('messageInput')
-  const submitButton = document.getElementById('submitButton')
-  const loading = document.getElementById('loading')
-
-
 })
 
 

@@ -22,7 +22,7 @@ window.addEventListener('DOMContentLoaded', function () {
          <td>${requests.email}</td>
          <td>${requests.subject}</td>
          <td>${requests.message}</td>
-         <td><select name="status" id="statuses" onChange="document.getElementById('statuses').value= this.value;">
+         <td><select name="status" id="statuses">
          <option value="${value1}">${status1}</option>
          <option value="${value2}">${status2}</option></select></td>
          <td><button id="updateBtn" onclick="update('${requests.request_id}', document.getElementById('statuses').value)">Update</button></td>
