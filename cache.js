@@ -29,7 +29,12 @@ const CACHE_KEYS = {
     },
     CATEGORIES: {
         CAT: "categories.cat"
-    }
+    },
+    GAMEFILTER: {
+        GAMES: "gamefilter.games",
+        INDIVIDUALGAMES: "gamefilter.individualgames"
+    },
+
 }
 APP_CACHE.set('CACHE_KEYS', CACHE_KEYS)
 

@@ -10,7 +10,17 @@ module.exports.getGameAC = getGameAC
 // get game detail by id
 router.get('/gameDetailById/:id', (req, res, next) => {
   const id = req.params.id
+
+  const gameCache = APP_CACHE.get(CACHE_KEYS.GAMEFILTER.INDIVIDUALGAMES) || {}  // returns dict of cached game ids
+  // if cache contains game id, return the cached game
+  if (id in gameCache) {
+    return res.status(200).json({
+      game: gameCache[id]
+    })
+  }
+
   // parent_subcategory is platform
+  // if not found in the cache, fetch from database
   return database
     .query(
       `SELECT region_name ,g_id, g_name, g_description, g_price, g_image, to_char(g_publishdate::timestamp,'dd/mm/YYYY') g_publishdate, g_region, g_discount, category_name 
@@ -25,6 +35,8 @@ router.get('/gameDetailById/:id', (req, res, next) => {
         logger.info(
           `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
         )
+        gameCache[id] = result.rows // add game to the cache
+        APP_CACHE.set(CACHE_KEYS.GAMEFILTER.INDIVIDUALGAMES, gameCache, 60) // update the node cache with the latest value
         return res.status(200).json({
           game: result.rows
         })
@@ -75,6 +87,15 @@ router.get('/gameDetailFilter', (req, res, next) => {
   }
   array.push(LIMIT)
   array.push(offset)
+
+  const gameFilterCache = APP_CACHE.get(CACHE_KEYS.GAMEFILTER.GAMES) || {} // returns dict of cached game filters
+  // if cache contains game filter, return the cached game filters
+  if (array in gameFilterCache) {
+    return res.status(200).json({
+      games: gameFilterCache[array]
+    })
+  }
+  //if not found in the cache, fetch from database
   return database
     .query(
       `SELECT g_id, g_name, g_description, g_price, g_discount, g_image, g_publishdate, g_region 
@@ -112,6 +133,8 @@ router.get('/gameDetailFilter', (req, res, next) => {
       logger.info(
         `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
       )
+      gameFilterCache[array] = result.rows // add to the cache
+      APP_CACHE.set(CACHE_KEYS.GAMEFILTER.GAMES, gameFilterCache, 60) // update the node cache with latest value
       return res.status(200).json({
         games: result.rows
       })
@@ -205,7 +228,7 @@ router.get('/getDeals/:row', (req, res, next) => {
         `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
       )
       dealsRowCache[row] = result.rows // add to the cache
-      APP_CACHE.set(CACHE_KEYS.DEALS.ROWS, dealsRowCache) // update the node cache with latest value
+      APP_CACHE.set(CACHE_KEYS.DEALS.ROWS, dealsRowCache, 60) // update the node cache with latest value
       return res.status(200).json({
         deals: result.rows
       })
@@ -289,7 +312,7 @@ router.get('/getPreorders/:limitProducts', (req, res, next) => {
         `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
       )
       preOrdersCache[productIndex] = result.rows // add data to cache
-      APP_CACHE.set(CACHE_KEYS.PREORDERS.GAMES, preOrdersCache) // update the node cache with latest value
+      APP_CACHE.set(CACHE_KEYS.PREORDERS.GAMES, preOrdersCache, 60) // update the node cache with latest value
       return res.status(200).json({
         preorders: result.rows
       })
@@ -323,7 +346,7 @@ router.get('/getLRelease', (req, res, next) => {
         `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
       )
       latestReleaseCache[productIndex] = result.rows // add data to cache
-      APP_CACHE.set(CACHE_KEYS.LATESTRELEASES.GAMES, latestReleaseCache) // update the node cache with latest value
+      APP_CACHE.set(CACHE_KEYS.LATESTRELEASES.GAMES, latestReleaseCache, 60) // update the node cache with latest value
       return res.status(200).json({
         lrelease: result.rows
       })

@@ -16,7 +16,8 @@ const validationFn = {
   validateUsername: function (req, res, next) {
     // Regex to check for special characters
     const checkUserInput = new RegExp(/^[\w\s]+$/)
-
+    //remove extra spacing/returns etc but retains the meaning of spaces.
+    req.body.username = req.body.username.replace(/[\n\r\s\t]+/g, ' ')
     if (checkUserInput.test(req.body.username)) {
         next()
     } else {

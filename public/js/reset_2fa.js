@@ -5,18 +5,11 @@ window.addEventListener("DOMContentLoaded", function () {
 
   sendMail.onclick = function () {
     //email regex
-    let reEmail = new RegExp(
-      `^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$`
-    );
+    const reEmail = new RegExp(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$/);
+
     //Check email input
     if (!reEmail.test(useremail.value)) {
-      new Noty({
-        type: "error",
-        layout: "topCenter",
-        theme: "sunset",
-        timeout: "6000",
-        text: "Please verify that your email is correct !",
-      }).show();
+      showNotification('error', 'Please verify that your email is correct!')
     } else {
       //sends the 2-fa reset link email
       requestReset2FA(useremail.value)
@@ -34,24 +27,23 @@ window.addEventListener("DOMContentLoaded", function () {
               })
               .show();
           } else {
-            new Noty({
-              type: "error",
-              layout: "topCenter",
-              theme: "sunset",
-              timeout: "6000",
-              text: "Unable to reset the authenticator. Try again!",
-            }).show();
+            showNotification('error', 'Unable to reset the authenticator. Try again!')
           }
         })
         .catch((error) => {
-          new Noty({
-            type: "error",
-            layout: "topCenter",
-            theme: "sunset",
-            timeout: "6000",
-            text: error.message
-          }).show();
+          showNotification('error', error.message)
         });
     }
   };
 });
+
+// Shows notification
+function showNotification(type, message) {
+  new Noty({
+    type: type,
+    layout: 'topCenter',
+    theme: 'sunset',
+    timeout: '6000',
+    text: message
+  }).show()
+}
