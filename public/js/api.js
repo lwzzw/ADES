@@ -920,7 +920,7 @@ function getPaypal (params) {
   }
   // params is passed into the url
   return axios
-    .get(`/user/login/callback?code=${params}`, methods)
+    .get(`/authenticate/login/callback?code=${params}`, methods)
     .then(response => {
       return response.data
     })
