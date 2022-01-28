@@ -3,7 +3,7 @@ let toFirst, toSecond
 const recognition = new webkitSpeechRecognition()
 let recording = false
 const params = new URLSearchParams(window.location.search)
-let min, max
+let min = params.get('minprice') || 0, max = params.get('maxprice') || 0
 recognition.continuous = true
 recognition.interimResults = true
 recognition.lang = 'EN'
@@ -188,13 +188,13 @@ window.addEventListener('DOMContentLoaded', function () {
 
   document.getElementById('pinput_min').addEventListener('change', () => {
     min = $('#pinput_min').val()
-    min > max ? (max = min) : null
+    (min * 1 > max * 1) && max != 0 ? (max = min) : ""
     priceChange()
   })
 
   document.getElementById('pinput_max').addEventListener('change', () => {
     max = $('#pinput_max').val()
-    max < min ? (min = max) : null
+    (max * 1 < min * 1) && max != 0 ? (min = max) : ""
     priceChange()
   })
 
@@ -278,8 +278,8 @@ recognition.onresult = function (event) {
 }
 
 function priceChange () {
-  if (min) params.set('minprice', min)
-  if (max) params.set('maxprice', max)
+  if (min && min != 0) params.set('minprice', min)
+  if (max && max != 0) params.set('maxprice', max)
   params.set('page', 1)
 
   showGame()
