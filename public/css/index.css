@@ -315,6 +315,7 @@ hr {
 .slash-price {
     text-decoration: line-through;
     font-size: 12px;
+    font-weight: bold;
 }
 
 .discount-price {
