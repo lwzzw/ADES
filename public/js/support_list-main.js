@@ -22,10 +22,10 @@ window.addEventListener('DOMContentLoaded', function () {
          <td>${requests.email}</td>
          <td>${requests.subject}</td>
          <td>${requests.message}</td>
-         <td><select name="status" id="statuses">
+         <td><select name="status" id="statuses-${requests.request_id}">
          <option value="${value1}">${status1}</option>
          <option value="${value2}">${status2}</option></select></td>
-         <td><button id="updateBtn" onclick="update('${requests.request_id}', document.getElementById('statuses').value)">Update</button></td>
+         <td><button id="updateBtn" onclick="update('${requests.request_id}', document.getElementById('statuses-${requests.request_id}').value)">Update</button></td>
          </tr>`
       table.insertAdjacentHTML('beforeend', string)
     })
