@@ -188,13 +188,13 @@ window.addEventListener('DOMContentLoaded', function () {
 
   document.getElementById('pinput_min').addEventListener('change', () => {
     min = $('#pinput_min').val()
-    (min * 1 > max * 1) && max != 0 ? (max = min) : ""
+    (parseInt(min) > parseInt(max)) && max != 0 ? (max = min) : ""
     priceChange()
   })
 
   document.getElementById('pinput_max').addEventListener('change', () => {
     max = $('#pinput_max').val()
-    (max * 1 < min * 1) && max != 0 ? (min = max) : ""
+    (parseInt(max) < parseInt(min)) && max != 0 ? (min = max) : ""
     priceChange()
   })
 
