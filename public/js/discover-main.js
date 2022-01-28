@@ -69,7 +69,7 @@ window.addEventListener('DOMContentLoaded', function () {
       minLength: 1,
       input: input,
       fetch: function (text, update) {
-        text = text.toLowerCase()
+        text = text.toLowerCase().trim()
         const suggestions = response.filter(n => n.label.toLowerCase().startsWith(text) || n.des.toLowerCase().startsWith(text) || n.main_cat.toLowerCase().startsWith(text) || n.parent_cat.toLowerCase().startsWith(text) || n.child_cat.toLowerCase().startsWith(text))
         update(suggestions)
       },

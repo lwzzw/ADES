@@ -333,7 +333,7 @@ window.addEventListener('DOMContentLoaded', async function () {
       minLength: 1,
       input: input,
       fetch: function (text, update) {
-        text = text.toLowerCase()
+        text = text.toLowerCase().trim()
         const suggestions = response.filter(
           (n) =>
             n.label.toLowerCase().startsWith(text) ||
