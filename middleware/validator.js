@@ -57,7 +57,8 @@ const validationFn = {
   validateRegister: function (req, res, next) {
     const refullname = new RegExp(/^[a-zA-Z\s,']+$/)
     const reEmail = new RegExp(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/)
-    const rePassword = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
+    //At least one upper case letter, At least one lower case letter, At least one digit, At least one special character, Minimum eight in length .
+    const rePassword = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/)
     const rePhone = new RegExp(/[8|9]\d{7}|\[8|9]\d{7}|\\s[8|9]\d{7}/)
 
     if (refullname.test(req.body.username) && rePassword.test(req.body.userpassword) && reEmail.test(req.body.useremail) && rePhone.test(req.body.userphone)) {
@@ -78,7 +79,8 @@ const validationFn = {
   },
 
   verifypassword: function (req, res, next) {
-    const rePassword = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
+    //At least one upper case letter, At least one lower case letter, At least one digit, At least one special character, Minimum eight in length .
+    const rePassword = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/)
 
     if (rePassword.test(req.body.password)) {
       next()

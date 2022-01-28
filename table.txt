@@ -417,13 +417,13 @@ VALUES ('Overwatch Battle.net Key GLOBAL', 69.90, 'Overwatch is a 2016 first-per
 INSERT INTO public.G2A_gameDatabase (g_name, g_price, g_description, g_maincategory, g_parentSubcategory, g_childSubcategory, g_image, g_publishDate, g_discount, g_region) 
 VALUES ('Forza Horizon 5 (Xbox Series X/S, Windows 10) - Xbox Live Key - GLOBAL', 79.40, 'Forza Horizon 5 brings the best the developers at Playground Games have to offer. With over 400 available cars, a dynamic, open world divided into several biomes, and stunning visuals, FH5 delivers on every aspect important to the fans of the series.', 1, 2, 12, '	https://img.g2a.com/323x433/1x1x0/forza-horizon-5-…-10-xbox-live-key-global/dc4f80e65c984df5bc42b658', '2021/11/09', 60.41, 1);
 
-INSERT INTO public.user_detail (name, email, gender, phone, auth_type) VALUES ('Junheng', 'junheng.tan001@gmail.com','M', 85529404, 1);
+INSERT INTO public.user_detail (name, email, gender, phone, auth_type) VALUES ('Junheng', 'junheng.tan002@gmail.com','M', 85529404, 1);
 INSERT INTO public.user_detail (name, email, gender, phone, auth_type) VALUES ('Adam', 'adam@gmail.com', 'M', 97653242, 1);
 INSERT INTO public.user_detail (name, email, gender, phone, auth_type, role) VALUES ('Lily', 'lily@gmail.com', 'F', 81136175, 1, 1);
 
-INSERT INTO public.user_auth (userid, password) VALUES ('1', '$2b$10$hQvVBV5aArsNFcOtygZbGO46hU6jo52UTDQETdvMAbZyIItNysz72');
-INSERT INTO public.user_auth (userid, password) VALUES ('2', '$2b$10$hQvVBV5aArsNFcOtygZbGO46hU6jo52UTDQETdvMAbZyIItNysz72');
-INSERT INTO public.user_auth (userid, password) VALUES ('3', '$2b$10$hQvVBV5aArsNFcOtygZbGO46hU6jo52UTDQETdvMAbZyIItNysz72');
+INSERT INTO public.user_auth (userid, password) VALUES ('1', '$2b$10$VOAH1.8SFffnAC63RJNQ3e2oFfkPnDx3r91I5H9HoiK4u232s4R8i');
+INSERT INTO public.user_auth (userid, password) VALUES ('2', '$2b$10$VOAH1.8SFffnAC63RJNQ3e2oFfkPnDx3r91I5H9HoiK4u232s4R8i');
+INSERT INTO public.user_auth (userid, password) VALUES ('3', '$2b$10$VOAH1.8SFffnAC63RJNQ3e2oFfkPnDx3r91I5H9HoiK4u232s4R8i');
 
 
 INSERT INTO public.order_detail (order_id, g_id, amount) VALUES (1, 1, 1);

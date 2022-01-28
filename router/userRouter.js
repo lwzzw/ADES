@@ -128,7 +128,7 @@ router.post('/login', validator.verifypassword, async (req, res, next) => {
 })
 
 // register user
-router.post('/register', validator.validateRegister, (req, res, next) => {
+router.post('/register', validator.validateRegister, validator.validateUsername, (req, res, next) => {
   const username = req.body.username
   const useremail = req.body.useremail
   const userpassword = req.body.userpassword
@@ -400,7 +400,7 @@ router.post("/reset2FA", nocache(), async (req, res, next) => {
     if (!email) {
       return next(createHttpError(400, "Email is empty !"));
     }
-    let reEmail = new RegExp(
+    const reEmail = new RegExp(
       /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$/
     );
     if (!reEmail.test(email)) {
@@ -436,7 +436,8 @@ router.post("/reset2FA/confirmed", nocache(), async (req, res, next) => {
     const email = req.body.email;
     const code = req.body.code;
     const password = req.body.password;
-    const rePassword = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/); //password regex : Minimum eight characters, at least one letter and one number:
+    //At least one upper case letter, At least one lower case letter, At least one digit, At least one special character, Minimum eight in length .
+    const rePassword = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/); 
     const USERCODE = APP_CACHE.get(`${CACHE_KEYS.USERS.TWOFACODE}.${email}`);//get the code from cache
     if (USERCODE == code) {
       if (!rePassword.test(password)) {

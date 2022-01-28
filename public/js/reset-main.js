@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded', function () {
     const reEmail = new RegExp(
       '^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$'
     )
-    const rePassword = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
+    const rePassword = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/)
 
     if (
       !rePassword.test(userpassword.value) ||

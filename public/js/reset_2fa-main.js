@@ -17,10 +17,11 @@ window.addEventListener("DOMContentLoaded", function () {
   
     checkReset.onclick = function () {
       //reset password
-      let reEmail = new RegExp(
+      const reEmail = new RegExp(
         `^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$`
       );
-      let rePassword = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
+      //At least one upper case letter, At least one lower case letter, At least one digit, At least one special character, Minimum eight in length .
+      const rePassword = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
   
       if (
         !rePassword.test(userpassword.value) ||
