@@ -54,7 +54,7 @@ router.post('/login', validator.verifypassword, async (req, res, next) => {
       `401 Empty Credentials ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
     )
     return next(createHttpError(401, 'empty credentials'))
-  } else {//gets user details
+  } else { // gets user details
     return database
       .query(
         `SELECT user_detail.id, user_detail.name, user_detail.email, user_detail.phone, user_detail.auth_type, user_auth.password, user_detail.gender, user_detail.role
@@ -62,14 +62,14 @@ router.post('/login', validator.verifypassword, async (req, res, next) => {
          where email=$1`,
         [email]
       )
-      .then(async (result) => {//attempts to get the user's secret_key
+      .then(async (result) => { // attempts to get the user's secret_key
         await database
           .query(
             'SELECT secret_key FROM twofactor_authenticator WHERE belong_to = $1',
             [result.rows[0].id]
           )
-          .then(async (auth) => {//if user has a secret_key
-            if (auth.rows.length == 1) {//validate the user's secretCode input with the google-authenticator API.
+          .then(async (auth) => { // if user has a secret_key
+            if (auth.rows.length == 1) { // validate the user's secretCode input with the google-authenticator API.
               const authResult = await validator.validateSecretKey(
                 secretCode,
                 auth.rows[0].secret_key
@@ -80,7 +80,7 @@ router.post('/login', validator.verifypassword, async (req, res, next) => {
                 )
               }
             }
-          })//if the user's secret code has been validated and its correct, it will check if the user is a normal user
+          })// if the user's secret code has been validated and its correct, it will check if the user is a normal user
         if (result.rows[0].auth_type == '1') {
           if (bcrypt.compareSync(password, result.rows[0].password) == true) {
             const data = {
@@ -394,66 +394,66 @@ router.post(
   }
 )
 
-router.post("/reset2FA", nocache(), async (req, res, next) => {
+router.post('/reset2FA', nocache(), async (req, res, next) => {
   try {
-    const email = req.body.email;
+    const email = req.body.email
     if (!email) {
-      return next(createHttpError(400, "Email is empty !"));
+      return next(createHttpError(400, 'Email is empty !'))
     }
     const reEmail = new RegExp(
       /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$/
-    );
+    )
     if (!reEmail.test(email)) {
-      return next(createHttpError(400, "Please verify that the email you entered is correct !"));//return 400 if the user enter wrong email format
+      return next(createHttpError(400, 'Please verify that the email you entered is correct !'))// return 400 if the user enter wrong email format
     }
-    //check if email is registered and have 2-fa enabled.
-    let isEmailExist = await database
-      .query(`SELECT 1, user_detail.email, twofactor_authenticator.secret_key from user_detail inner join twofactor_authenticator on user_detail.id = twofactor_authenticator.belong_to WHERE email = $1`, [email])
-      .then((result) => result.rows);
+    // check if email is registered and have 2-fa enabled.
+    const isEmailExist = await database
+      .query('SELECT 1, user_detail.email, twofactor_authenticator.secret_key from user_detail inner join twofactor_authenticator on user_detail.id = twofactor_authenticator.belong_to WHERE email = $1', [email])
+      .then((result) => result.rows)
     if (isEmailExist.length != 1) {
-      return next(createHttpError(400, "User is not registered or does not have 2-fa enabled"));//if the user does not have 2fa enabled or registered return 400
+      return next(createHttpError(400, 'User is not registered or does not have 2-fa enabled'))// if the user does not have 2fa enabled or registered return 400
     }
-    const resetCode = generateKey(20); //generate code
-    const link = `https://f2a.games/reset_fa.html?email=${email}&code=${resetCode}`; //set reset link
-    //set email message
-    let html = `<p>You've recently requested to reset your two-factor authenticator from f2a.games</p><p>Please click the following <a href='${link}'>link</a> to reset your authenticator.</p><p>Please ignore this email if you did not request to reset your authenticator.</p>`;
-    sendMail(email, "Reset 2-FA", { html }, () => {
+    const resetCode = generateKey(20) // generate code
+    const link = `https://f2a.games/reset_fa.html?email=${email}&code=${resetCode}` // set reset link
+    // set email message
+    const html = `<p>You've recently requested to reset your two-factor authenticator from f2a.games</p><p>Please click the following <a href='${link}'>link</a> to reset your authenticator.</p><p>Please ignore this email if you did not request to reset your authenticator.</p>`
+    sendMail(email, 'Reset 2-FA', { html }, () => {
       APP_CACHE.set(
         `${CACHE_KEYS.USERS.TWOFACODE}.${email}`,
         resetCode,
         15 * 60
-      ); //set resetcode to cache and the ttl is 15 minutes
-      res.status(200).json({ status: "done", cache: APP_CACHE.get(`${CACHE_KEYS.USERS.TWOFACODE}.${email}`) });
-    });//send the email to user
+      ) // set resetcode to cache and the ttl is 15 minutes
+      res.status(200).json({ status: 'done', cache: APP_CACHE.get(`${CACHE_KEYS.USERS.TWOFACODE}.${email}`) })
+    })// send the email to user
   } catch (err) {
-    console.log(err);
-    next(createHttpError(500, err));
+    console.log(err)
+    next(createHttpError(500, err))
   }
-});
+})
 
-router.post("/reset2FA/confirmed", nocache(), async (req, res, next) => {
+router.post('/reset2FA/confirmed', nocache(), async (req, res, next) => {
   try {
-    const email = req.body.email;
-    const code = req.body.code;
-    const password = req.body.password;
-    //At least one upper case letter, At least one lower case letter, At least one digit, At least one special character, Minimum eight in length .
-    const rePassword = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/); 
-    const USERCODE = APP_CACHE.get(`${CACHE_KEYS.USERS.TWOFACODE}.${email}`);//get the code from cache
+    const email = req.body.email
+    const code = req.body.code
+    const password = req.body.password
+    // At least one upper case letter, At least one lower case letter, At least one digit, At least one special character, Minimum eight in length .
+    const rePassword = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/)
+    const USERCODE = APP_CACHE.get(`${CACHE_KEYS.USERS.TWOFACODE}.${email}`)// get the code from cache
     if (USERCODE == code) {
       if (!rePassword.test(password)) {
-        return next(createHttpError(400, "Password entered does not meet the requirements"));
+        return next(createHttpError(400, 'Password entered does not meet the requirements'))
       }
-      //gets the password of the requesting user
-      database.query(`SELECT password FROM user_auth inner join user_detail ON user_detail.id = user_auth.userid WHERE user_detail.email = $1`, [email])
+      // gets the password of the requesting user
+      database.query('SELECT password FROM user_auth inner join user_detail ON user_detail.id = user_auth.userid WHERE user_detail.email = $1', [email])
         .then(result => {
-          //verify if the password is correct
+          // verify if the password is correct
           if (bcrypt.compareSync(password, result.rows[0].password) == true) {
-            //delete user's secret key
-            database.query(`DELETE FROM twofactor_authenticator USING user_detail WHERE user_detail.email = $1 `, [email])
+            // delete user's secret key
+            database.query('DELETE FROM twofactor_authenticator USING user_detail WHERE user_detail.email = $1 ', [email])
               .then(result => {
                 console.log(result)
-                APP_CACHE.del(`${CACHE_KEYS.USERS.TWOFACODE}.${email}`); //delete user's verification code after successfully resetting 2-fa
-                res.status(200).json({ status: "done" });
+                APP_CACHE.del(`${CACHE_KEYS.USERS.TWOFACODE}.${email}`) // delete user's verification code after successfully resetting 2-fa
+                res.status(200).json({ status: 'done' })
               }).catch(error => {
                 console.log(error)
                 throw new Error(error)
@@ -463,15 +463,15 @@ router.post("/reset2FA/confirmed", nocache(), async (req, res, next) => {
           }
         }).catch(error => {
           console.log(error)
-          next(createHttpError(401, error));
+          next(createHttpError(401, error))
         })
     } else {
-      return next(createHttpError(400, "Wrong verification code"));//if user enter wrong code return 400
+      return next(createHttpError(400, 'Wrong verification code'))// if user enter wrong code return 400
     }
   } catch (err) {
-    console.log(err);
-    next(createHttpError(500, err));
+    console.log(err)
+    next(createHttpError(500, err))
   }
-});
+})
 
-module.exports = router;
+module.exports = router

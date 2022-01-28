@@ -48,9 +48,8 @@ window.addEventListener('DOMContentLoaded', function () {
   }
 })
 
-
 // Shows notification
-function showNotification(type, message) {
+function showNotification (type, message) {
   new Noty({
     type: type,
     layout: 'topCenter',
@@ -60,6 +59,6 @@ function showNotification(type, message) {
   }).show()
 }
 
-function disableFeatures() {
+function disableFeatures () {
   document.querySelector('.whole-layout').remove()
 }

@@ -7,6 +7,7 @@ const router = require('express').Router()
 
 // user get the shopping badge to show in front end
 router.post('/getShoppingBadge', (req, res, next) => {
+  let id
   if (req.headers.authorization) {
     verifyToken(req, res, () => {
       id = req.id// if user is login user

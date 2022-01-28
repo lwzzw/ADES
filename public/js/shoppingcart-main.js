@@ -80,7 +80,7 @@ function saveCart () {
 
 // delete cart
 function delete_cart (id) {
-  var n = new Noty({
+  const n = new Noty({
     text: 'Do you want to delete item from cart ?',
     theme: 'sunset',
     buttons: [

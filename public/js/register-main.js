@@ -64,7 +64,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
   checkRegisterBtn.onclick = function () {
     // check the input
-    //At least one upper case letter, At least one lower case letter, At least one digit, At least one special character, Minimum eight in length .
+    // At least one upper case letter, At least one lower case letter, At least one digit, At least one special character, Minimum eight in length .
     const rePassword = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/)
     const checkPhone = new RegExp(/[8|9]\d{7}|\[8|9]\d{7}|\\s[8|9]\d{7}/)
     const codeInput = document.getElementById('codeInput') || null

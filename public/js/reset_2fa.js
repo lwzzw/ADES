@@ -1,44 +1,44 @@
-window.addEventListener("DOMContentLoaded", function () {
+window.addEventListener('DOMContentLoaded', function () {
   // Get reference to relevant elements
-  const sendMail = document.getElementById("2faMail");
-  const useremail = document.getElementById("emailInput");
+  const sendMail = document.getElementById('2faMail')
+  const useremail = document.getElementById('emailInput')
 
   sendMail.onclick = function () {
-    //email regex
-    const reEmail = new RegExp(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$/);
+    // email regex
+    const reEmail = new RegExp(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$/)
 
-    //Check email input
+    // Check email input
     if (!reEmail.test(useremail.value)) {
       showNotification('error', 'Please verify that your email is correct!')
     } else {
-      //sends the 2-fa reset link email
+      // sends the 2-fa reset link email
       requestReset2FA(useremail.value)
         .then((response) => {
-          if (response == "done") {
+          if (response == 'done') {
             new Noty({
-              type: "success",
-              layout: "topCenter",
-              theme: "sunset",
-              timeout: "22000",
-              text: "Email sent !, Check your email and click on the link to reset your authenticator.",
+              type: 'success',
+              layout: 'topCenter',
+              theme: 'sunset',
+              timeout: '22000',
+              text: 'Email sent !, Check your email and click on the link to reset your authenticator.'
             })
-              .on("onClose", () => {
-                window.location.href = "login.html";
+              .on('onClose', () => {
+                window.location.href = 'login.html'
               })
-              .show();
+              .show()
           } else {
             showNotification('error', 'Unable to reset the authenticator. Try again!')
           }
         })
         .catch((error) => {
           showNotification('error', error.message)
-        });
+        })
     }
-  };
-});
+  }
+})
 
 // Shows notification
-function showNotification(type, message) {
+function showNotification (type, message) {
   new Noty({
     type: type,
     layout: 'topCenter',

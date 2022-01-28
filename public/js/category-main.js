@@ -3,7 +3,7 @@ let toFirst, toSecond
 const recognition = new webkitSpeechRecognition()
 let recording = false
 const params = new URLSearchParams(window.location.search)
-let min = params.get('minprice') || 0, max = params.get('maxprice') || 0
+let min = params.get('minprice') || 0; let max = params.get('maxprice') || 0
 recognition.continuous = true
 recognition.interimResults = true
 recognition.lang = 'EN'
@@ -189,13 +189,13 @@ window.addEventListener('DOMContentLoaded', function () {
 
   document.getElementById('pinput_min').addEventListener('change', () => {
     min = $('#pinput_min').val()
-    parseInt(min) > parseInt(max) && max != 0 ? (max = min) : ""
+    parseInt(min) > parseInt(max) && max != 0 ? (max = min) : ''
     priceChange()
   })
 
   document.getElementById('pinput_max').addEventListener('change', () => {
     max = $('#pinput_max').val()
-    parseInt(max) < parseInt(min) && max != 0 ? (min = max) : ""
+    parseInt(max) < parseInt(min) && max != 0 ? (min = max) : ''
     priceChange()
   })
 
@@ -319,7 +319,8 @@ function showGame () {
                                 </div>
                                 <div><span class='span-price'>PRICE</span></div>
                                 <div>
-                                    ${data.g_discount ? `<span class='span-price'>${data.g_discount}</span><sup class='sub-script'> SGD </sup><br><span class='slash-price'>${
+                                    ${data.g_discount
+? `<span class='span-price'>${data.g_discount}</span><sup class='sub-script'> SGD </sup><br><span class='slash-price'>${
                                             data.g_price
                                           }</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(
                                             data.g_price,
