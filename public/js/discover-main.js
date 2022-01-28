@@ -127,11 +127,11 @@ function listGames (games, headers) {
                     ${// if game discount is less than game price, it will display the game with discount price and original price
                         parseFloat(game.g_discount) < parseFloat(game.g_price)
                         ? `
-                        <span class="span-space" style="font-size: 17px;"> ${game.g_discount} <sup class='sub-script-striked' style="font-size: 14px;"> SGD </sup></span>
-                            <span class="span-space"><span style="font-size: 20px;"><span class='slash-price'>${game.g_price}</span><sup class='sub-script-striked' style="font-size: 14px;"> SGD </sup></span><span class='discount-percentage' style="font-size: 13px;"> -${discountPercentage(game.g_price, game.g_discount)}%</span></span>
+                        <span class="span-space"> ${game.g_discount} <sup class='sub-script'> SGD </sup></span>
+                            <span class="span-space"><span><span class='slash-price'>${game.g_price}</span><sup class='sub-script-striked' > SGD </sup></span><span class='discount-percentage' style="font-size: 13px;"> -${discountPercentage(game.g_price, game.g_discount)}%</span></span>
                         `
                         : // if game does not have discount, display game with its price
-                        `<span style="font-size: 20px;">${game.g_price}</span><sup class='sub-script-striked' style="font-size: 14px;"> SGD </sup>`}
+                        `<span>${game.g_price}</span><sup class='sub-script'> SGD </sup>`}
         </div>
         </a>
     </li>`

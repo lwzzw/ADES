@@ -312,24 +312,21 @@ function showGame () {
                                           data.g_image
                                         }" onerror="this.onerror=null;this.src='/images/noimage.png';">
                                 </div>
-
-                                <div style="display: -webkit-box; max-width: 400px; height: 50px; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
+                                <div class='details-container'>
+                                <div style="display: -webkit-box; max-width: 400px; height: 50px; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; font-weight: 500;">
                                   ${data.g_name}
                                 </div>
-
+                                <div><span class='span-price'>PRICE</span></div>
                                 <div>
-                                    ${
-                                      data.g_discount
-                                        ? `${
-                                            data.g_discount
-                                          }<sup class='sub-script'> SGD </sup><br><span class='slash-price'>${
+                                    ${data.g_discount ? `<span class='span-price'>${data.g_discount}</span><sup class='sub-script'> SGD </sup><br><span class='slash-price'>${
                                             data.g_price
                                           }</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(
                                             data.g_price,
                                             data.g_discount
                                           )}%</span>`
-                                        : `${data.g_price}<sup class='sub-script'> SGD </sup>`
+                                        : `<span class='span-price'>${data.g_price} </span><sup class='sub-script'> SGD </sup>`
                                     }
+                                </div>
                                 </div>
                             </a>
                         </li>

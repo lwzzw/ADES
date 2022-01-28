@@ -306,19 +306,19 @@ hr {
 }
 
 .sub-script {
+    color: rgb(0, 0, 0, 0.7);
     position: relative;
     top: 1px;
     font-size: 13px;
     line-height: normal;
     vertical-align: super;
-    font-weight: 500;
 }
 
 .sub-script-striked {
     color: rgb(0, 0, 0, 0.7);
     position: relative;
     top: 1px;
-    font-size: 9px;
+    font-size: 10px;
     line-height: normal;
     vertical-align: super;
     font-weight: 400;
@@ -340,6 +340,7 @@ hr {
 .slash-price {
     text-decoration: line-through;
     font-size: 12px;
+    font-weight: bold;
 }
 
 .slash-price sup{
@@ -363,4 +364,12 @@ hr {
 
 .adminPage a {
     color: white !important;
+}
+
+.span-price {
+    font-weight: bold;
+}
+
+.details-container {
+    padding: 7px 11px 0px;
 }

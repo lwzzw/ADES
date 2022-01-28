@@ -16,11 +16,6 @@
     padding: 0px;
 }
 
-.slash-price {
-    text-decoration: line-through;
-    font-size: 13px !important;
-}
-
 .slash-price sup{
     color: rgb(0, 0, 0, 0.7);
     position: relative;

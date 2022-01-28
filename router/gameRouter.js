@@ -304,7 +304,7 @@ router.get('/getPreorders/:limitProducts', (req, res, next) => {
   // if index is not found in cache, fetch from database
   return database
     .query(
-      `SELECT g_id, g_name, g_price, g_image, COALESCE(g_discount, g_price) g_discount, NULLIF(g2a_gamedatabase.g_discount, g2a_gamedatabase.g_price), g_publishdate FROM g2a_gamedatabase WHERE g_publishDate > current_timestamp ${limitProducts == 'true' ? 'LIMIT 6' : ''
+      `SELECT g_id, g_name, g_price, g_image, COALESCE(g_discount, g_price) g_discount, NULLIF(g2a_gamedatabase.g_discount, g2a_gamedatabase.g_price), to_char(g_publishdate::timestamp,'dd/mm/YYYY') date FROM g2a_gamedatabase WHERE g_publishDate > current_timestamp ${limitProducts == 'true' ? 'LIMIT 6' : ''
       };`
     )
     .then((result) => {

@@ -325,19 +325,20 @@ hr {
 }
 
 .sub-script {
+    color: rgb(0, 0, 0, 0.7);
     position: relative;
     top: 1px;
     font-size: 13px;
     line-height: normal;
     vertical-align: super;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .sub-script-striked {
     color: rgb(0, 0, 0, 0.7);
     position: relative;
     top: 1px;
-    font-size: 9px;
+    font-size: 11px;
     line-height: normal;
     vertical-align: super;
     font-weight: 400;
