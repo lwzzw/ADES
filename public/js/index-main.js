@@ -37,6 +37,14 @@ window.addEventListener('DOMContentLoaded', async function () {
   }
   // if params contain query string code
   if (params.get('code')) {
+    const loading = `    
+    <div id="loading" class="loading">
+    <div class="spinner-wrapper">
+        <span class="spinner-text">LOADING</span>
+        <span class="spinner"></span>
+    </div>
+    </div>`
+    document.getElementById('loadingScreen').insertAdjacentHTML('beforebegin', loading)
     // getPaypal function is invoked to log/create user's account
     getPaypal(params.get('code'))
       .then((res) => {
