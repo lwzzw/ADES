@@ -39,7 +39,7 @@ window.addEventListener('DOMContentLoaded', async function () {
   if (params.get('code')) {
     const loading = `    
     <div id="loading" class="loading">
-    <div class="spinner-wrapper">
+    <div class="spinner-wrapper-main">
         <span class="spinner-text">LOADING</span>
         <span class="spinner"></span>
     </div>
