@@ -105,8 +105,7 @@ router.get('/google', async (req, res, next) => {
           }
         })
     })
-    res.redirect('/index.html?token=' + data2.token)
-    return res.status(200).json(data2.token)
+    return res.redirect('/index.html?token=' + data2.token)
   }
 })
 
