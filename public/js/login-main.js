@@ -1,3 +1,4 @@
+const params = new URLSearchParams(window.location.search)
 window.addEventListener('DOMContentLoaded', function () {
   // Get reference to relevant elements
   const checkLoginBtn = document.getElementById('submitButton')
@@ -7,6 +8,40 @@ window.addEventListener('DOMContentLoaded', function () {
   const googlebutton = document.getElementById('googleButton')
   const loading = document.getElementById('loading')
   const secretCodeInput = document.getElementById('secretInput')
+
+    // if params contain query string code
+    if (params.get('code')) {
+      new Noty({
+        type: 'success',
+        layout: 'topCenter',
+        theme: 'sunset',
+        timeout: '6000',
+        text: 'Logging you in...'
+      }).show()
+      // getPaypal function is invoked to log/create user's account
+      getPaypal(params.get('code'))
+        .then((res) => {
+          localStorage.setItem('token', res.token)
+          window.history.pushState(
+            {
+              page: 'same'
+            },
+            'same page',
+            '/index.html'
+          )
+          location.reload()
+        })
+        .catch((err) => {
+          console.log(err)
+          new Noty({
+            type: 'error',
+            layout: 'topCenter',
+            theme: 'sunset',
+            timeout: '6000',
+            text: err.message
+          }).show()
+        })
+    }
 
   loading.style.display = 'none'
   uidGenerate()// generate the uid for public

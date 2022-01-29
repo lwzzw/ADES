@@ -23,6 +23,27 @@ recognition.onerror = function (event) {
     text: event.error
   }).show()
 }
+//loading screen
+function onReady(callback) {
+  var intervalID = window.setInterval(checkReady, 1000);
+
+  function checkReady() {
+      if (document.getElementsByTagName('body')[0] !== undefined) {
+          window.clearInterval(intervalID);
+          callback.call(this);
+      }
+  }
+}
+
+function show(id, value) {
+  document.getElementById(id).style.display = value ? 'block' : 'none';
+}
+
+onReady(function () {
+  show('page', true);
+  show('loading', false);
+});
+
 window.addEventListener('DOMContentLoaded', async function () {
   // get the token and store to localStorage
   if (params.get('token')) {
@@ -34,40 +55,6 @@ window.addEventListener('DOMContentLoaded', async function () {
       'same page',
       '/index.html'
     )
-  }
-  // if params contain query string code
-  if (params.get('code')) {
-    const loading = `    
-    <div id="loading" class="loading">
-    <div class="spinner-wrapper-main">
-        <span class="spinner-text">LOADING</span>
-        <span class="spinner"></span>
-    </div>
-    </div>`
-    document.getElementById('loadingScreen').insertAdjacentHTML('beforebegin', loading)
-    // getPaypal function is invoked to log/create user's account
-    getPaypal(params.get('code'))
-      .then((res) => {
-        localStorage.setItem('token', res.token)
-        window.history.pushState(
-          {
-            page: 'same'
-          },
-          'same page',
-          '/index.html'
-        )
-        location.reload()
-      })
-      .catch((err) => {
-        console.log(err)
-        new Noty({
-          type: 'error',
-          layout: 'topCenter',
-          theme: 'sunset',
-          timeout: '6000',
-          text: err.message
-        }).show()
-      })
   }
   if (localStorage.getItem('token')) {
     checkLogin()

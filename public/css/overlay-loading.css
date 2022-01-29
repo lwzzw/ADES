@@ -1,5 +1,7 @@
 /* Stolen from https://codepen.io/allusis/pen/fvsBt */
-
+#page {
+  display: none;
+}
 .spinner-wrapper {
     min-width: 100%;
     min-height: 100%;

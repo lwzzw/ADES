@@ -58,6 +58,10 @@ app.get("/shoppingCart.html", (req, res, next) => {
   });
 });
 
+app.get('/login/paypal', (req, res, next) => {
+  res.sendFile(path.join(__dirname, "/public/html/login.html"));
+})
+
 app.get('/bestseller', (req, res, next) => {
   res.sendFile(path.join(__dirname, "/public/html/discover.html"));
 })
