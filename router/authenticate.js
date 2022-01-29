@@ -80,7 +80,7 @@ router.get('/google', async (req, res, next) => {
             return database
               .query(
                 'INSERT INTO public.user_detail (name, email, auth_type) VALUES ($1, $2, $3) returning id, name, phone, email',
-                [result.data.given_name, result.data.email, 2]
+                [response.data.given_name, response.data.email, 2]
               )
               .then((result) => {
                 console.log(result)
