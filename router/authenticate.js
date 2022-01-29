@@ -135,7 +135,7 @@ passport.use(
     {
       clientID: config.FACEBOOK_APP_ID,
       clientSecret: config.FACEBOOK_APP_SECRET,
-      callbackURL: 'https://f2a.games/user/oauth2/redirect/facebook',
+      callbackURL: 'https://f2a.games/authenticate/oauth2/redirect/facebook',
       profileFields: ['displayName', 'email']
     },
     function (accessToken, refreshToken, profile, cb) {
