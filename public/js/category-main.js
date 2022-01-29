@@ -3,7 +3,7 @@ let toFirst, toSecond
 const recognition = new webkitSpeechRecognition()
 let recording = false
 const params = new URLSearchParams(window.location.search)
-let min = params.get('minprice') || 0, max = params.get('maxprice') || 0
+let min = params.get('minprice') || 0; let max = params.get('maxprice') || 0
 recognition.continuous = true
 recognition.interimResults = true
 recognition.lang = 'EN'
@@ -21,6 +21,8 @@ recognition.onerror = function (event) {
     text: event.error
   }).show()
 }
+// Hides the category div
+$('#categ')[0].style.display = 'none'
 window.addEventListener('DOMContentLoaded', function () {
   if (localStorage.getItem('token')) {
     checkLogin()
@@ -46,7 +48,6 @@ window.addEventListener('DOMContentLoaded', function () {
         document.getElementById('login').innerHTML = 'Login'
       })
   }
-  $('#categ')[0].style.display = 'none'
   uidGenerate()// generate the uid for public
   showCartAmount()// show the amount of cart
   getAllCategories()
@@ -188,13 +189,13 @@ window.addEventListener('DOMContentLoaded', function () {
 
   document.getElementById('pinput_min').addEventListener('change', () => {
     min = $('#pinput_min').val()
-    parseInt(min) > parseInt(max) && max != 0 ? (max = min) : ""
+    parseInt(min) > parseInt(max) && max != 0 ? (max = min) : ''
     priceChange()
   })
 
   document.getElementById('pinput_max').addEventListener('change', () => {
     max = $('#pinput_max').val()
-    parseInt(max) < parseInt(min) && max != 0 ? (min = max) : ""
+    parseInt(max) < parseInt(min) && max != 0 ? (min = max) : ''
     priceChange()
   })
 
@@ -312,24 +313,22 @@ function showGame () {
                                           data.g_image
                                         }" onerror="this.onerror=null;this.src='/images/noimage.png';">
                                 </div>
-
-                                <div style="display: -webkit-box; max-width: 400px; height: 50px; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">
+                                <div class='details-container'>
+                                <div style="display: -webkit-box; max-width: 400px; height: 50px; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; font-weight: 500;">
                                   ${data.g_name}
                                 </div>
-
+                                <div><span class='span-price'>PRICE</span></div>
                                 <div>
-                                    ${
-                                      data.g_discount
-                                        ? `${
-                                            data.g_discount
-                                          }<sup class='sub-script'> SGD </sup><br><span class='slash-price'>${
+                                    ${data.g_discount
+? `<span class='span-price'>${data.g_discount}</span><sup class='sub-script'> SGD </sup><br><span class='slash-price'>${
                                             data.g_price
                                           }</span><sup class='sub-script-striked'> SGD </sup><span class='discount-percentage'> -${discountPercentage(
                                             data.g_price,
                                             data.g_discount
                                           )}%</span>`
-                                        : `${data.g_price}<sup class='sub-script'> SGD </sup>`
+                                        : `<span class='span-price'>${data.g_price} </span><sup class='sub-script'> SGD </sup>`
                                     }
+                                </div>
                                 </div>
                             </a>
                         </li>

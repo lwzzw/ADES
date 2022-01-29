@@ -124,7 +124,7 @@ window.addEventListener('DOMContentLoaded', async function () {
                     ? `
                     <span> ${
                       bestsellers.g_discount
-                    } <sup class='sub-script-striked'> SGD </sup></span>
+                    } <sup class='sub-script'> SGD </sup></span>
                     <br>
                     <div>
                     <span class='slash-price'>${
@@ -135,7 +135,7 @@ window.addEventListener('DOMContentLoaded', async function () {
                       )}%</span>
                     </div>`
                     :// if game does not have discount, display original price
-                    `<span>${bestsellers.g_price}</span><sup class='sub-script-striked'> SGD </sup>`
+                    `<span>${bestsellers.g_price}</span><sup class='sub-script'> SGD </sup>`
                 }
                     </div>
                     </div>
@@ -150,6 +150,7 @@ window.addEventListener('DOMContentLoaded', async function () {
     })
 
     await getPreOrders(true).then((response) => {
+      console.log(response)
       for (let i = 0; i < response.length; i++) {
         const preorders = response[i]
         const preorder = `                        
@@ -161,13 +162,13 @@ window.addEventListener('DOMContentLoaded', async function () {
                     <div class="col-9 product-details">
                         <h6 class="m-0" style="display: -webkit-box; max-width: 400px; height: 40px; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">${preorders.g_name}</h6>
                         <div class="justify-content-between d-flex ">
-                            <span>PRICE</span> 
+                            <span>PRICE</span>  <span>Release Date: ${preorders.date}</span>
                         </div>
                     <div>
                 ${// if game discount is less than game price, it will display the game with discount price and original price
                   parseFloat(preorders.g_discount) < parseFloat(preorders.g_price) ? `
                     <span> ${preorders.g_discount} 
-                        <sup class='sub-script-striked'> SGD </sup>
+                        <sup class='sub-script'> SGD </sup>
                     </span>
                     <br>
                     <div>
@@ -176,7 +177,7 @@ window.addEventListener('DOMContentLoaded', async function () {
                         <span class='discount-percentage'> -${discountPercentage(preorders.g_price, preorders.g_discount)}%</span>
                     </div>`
                     : // if game does not have discount, display original price
-                    `<span>${preorders.g_price}</span> <sup class='sub-script-striked'> SGD </sup>`
+                    `<span>${preorders.g_price}</span> <sup class='sub-script'> SGD </sup>`
                   }
                             </div>
                         </div>
@@ -203,13 +204,13 @@ window.addEventListener('DOMContentLoaded', async function () {
                         <h6 class="m-0" style="display: -webkit-box; max-width: 400px; height: 40px; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">${lreleases.g_name}</h6>
                         <div class="justify-content-between d-flex ">
                             <span>PRICE</span> 
-                            <span class="font-weight-bold"> Release Date ${lreleases.date}</span>
+                            <span class="font-weight-bold"> Release Date: ${lreleases.date}</span>
                         </div>
                     <div>
                 ${// if game discount is less than game price, it will display the game with discount price and original price
                   parseFloat(lreleases.g_discount) < parseFloat(lreleases.g_price) ? `
                     <span> ${lreleases.g_discount} 
-                        <sup class='sub-script-striked'> SGD </sup>
+                        <sup class='sub-script'> SGD </sup>
                     </span>
                     <br>
                     <div>
@@ -218,7 +219,7 @@ window.addEventListener('DOMContentLoaded', async function () {
                         <span class='discount-percentage'> -${discountPercentage(lreleases.g_price, lreleases.g_discount)}%</span>
                     </div>`
                     : // if game does not have discount, display original price
-                    `<span>${lreleases.g_price}</span> <sup class='sub-script-striked'> SGD </sup>`
+                    `<span>${lreleases.g_price}</span> <sup class='sub-script'> SGD </sup>`
                   }
                             </div>
                         </div>

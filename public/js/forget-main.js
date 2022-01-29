@@ -26,7 +26,7 @@ window.addEventListener('DOMContentLoaded', function () {
               layout: 'topCenter',
               theme: 'sunset',
               timeout: '22000',
-              text: "Email sent ! Please check your inbox/spam to reset your password."
+              text: 'Email sent ! Please check your inbox/spam to reset your password.'
             })
               .on('onClose', () => {
                 window.location.href = 'login.html'

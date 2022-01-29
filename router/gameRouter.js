@@ -11,7 +11,7 @@ module.exports.getGameAC = getGameAC
 router.get('/gameDetailById/:id', (req, res, next) => {
   const id = req.params.id
 
-  const gameCache = APP_CACHE.get(CACHE_KEYS.GAMEFILTER.INDIVIDUALGAMES) || {}  // returns dict of cached game ids
+  const gameCache = APP_CACHE.get(CACHE_KEYS.GAMEFILTER.INDIVIDUALGAMES) || {} // returns dict of cached game ids
   // if cache contains game id, return the cached game
   if (id in gameCache) {
     return res.status(200).json({
@@ -95,7 +95,7 @@ router.get('/gameDetailFilter', (req, res, next) => {
       games: gameFilterCache[array]
     })
   }
-  //if not found in the cache, fetch from database
+  // if not found in the cache, fetch from database
   return database
     .query(
       `SELECT g_id, g_name, g_description, g_price, g_discount, g_image, g_publishdate, g_region 
@@ -304,7 +304,7 @@ router.get('/getPreorders/:limitProducts', (req, res, next) => {
   // if index is not found in cache, fetch from database
   return database
     .query(
-      `SELECT g_id, g_name, g_price, g_image, COALESCE(g_discount, g_price) g_discount, NULLIF(g2a_gamedatabase.g_discount, g2a_gamedatabase.g_price), g_publishdate FROM g2a_gamedatabase WHERE g_publishDate > current_timestamp ${limitProducts == 'true' ? 'LIMIT 6' : ''
+      `SELECT g_id, g_name, g_price, g_image, COALESCE(g_discount, g_price) g_discount, NULLIF(g2a_gamedatabase.g_discount, g2a_gamedatabase.g_price), to_char(g_publishdate::timestamp,'dd/mm/YYYY') date FROM g2a_gamedatabase WHERE g_publishDate > current_timestamp ${limitProducts == 'true' ? 'LIMIT 6' : ''
       };`
     )
     .then((result) => {
