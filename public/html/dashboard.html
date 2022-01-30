@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./css/overlay-loading.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/dashboard.css" rel="stylesheet">
     <script defer src="/js/api.js"></script>
@@ -23,38 +24,49 @@
 </head>
 
 <body>
-    <div id="bg"></div>
-    <div class="header">
-        <div class="bgc"></div>
-        <div class="top-header container row ">
-            <a href="index.html"><img class="logo" src="/images/logo.png"></a>
-        </div>
+    <div id="load">
+        <div>G</div>
+        <div>N</div>
+        <div>I</div>
+        <div>D</div>
+        <div>A</div>
+        <div>O</div>
+        <div>L</div>
     </div>
-    <section class="whole-layout" style="flex-direction: row;">
-        <aside class="sider">
-            <div><a href="/dashboard.html">Dashboard</a></div>
-            <div><a href="/accountinfo.html">Account Detail</a></div>
-            <div><a href="/keys.html" >My Keys</a></div>
-            <div><a href="/supportRequest.html">Request Support</a></div>
-        </aside>
-        <section class="layout">
-            <div class=''>
-                <h2>Two-Factor Authenticator</h2>
-                <div>
-                    <p id="authText">Enable Google Authenticator</p>
-                    <button class="btn btn-primary" id="googleAuthenticatorBtn">Enable</button>
-                    <div>
-                        <img id="qr-code" style="height: 200px;" src="">
-                    </div>
-                    <p>Download Google Authenticator</p>
-                    <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2"><img id='andriod-store' src="../images/google_play.png" alt="Google Play"></a>
-                    <a href="https://itunes.apple.com/app/google-authenticator/id388497605?mt=8"><img id='apple-store' src="../images/app_store.png" alt="App Store"></a>
-                </div>
+    <div id="page">
+        <div id="bg"></div>
+        <div class="header">
+            <div class="bgc"></div>
+            <div class="top-header container row ">
+                <a href="index.html"><img class="logo" src="/images/logo.png"></a>
             </div>
+        </div>
+        <section class="whole-layout" style="flex-direction: row;">
+            <aside class="sider">
+                <div><a href="/dashboard.html">Dashboard</a></div>
+                <div><a href="/accountinfo.html">Account Detail</a></div>
+                <div><a href="/keys.html">My Keys</a></div>
+                <div><a href="/supportRequest.html">Request Support</a></div>
+            </aside>
+            <section class="layout">
+                <div class=''>
+                    <h2>Two-Factor Authenticator</h2>
+                    <div>
+                        <p id="authText">Enable Google Authenticator</p>
+                        <button class="btn btn-primary" id="googleAuthenticatorBtn">Enable</button>
+                        <div>
+                            <img id="qr-code" style="height: 200px;" src="">
+                        </div>
+                        <p>Download Google Authenticator</p>
+                        <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2"><img
+                                id='andriod-store' src="../images/google_play.png" alt="Google Play"></a>
+                        <a href="https://itunes.apple.com/app/google-authenticator/id388497605?mt=8"><img
+                                id='apple-store' src="../images/app_store.png" alt="App Store"></a>
+                    </div>
+                </div>
+            </section>
         </section>
-    </section>
-
-
+    </div>
 
 </body>
 

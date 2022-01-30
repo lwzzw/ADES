@@ -355,12 +355,7 @@ router.post(
     const email = req.body.email
     const subject = req.body.subject
     const message = req.body.message
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-    const charactersLength = characters.length
-    let string = ''
-    for (let i = 0; i < 6; i++) {
-      string += characters.charAt(Math.floor(Math.random() * charactersLength))
-    }
+    const string = generateKey(6)
     return database
       .query(
         'INSERT INTO support_request (request_id, email, subject, message) VALUES($1,$2,$3,$4)',

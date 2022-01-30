@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="./css/overlay-loading.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/dashboard.css" rel="stylesheet">
@@ -23,29 +24,40 @@
 </head>
 
 <body>
-    <div id="bg"></div>
-    <div class="header">
-        <div class="bgc"></div>
-        <div class="top-header container row ">
-            <a href="index.html"><img class="logo" src="/images/logo.png"></a>
-        </div>
+    <div id="load">
+        <div>G</div>
+        <div>N</div>
+        <div>I</div>
+        <div>D</div>
+        <div>A</div>
+        <div>O</div>
+        <div>L</div>
     </div>
-    <section class="whole-layout" style="flex-direction: row;">
-        <aside class="sider">
-            <div><a href="/dashboard.html">Dashboard</a></div>
-            <div><a href="/accountinfo.html">Account Detail</a></div>
-            <div><a href="/keys.html" >My Keys</a></div>
-            <div><a href="/supportRequest.html">Request Support</a></div>
-        </aside>
-        <section class="layout">
-            <div>
-                <div id="nokeys"><h2>No keys bought! Browse <a href="/category.html?maincat=All+categories">HERE</a></h2></div>
-                <ol id="keys"></ol>
+    <div id="page">
+        <div id="bg"></div>
+        <div class="header">
+            <div class="bgc"></div>
+            <div class="top-header container row ">
+                <a href="index.html"><img class="logo" src="/images/logo.png"></a>
             </div>
+        </div>
+        <section class="whole-layout" style="flex-direction: row;">
+            <aside class="sider">
+                <div><a href="/dashboard.html">Dashboard</a></div>
+                <div><a href="/accountinfo.html">Account Detail</a></div>
+                <div><a href="/keys.html">My Keys</a></div>
+                <div><a href="/supportRequest.html">Request Support</a></div>
+            </aside>
+            <section class="layout">
+                <div>
+                    <div id="nokeys">
+                        <h2>No keys bought! Browse <a href="/category.html?maincat=All+categories">HERE</a></h2>
+                    </div>
+                    <ol id="keys"></ol>
+                </div>
+            </section>
         </section>
-    </section>
-
-
+    </div>
 
 </body>
 
