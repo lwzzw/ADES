@@ -52,7 +52,7 @@ window.addEventListener('DOMContentLoaded', function () {
 function checkAuth () {
   getAuth(localStorage.getItem('token')).then(enabledAuth => {
     if (enabledAuth.message != false) {
-      document.getElementById('authText').innerHTML = 'You have 2-fa enabled'
+      document.getElementById('authText').innerHTML = 'You have 2-fa enabled, Everytime you login, a verification email will be sent to you.'
       document.getElementById('googleAuthenticatorBtn').disabled = true
       document.getElementById('googleAuthenticatorBtn').innerHTML = 'Enabled'
     } else {
