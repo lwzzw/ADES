@@ -3,7 +3,6 @@
 
 <head>
     <title>Register Page</title>
-    <link href="./css/overlay-loading.css" rel="stylesheet" />
     <!-- Add icon library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Web App JS-->
@@ -49,79 +48,68 @@
 </head>
 
 <body>
-    <div id="load">
-        <div>G</div>
-        <div>N</div>
-        <div>I</div>
-        <div>D</div>
-        <div>A</div>
-        <div>O</div>
-        <div>L</div>
-    </div>
-    <div id="page">
-        <div class="container-fluid">
-            <!-- Navbar-->
+    <div class="container-fluid">
+        <!-- Navbar-->
 
-            <nav class="mb-5 navbar navbar-expand-lg justify-content-center">
-                <a class="navbar-brand " href="/index.html">
-                    <img src="/images/logo.png" alt="Logo" style="width:150px;">
-                </a>
-            </nav>
-            <!-- /.Navbar-->
-            <main>
-                <div class="row">
-                    <!--Grid column-->
-                    <div class="offset-md-4 col-md-4" id="form">
-                        <div class="card">
-                            <div class="card-body">
-                                <!--Form register-->
-                                <h2 class="text-left font-bold black-text py-4">Register Now</h2>
-                                <div class="md-form"><input class="form-control" type="text" id="nameInput"
-                                        placeholder="Name" required></div>
-                                <div class="md-form"><input class="form-control" type="text" id="emailInput"
-                                        placeholder="Email" required>
-                                    <div id="codeLayout"></div>
-                                    <button class="btn btn-primary mb-2" id="verifyEmail">Verify</button>
-
-                                </div>
-                                <div class="md-form"><input class="form-control" type="password" id="passwordInput"
-                                        placeholder="Password" minlength="8" required><input type="checkbox"
-                                        id="showPass">Show Password</div>
-                                <p>Gender:</p>
-                                <div class="lg-form"><input type="radio" id="female" name="gender" value="F" required>
-                                    <label for="female">Female</label>
-                                </div>
-                                <div class="lg-form"><input type="radio" id="male" name="gender" value="M" required>
-                                    <label for="male">Male</label></div>
-                                <div class="md-form"><input class="form-control" type="tel" id="phoneInput"
-                                        placeholder="Phone Number" maxlength="8" minlength="8" pattern="[8-9][0-9]{0,8}"
-                                        required>
-                                    <h6>eg. 91691679</h6>
-                                </div>
+        <nav class="mb-5 navbar navbar-expand-lg justify-content-center">
+            <a class="navbar-brand " href="/index.html">
+                <img src="/images/logo.png" alt="Logo" style="width:150px;">
+            </a>
+        </nav>
+        <!-- /.Navbar-->
+        <main>
+            <div class="row">
+                <!--Grid column-->
+                <div class="offset-md-4 col-md-4" id="form">
+                    <div class="card">
+                        <div class="card-body">
+                            <!--Form register-->
+                            <h2 class="text-left font-bold black-text py-4">Register Now</h2>
+                            <div class="md-form"><input class="form-control" type="text" id="nameInput"
+                                    placeholder="Name" required></div>
+                            <div class="md-form"><input class="form-control" type="text" id="emailInput"
+                                    placeholder="Email" required>
+                                <div id="codeLayout"></div>
+                                <button class="btn btn-primary mb-2" id="verifyEmail">Verify</button>
 
                             </div>
-                            <div class="text-center"><button type="button" class="btn btn-primary" id="submitButton">
-                                    Register</button>
+                            <div class="md-form"><input class="form-control" type="password" id="passwordInput"
+                                    placeholder="Password" minlength="8" required><input type="checkbox"
+                                    id="showPass">Show Password</div>
+                            <p>Gender:</p>
+                            <div class="lg-form"><input type="radio" id="female" name="gender" value="F" required>
+                                <label for="female">Female</label>
                             </div>
+                            <div class="lg-form"><input type="radio" id="male" name="gender" value="M" required>
+                                <label for="male">Male</label></div>
+                            <div class="md-form"><input class="form-control" type="tel" id="phoneInput"
+                                    placeholder="Phone Number" maxlength="8" minlength="8" pattern="[8-9][0-9]{0,8}"
+                                    required>
+                                <h6>eg. 91691679</h6>
+                            </div>
+
                         </div>
+                        <div class="text-center"><button type="button" class="btn btn-primary" id="submitButton">
+                                Register</button>
+                        </div>
+                    </div>
 
-                        <br><br>
-                        <p>
-                            <strong>
-                                <center>Password requires At least one upper case letter<br>At least one lower case
-                                    letter<br>At least one digit<br>At least one special character<br>Minimum eight in
-                                    length .</center>
-                            </strong>
-                        </p>
-                    </div>
-                    <div class="ring" id="loading">
-                        <p id="loadingText">Loading</p>
-                        <span></span>
-                    </div>
+                    <br><br>
+                    <p>
+                        <strong>
+                            <center>Password requires At least one upper case letter<br>At least one lower case
+                                letter<br>At least one digit<br>At least one special character<br>Minimum eight in
+                                length .</center>
+                        </strong>
+                    </p>
                 </div>
+                <div class="ring" id="loading">
+                    <p id="loadingText">Loading</p>
+                    <span></span>
+                </div>
+            </div>
 
-            </main>
-        </div>
+        </main>
     </div>
 </body>
 
