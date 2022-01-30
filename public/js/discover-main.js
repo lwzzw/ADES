@@ -81,7 +81,6 @@ window.addEventListener('DOMContentLoaded', function () {
   }
   getSearchAC().then(response => {
     // get the auto complete source
-    console.log(response)
     if (!response.length > 0) return
 
     const input = document.getElementById('searchProduct')

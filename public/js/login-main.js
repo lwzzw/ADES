@@ -163,9 +163,7 @@ window.addEventListener('DOMContentLoaded', function () {
       checkLoginBtn.style.display = 'inline'
       loading.style.display = 'none'
     } else {
-      console.log(token)
       login(email.value, password.value, token).then(response => {
-        console.log(response)
         if (!response.success && response.msg) {
           new Noty({
             type: 'alert',

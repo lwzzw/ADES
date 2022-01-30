@@ -26,12 +26,9 @@ router.get('/getSecret', verifyToken, (req, res, next) => {
 })
 
 router.post('/enableAuthenticator', verifyToken, (req, res, next) => {
-  const uid = req.body.uid 
-  console.log(req.id)
-  console.log(uid)
+  const uid = req.id 
   database.query('SELECT auth_type FROM user_detail WHERE id = $1', [uid])
     .then(result => {
-      console.log(result.rows)
       if (result.rows[0].auth_type == 2) {
         res.status(401).json({error : 'Users connected via third party platforms need not have 2-fa enabled'})
       } else {

@@ -62,13 +62,16 @@ router.post('/getShoppingCart', (req, res, next) => {
 // user add, edit, delete shopping cart
 router.post('/editShoppingCart', async function (req, res, next) {
   let id
+  console.log(req.headers)
   if (req.headers.authorization) {
     verifyToken(req, res, () => {
       id = req.id// if user is login user
+      console.log(id)
     })
   } else {
     id = req.body.uid// if user is public user
   }
+  console.log(id)
   try {
     const cart = req.body.cart
     for (let i = 0; i < cart.length; i++) {

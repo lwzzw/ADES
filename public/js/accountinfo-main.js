@@ -94,7 +94,6 @@ function saveInfoListener () {
         showNotification('success', 'Personal Details Updated !')
         document.getElementById('saveInfo').innerHTML = 'Save'
       }).catch(err => {
-        console.log(err)
         showNotification('error', err.message)
       })
     } catch (error) {

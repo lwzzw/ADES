@@ -444,30 +444,28 @@ async function uidGenerate() {
 }
 
 function enable2FA() {
-  return checkLogin().then(response => {
-    console.log(response)
     const methods = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       }
     }
-    const body = {
-      uid: response.id
-    }
     return axios
-      .post('/twofa/enableAuthenticator', body, methods)
+      .post('/twofa/enableAuthenticator', methods, 
+      {
+        headers: {
+          'Authorization' : 'Bearer ' + localStorage.getItem('token')
+        }
+      })
       .then(response => {
         return response.data
       })
       .catch(error => {
-        console.log(error.response)
         if (error.response) {
           throw new Error(error.response.data.error)
         }
         return error.response.data
       })
-  })
 }
 
 // GET user's secret key if it exists
@@ -475,7 +473,7 @@ function getAuth(token) {
   const methods = {
     method: 'GET',
     headers: {
-      Authorization: 'Bearer ' + token,
+      'Authorization': 'Bearer ' + token,
       'Content-Type': 'application/json'
     }
   }
@@ -552,7 +550,6 @@ function getShoppingBadge() {
   return axios
     .post('/cart/getShoppingBadge', body, methods)
     .then(response => {
-      console.log(response.data.items)
       return response.data.items
     })
     .catch(error => {

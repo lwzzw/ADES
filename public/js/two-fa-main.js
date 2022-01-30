@@ -24,7 +24,6 @@ window.addEventListener('DOMContentLoaded', function () {
   // checks if the user is logged in
   if (localStorage.getItem('token')) {
     checkLogin().then(response => {
-      console.log(response)
       checkAuth()
       // button event listener
       document.getElementById('googleAuthenticatorBtn').addEventListener('click', () => {
@@ -34,6 +33,8 @@ window.addEventListener('DOMContentLoaded', function () {
           showNotification('success', response)
           checkAuth()
         }).catch(err => {
+          document.getElementById('googleAuthenticatorBtn').disabled = false
+          document.getElementById('googleAuthenticatorBtn').innerHTML = 'Enable'
           showNotification('error', err.message)
         })
       })
@@ -50,7 +51,6 @@ window.addEventListener('DOMContentLoaded', function () {
 // Function to check if the user has 2FA enabled.
 function checkAuth () {
   getAuth(localStorage.getItem('token')).then(enabledAuth => {
-    console.log(enabledAuth)
     if (enabledAuth.message != false) {
       document.getElementById('authText').innerHTML = 'You have 2-fa enabled'
       document.getElementById('googleAuthenticatorBtn').disabled = true

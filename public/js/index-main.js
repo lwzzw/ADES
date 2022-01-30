@@ -59,7 +59,6 @@ window.addEventListener('DOMContentLoaded', async function () {
   if (localStorage.getItem('token')) {
     checkLogin()
       .then((response) => {
-        console.log(response)
         if (response.role == 1) {
           document
             .getElementById('adminPage')
@@ -97,7 +96,6 @@ window.addEventListener('DOMContentLoaded', async function () {
     // const result = await getAllCategories()
 
     await getBestsellers(true).then((response) => {
-      console.log(response)
       for (let i = 0; i < response.length; i++) {
         const bestsellers = response[i]
         const bestseller = `                        
@@ -145,7 +143,6 @@ window.addEventListener('DOMContentLoaded', async function () {
     })
 
     await getPreOrders(true).then((response) => {
-      console.log(response)
       for (let i = 0; i < response.length; i++) {
         const preorders = response[i]
         const preorder = `                        
