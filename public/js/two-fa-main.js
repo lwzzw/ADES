@@ -1,11 +1,21 @@
 window.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('googleAuthenticatorBtn').disabled = true
   // checks if the user is logged in
   if (localStorage.getItem('token')) {
     checkLogin().then(response => {
-      // button event listener
-      authenticatorBtn()
-      // if user is logged in, check if the user has 2-fa enabled
+      console.log(response)
       checkAuth()
+      // button event listener
+      document.getElementById('googleAuthenticatorBtn').addEventListener('click', () => {
+        document.getElementById('googleAuthenticatorBtn').disabled = true
+        document.getElementById('googleAuthenticatorBtn').innerHTML = 'Enabling'
+        enable2FA().then(response => {
+          showNotification('success', response)
+          checkAuth()
+        }).catch(err => {
+          showNotification('error', err.message)
+        })
+      })
     }).catch(err => {
       showNotification('error', err.message)
       disableFeatures()
@@ -18,10 +28,14 @@ window.addEventListener('DOMContentLoaded', function () {
 
 // Function to check if the user has 2FA enabled.
 function checkAuth () {
-  authenticateSecretKey(localStorage.getItem('token')).then(enabledAuth => {
+  getAuth(localStorage.getItem('token')).then(enabledAuth => {
     console.log(enabledAuth)
     if (enabledAuth.message != false) {
-      document.getElementById('googleAuthenticatorBtn').innerHTML = 'Renew 2FA'
+      document.getElementById('authText').innerHTML = 'You have 2-fa enabled'
+      document.getElementById('googleAuthenticatorBtn').disabled = true
+      document.getElementById('googleAuthenticatorBtn').innerHTML = 'Enabled'
+    } else {
+      document.getElementById('googleAuthenticatorBtn').disabled = false
     }
   }).catch(error => {
     showNotification('error', error.message)
@@ -42,27 +56,4 @@ function showNotification (type, message) {
 // To be executed when unauthorized user tries to access the website.
 function disableFeatures () {
   document.querySelector('.whole-layout').remove()
-}
-
-function authenticatorBtn () {
-  // if button is clicked
-  document.getElementById('googleAuthenticatorBtn').addEventListener('click', () => {
-    // disabled button
-    document.getElementById('googleAuthenticatorBtn').disabled = true
-    document.getElementById('googleAuthenticatorBtn').innerHTML = 'Enabling '
-    // gets authentication data
-    getSecret().then(response => {
-      document.getElementById('authText').innerHTML = 'Download Google Authenticator and scan the QR Code below. (QR Code will not be saved, please ensure that you have scanned it)'
-      document.getElementById('qr-code').src = response
-      document.getElementById('googleAuthenticatorBtn').disabled = false
-      const message = '2-FA Enabled !'
-      showNotification('success', message)
-      // checkAuth update
-      checkAuth()
-    }).catch(error => {
-      document.getElementById('googleAuthenticatorBtn').disabled = false
-      document.getElementById('googleAuthenticatorBtn').innerHTML = 'Enable'
-      showNotification('error', error.message)
-    })
-  })
 }

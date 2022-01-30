@@ -254,7 +254,8 @@ router.get('/login/callback', (req, res, next) => {
                         name: result.rows[0].name,
                         email: result.rows[0].email,
                         phone: result.rows[0].phone || null,
-                        gender: result.rows[0].gender || null
+                        gender: result.rows[0].gender || null,
+                        role: result.rows[0].role || 0
                       },
                       config.JWTKEY,
                       {
@@ -264,14 +265,16 @@ router.get('/login/callback', (req, res, next) => {
                   }
                   return res.status(200).json(data)
                 } else {
+                  console.log(result.rows[0])
                   console.log('register user')
                   // else if the user is not a registered user, an account will be create for the user
                   return database
                     .query(
-                      'INSERT INTO public.user_detail (name, email, auth_type) VALUES ($1, $2, $3) returning id, name, email, gender',
-                      [username, email, 2]
+                      'INSERT INTO public.user_detail (name, email, auth_type, role) VALUES ($1, $2, $3, $4) returning id, name, email, gender, role',
+                      [username, email, 2, 0]
                     )
                     .then((result) => {
+                      console.log(result.rows[0])
                       if (result && result.rowCount == 1) {
                         // after the account has been successfully created, the jwt token will be signed
                         const data = {
@@ -281,7 +284,8 @@ router.get('/login/callback', (req, res, next) => {
                               name: result.rows[0].name,
                               email: result.rows[0].email,
                               phone: null,
-                              gender: null
+                              gender: result.rows[0].gender,
+                              role: result.rows[0].role || 0
                             },
                             config.JWTKEY,
                             {

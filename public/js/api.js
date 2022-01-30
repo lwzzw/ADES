@@ -1,6 +1,6 @@
 // all function that will use in front end
 
-function googleLogin () {
+function googleLogin() {
   const methods = {
     method: 'GET',
     headers: {
@@ -20,7 +20,7 @@ function googleLogin () {
     })
 }
 
-function register (username, useremail, userpassword, usergender, userphone, code) {
+function register(username, useremail, userpassword, usergender, userphone, code) {
   const methods = {
     method: 'POST',
     headers: {
@@ -48,7 +48,7 @@ function register (username, useremail, userpassword, usergender, userphone, cod
     })
 }
 
-function login (email, password, secretCode, token) {
+function login(email, password, token) {
   const methods = {
     method: 'POST',
     headers: {
@@ -58,12 +58,14 @@ function login (email, password, secretCode, token) {
   const body = {
     email,
     password,
-    secretCode,
     captcha: token
   }
   return axios
     .post('/user/login', body, methods)
     .then(response => {
+      if (response.data.redirect) {
+        return window.location.href = response.data.redirect
+      }
       return response.data
     })
     .catch(error => {
@@ -74,7 +76,7 @@ function login (email, password, secretCode, token) {
     })
 }
 
-function getAllCategories () {
+function getAllCategories() {
   const methods = {
     method: 'GET',
     headers: {
@@ -96,7 +98,7 @@ function getAllCategories () {
 }
 
 // getDeals function gets products on discount
-function getDeals (params) {
+function getDeals(params) {
   const methods = {
     method: 'GET',
     headers: {
@@ -118,7 +120,7 @@ function getDeals (params) {
 }
 
 // getBestsellers function gets fixed amount of products or unfixed amount depending on the params that is passed in.
-function getBestsellers (params) {
+function getBestsellers(params) {
   const methods = {
     method: 'GET',
     headers: {
@@ -140,7 +142,7 @@ function getBestsellers (params) {
 }
 
 // getPreOrders function gets fixed amount of products or unfixed amount depending on the params that is passed in.
-function getPreOrders (params) {
+function getPreOrders(params) {
   const methods = {
     method: 'GET',
     headers: {
@@ -161,7 +163,7 @@ function getPreOrders (params) {
     })
 }
 
-function getLRelease () {
+function getLRelease() {
   const methods = {
     method: 'GET',
     headers: {
@@ -182,7 +184,7 @@ function getLRelease () {
     })
 }
 
-function getGame (params) {
+function getGame(params) {
   const methods = {
     method: 'GET',
     headers: {
@@ -203,7 +205,7 @@ function getGame (params) {
     })
 }
 
-function getGames (params) {
+function getGames(params) {
   const methods = {
     method: 'GET',
     headers: {
@@ -224,7 +226,7 @@ function getGames (params) {
     })
 }
 
-function getCategoryCount (maincat) {
+function getCategoryCount(maincat) {
   // if(!maincat)rejects;
   const methods = {
     method: 'GET',
@@ -246,7 +248,7 @@ function getCategoryCount (maincat) {
     })
 }
 
-function getCategoryCountByPlatform (platform) {
+function getCategoryCountByPlatform(platform) {
   // if(!maincat)rejects;
   const methods = {
     method: 'GET',
@@ -269,7 +271,7 @@ function getCategoryCountByPlatform (platform) {
     })
 }
 
-function checkLogin () {
+function checkLogin() {
   if (!localStorage.getItem('token')) return
   const methods = {
     method: 'GET',
@@ -292,7 +294,7 @@ function checkLogin () {
     })
 }
 
-function getShoppingCart () {
+function getShoppingCart() {
   const methods = {
     method: 'POST',
     headers: {
@@ -319,7 +321,7 @@ function getShoppingCart () {
     })
 }
 
-function addShoppingCart (cart, edit) {
+function addShoppingCart(cart, edit) {
   const methods = {
     method: 'POST',
     headers: {
@@ -348,7 +350,7 @@ function addShoppingCart (cart, edit) {
     })
 }
 
-function deleteCart (id) {
+function deleteCart(id) {
   const methods = {
     method: 'POST',
     headers: {
@@ -381,7 +383,7 @@ function deleteCart (id) {
     })
 }
 
-async function getOrderID () {
+async function getOrderID() {
   const methods = {
     method: 'POST',
     headers: {
@@ -408,7 +410,7 @@ async function getOrderID () {
     })
 }
 
-function getOrderDetailsByID (oid) {
+function getOrderDetailsByID(oid) {
   const methods = {
     method: 'POST',
     headers: {
@@ -433,7 +435,7 @@ function getOrderDetailsByID (oid) {
     })
 }
 
-async function uidGenerate () {
+async function uidGenerate() {
   // if unique id does not exists generate a new id
   if (!localStorage.getItem('uid')) {
     const uid = await biri()
@@ -441,103 +443,35 @@ async function uidGenerate () {
   }
 }
 
-// GET secret key for authentication
-function getSecret () {
-  // checks if user is logged in, then gets userDetails which contains name and id
-  return checkLogin().then(userDetails => {
-    if (userDetails) {
-      const options = {
-        method: 'GET',
-        url: 'https://google-authenticator.p.rapidapi.com/new_v2/',
-        headers: {
-          'x-rapidapi-host': 'google-authenticator.p.rapidapi.com',
-          'x-rapidapi-key': 'a7cc9771dbmshdb30f345bae847ep1fb8d8jsn5d90b789d2ea'
-        }
+function enable2FA() {
+  return checkLogin().then(response => {
+    console.log(response)
+    const methods = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
       }
-      // sends GET request to google-authenticator API and gets secret key
-      return axios
-        .request(options)
-        .then(function (secret) {
-          // after getting the secret key, the secret key is saved into the database
-          return saveSecret(userDetails, secret.data).then(response => {
-            return response
-          }).catch(err => {
-            throw new Error(err.message)
-          })
-        })
-        .catch(function (error) {
-          if (error) {
-            throw new Error(error)
-          }
-          return error
-        })
     }
-  }).catch(error => {
-    if (error) {
-      throw new Error(error.message)
+    const body = {
+      uid: response.id
     }
-    return error.message
+    return axios
+      .post('/twofa/enableAuthenticator', body, methods)
+      .then(response => {
+        return response.data
+      })
+      .catch(error => {
+        console.log(error.response)
+        if (error.response) {
+          throw new Error(error.response.data.error)
+        }
+        return error.response.data
+      })
   })
 }
 
-// GET QR Code for user to scan
-function getQRCode (secretKey, userDetails) {
-  const userName = userDetails.name
-  const options = {
-    method: 'GET',
-    url: 'https://google-authenticator.p.rapidapi.com/enroll/',
-    params: { secret: secretKey, account: 'F2A', issuer: userName },
-    headers: {
-      'x-rapidapi-host': 'google-authenticator.p.rapidapi.com',
-      'x-rapidapi-key': 'a7cc9771dbmshdb30f345bae847ep1fb8d8jsn5d90b789d2ea'
-    }
-  }
-  // sends GET request to google-authenticatator api with the user's name and secretkey that is stored inside the database
-  return axios
-    .request(options)
-    .then(function (response) {
-      return response.data
-    }).catch(function (error) {
-      if (error.response) {
-        throw new Error(JSON.stringify(error.response.data))
-      }
-      return error.response.data
-    })
-}
-
-// Upload user's secret key to database
-function saveSecret (userDetails, secretKey) {
-  const userID = userDetails.id
-  const methods = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
-  const body = {
-    uid: userID,
-    secretkey: secretKey
-  }
-  return axios
-    .post('/twofa/secretDetail', body, methods)
-    .then(response => {
-      // After saving user's secretkey into the database succesfully, getQRCode will be invoked
-      if (response.status == 200) {
-        return getQRCode(secretKey, userDetails)
-      } else {
-        return response.data
-      }
-    })
-    .catch(error => {
-      if (error.response) {
-        throw new Error(error.response.data.error)
-      }
-      return error.response.data.error
-    })
-}
-
 // GET user's secret key if it exists
-function authenticateSecretKey (token) {
+function getAuth(token) {
   const methods = {
     method: 'GET',
     headers: {
@@ -557,7 +491,7 @@ function authenticateSecretKey (token) {
     })
 }
 
-function getPageCount (params) {
+function getPageCount(params) {
   const methods = {
     method: 'GET',
     headers: {
@@ -578,7 +512,7 @@ function getPageCount (params) {
     })
 }
 
-function getKeys () {
+function getKeys() {
   const methods = {
     method: 'POST',
     headers: {
@@ -602,7 +536,7 @@ function getKeys () {
     })
 }
 
-function getShoppingBadge () {
+function getShoppingBadge() {
   const methods = {
     method: 'POST',
     headers: {
@@ -630,7 +564,7 @@ function getShoppingBadge () {
     })
 }
 
-function resetPass (email, code, password) {
+function resetPass(email, code, password) {
   const methods = {
     method: 'POST',
     headers: {
@@ -656,7 +590,7 @@ function resetPass (email, code, password) {
     })
 }
 
-function sendVerifyCode (email) {
+function sendVerifyCode(email) {
   const methods = {
     method: 'POST',
     headers: {
@@ -680,7 +614,7 @@ function sendVerifyCode (email) {
     })
 }
 
-function verifyEmail (email) {
+function verifyEmail(email) {
   const methods = {
     method: 'POST',
     headers: {
@@ -704,7 +638,7 @@ function verifyEmail (email) {
     })
 }
 
-function getSearchAC () {
+function getSearchAC() {
   const methods = {
     method: 'GET',
     headers: {
@@ -725,7 +659,7 @@ function getSearchAC () {
     })
 }
 
-function saveUserDetails (username, phone, gender) {
+function saveUserDetails(username, phone, gender) {
   const methods = {
     method: 'POST',
     headers: {
@@ -751,7 +685,7 @@ function saveUserDetails (username, phone, gender) {
     })
 }
 
-function supportRequest (email, subject, message) {
+function supportRequest(email, subject, message) {
   const methods = {
     method: 'POST',
     headers: {
@@ -777,7 +711,7 @@ function supportRequest (email, subject, message) {
     })
 }
 
-function getAllCategory () {
+function getAllCategory() {
   const methods = {
     method: 'GET',
     headers: {
@@ -798,7 +732,7 @@ function getAllCategory () {
     })
 }
 
-function addGame (game) {
+function addGame(game) {
   const methods = {
     method: 'POST',
     headers: {
@@ -822,7 +756,7 @@ function addGame (game) {
     })
 }
 
-function getRegion () {
+function getRegion() {
   const methods = {
     method: 'GET',
     headers: {
@@ -843,7 +777,7 @@ function getRegion () {
     })
 }
 
-function adminGetGame (id) {
+function adminGetGame(id) {
   const methods = {
     method: 'GET',
     headers: {
@@ -864,7 +798,7 @@ function adminGetGame (id) {
     })
 }
 
-function saveGame (game, id) {
+function saveGame(game, id) {
   const methods = {
     method: 'POST',
     headers: {
@@ -888,7 +822,7 @@ function saveGame (game, id) {
     })
 }
 
-function delGame (id) {
+function delGame(id) {
   const methods = {
     method: 'POST',
     headers: {
@@ -910,7 +844,7 @@ function delGame (id) {
 }
 
 // Function to get create/log user in via paypal
-function getPaypal (params) {
+function getPaypal(params) {
   const methods = {
     method: 'GET',
     headers: {
@@ -931,7 +865,7 @@ function getPaypal (params) {
     })
 }
 
-function getRequest () {
+function getRequest() {
   const methods = {
     method: 'GET',
     headers: {
@@ -952,7 +886,7 @@ function getRequest () {
     })
 }
 
-function updateRequest (requestid, status) {
+function updateRequest(requestid, status) {
   const methods = {
     method: 'POST',
     headers: {
@@ -978,7 +912,7 @@ function updateRequest (requestid, status) {
     })
 }
 
-function getSignedRequest (file, originUrl) {
+function getSignedRequest(file, originUrl) {
   const methods = {
     method: 'GET',
     headers: {
@@ -1000,7 +934,7 @@ function getSignedRequest (file, originUrl) {
     })
 }
 
-function uploadFile (file, signedRequest) {
+function uploadFile(file, signedRequest) {
   file.name = file.name + 'test'
   const methods = {
     method: 'PUT'
@@ -1022,52 +956,77 @@ function uploadFile (file, signedRequest) {
 }
 
 function requestReset2FA(email) {
-    const methods = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
+  const methods = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
     }
-    const body = {
-        email
-    }
-    return axios
-        .post(`/user/reset2FA`, body, methods)
-        .then(response => {
-            return response.data.status
-        })
-        .catch(error => {
-            console.log(error);
-            console.log(error.response)
-            if (error.response) {
-                throw new Error(error.response.data.error)
-            }
-            return error.response.data.error
-        })
   }
+  const body = {
+    email
+  }
+  return axios
+    .post(`/user/reset2FA`, body, methods)
+    .then(response => {
+      return response.data.status
+    })
+    .catch(error => {
+      console.log(error);
+      console.log(error.response)
+      if (error.response) {
+        throw new Error(error.response.data.error)
+      }
+      return error.response.data.error
+    })
+}
 
-function reset2FA(email, code, password){
-    const methods = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
+function reset2FA(email, code, password) {
+  const methods = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
     }
-    const body = {
-        email,
-        code,
-        password
+  }
+  const body = {
+    email,
+    code,
+    password
+  }
+  return axios
+    .post(`/user/reset2FA/confirmed`, body, methods)
+    .then(response => {
+      return response.data.status
+    })
+    .catch(error => {
+      console.log(error);
+      if (error.response) {
+        throw new Error(JSON.stringify(error.response.data))
+      }
+      return error.response.data
+    })
+}
+
+function verifyAuthCode(email, code) {
+  const methods = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
     }
-    return axios
-        .post(`/user/reset2FA/confirmed`, body, methods)
-        .then(response => {
-            return response.data.status
-        })
-        .catch(error => {
-            console.log(error);
-            if (error.response) {
-                throw new Error(JSON.stringify(error.response.data))
-            }
-            return error.response.data
-        })
+  }
+  const body = {
+    email,
+    code
+  }
+  return axios
+    .post(`/user/verify/authCode`, body, methods)
+    .then(response => {
+      return response.data
+    })
+    .catch(error => {
+      console.log(error);
+      if (error.response) {
+        throw new Error(JSON.stringify(error.response.data))
+      }
+      return error.response.data
+    })
 }

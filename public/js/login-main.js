@@ -7,7 +7,6 @@ window.addEventListener('DOMContentLoaded', function () {
   const showPassword = document.getElementById('showPass')
   const googlebutton = document.getElementById('googleButton')
   const loading = document.getElementById('loading')
-  const secretCodeInput = document.getElementById('secretInput')
 
     // if params contain query string code
     if (params.get('code')) {
@@ -143,7 +142,7 @@ window.addEventListener('DOMContentLoaded', function () {
       loading.style.display = 'none'
     } else {
       console.log(token)
-      login(email.value, password.value, secretCodeInput.value, token).then(response => {
+      login(email.value, password.value, token).then(response => {
         console.log(response)
         if (!response.success && response.msg) {
           new Noty({
@@ -171,7 +170,7 @@ window.addEventListener('DOMContentLoaded', function () {
           }).show()
           checkLoginBtn.style.display = 'inline'
           loading.style.display = 'none'
-        } else {
+         } else {
           new Noty({
             type: 'error',
             layout: 'topCenter',

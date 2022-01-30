@@ -25,7 +25,8 @@ const CACHE_KEYS = {
         EMAILS: "users.emails",
         FORGETPASS: "users.forgetpass",
         ORDER: "users.order",
-        TWOFACODE: "users.TWOFACODE"
+        TWOFACODE: "users.TWOFACODE",
+        RESET_2FA_CODE: "users.RESET_2FA_CODE"
     },
     CATEGORIES: {
         CAT: "categories.cat"

@@ -48,73 +48,66 @@ router.post('/login', validator.verifypassword, async (req, res, next) => {
   // start login
   const email = req.body.email
   const password = req.body.password
-  const secretCode = req.body.secretCode
   if (email == null || password == null) {
     logger.error(
       `401 Empty Credentials ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
     )
     return next(createHttpError(401, 'empty credentials'))
   } else { // gets user details
-    return database
+     database
       .query(
         `SELECT user_detail.id, user_detail.name, user_detail.email, user_detail.phone, user_detail.auth_type, user_auth.password, user_detail.gender, user_detail.role
          FROM public.user_detail INNER JOIN user_auth ON user_detail.id = user_auth.userid
          where email=$1`,
         [email]
       )
-      .then(async (result) => { // attempts to get the user's secret_key
-        await database
-          .query(
-            'SELECT secret_key FROM twofactor_authenticator WHERE belong_to = $1',
-            [result.rows[0].id]
-          )
-          .then(async (auth) => { // if user has a secret_key
-            if (auth.rows.length == 1) { // validate the user's secretCode input with the google-authenticator API.
-              const authResult = await validator.validateSecretKey(
-                secretCode,
-                auth.rows[0].secret_key
-              )
-              if (authResult.toLowerCase() == 'false') {
-                return next(
-                  createHttpError(401, 'Please enter correct Secret Code')
-                )
-              }
-            }
-          })// if the user's secret code has been validated and its correct, it will check if the user is a normal user
-        if (result.rows[0].auth_type == '1') {
-          if (bcrypt.compareSync(password, result.rows[0].password) == true) {
-            const data = {
-              success: true,
-              token: jwt.sign(
-                {
-                  id: result.rows[0].id,
-                  name: result.rows[0].name,
-                  email: result.rows[0].email,
-                  phone: result.rows[0].phone,
-                  gender: result.rows[0].gender,
-                  role: result.rows[0].role
-                },
-                config.JWTKEY,
-                {
-                  expiresIn: 86400
+      .then((result) => { //check if user entered correct password
+        if (bcrypt.compareSync(password, result.rows[0].password) == true) { //check if user has 2FA enabled
+           database.query('SELECT auth_enabled FROM twofactor_authenticator WHERE belong_to = $1',[result.rows[0].id])
+            .then((auth) => { 
+              if (auth.rows.length == 1) {// if user has 2FA enabled
+                sendAuthCode(email)
+                return res.json({ redirect: `/verifyAuthenticator.html?email=${email}` })
+              } else { // if user does not have 2FA enabled
+                if (result.rows[0].auth_type == '1') { //check if user is not connected from third-party platform
+                  const data = {
+                    success: true,
+                    token: jwt.sign(
+                      {
+                        id: result.rows[0].id,
+                        name: result.rows[0].name,
+                        email: result.rows[0].email,
+                        phone: result.rows[0].phone,
+                        gender: result.rows[0].gender,
+                        role: result.rows[0].role
+                      },
+                      config.JWTKEY,
+                      {
+                        expiresIn: 86400
+                      }
+                    )
+                  }
+                  logger.info(
+                    `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
+                  )
+                  res.cookie('token', data.token, {
+                    maxAge: 86400000,
+                    httpOnly: true
+                  })
+                  return res.status(200).json(data)
+                } else {
+                  return res.status(401).json({error : 'Users connected via third-party platforms need not login from here. Please login via the third-party platform links.'})
                 }
-              )
-            }
-
-            logger.info(
-              `200 OK ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
-            )
-            res.cookie('token', data.token, {
-              maxAge: 86400000,
-              httpOnly: true
+              }
+            }).catch (error => {
+              return res.status(400).json({error : error})
             })
-            return res.status(200).json(data)
-          } else {
-            logger.error(
-              `401 Login Failed ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
-            )
-            return next(createHttpError(401, 'Email or password is invalid'))
-          }
+        }
+        else {
+          logger.error(
+            `401 Login Failed ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
+          )
+          return next(createHttpError(401, 'Email or password is invalid'))
         }
       })
       .catch((err) => {
@@ -408,7 +401,7 @@ router.post('/reset2FA', nocache(), async (req, res, next) => {
     }
     // check if email is registered and have 2-fa enabled.
     const isEmailExist = await database
-      .query('SELECT 1, user_detail.email, twofactor_authenticator.secret_key from user_detail inner join twofactor_authenticator on user_detail.id = twofactor_authenticator.belong_to WHERE email = $1', [email])
+      .query('SELECT 1, user_detail.email, twofactor_authenticator.auth_enabled from user_detail inner join twofactor_authenticator on user_detail.id = twofactor_authenticator.belong_to WHERE email = $1', [email])
       .then((result) => result.rows)
     if (isEmailExist.length != 1) {
       return next(createHttpError(400, 'User is not registered or does not have 2-fa enabled'))// if the user does not have 2fa enabled or registered return 400
@@ -419,11 +412,11 @@ router.post('/reset2FA', nocache(), async (req, res, next) => {
     const html = `<p>You've recently requested to reset your two-factor authenticator from f2a.games</p><p>Please click the following <a href='${link}'>link</a> to reset your authenticator.</p><p>Please ignore this email if you did not request to reset your authenticator.</p>`
     sendMail(email, 'Reset 2-FA', { html }, () => {
       APP_CACHE.set(
-        `${CACHE_KEYS.USERS.TWOFACODE}.${email}`,
+        `${CACHE_KEYS.USERS.RESET_2FA_CODE}.${email}`,
         resetCode,
         15 * 60
       ) // set resetcode to cache and the ttl is 15 minutes
-      res.status(200).json({ status: 'done', cache: APP_CACHE.get(`${CACHE_KEYS.USERS.TWOFACODE}.${email}`) })
+      res.status(200).json({ status: 'done', cache: APP_CACHE.get(`${CACHE_KEYS.USERS.RESET_2FA_CODE}.${email}`) })
     })// send the email to user
   } catch (err) {
     console.log(err)
@@ -438,7 +431,7 @@ router.post('/reset2FA/confirmed', nocache(), async (req, res, next) => {
     const password = req.body.password
     // At least one upper case letter, At least one lower case letter, At least one digit, At least one special character, Minimum eight in length .
     const rePassword = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/)
-    const USERCODE = APP_CACHE.get(`${CACHE_KEYS.USERS.TWOFACODE}.${email}`)// get the code from cache
+    const USERCODE = APP_CACHE.get(`${CACHE_KEYS.USERS.RESET_2FA_CODE}.${email}`)// get the code from cache
     if (USERCODE == code) {
       if (!rePassword.test(password)) {
         return next(createHttpError(400, 'Password entered does not meet the requirements'))
@@ -452,7 +445,7 @@ router.post('/reset2FA/confirmed', nocache(), async (req, res, next) => {
             database.query('DELETE FROM twofactor_authenticator USING user_detail WHERE user_detail.email = $1 ', [email])
               .then(result => {
                 console.log(result)
-                APP_CACHE.del(`${CACHE_KEYS.USERS.TWOFACODE}.${email}`) // delete user's verification code after successfully resetting 2-fa
+                APP_CACHE.del(`${CACHE_KEYS.USERS.RESET_2FA_CODE}.${email}`) // delete user's verification code after successfully resetting 2-fa
                 res.status(200).json({ status: 'done' })
               }).catch(error => {
                 console.log(error)
@@ -465,6 +458,66 @@ router.post('/reset2FA/confirmed', nocache(), async (req, res, next) => {
           console.log(error)
           next(createHttpError(401, error))
         })
+    } else {
+      return next(createHttpError(400, 'Wrong verification code'))// if user enter wrong code return 400
+    }
+  } catch (err) {
+    console.log(err)
+    next(createHttpError(500, err))
+  }
+})
+
+
+async function sendAuthCode(email) {
+  // check if email is registered and have 2-fa enabled.
+  const isEmailExist = await database
+    .query('SELECT 1, user_detail.email, twofactor_authenticator.auth_enabled from user_detail inner join twofactor_authenticator on user_detail.id = twofactor_authenticator.belong_to WHERE email = $1', [email])
+    .then((result) => result.rows)
+  if (isEmailExist.length != 1) {
+    return next(createHttpError(400, 'User is not registered or does not have 2-fa enabled'))// if the user does not have 2fa enabled or registered return 400
+  }
+  const verificationCode = generateKey(6) // generate code
+  // set email message
+  const html = `<p>Your verification code for f2a.games login is ${verificationCode}</p>`
+  sendMail(email, 'Verification Code', { html }, () => {
+    APP_CACHE.set(
+      `${CACHE_KEYS.USERS.TWOFACODE}.${email}`,
+      verificationCode,
+      15 * 60
+    ) // set resetcode to cache and the ttl is 15 minutes
+    res.status(200).json({ status: 'done', cache: APP_CACHE.get(`${CACHE_KEYS.USERS.TWOFACODE}.${email}`) })
+  })// send the email to user
+}
+
+router.post('/verify/authCode', validator.verifyemail, nocache(), async (req, res, next) => {
+  try {
+    const email = req.body.email
+    const code = req.body.code
+    const USERCODE = APP_CACHE.get(`${CACHE_KEYS.USERS.TWOFACODE}.${email}`)// get the code from cache
+
+    if (USERCODE == code) {
+      APP_CACHE.del(`${CACHE_KEYS.USERS.TWOFACODE}.${email}`) // delete user's verification code
+      database.query('SELECT id, name, email, phone, gender, role FROM user_detail WHERE email = $1', [email])
+        .then(result => {
+          const data = {
+            success: true,
+            token: jwt.sign(
+              {
+                id: result.rows[0].id,
+                name: result.rows[0].name,
+                email: result.rows[0].email,
+                phone: result.rows[0].phone,
+                gender: result.rows[0].gender,
+                role: result.rows[0].role
+              },
+              config.JWTKEY,
+              {
+                expiresIn: 86400
+              }
+            )
+          }
+          return res.status(200).json(data.token)
+        })        
     } else {
       return next(createHttpError(400, 'Wrong verification code'))// if user enter wrong code return 400
     }

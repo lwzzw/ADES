@@ -70,10 +70,6 @@
                                     placeholder="Email"></div>
                             <div class="md-form"><input class="form-control" type="password" id="passwordInput"
                                     placeholder="Password" minlength="8"><input type="checkbox" id="showPass">Show Password</div>
-                            <div class="md-form" id="secretDiv">
-                                <input class="form-control" type="text" id="secretInput"
-                                    placeholder="Enter Secret Code (Optional)">
-                            </div>
                         </div>
                         <div class="text-center"><button type="button" class="btn btn-primary" id="submitButton">
                                 Sign in</button>
@@ -94,7 +90,7 @@
                                     onclick="window.location.href='/authenticate/login/facebook'">
                                     Sign In With Facebook <i class="fab fa-facebook" aria-hidden="true"></i></button>
                                 <a
-                                    href="https://www.sandbox.paypal.com/connect/?client_id=AcXuok3znZoGa9JE4t0cZ3il54Jgk5jIudKUR5Zee9sU7bdDojkgEBpAo2f8lB1c-e5s0VSX4N6xeQaC&forwardFrom=idsw&redirect_uri=https://f2a.games/login/paypal&response_type=code&scope=openid%20profile%20email">
+                                    href="https://www.sandbox.paypal.com/connect/?client_id=AcXuok3znZoGa9JE4t0cZ3il54Jgk5jIudKUR5Zee9sU7bdDojkgEBpAo2f8lB1c-e5s0VSX4N6xeQaC&redirect_uri=http://127.0.0.1:5000/login/paypal&response_type=code&scope=openid%20profile%20email">
                                     <button type="button" class="btn btn-primary" id="paypalButton">
                                         Sign In With Paypal <i class="fab fa-paypal"
                                             aria-hidden="true"></i></button></a>

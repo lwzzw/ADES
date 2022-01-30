@@ -23,10 +23,7 @@ window.addEventListener('DOMContentLoaded', function () {
     // At least one upper case letter, At least one lower case letter, At least one digit, At least one special character, Minimum eight in length .
     const rePassword = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/)
 
-    if (
-      !rePassword.test(userpassword.value) ||
-        !reEmail.test(useremail.value)
-    ) {
+    if (!rePassword.test(userpassword.value) || !reEmail.test(useremail.value)) {
       new Noty({
         type: 'error',
         layout: 'topCenter',

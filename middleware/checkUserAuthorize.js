@@ -16,7 +16,6 @@ function verifyToken (req, res, next) {
   }
   (req.id = ''), (req.name = ''), (req.email = '')
   let token = req.headers.authorization || 'Bearer ' + req.cookies.token
-  console.log(token)
   if (!token || !token.includes('Bearer')) {
     next(createHttpError(401, 'No token'))
     // logger.error(
@@ -42,6 +41,8 @@ function verifyToken (req, res, next) {
           `401 No token ||  ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
         )
       } else {
+        console.log('Bearer ' +req.cookies.token)
+        console.log('Bearer ' +token)
         console.log('verify success')
         req.id = decoded.id
         req.name = decoded.name
