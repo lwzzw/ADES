@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="./css/overlay-loading.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
     <script src="https://use.fontawesome.com/c560c025cf.js"></script>
@@ -44,59 +45,68 @@
 </head>
 
 <body>
-    <div id="bg"></div>
-    <div class="header">
-        <div class="bgc"></div>
-        <div class="top-header container row ">
-            <a href="index.html"><img class="logo" src="/images/logo.png"></a>
-        </div>
+    <div id="load">
+        <div>G</div>
+        <div>N</div>
+        <div>I</div>
+        <div>D</div>
+        <div>A</div>
+        <div>O</div>
+        <div>L</div>
     </div>
-
-
-    <div class="card shopping-cart">
-        <div class="card-header bg-light text-dark">
-            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-            Shopping cart
-            <a href="/index.html" class="btn btn-outline-info btn-sm pull-right">Continue shopping</a>
-            <div class="clearfix"></div>
-        </div>
-        <div class="card-body">
-            <div class="product">
-                <div id="cart" class="row">
-
-                </div>
-                <hr>
+    <div id="page">
+        <div id="bg"></div>
+        <div class="header">
+            <div class="bgc"></div>
+            <div class="top-header container row ">
+                <a href="index.html"><img class="logo" src="/images/logo.png"></a>
             </div>
-            <br>
-            <!-- <div class="pull-right">
+        </div>
+
+
+        <div class="card shopping-cart">
+            <div class="card-header bg-light text-dark">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                Shopping cart
+                <a href="/index.html" class="btn btn-outline-info btn-sm pull-right">Continue shopping</a>
+                <div class="clearfix"></div>
+            </div>
+            <div class="card-body">
+                <div class="product">
+                    <div id="cart" class="row">
+
+                    </div>
+                    <hr>
+                </div>
+                <br>
+                <!-- <div class="pull-right">
                 <button id="update" class="btn btn-outline-secondary pull-right">
                     Update shopping cart
                 </button>
             </div> -->
-        </div>
-        <div class="card-footer">
-            <div class="coupon col-md-5 col-sm-5 no-padding-left pull-left">
-                <div class="row">
-                    <div class="col-6">
+            </div>
+            <div class="card-footer">
+                <div class="coupon col-md-5 col-sm-5 no-padding-left pull-left">
+                    <div class="row">
+                        <div class="col-6">
 
-                    </div>
-                    <div class="col-6">
+                        </div>
+                        <div class="col-6">
 
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="pull-right" style="margin: 10px">
-                <!-- <button onclick="location.href='/order/checkOut'" id="checkout"
+                <div class="pull-right" style="margin: 10px">
+                    <!-- <button onclick="location.href='/order/checkOut'" id="checkout"
                     class="btn btn-success pull-right">Checkout</button> -->
                     <div id='paypal'></div>
-                <div class="pull-right" style="margin: 5px" id="p">
-                    Total price: <b>00.00</b>
+                    <div class="pull-right" style="margin: 5px" id="p">
+                        Total price: <b>00.00</b>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
-
 </body>
 
 </html>

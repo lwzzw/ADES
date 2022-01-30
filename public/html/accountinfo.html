@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./css/overlay-loading.css" rel="stylesheet" />
     <script defer src="/js/api.js"></script>
     <script defer src="/js/accountinfo-main.js"></script>
     <link href="/css/dashboard.css" rel="stylesheet" />
@@ -26,61 +27,73 @@
 </head>
 
 <body>
-    <div class="header">
-        <div class="bgc"></div>
-        <div class="top-header container">
-            <a href="index.html"><img class="logo" src="/images/logo.png"></a>
-        </div>
+    <div id="load">
+        <div>G</div>
+        <div>N</div>
+        <div>I</div>
+        <div>D</div>
+        <div>A</div>
+        <div>O</div>
+        <div>L</div>
     </div>
-
-    <section class="whole-layout" style="flex-direction: row;">
-        <aside class="sider">
-            <div><a href="/dashboard.html">Dashboard</a></div>
-            <div><a href="/accountinfo.html">Account Detail</a></div>
-            <div><a href="/keys.html">My Keys</a></div>
-            <div><a href="/supportRequest.html">Request Support</a></div>
-        </aside>
-        <section class="layout">
-            <h1>Personal details</h1>
-            <div class="jumbotron" style="margin-top: 50px;">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">Name</span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Username" aria-label="Username"
-                        aria-describedby="basic-addon1" id="user-name">
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">Email</span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Email" aria-label="email"
-                        aria-describedby="basic-addon1" id="email" disabled>
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">Phone no.</span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Phone Number" aria-label="phone"
-                        aria-describedby="basic-addon1" id="phone">
-                </div>
-                <div class="input-group mb-3" style="align-items: center;">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">Gender</span>
-                    </div>
-                    <div class="lg-form" style="margin-left: 10px;"><input type="radio" id="female" name="gender" value="F" required>
-                    <label for="female">Female</label>
-                    </div>
-                    <div class="lg-form" style="margin-left: 10px;">
-                    <input class="form-check-input" type="radio" id="male" name="gender" value="M" required>
-                    <label class="form-check-label" for="male">Male</label></div>
-                </div>
-                <div class="input-group mb-3">
-                    <button class="btn btn-primary" id="saveInfo" style="width: 100%;">Save</button>
-                </div>
+    <div id="page">
+        <div class="header">
+            <div class="bgc"></div>
+            <div class="top-header container">
+                <a href="index.html"><img class="logo" src="/images/logo.png"></a>
             </div>
+        </div>
+
+        <section class="whole-layout" style="flex-direction: row;">
+            <aside class="sider">
+                <div><a href="/dashboard.html">Dashboard</a></div>
+                <div><a href="/accountinfo.html">Account Detail</a></div>
+                <div><a href="/keys.html">My Keys</a></div>
+                <div><a href="/supportRequest.html">Request Support</a></div>
+            </aside>
+            <section class="layout">
+                <h1>Personal details</h1>
+                <div class="jumbotron" style="margin-top: 50px;">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Name</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                            aria-describedby="basic-addon1" id="user-name">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Email</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Email" aria-label="email"
+                            aria-describedby="basic-addon1" id="email" disabled>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Phone no.</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Phone Number" aria-label="phone"
+                            aria-describedby="basic-addon1" id="phone">
+                    </div>
+                    <div class="input-group mb-3" style="align-items: center;">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Gender</span>
+                        </div>
+                        <div class="lg-form" style="margin-left: 10px;"><input type="radio" id="female" name="gender"
+                                value="F" required>
+                            <label for="female">Female</label>
+                        </div>
+                        <div class="lg-form" style="margin-left: 10px;">
+                            <input class="form-check-input" type="radio" id="male" name="gender" value="M" required>
+                            <label class="form-check-label" for="male">Male</label></div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <button class="btn btn-primary" id="saveInfo" style="width: 100%;">Save</button>
+                    </div>
+                </div>
+            </section>
         </section>
-    </section>
+    </div>
 </body>
 
 </html>

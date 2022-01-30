@@ -3,6 +3,7 @@
 
 <head>
     <title>Login Page</title>
+    <link href="./css/overlay-loading.css" rel="stylesheet" />
     <!-- Add icon library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Web App JS-->
@@ -49,114 +50,129 @@
 </head>
 
 <body>
-    <div class="container-fluid">
-        <!-- Navbar-->
+    <div id="load">
+        <div>G</div>
+        <div>N</div>
+        <div>I</div>
+        <div>D</div>
+        <div>A</div>
+        <div>O</div>
+        <div>L</div>
+    </div>
+    <div id="page">
+        <div class="container-fluid">
+            <!-- Navbar-->
 
-        <nav class="mb-5 navbar navbar-expand-lg justify-content-center">
-            <a class="navbar-brand " href="/index.html">
-                <img src="/images/logo.png" alt="Logo" style="width:150px;">
-            </a>
-        </nav>
-        <!-- /.Navbar-->
-        <main>
-            <div class="">
-                <!--Grid column-->
-                <div class="offset-md-4 col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <!--Form register-->
-                            <h2 class="text-left font-bold black-text py-4">Welcome Back!</h2>
-                            <div class="md-form"><input class="form-control" type="text" id="emailInput"
-                                    placeholder="Email"></div>
-                            <div class="md-form"><input class="form-control" type="password" id="passwordInput"
-                                    placeholder="Password" minlength="8"><input type="checkbox" id="showPass">Show Password</div>
-                            <div class="md-form" id="secretDiv">
-                                <input class="form-control" type="text" id="secretInput"
-                                    placeholder="Enter Secret Code (Optional)">
+            <nav class="mb-5 navbar navbar-expand-lg justify-content-center">
+                <a class="navbar-brand " href="/index.html">
+                    <img src="/images/logo.png" alt="Logo" style="width:150px;">
+                </a>
+            </nav>
+            <!-- /.Navbar-->
+            <main>
+                <div class="">
+                    <!--Grid column-->
+                    <div class="offset-md-4 col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <!--Form register-->
+                                <h2 class="text-left font-bold black-text py-4">Welcome Back!</h2>
+                                <div class="md-form"><input class="form-control" type="text" id="emailInput"
+                                        placeholder="Email"></div>
+                                <div class="md-form"><input class="form-control" type="password" id="passwordInput"
+                                        placeholder="Password" minlength="8"><input type="checkbox" id="showPass">Show
+                                    Password</div>
+                                <div class="md-form" id="secretDiv">
+                                    <input class="form-control" type="text" id="secretInput"
+                                        placeholder="Enter Secret Code (Optional)">
+                                </div>
                             </div>
-                        </div>
-                        <div class="text-center"><button type="button" class="btn btn-primary" id="submitButton">
-                                Sign in</button>
-                      
-                        <div>
-                            <button class="buttonload" id="loading">Signing in<i class="fa fa-circle-o-notch fa-spin"></i></button>
-                           
+                            <div class="text-center"><button type="button" class="btn btn-primary" id="submitButton">
+                                    Sign in</button>
 
-                            <br><br>
-                            <div>New Here? Register <a href="/register.html">Here!</a></div>
-                            <div>Forget Password? Reset <a href="/forgetPass.html">Here!</a></div>
-                            <div>Reset 2-FA <a href="/forget2FA.html">Here!</a></div>
-                            <div></div>
-                            <div class="text-center">
-                                <button type="button" class="btn btn-primary" id="googleButton">
-                                    Sign In With Google <i class="fab fa-google" aria-hidden="true"></i></button>
-                                <button type="button" class="btn btn-primary" id="facebookButton"
-                                    onclick="window.location.href='/authenticate/login/facebook'">
-                                    Sign In With Facebook <i class="fab fa-facebook" aria-hidden="true"></i></button>
-                                <a
-                                    href="https://www.sandbox.paypal.com/connect/?client_id=AcXuok3znZoGa9JE4t0cZ3il54Jgk5jIudKUR5Zee9sU7bdDojkgEBpAo2f8lB1c-e5s0VSX4N6xeQaC&forwardFrom=idsw&redirect_uri=https://f2a.games/login/paypal&response_type=code&scope=openid%20profile%20email">
-                                    <button type="button" class="btn btn-primary" id="paypalButton">
-                                        Sign In With Paypal <i class="fab fa-paypal"
-                                            aria-hidden="true"></i></button></a>
+                                <div>
+                                    <button class="buttonload" id="loading">Signing in<i
+                                            class="fa fa-circle-o-notch fa-spin"></i></button>
+
+
+                                    <br><br>
+                                    <div>New Here? Register <a href="/register.html">Here!</a></div>
+                                    <div>Forget Password? Reset <a href="/forgetPass.html">Here!</a></div>
+                                    <div>Reset 2-FA <a href="/forget2FA.html">Here!</a></div>
+                                    <div></div>
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-primary" id="googleButton">
+                                            Sign In With Google <i class="fab fa-google"
+                                                aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-primary" id="facebookButton"
+                                            onclick="window.location.href='/authenticate/login/facebook'">
+                                            Sign In With Facebook <i class="fab fa-facebook"
+                                                aria-hidden="true"></i></button>
+                                        <a
+                                            href="https://www.sandbox.paypal.com/connect/?client_id=AcXuok3znZoGa9JE4t0cZ3il54Jgk5jIudKUR5Zee9sU7bdDojkgEBpAo2f8lB1c-e5s0VSX4N6xeQaC&forwardFrom=idsw&redirect_uri=https://f2a.games/login/paypal&response_type=code&scope=openid%20profile%20email">
+                                            <button type="button" class="btn btn-primary" id="paypalButton">
+                                                Sign In With Paypal <i class="fab fa-paypal"
+                                                    aria-hidden="true"></i></button></a>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                     </div>
-                    
-                </div>
-            </div>
-            <div class="d-flex justify-content-around">
-                <div class="m-3">
-                    <p>
-                        <strong>PAYPAL ACCOUNT INFO :</strong>
-                        <br>
-                        <strong>EMAIL :</strong> sb-ddtnq6947204@personal.example.com
-                        <br>
-                        <strong>PASSWORD :</strong> 7g^&#60;l5Tu
-                    </p>
-                </div>
-    
-                <div class="m-3">
-                    <p>
-                        <strong>ADMIN USER INFO :</strong>
-                        <br>
-                        <strong>EMAIL : </strong> lily@gmail.com
-                        <br>
-                        <strong>PASSWORD :</strong> 123Password!
-                    </p>
-                </div>
-    
-                <div class="m-3">
-                    <p>
-                        <strong>NORMAL USER INFO :</strong>
-                        <br>
-                        <strong>EMAIL : </strong> adam@gmail.com
-                        <br>
-                        <strong>PASSWORD :</strong> 123Password!
-                    </p>
-                </div>
-    
-                <div class="m-3">
-                    <p>
-                        <strong>GOOGLE ACCOUNT INFO :</strong>
-                        <br>
-                        <strong>EMAIL : </strong> insert here
-                        <br>
-                        <strong>PASSWORD :</strong> insert here
-                    </p>
-                </div>
-    
-                <div class="m-3">
-                    <p>
-                        <strong>FACEBOOK ACCOUNT INFO :</strong>
-                        <br>
-                        <strong>EMAIL : </strong> insert here
-                        <br>
-                        <strong>PASSWORD :</strong> insert here
-                    </p>
-                </div>
-    
-            </div>
-        </main>
+                    <div class="d-flex justify-content-around">
+                        <div class="m-3">
+                            <p>
+                                <strong>PAYPAL ACCOUNT INFO :</strong>
+                                <br>
+                                <strong>EMAIL :</strong> sb-ddtnq6947204@personal.example.com
+                                <br>
+                                <strong>PASSWORD :</strong> 7g^&#60;l5Tu
+                            </p>
+                        </div>
+
+                        <div class="m-3">
+                            <p>
+                                <strong>ADMIN USER INFO :</strong>
+                                <br>
+                                <strong>EMAIL : </strong> lily@gmail.com
+                                <br>
+                                <strong>PASSWORD :</strong> 123Password!
+                            </p>
+                        </div>
+
+                        <div class="m-3">
+                            <p>
+                                <strong>NORMAL USER INFO :</strong>
+                                <br>
+                                <strong>EMAIL : </strong> adam@gmail.com
+                                <br>
+                                <strong>PASSWORD :</strong> 123Password!
+                            </p>
+                        </div>
+
+                        <div class="m-3">
+                            <p>
+                                <strong>GOOGLE ACCOUNT INFO :</strong>
+                                <br>
+                                <strong>EMAIL : </strong> insert here
+                                <br>
+                                <strong>PASSWORD :</strong> insert here
+                            </p>
+                        </div>
+
+                        <div class="m-3">
+                            <p>
+                                <strong>FACEBOOK ACCOUNT INFO :</strong>
+                                <br>
+                                <strong>EMAIL : </strong> insert here
+                                <br>
+                                <strong>PASSWORD :</strong> insert here
+                            </p>
+                        </div>
+
+                    </div>
+            </main>
+        </div>
     </div>
 </body>
 

@@ -3,8 +3,9 @@
 
 <head>
     <title>Request Page</title>
-        <!-- Add icon library -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="./css/overlay-loading.css" rel="stylesheet" />
+    <!-- Add icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Web App JS-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <!-- Font Awesome-->
@@ -52,53 +53,64 @@
 </head>
 
 <body>
-    <div id="bg"></div>
-    <div class="header">
-        <div class="bgc"></div>
-        <div class="top-header container row">
-            <a href="index.html"><img class="logo" src="/images/logo.png"></a>
-        </div>
+    <div id="load">
+        <div>G</div>
+        <div>N</div>
+        <div>I</div>
+        <div>D</div>
+        <div>A</div>
+        <div>O</div>
+        <div>L</div>
     </div>
-    <section class="whole-layout">
-        <aside class="sider" style="flex-direction: row;">
-            <div><a href="/dashboard.html">Dashboard</a></div>
-            <div><a href="/accountinfo.html">Account Detail</a></div>
-            <div><a href="/keys.html">My Keys</a></div>
-            <div><a href="/supportRequest.html">Request Support</a></div>
-        </aside>
-        <section class="layout">
-            <div class="row">
-                <div class="offset-md-5 col">
-                    <h2 class="text-left font-bold black-text">Request Support</h2>
-                </div>
-                <!--Grid column-->
-                <div class="offset-md-3 col-md-6 ">
-                    <div class="card-body">
-                        <!--Form support-->
-                        <div class="md-form"><label for="emailInput">Email</label><input class="form-control"
-                                type="text" id="emailInput" placeholder="Email"></div>
-                        <div class="md-form"> <label for="subjectInputt">Subject</label><input class="form-control"
-                                type="text" id="subjectInput" placeholder="Eg. Account"></div>
-
-                        <div class="md-form">
-                            <label for="messageInput">Message</label>
-                            <textarea class="form-control" type="text" id="messageInput" rows="4" cols="50"></textarea>
-                        </div>
-
+    <div id="page">
+        <div id="bg"></div>
+        <div class="header">
+            <div class="bgc"></div>
+            <div class="top-header container row">
+                <a href="index.html"><img class="logo" src="/images/logo.png"></a>
+            </div>
+        </div>
+        <section class="whole-layout">
+            <aside class="sider" style="flex-direction: row;">
+                <div><a href="/dashboard.html">Dashboard</a></div>
+                <div><a href="/accountinfo.html">Account Detail</a></div>
+                <div><a href="/keys.html">My Keys</a></div>
+                <div><a href="/supportRequest.html">Request Support</a></div>
+            </aside>
+            <section class="layout">
+                <div class="row">
+                    <div class="offset-md-5 col">
+                        <h2 class="text-left font-bold black-text">Request Support</h2>
                     </div>
-                    <div class="text-center"><button type="button" class="btn btn-primary" id="submitButton">
-                            Submit Request</button>
+                    <!--Grid column-->
+                    <div class="offset-md-3 col-md-6 ">
+                        <div class="card-body">
+                            <!--Form support-->
+                            <div class="md-form"><label for="emailInput">Email</label><input class="form-control"
+                                    type="text" id="emailInput" placeholder="Email"></div>
+                            <div class="md-form"> <label for="subjectInputt">Subject</label><input class="form-control"
+                                    type="text" id="subjectInput" placeholder="Eg. Account"></div>
+
+                            <div class="md-form">
+                                <label for="messageInput">Message</label>
+                                <textarea class="form-control" type="text" id="messageInput" rows="4"
+                                    cols="50"></textarea>
+                            </div>
+
+                        </div>
+                        <div class="text-center"><button type="button" class="btn btn-primary" id="submitButton">
+                                Submit Request</button>
                             <button class="buttonload" id="loading">
                                 Loading <i class="fa fa-circle-o-notch fa-spin"></i>
-                              </button>
+                            </button>
 
+                        </div>
+                    </div>
                 </div>
-            </div>
-            </div>
-            </div>
 
+            </section>
         </section>
-    </section>
+    </div>
 </body>
 
 </html>

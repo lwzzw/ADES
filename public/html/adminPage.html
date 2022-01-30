@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./css/overlay-loading.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/dashboard.css" rel="stylesheet">
     <script defer src="/js/api.js"></script>
@@ -27,76 +28,88 @@
 </head>
 
 <body>
-    <div id="bg"></div>
-    <div class="header">
-        <div class="bgc"></div>
-        <div class="top-header container row ">
-            <a href="index.html"><img class="logo" src="/images/logo.png"></a>
-        </div>
+    <div id="load">
+        <div>G</div>
+        <div>N</div>
+        <div>I</div>
+        <div>D</div>
+        <div>A</div>
+        <div>O</div>
+        <div>L</div>
     </div>
-    <section class="whole-layout" style="flex-direction: row;">
-        <aside class="sider">
-            <div><a href="/admin_page">Add game</a></div>
-            <div><a href="/admin_game_list">Game List</a></div>
-            <div><a href="/admin_requests">View Requests</a></div>
-        </aside>
-        <section class="layout">
-            <div class="card-body">
-                <!--Form support-->
-                <div class="md-form"><img id="img" src="/images/noimage.png" onerror="this.onerror=null;this.src='/images/noimage.png';"></div>
-
-                <div class="md-form">
-                    <input type="file" id="imgFile" style="display: none;">
-                    <button type="button" class="btn btn-primary" id="uploadImg">
-                    Upload Image</button>
-                </div>
-
-                <div class="md-form"><label for="pic">Game Picture</label><input class="form-control" type="text"
-                        id="gamePic" placeholder="Game Picture Link"></div>
-
-                <div class="md-form"><label for="gameName">Game Name</label><input class="form-control" type="text"
-                        id="gameName" placeholder="Game Name"></div>
-
-                <div class="md-form">
-                    <label for="gameDes">Description</label>
-                    <textarea class="form-control" type="text" id="gameDes" rows="4" cols="50"></textarea>
-                </div>
-
-                <div class="md-form"><label for="gamePrice">Price</label><input class="form-control" type="number"
-                        id="gamePrice"></div>
-
-                <div class="md-form"><label for="gameDiscount">Discount(0 for no discount)</label><input
-                        class="form-control" type="number" id="gameDiscount"></div>
-
-                <div class="md-form">
-                    <select id="mainCat" class="form-select form-control" aria-label="Default select">
-                        <option value='0' selected>Main Category</option>
-                    </select>
-                </div>
-                <div class="md-form">
-                    <select id="secCat" class="form-select form-control" aria-label="Default select">
-                        <option value='0' selected>Second Category</option>
-                    </select>
-                </div>
-                <div class="md-form">
-                    <select id="thirdCat" class="form-select form-control" aria-label="Default select">
-                        <option value='0' selected>Third Category</option>
-                    </select>
-                </div>
-                <div class="md-form">
-                    <input id="datepicker" width="276" />
-                </div>
-                <div class="md-form">
-                    <select id="region" class="form-select form-control" aria-label="Default select">
-                        <option value='0' selected>Region</option>
-                    </select>
-                </div>
+    <div id="page">
+        <div id="bg"></div>
+        <div class="header">
+            <div class="bgc"></div>
+            <div class="top-header container row ">
+                <a href="index.html"><img class="logo" src="/images/logo.png"></a>
             </div>
-            <div class="text-center"><button type="button" class="btn btn-primary" id="addGame">
-                    Add Game</button>
-            </div>
+        </div>
+        <section class="whole-layout" style="flex-direction: row;">
+            <aside class="sider">
+                <div><a href="/admin_page">Add game</a></div>
+                <div><a href="/admin_game_list">Game List</a></div>
+                <div><a href="/admin_requests">View Requests</a></div>
+            </aside>
+            <section class="layout">
+                <div class="card-body">
+                    <!--Form support-->
+                    <div class="md-form"><img id="img" src="/images/noimage.png"
+                            onerror="this.onerror=null;this.src='/images/noimage.png';"></div>
+
+                    <div class="md-form">
+                        <input type="file" id="imgFile" style="display: none;">
+                        <button type="button" class="btn btn-primary" id="uploadImg">
+                            Upload Image</button>
+                    </div>
+
+                    <div class="md-form"><label for="pic">Game Picture</label><input class="form-control" type="text"
+                            id="gamePic" placeholder="Game Picture Link"></div>
+
+                    <div class="md-form"><label for="gameName">Game Name</label><input class="form-control" type="text"
+                            id="gameName" placeholder="Game Name"></div>
+
+                    <div class="md-form">
+                        <label for="gameDes">Description</label>
+                        <textarea class="form-control" type="text" id="gameDes" rows="4" cols="50"></textarea>
+                    </div>
+
+                    <div class="md-form"><label for="gamePrice">Price</label><input class="form-control" type="number"
+                            id="gamePrice"></div>
+
+                    <div class="md-form"><label for="gameDiscount">Discount(0 for no discount)</label><input
+                            class="form-control" type="number" id="gameDiscount"></div>
+
+                    <div class="md-form">
+                        <select id="mainCat" class="form-select form-control" aria-label="Default select">
+                            <option value='0' selected>Main Category</option>
+                        </select>
+                    </div>
+                    <div class="md-form">
+                        <select id="secCat" class="form-select form-control" aria-label="Default select">
+                            <option value='0' selected>Second Category</option>
+                        </select>
+                    </div>
+                    <div class="md-form">
+                        <select id="thirdCat" class="form-select form-control" aria-label="Default select">
+                            <option value='0' selected>Third Category</option>
+                        </select>
+                    </div>
+                    <div class="md-form">
+                        <input id="datepicker" width="276" />
+                    </div>
+                    <div class="md-form">
+                        <select id="region" class="form-select form-control" aria-label="Default select">
+                            <option value='0' selected>Region</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="text-center"><button type="button" class="btn btn-primary" id="addGame">
+                        Add Game</button>
+                </div>
+            </section>
         </section>
-    </section>
+    </div>
 </body>
 
 </html>
