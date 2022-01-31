@@ -46,23 +46,36 @@ onReady(function () {
 
 window.addEventListener('DOMContentLoaded', function () {
   if (localStorage.getItem('token')) {
-    checkLogin().then(response => {
-      document.getElementById('login').innerHTML = 'log out'// if login set button to log out
-      document.getElementById('login').addEventListener('click', () => {
-        localStorage.removeItem('token')
+    checkLogin()
+      .then((response) => {
+        if (response.role == 1) {
+          document
+            .getElementById('adminPage')
+            .insertAdjacentHTML(
+              'beforeend',
+              '<a href="admin_page" style="color: white!important;">Admin Page</a>'
+            )
+        }
+        const myAccBtn = '<a href=\'dashboard.html\' style="color: white!important;">My Account</a>'
+        document.getElementById('login').innerHTML = 'log out'// if login set button to log out
+        document
+          .getElementById('myAccount')
+          .insertAdjacentHTML('beforeend', myAccBtn)
+        document.getElementById('login').addEventListener('click', () => {
+          localStorage.removeItem('token')
+        })
       })
-    })
-      .catch(err => {
+      .catch((err) => {
         new Noty({
           type: 'error',
           layout: 'topCenter',
           theme: 'sunset',
           timeout: '6000',
           text: 'Your session has expired, please login again'
-        })
-          .show()
+        }).show()
         localStorage.removeItem('token')
         document.getElementById('login').innerHTML = 'Login'
+        // console.log(err);
       })
   }
   $('#categ')[0].style.display = 'none'

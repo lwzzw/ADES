@@ -21,6 +21,10 @@ onReady(function () {
 })
 
 window.addEventListener('DOMContentLoaded', async function () {
+  const myAccBtn = '<a href=\'dashboard.html\' >My Account</a>'
+      document
+          .getElementById('myAccount')
+          .insertAdjacentHTML('beforeend', myAccBtn)
   // Get reference to relevant elements
   const gameName = document.getElementById('gameName')
   const gameDes = document.getElementById('gameDes')

@@ -47,6 +47,10 @@ onReady(function () {
 window.addEventListener('DOMContentLoaded', function () {
   if (localStorage.getItem('token')) {
     checkLogin().then(response => {
+      const myAccBtn = '<a href=\'dashboard.html\' style="color: white!important;">My Account</a>'
+      document
+          .getElementById('myAccount')
+          .insertAdjacentHTML('beforeend', myAccBtn)
       document.getElementById('login').innerHTML = 'log out'// if login set button to log out
       document.getElementById('login').addEventListener('click', () => {
         localStorage.removeItem('token')

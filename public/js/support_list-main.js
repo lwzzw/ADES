@@ -20,6 +20,10 @@ onReady(function () {
 })
 
 window.addEventListener('DOMContentLoaded', function () {
+  const myAccBtn = '<a href=\'dashboard.html\' >My Account</a>'
+      document
+          .getElementById('myAccount')
+          .insertAdjacentHTML('beforeend', myAccBtn)
   const table = document.getElementById('rtable')
   getRequest().then((response) => {
     response.requests.forEach(requests => {
