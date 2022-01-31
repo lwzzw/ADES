@@ -68,30 +68,30 @@ window.addEventListener('DOMContentLoaded', function () {
   uidGenerate()// generate the uid for public
   googlebutton.onclick = function () {
     window.location.href = '/authenticate/google/url'
-    googleLogin().then(response => {
-      if (response) {
-        localStorage.setItem('token', response)
-        window.location.href = 'index.html'
-      } else {
-        new Noty({
-          type: 'error',
-          layout: 'topCenter',
+    // googleLogin().then(response => {
+    //   if (response) {
+    //     localStorage.setItem('token', response)
+    //     window.location.href = 'index.html'
+    //   } else {
+    //     new Noty({
+    //       type: 'error',
+    //       layout: 'topCenter',
 
-          theme: 'sunset',
-          timeout: '3000',
-          text: 'Google Login has failed! Try again'
-        }).show()
-      }
-    }).catch(err => {
-      console.log(err)
-      new Noty({
-        type: 'error',
-        layout: 'topCenter',
-        theme: 'sunset',
-        timeout: '6000',
-        text: 'Google Login has failed! Try again'
-      }).show()
-    })
+    //       theme: 'sunset',
+    //       timeout: '3000',
+    //       text: 'Google Login has failed! Try again'
+    //     }).show()
+    //   }
+    // }).catch(err => {
+    //   console.log(err)
+    //   new Noty({
+    //     type: 'error',
+    //     layout: 'topCenter',
+    //     theme: 'sunset',
+    //     timeout: '6000',
+    //     text: 'Google Login has failed! Try again'
+    //   }).show()
+    // })
   }
 
   showPassword.onclick = function () {
