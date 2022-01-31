@@ -2,7 +2,7 @@ const params = new URLSearchParams(window.location.search)
 
 //loading screen
 function onReady(callback) {
-  var intervalID = window.setInterval(checkReady, 1000)
+  var intervalID = window.setInterval(checkReady, 1)
 
   function checkReady() {
       if (document.getElementsByTagName('body')[0] !== undefined) {
