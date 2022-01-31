@@ -66,35 +66,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
   loading.style.display = 'none'
   uidGenerate()// generate the uid for public
-  if (window.location.href == 'https://f2a.games/authenticate/google') {
-    googleLogin(code).then(response => {
-      if (response) {
-        localStorage.setItem('token', response)
-        window.location.href = 'index.html'
-      } else {
-        new Noty({
-          type: 'error',
-          layout: 'topCenter',
-
-          theme: 'sunset',
-          timeout: '3000',
-          text: 'Google Login has failed! Try again'
-        }).show()
-      }
-    }).catch(err => {
-      console.log(err)
-      new Noty({
-        type: 'error',
-        layout: 'topCenter',
-        theme: 'sunset',
-        timeout: '6000',
-        text: 'Google Login has failed! Try again'
-      }).show()
-    })
-  }
-
   googlebutton.onclick = function () {
-    window.location.href = '/authenticate/google/url'
     googleLogin().then(response => {
       if (response) {
         localStorage.setItem('token', response)
