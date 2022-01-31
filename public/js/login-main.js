@@ -162,7 +162,17 @@ window.addEventListener('DOMContentLoaded', function () {
           }).show()
           checkLoginBtn.style.display = 'inline'
           loading.style.display = 'none'
-         } else {
+         } else if (response.redirect)  {
+            new Noty({
+              type: 'success',
+              layout: 'topCenter',
+              theme: 'sunset',
+              timeout: '1000',
+              text: 'You have 2-FA enabled, please check your email'
+            }).show()
+            checkLoginBtn.style.display = 'inline'
+            loading.style.display = 'none'
+        } else {
           new Noty({
             type: 'error',
             layout: 'topCenter',
