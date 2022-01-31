@@ -55,7 +55,7 @@ paypal
                 layout: 'topCenter',
                 theme: 'sunset',
                 timeout: '6000',
-                text: 'Transaction done'
+                text: 'Purchase completed !'
               })
                 .on('onClose', () => {
                   window.location.href = '/orderhistory.html'
@@ -67,7 +67,7 @@ paypal
                 layout: 'topCenter',
                 theme: 'sunset',
                 timeout: '10000',
-                text: 'Transaction cancel'
+                text: 'Transaction failed !'
               })
                 .on('onClose', () => {
                   window.location.href = '/shoppingCart.html'
