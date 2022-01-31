@@ -45,7 +45,7 @@ const validationFn = {
     }
   },
   supportformValidator: function (req, res, next) {
-    const checkUserInput = new RegExp(/^[a-zA-Z0-9-]+$/)
+    const checkUserInput = new RegExp(/[^<>]+/)
     const checkUserEmail = new RegExp(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9+_.-]+$/)
     if (checkUserInput.test(req.body.subject) && checkUserEmail.test(req.body.email) && checkUserInput.test(req.body.message)) {
       next()
