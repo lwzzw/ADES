@@ -64,7 +64,7 @@ function login(email, password, token) {
     .post('/user/login', body, methods)
     .then(response => {
       if (response.data.redirect) {
-        return window.location.href = response.data.redirect
+        window.location.href = response.data.redirect
       }
       return response.data
     })
