@@ -67,6 +67,7 @@ window.addEventListener('DOMContentLoaded', function () {
   loading.style.display = 'none'
   uidGenerate()// generate the uid for public
   googlebutton.onclick = function () {
+    window.location.href = '/authenticate/google/url'
     googleLogin().then(response => {
       if (response) {
         localStorage.setItem('token', response)
