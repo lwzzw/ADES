@@ -203,7 +203,7 @@ window.addEventListener('DOMContentLoaded', async function () {
               layout: 'topCenter',
               theme: 'sunset',
               timeout: '6000',
-              text: 'Success add game'
+              text: 'Successfully added new game !'
             }).show()
             addGameBtn.disabled = false
           } else {
@@ -259,7 +259,7 @@ window.addEventListener('DOMContentLoaded', async function () {
           layout: 'topCenter',
           theme: 'sunset',
           timeout: '6000',
-          text: 'Upload success'
+          text: 'Successfully uploaded'
         }).show()
         showImg.src = `${signRequest.url}?${Math.random()}`// show the image
         gamePic.value = signRequest.url
@@ -269,7 +269,7 @@ window.addEventListener('DOMContentLoaded', async function () {
           layout: 'topCenter',
           theme: 'sunset',
           timeout: '6000',
-          text: 'Upload unsuccess'
+          text: 'Failed to upload'
         }).show()
       }
     } catch (err) {
