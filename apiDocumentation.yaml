@@ -1117,23 +1117,99 @@ paths:
         500:
           description: Internal Server Error
 
-  /twofa/secretDetail:
+  /user/verify/authCode:
     post:
-      summary: user enable 2fa
-      operationId: secretDetail
+      summary: user verify 2fa
+      operationId: /verify/authCode
       description: |
-        user enable 2fa
+        user verify 2fa
       consumes:
       - application/json
       produces:
       - application/json
       parameters:
       - in: body
-        name: 2fakey
-        description: 2fa key
+        name: detail
+        description: user email and code
         required: true
         schema: 
           $ref: '#/definitions/TwoFA'
+      - in: header
+        name: token
+        description: user login token
+        required: true
+        type: string
+      responses:
+        200:
+          description: return token
+        401:
+          description: token verify error
+        500:
+          description: Internal Server Error
+
+  /user/reset2FA:
+    post:
+      summary: user reset 2fa
+      operationId: reset2FA
+      description: |
+        user reset 2fa
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: email
+        description: user email 
+        required: true
+        schema: 
+          $ref: '#/definitions/Reset2FA'
+      responses:
+        200:
+          description: return status
+        400:
+          description: email wrong
+        500:
+          description: Internal Server Error
+
+  /user/reset2FA/confirmed:
+    post:
+      summary: user reset 2fa confirmation
+      operationId: /reset2FA/confirmed
+      description: |
+        user reset 2fa confirmation
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: detail
+        description: detail 
+        required: true
+        schema: 
+          $ref: '#/definitions/Reset2FAConfirm'
+      responses:
+        200:
+          description: return status
+        400:
+          description: email wrong
+        401:
+          description: wrong code
+        500:
+          description: Internal Server Error
+
+  /twofa/getSecret:
+    post:
+      summary: user get secret key
+      operationId: getSecret
+      description: |
+        user get secret key
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
       - in: header
         name: token
         description: user login token
@@ -1147,10 +1223,10 @@ paths:
         500:
           description: Internal Server Error
 
-  /twofa/getSecret:
+  /twofa/enableAuthenticator:
     post:
       summary: user get secret key
-      operationId: getSecret
+      operationId: enableAuthenticator
       description: |
         user get secret key
       consumes:
@@ -2251,15 +2327,41 @@ definitions:
   TwoFA:
     type: object
     required:
-    - uid
-    - secretkey
+    - email
+    - code
     properties:
-      uid:
+      email:
         type: string
-        example: 1
-      secretkey:
+        example: lily@gmail.com
+      code:
         type: string
-        example: qwertyuiop0987654321
+        example: qwerty
+
+  Reset2FA:
+    type: object
+    required:
+    - email
+    properties:
+      email:
+        type: string
+        example: lily@gmail.com
+  
+  Reset2FAConfirm:
+    type: object
+    required:
+    - email
+    - code
+    - password
+    properties:
+      email:
+        type: string
+        example: lily@gmail.com
+      code:
+        type: string
+        example: qwertyuiopqwertyuiop
+      password:
+        type: string
+        example: 123Password!
 
 # Added by API Auto Mocking Plugin
 host: virtserver.swaggerhub.com
