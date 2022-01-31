@@ -42,7 +42,7 @@ window.addEventListener('DOMContentLoaded', function () {
               layout: 'topCenter',
               theme: 'sunset',
               timeout: '22000',
-              text: 'Email sent !, Check your email and click on the link to reset your authenticator.'
+              text: 'Email sent ! Check your email and click on the link to reset your authenticator.'
             })
               .on('onClose', () => {
                 window.location.href = 'login.html'
